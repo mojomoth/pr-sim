@@ -1,0 +1,155 @@
+{
+  "source_url": "https://refero.design/apps/search?app_id[id][]=201",
+  "app": "Oppie",
+  "downloaded_at": "2026-11-12T11:50:06.242035+00:00",
+  "total_screens": 46,
+  "downloaded_count": 12,
+  "unavailable_count": 34,
+  "note": "비로그인 페이지에 공개된 12개 화면의 원본 이미지. 나머지 34개는 Refero 로그인이 필요하여 포함하지 않음.",
+  "screens": [
+    {
+      "file": "01-oppie-welcome-screen-126294.jpg",
+      "screen_id": 126294,
+      "screen_url": "https://refero.design/screens/db1c0d6c-d84c-4513-a004-98c1f3213f01",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/6bfa6cd9-0e42-47a5-95e1-a640af30d5c8.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/6bfa6cd9-0e42-47a5-95e1-a640af30d5c8_thumb.jpg",
+      "page_types": [
+        "Welcome Screen"
+      ],
+      "bytes": 75258,
+      "sha256": "c03687b25117e16ab019309dd9641691b93aa4db8d4ff87d93a77e1c8004d311"
+    },
+    {
+      "file": "02-oppie-welcome-screen-126296.jpg",
+      "screen_id": 126296,
+      "screen_url": "https://refero.design/screens/fd9caa21-17ed-45a3-b0e9-e0a568bdc6f4",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/3e3d5f78-d21c-4d74-9d05-9f70910e136e.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/3e3d5f78-d21c-4d74-9d05-9f70910e136e_thumb.jpg",
+      "page_types": [
+        "Welcome Screen"
+      ],
+      "bytes": 119486,
+      "sha256": "a31a26c1ec2dca9877e45eee2e70b1b5bfe1fcc93933aaec6f0e9a6aaee8598b"
+    },
+    {
+      "file": "03-oppie-welcome-screen-126297.jpg",
+      "screen_id": 126297,
+      "screen_url": "https://refero.design/screens/5668b4ab-b2a0-40e0-9bd7-094e6bc9e019",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/908895d2-11a3-4ba1-b5bb-78e2de79dc24.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/908895d2-11a3-4ba1-b5bb-78e2de79dc24_thumb.jpg",
+      "page_types": [
+        "Welcome Screen"
+      ],
+      "bytes": 87501,
+      "sha256": "6888ad7b9e6d0c34544a49b94d654fc0e60f596f94e50baaca1e5f0a22f3ab43"
+    },
+    {
+      "file": "04-oppie-account-setup-126299.jpg",
+      "screen_id": 126299,
+      "screen_url": "https://refero.design/screens/58000c43-46c5-464f-b0c5-b754e77f3c24",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/ace26286-cc22-48d0-bcc5-e0a9ef8841ac.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/ace26286-cc22-48d0-bcc5-e0a9ef8841ac_thumb.jpg",
+      "page_types": [
+        "Account Setup"
+      ],
+      "bytes": 105001,
+      "sha256": "c97ff37738812f13ee33e5d73eb7a66315e661cbd880d1f45486b2c8385ff704"
+    },
+    {
+      "file": "05-oppie-account-setup-126300.jpg",
+      "screen_id": 126300,
+      "screen_url": "https://refero.design/screens/7c55206c-6db5-469c-93e7-ed31938c93bf",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/cfb9795f-30c2-4ec6-a9c7-0fb485c6e041.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/cfb9795f-30c2-4ec6-a9c7-0fb485c6e041_thumb.jpg",
+      "page_types": [
+        "Account Setup"
+      ],
+      "bytes": 114402,
+      "sha256": "4fdba81fcf23bb1e99f51acdced66ed1fce44bb980263fb409c556fea7b956ae"
+    },
+    {
+      "file": "06-oppie-home-page-126302.jpg",
+      "screen_id": 126302,
+      "screen_url": "https://refero.design/screens/52cf7446-bae8-4aaa-87e6-95ed08883311",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/0bc5fed7-afc3-476b-a2e7-54667bce3b2f.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/0bc5fed7-afc3-476b-a2e7-54667bce3b2f_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 56840,
+      "sha256": "768eccab8fe1ffddb75b735713fc19a9f6e09004575db205917f81615bbf3781"
+    },
+    {
+      "file": "07-oppie-home-page-126308.jpg",
+      "screen_id": 126308,
+      "screen_url": "https://refero.design/screens/d674df31-05cb-47af-a5c6-19d2ea8a91fb",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/7f4f734e-3faa-4f61-a14f-86d0f6c18d9c.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/7f4f734e-3faa-4f61-a14f-86d0f6c18d9c_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 58870,
+      "sha256": "c29f1d5836cc57bea4da840f64b7371a1be08c3d6d53f0786f7f322f2889f134"
+    },
+    {
+      "file": "08-oppie-home-page-126309.jpg",
+      "screen_id": 126309,
+      "screen_url": "https://refero.design/screens/8bc29e5b-2384-4a8c-bebd-d5017bb651ef",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/957c8a35-77d3-48fb-a144-3888ea0129ee.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/957c8a35-77d3-48fb-a144-3888ea0129ee_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 61453,
+      "sha256": "d599ad19441df65f58eb9dc73c748274a638afcbcb2d76be903d8b5ca32478c1"
+    },
+    {
+      "file": "09-oppie-home-page-126310.jpg",
+      "screen_id": 126310,
+      "screen_url": "https://refero.design/screens/62c4eca9-fa42-4efe-b8ea-b2bee41c2b83",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/80f764b7-f109-452e-9bb7-7cde80519a9d.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/80f764b7-f109-452e-9bb7-7cde80519a9d_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 55540,
+      "sha256": "c5921f99ddb57279d1863b2b70a9feaf55d7e4b2fcbb42a6ddd56197fd846f21"
+    },
+    {
+      "file": "10-oppie-home-page-126311.jpg",
+      "screen_id": 126311,
+      "screen_url": "https://refero.design/screens/6a8574b6-be7c-4cc1-ab6a-e6dcb9798368",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/126464e8-212b-4c83-bb4d-c320968f16d7.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/126464e8-212b-4c83-bb4d-c320968f16d7_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 53852,
+      "sha256": "34bc3be8db3841fdfc7e14218bbd4fe875cc3b79448db595ed5c68e02cd6e349"
+    },
+    {
+      "file": "11-oppie-home-page-126312.jpg",
+      "screen_id": 126312,
+      "screen_url": "https://refero.design/screens/41fcfa3e-6864-4333-80e3-8c2f37682ab9",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/e7c58201-7902-4835-bc91-5279b8a03c94.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/e7c58201-7902-4835-bc91-5279b8a03c94_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 51833,
+      "sha256": "be1328b52ecc4ce1a328b5d420ea5801c4698033a574451abcb7824a2be3c81a"
+    },
+    {
+      "file": "12-oppie-home-page-126313.jpg",
+      "screen_id": 126313,
+      "screen_url": "https://refero.design/screens/59d6827f-3d7b-4a9e-bed0-b2460a93eade",
+      "image_url": "https://images.refero.design/screenshots/201/mobile/66e73f09-1851-49e7-8b8a-a99cd51f4bb8.jpg",
+      "thumbnail_url": "https://images.refero.design/screenshots/201/mobile/66e73f09-1851-49e7-8b8a-a99cd51f4bb8_thumb.jpg",
+      "page_types": [
+        "Home Page"
+      ],
+      "bytes": 52225,
+      "sha256": "5e0284e4ea4e4ff14b433f0040c785948d78cc77a463efab8ab779ef1686d78a"
+    }
+  ]
+}

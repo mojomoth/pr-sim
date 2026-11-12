@@ -1,0 +1,72 @@
+{
+  "tool": "built-in image_gen",
+  "use_case": "precise-object-edit",
+  "brand_asset": "../../../assets/bi/lockup-light.png",
+  "implementation_asset": "../../../assets/bi/lockup-black.png",
+  "original_generation": "archive/pre-approved-bi/prompts.json",
+  "screens": [
+    {
+      "file": "01-landing.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/01-landing.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "02-setup.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/02-setup.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "03-presentation.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/03-presentation.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "04-review.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/04-review.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "05-results.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/05-results.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "06-feedback.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/06-feedback.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "07-history.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target: existing PR-SIM mobile UI screenshot. Image 2 is the exact approved brand logo reference/compositing asset (black stylized rounded P symbol plus PR·SIM wordmark on light background). Replace ONLY the old blue/cyan slide-stack logo and its old wordmark with this approved black logo, placed LEFT ALIGNED in the topmost brand row. Use the exact symbol silhouette and wordmark geometry shown in image 2, maintain original logo aspect ratio. Set the approved logo lockup about 235 pixels wide at x=48, y=28 on the 798px-wide screenshot, with a clean white background. Remove all traces of the old colored mark and duplicate old wordmark from its former position, including if previously centered. Keep any back chevron in its existing position; if topmost row has a back chevron, place the new lockup just to its right at x=94 and keep top-left grouping. Leave all other elements exactly unchanged: Korean text, photos, faces, layouts, timer, scores, PDF slide, buttons, positions, dimensions, margins. Preserve the original full screenshot dimensions and portrait aspect ratio. Do not crop, restyle or regenerate the UI. Do not add other logos. No blue or cyan logo, use exclusively the approved black P plus PR·SIM lockup. Output the complete revised screenshot.",
+      "referenced_image_paths": [
+        "archive/pre-approved-bi/07-history.png",
+        "../../../assets/bi/lockup-light.png"
+      ],
+      "transparent_background": false
+    }
+  ]
+}

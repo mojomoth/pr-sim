@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400">
+ <g transform="translate(40,40) scale(.8)">
+  <path d="M62.0,100.0 Q62.0,78.0 83.9,80.0 L190.1,90.0 Q212.0,92.0 212.0,114.0 L212.0,286.0 Q212.0,308.0 190.1,310.0 L83.9,320.0 Q62.0,322.0 62.0,300.0Z" fill="#1A1AFF"/>
+  <path d="M122.0,80.0 Q122.0,58.0 143.7,61.3 L270.3,80.7 Q292.0,84.0 292.0,106.0 L292.0,294.0 Q292.0,316.0 270.3,319.3 L143.7,338.7 Q122.0,342.0 122.0,320.0Z" fill="#0A84FF" fill-opacity=".9"/>
+  <path d="M182.0,64.0 Q182.0,40.0 205.4,45.2 L328.6,72.8 Q352.0,78.0 352.0,102.0 L352.0,298.0 Q352.0,322.0 328.6,327.2 L205.4,354.8 Q182.0,360.0 182.0,336.0Z" fill="#00D2FF" fill-opacity=".88"/>
+  <circle cx="352" cy="74" r="30" fill="#FF4D5E" stroke="var(--bg,#fff)" stroke-width="10"/>
+ </g>
+ <text x="400" y="252" font-family="'Pretendard','Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="150" letter-spacing="-5" fill="#1F2233">PR<tspan fill="#FF4D5E" dx="2">·</tspan><tspan dx="2">SIM</tspan></text>
+</svg>

@@ -1,0 +1,56 @@
+{
+  "tool": "built-in image_gen",
+  "use_case": "precise-object-edit",
+  "brand_asset": "../../../assets/bi/lockup-light.png",
+  "implementation_asset": "../../../assets/bi/lockup-black.png",
+  "original_generation": "archive/pre-approved-bi/prompts.json",
+  "screens": [
+    {
+      "file": "01-landing.png",
+      "unchanged_from": "archive/pre-color-content/01-landing.png"
+    },
+    {
+      "file": "02-setup.png",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided PR-SIM mobile UI screenshot. Colorize ONLY content media, preserving exact people identities, expressions, photo crops and composition. Keep all UI surfaces white/light gray, all text, buttons, icons, timer, borders and approved black PR·SIM logo exactly as in the input. Preserve every Korean label verbatim, positions, sizes, complete canvas and portrait aspect ratio. Do not redesign or crop. Media should be clearly full color, with natural warm skin tones, dark hair, navy or neutral clothing and subtle warm backgrounds. No global tint or monochrome filter. Colorize all THREE tiny circular judge portrait photos at the bottom. Keep each face and all controls intact.",
+      "referenced_image_paths": [
+        "archive/pre-color-content/02-setup.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "03-presentation.png",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided PR-SIM mobile UI screenshot. Colorize ONLY content media, preserving exact people identities, expressions, photo crops and composition. Keep all UI surfaces white/light gray, all text, buttons, icons, timer, borders and approved black PR·SIM logo exactly as in the input. Preserve every Korean label verbatim, positions, sizes, complete canvas and portrait aspect ratio. Do not redesign or crop. Media should be clearly full color, with natural warm skin tones, dark hair, navy or neutral clothing and subtle warm backgrounds. No global tint or monochrome filter. Colorize ALL media: the PDF slide itself, the presenter's small camera image and all THREE judge portraits below. Within the slide keep title and text black and background white, but use forest-green bar chart, green leaves and leaf symbols, natural kraft-brown packaging with a cream takeaway tray. The presenter and judges must have visible natural skin colors. Preserve slide wording and exact layout.",
+      "referenced_image_paths": [
+        "archive/pre-color-content/03-presentation.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "04-review.png",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided PR-SIM mobile UI screenshot. Colorize ONLY content media, preserving exact people identities, expressions, photo crops and composition. Keep all UI surfaces white/light gray, all text, buttons, icons, timer, borders and approved black PR·SIM logo exactly as in the input. Preserve every Korean label verbatim, positions, sizes, complete canvas and portrait aspect ratio. Do not redesign or crop. Media should be clearly full color, with natural warm skin tones, dark hair, navy or neutral clothing and subtle warm backgrounds. No global tint or monochrome filter. Colorize the large judge portrait photo: warm natural skin, dark hair, dark charcoal/navy blazer and black shirt, subtle warm beige background. Keep all overlay chips grayscale and labels intact.",
+      "referenced_image_paths": [
+        "archive/pre-color-content/04-review.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "05-results.png",
+      "unchanged_from": "archive/pre-color-content/05-results.png"
+    },
+    {
+      "file": "06-feedback.png",
+      "prompt": "Use case: precise-object-edit. Edit target: the provided PR-SIM mobile UI screenshot. Colorize ONLY content media, preserving exact people identities, expressions, photo crops and composition. Keep all UI surfaces white/light gray, all text, buttons, icons, timer, borders and approved black PR·SIM logo exactly as in the input. Preserve every Korean label verbatim, positions, sizes, complete canvas and portrait aspect ratio. Do not redesign or crop. Media should be clearly full color, with natural warm skin tones, dark hair, navy or neutral clothing and subtle warm backgrounds. No global tint or monochrome filter. Colorize the small circular judge portrait in the question card with warm natural skin, dark hair, dark charcoal/navy blazer and black shirt, subtle warm beige background. Keep the rest of the card grayscale.",
+      "referenced_image_paths": [
+        "archive/pre-color-content/06-feedback.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "file": "07-history.png",
+      "unchanged_from": "archive/pre-color-content/07-history.png"
+    }
+  ],
+  "previous_generation": "archive/pre-color-content/prompts.json",
+  "revision": "monochrome-ui-color-content",
+  "color_policy": "Monochrome brand/UI; full-color judge portraits, presenter camera and original PDF slides."
+}

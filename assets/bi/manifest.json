@@ -1,0 +1,128 @@
+{
+  "status": "approved",
+  "source": "docs/bi/monochrome/identity-board.png",
+  "source_size": [
+    1536,
+    1024
+  ],
+  "coordinate_system": "Pillow left, top, right, bottom; right/bottom exclusive",
+  "assets": [
+    {
+      "file": "lockup-light.png",
+      "width": 1225,
+      "height": 425,
+      "mode": "RGB",
+      "source_box": [
+        170,
+        125,
+        1395,
+        550
+      ],
+      "treatment": "original crop"
+    },
+    {
+      "file": "lockup-dark.png",
+      "width": 640,
+      "height": 255,
+      "mode": "RGB",
+      "source_box": [
+        70,
+        720,
+        710,
+        975
+      ],
+      "treatment": "original crop"
+    },
+    {
+      "file": "lockup-black.png",
+      "width": 1211,
+      "height": 408,
+      "mode": "RGBA",
+      "source_box": [
+        185,
+        140,
+        1380,
+        530
+      ],
+      "treatment": "background removed; uniform ink/white; same source geometry; 24px padding"
+    },
+    {
+      "file": "lockup-white.png",
+      "width": 1211,
+      "height": 408,
+      "mode": "RGBA",
+      "source_box": [
+        185,
+        140,
+        1380,
+        530
+      ],
+      "treatment": "background removed; uniform ink/white; same source geometry; 24px padding"
+    },
+    {
+      "file": "symbol-black.png",
+      "width": 399,
+      "height": 408,
+      "mode": "RGBA",
+      "source_box": [
+        185,
+        140,
+        570,
+        530
+      ],
+      "treatment": "background removed; uniform ink/white; same source geometry; 24px padding"
+    },
+    {
+      "file": "symbol-white.png",
+      "width": 399,
+      "height": 408,
+      "mode": "RGBA",
+      "source_box": [
+        185,
+        140,
+        570,
+        530
+      ],
+      "treatment": "background removed; uniform ink/white; same source geometry; 24px padding"
+    },
+    {
+      "file": "wordmark-black.png",
+      "width": 807,
+      "height": 221,
+      "mode": "RGBA",
+      "source_box": [
+        590,
+        225,
+        1380,
+        425
+      ],
+      "treatment": "background removed; uniform ink/white; same source geometry; 24px padding"
+    },
+    {
+      "file": "wordmark-white.png",
+      "width": 807,
+      "height": 221,
+      "mode": "RGBA",
+      "source_box": [
+        590,
+        225,
+        1380,
+        425
+      ],
+      "treatment": "background removed; uniform ink/white; same source geometry; 24px padding"
+    },
+    {
+      "file": "app-icon.png",
+      "width": 223,
+      "height": 225,
+      "mode": "RGBA",
+      "source_box": [
+        900,
+        735,
+        1138,
+        974
+      ],
+      "treatment": "outside surface removed; interior pixels preserved"
+    }
+  ]
+}

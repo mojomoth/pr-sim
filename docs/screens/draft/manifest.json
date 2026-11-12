@@ -1,0 +1,67 @@
+{
+  "generator": "built-in image_gen",
+  "design_document": "DESIGN.md",
+  "screens": [
+    {
+      "file": "01-landing.png",
+      "screen": "랜딩",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1578276,
+      "sha256": "a98807ebe8701e784469a8074009802e74f0cd6567a4b680d637a15bb636d469"
+    },
+    {
+      "file": "02-setup.png",
+      "screen": "상황 설정",
+      "width": 799,
+      "height": 1968,
+      "bytes": 1648372,
+      "sha256": "a2d810a56d93ad1867ac98212a413a7430b8ae92e085f365d20222c7ff0c2933"
+    },
+    {
+      "file": "03-presentation.png",
+      "screen": "발표",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1366620,
+      "sha256": "335a9e995ba89cf9c9cd726cc7321d22577994f71b7d7b85926bb3b493e91e13"
+    },
+    {
+      "file": "04-review.png",
+      "screen": "심사",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1652174,
+      "sha256": "490e1da465e61d8e32db349649550d66a5abee9e6894a6f528884a61a301f71c"
+    },
+    {
+      "file": "05-results.png",
+      "screen": "종합 결과",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1588026,
+      "sha256": "1ae321e24d67589963a30ca6d0110549c21d5e4c4ae7224c842287c32d4b9671"
+    },
+    {
+      "file": "06-feedback.png",
+      "screen": "상세 피드백",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1644275,
+      "sha256": "98f90a7ae37b43eae7eea3201200bc33d5a2eb9da1258d0c16d2d7f431f9faea"
+    },
+    {
+      "file": "07-history.png",
+      "screen": "목록",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1620397,
+      "sha256": "118631b1b5e6788a6915249b5460f1a3cac9155d780f5d98533f33e1ab88f029"
+    }
+  ],
+  "revision": "monochrome-ui-color-content",
+  "brand_asset": "../../../assets/bi/lockup-black.png",
+  "edit_reference": "../../../assets/bi/lockup-light.png",
+  "previous_version": "archive/pre-color-content/",
+  "color_policy": "Monochrome brand/UI; full-color judge portraits, presenter camera and original PDF slides."
+}

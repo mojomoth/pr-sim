@@ -1,0 +1,36 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "artDirection": "실사 스타일의 흑백 발표장. 확정된 흑백 BI와 검정 시작 버튼의 가독성을 위해 밝은 여백을 확보한 전체 화면 배경.",
+  "usage": {
+    "desktop": {
+      "actualSize": "1672x941",
+      "placement": "로고는 좌측 상단, 타이틀과 CTA는 좌측 45% 안에 배치. 발표 무대는 우측.",
+      "objectFit": "cover",
+      "objectPosition": "center center"
+    },
+    "mobile": {
+      "actualSize": "798x1972",
+      "placement": "로고는 상단, 타이틀은 상단 15–43%, CTA와 보조 문구는 하단 12–15% 안에 배치.",
+      "objectFit": "cover",
+      "objectPosition": "center center"
+    },
+    "responsive": "768px 미만에서는 모바일 이미지를 사용하고, 그 이상에서는 데스크톱 이미지를 사용한다. 뷰포트 비율에 따라 cover 크롭을 확인한다.",
+    "ui": "로고·문구·버튼은 이미지에 포함하지 않았으며 별도 HTML로 배치한다. 기존 랜딩 코드에는 아직 적용하지 않았다."
+  },
+  "references": [
+    "docs/screens/draft/DESIGN.md",
+    "docs/screens/draft/01-landing.png",
+    "docs/wiki/brand-identity.md",
+    "pocs/ui/screens/Landing.tsx"
+  ],
+  "images": [
+    {
+      "file": "hero-stage-desktop.png",
+      "prompt": "Use case: photorealistic-natural\nAsset type: PR-SIM presentation rehearsal web app, full viewport photographic background, desktop landscape 2560x1440, 16:9.\nCreate a beautiful premium architectural editorial photograph of a small real contemporary presentation auditorium just before a rehearsal. Strict neutral black and white photography, quiet confidence, inviting rather than intimidating. A single understated matte dark charcoal lectern with a delicate realistic gooseneck microphone stands at x=73%, y=65%, on a low pale stage. Large blank pale projection screen and subtle acoustic wall panels behind it. A few very soft out-of-focus empty charcoal audience seats visible ONLY at far lower right edge. No people.\nComposition is critical: the entire LEFT 52% is a softly illuminated near-white architectural wall with extremely restrained texture, clean low-detail negative space for large black live HTML headline and button. Top 15% across full width is very pale and uncluttered for black PR-SIM brand at top left and navigation at top right. Bottom 18% remains pale, calm matte flooring for a black rounded CTA with gray caption. Concentrate almost all photographic details in right middle band, 55%-82% of width and 38%-78% height. Subject not too large, generous breathing room. Camera at seated eye height, natural architectural perspective, 35mm full-frame lens, realistic material texture, soft daylight and subtle practical downlights, no dramatic stage spotlights, soft shadows, restrained contrast, film-quality photographic realism. The image fills the entire frame edge to edge; no white border, no rounded card, no embedded UI. White and light gray dominate; deep charcoal only at lectern and minimal seating. Preserve credible depth and visible auditorium architecture, not a blank product render. Absolutely no text, letters, logo, typography, buttons, graphic icons, watermarks, color accents, illustration or CGI. This is the photographic BACKGROUND ONLY; all logo and UI will be overlaid in code."
+    },
+    {
+      "file": "hero-stage-mobile.png",
+      "prompt": "Use case: photorealistic-natural\nAsset type: PR-SIM mobile full-screen landing background photograph, tall portrait 1170x2532, aspect ratio approximately 9:19.5.\nPrimary request: A real contemporary small presentation auditorium ready for a rehearsal, strict neutral black and white editorial architectural photography. Quiet, premium, natural light. White acoustic wall panels, a low pale stage, a single matte charcoal lectern with a thin gooseneck microphone, and a large blank pale projection screen. No people. Match a calm monochrome presentation venue with soft daylight and subtle downlights, matte gray walls, crisp realistic materials, believable architecture, natural perspective and photographic detail.\nMobile UI composition is essential: TOP 48% of the image is a beautiful near-white softly lit wall with very minimal visual detail, reserved for black logo in top left and large centered black title in upper middle. The photographic scene is concentrated in middle-lower band from 49% to 78% height: screen above, small lectern at x=48%, its top at 61% height, bottom at 76% height. The lectern is modest, about 18% image width. The lower 18% is unobstructed pale matte floor, even light gray for a black rounded start button and gray footer text overlaid later. Keep screen borders and stage lines out of top copy area. A very small softly out-of-focus audience seat corner may appear at far right around 79% height but MUST NOT enter bottom 15% button-safe region. Broad generous breathing space, only one lectern. This should feel like a thoughtfully composed real high-key photograph of a venue, not a UI screenshot, not a render, not an artificial white gradient. Edge-to-edge full photographic background, no rounded corners or picture border.\nConstraints: no text, lettering, logos, buttons, watermarks, icons, people, colored elements, dramatic beams, heavy shadows or embedded interface. All typography and UI are added separately. Preserve a bright calm background that allows black brand and button to stand out."
+    }
+  ]
+}

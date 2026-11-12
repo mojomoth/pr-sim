@@ -1,0 +1,19 @@
+{
+  "tool": "built-in image_gen",
+  "reference_files": [
+    "docs/bi/ref-sel/logo.png",
+    "docs/bi/ref-sel/bi.png",
+    "docs/screens/draft/DESIGN.md"
+  ],
+  "generations": [
+    {
+      "file": "identity-board.png",
+      "prompt": "Use case: logo-brand\nAsset type: final logo identity presentation for PR·SIM, a presentation rehearsal simulator web app.\nCreate ONE original, polished, flat black and white logo system on a beautifully spaced landscape identity board. This is a new design, not a recolor of any reference.\nDesign context: quiet white mobile UI, generous whitespace, large rounded cards, bold sans-serif typography, solid black primary actions. Ink #111111, white #FFFFFF, pale gray #F5F5F5 only for demonstration surfaces.\nSymbol concept: a single substantial soft-edged ribbon folding into a compact upright abstract speaking / rehearsal mark. An ingenious simple sculptural 2D silhouette: a rounded upright stem that curls clockwise into a broad rounded upper loop, with a clean open white passage and a short returning lower terminal suggesting a second turn of rehearsal. The resulting mark subtly evokes a P and a conversation turning back into itself, but feels like an original abstract shape. Distinctive carefully balanced negative space, robust thick mass, few curves, no fussy detail. Optically elegant and recognizable at 24px. This should be a bold logo silhouette, not a pictogram of a microphone. Avoid generic chat bubbles, infinity symbols, chain links, play triangles, folded sheets, overlapping slides, three parallel panels, perspective stacks, gradients, transparency layers, outlines, shadows, 3D.\nLayout: generous upper 65% white area showing ONE large hero horizontal logo lockup, the original black symbol on the left and exact wordmark \"PR·SIM\" on the right. Wordmark bold modern neutral sans serif, tight controlled tracking, beautifully proportioned relative to symbol. Lower 35% is two equal rectangular demonstration panels, left #111111 with the exact SAME symbol and wordmark in white, right #F5F5F5 with a small black rounded-square app icon holding the exact SAME symbol in white and a spare small-size black symbol alongside. Same geometry across all uses; not different concepts. Editorial precision, plenty of white space, visually calm, production-minded. Do not add captions, headlines, taglines, dimensions, palette swatches, decorative elements, watermarks, or any text other than \"PR·SIM\". Strictly black and white. High-resolution crisp flat vector-like edges.\nThe existing reference used cyan and blue overlapping rounded slide panels with the word Slides. Do NOT reproduce its stacked panel outline, arrangement, perspective or wordmark. Retain only visual simplicity, softness, and confident typography."
+    },
+    {
+      "file": "symbol-transparent.png",
+      "prompt": "Use case: background-extraction\nAsset type: transparent production logo symbol PNG for PR·SIM.\nInput image: the existing logo identity board is the edit target. Extract ONLY the single large BLACK symbol at the upper left of that board and place it centered, large on a square TRANSPARENT canvas with generous 15% safe padding on each side. Preserve the EXACT original silhouette, proportions, rounded geometry, distinctive curved white negative-space passage, upper bowl and short lower stem from that symbol. This is extraction of an existing design, do not design a variant. Solid uniform #111111 fill, crisply antialiased edges. The inner passage must be fully transparent too. Remove all lettering, wordmarks, other logo examples, app icon containers, panels and backgrounds. One black symbol only, no text, no shadows, no gradients, no texture, no new details. Genuine transparent background.",
+      "transparent_background": true
+    }
+  ]
+}

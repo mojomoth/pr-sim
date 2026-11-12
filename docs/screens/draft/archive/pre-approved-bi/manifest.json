@@ -1,0 +1,62 @@
+{
+  "generator": "built-in image_gen",
+  "design_document": "DESIGN.md",
+  "screens": [
+    {
+      "file": "01-landing.png",
+      "screen": "랜딩",
+      "width": 798,
+      "height": 1972,
+      "bytes": 1299140,
+      "sha256": "a9f637559b6caa553cd1c5b143d79543d476886337fd037fa130e7de66e7212d"
+    },
+    {
+      "file": "02-setup.png",
+      "screen": "상황 설정",
+      "width": 798,
+      "height": 1972,
+      "bytes": 1171047,
+      "sha256": "12bedaf5e4c946d9607f582d76e57e1eaac9d4a4d514c4e82d880faa9a33e8fb"
+    },
+    {
+      "file": "03-presentation.png",
+      "screen": "발표",
+      "width": 798,
+      "height": 1972,
+      "bytes": 1344039,
+      "sha256": "b0b7547b6dffaac241776d1dbbf6f86c6a13e372bd4426b88620c0ab95d54920"
+    },
+    {
+      "file": "04-review.png",
+      "screen": "심사",
+      "width": 798,
+      "height": 1972,
+      "bytes": 1440338,
+      "sha256": "1831c8cd21c7c60404c349b9dd3818b35ca89e3bdbfd2856d95e0b2845d2807f"
+    },
+    {
+      "file": "05-results.png",
+      "screen": "종합 결과",
+      "width": 798,
+      "height": 1972,
+      "bytes": 1141357,
+      "sha256": "2996a2b0f4b6d5e7dd8cba5be58fc5a6a005227fefdb82da0ad3892a840bd755"
+    },
+    {
+      "file": "06-feedback.png",
+      "screen": "상세 피드백",
+      "width": 798,
+      "height": 1971,
+      "bytes": 1213706,
+      "sha256": "34c544822a13efe50ebff518d52fbd5ae406ae05448d9eb8fe8c5c57e3e37aab"
+    },
+    {
+      "file": "07-history.png",
+      "screen": "목록",
+      "width": 798,
+      "height": 1972,
+      "bytes": 1213925,
+      "sha256": "56374a7a0c62120803385914076ae1282e36bedeece5bdc0bf9b0de5c1d171ff"
+    }
+  ]
+}

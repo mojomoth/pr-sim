@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400" style="--bg:#0E1020"><rect width="1000" height="400" fill="#0E1020"/>
+ <g transform="translate(40,40) scale(.8)">
+  <path d="M62.0,100.0 Q62.0,78.0 83.9,80.0 L190.1,90.0 Q212.0,92.0 212.0,114.0 L212.0,286.0 Q212.0,308.0 190.1,310.0 L83.9,320.0 Q62.0,322.0 62.0,300.0Z" fill="#1A1AFF"/>
+  <path d="M122.0,80.0 Q122.0,58.0 143.7,61.3 L270.3,80.7 Q292.0,84.0 292.0,106.0 L292.0,294.0 Q292.0,316.0 270.3,319.3 L143.7,338.7 Q122.0,342.0 122.0,320.0Z" fill="#0A84FF" fill-opacity=".9"/>
+  <path d="M182.0,64.0 Q182.0,40.0 205.4,45.2 L328.6,72.8 Q352.0,78.0 352.0,102.0 L352.0,276.0 Q352.0,300.0 328.2,303.1 L269.9,310.7 Q260.0,312.0 253.0,319.2 L206.2,367.7 Q202.0,372.0 203.1,366.1 L210.9,323.9 Q212.0,318.0 206.1,318.8 L197.0,320.0 Q182.0,322.0 182.0,298.0Z" fill="#00D2FF" fill-opacity=".88"/>
+ </g>
+ <text x="400" y="252" font-family="'Pretendard','Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="150" letter-spacing="-5" fill="#FFFFFF">PR<tspan fill="#0A84FF" dx="2">·</tspan><tspan dx="2">SIM</tspan></text>
+</svg>
