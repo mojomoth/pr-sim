@@ -1,0 +1,13 @@
+src/features/slide/sync-pdfjs.mjs:7:import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+src/app/api/wiki/route.ts:9:export const maxDuration = 300;
+src/app/api/wiki/route.ts:16:// 413 over 120 pages / 150k chars, 422 when < 30 % of pages carry text. The build stops 20 s before maxDuration (504).
+src/app/api/wiki/route.ts:29:  const signal = AbortSignal.any([req.signal, AbortSignal.timeout((maxDuration - 20) * 1000)]);
+src/app/api/judges/route.ts:8:export const maxDuration = 120;
+src/app/api/tts/route.ts:6:export const maxDuration = 60;
+src/app/api/report/route.ts:8:export const maxDuration = 300;
+src/app/api/report/route.ts:25:  const signal = AbortSignal.any([req.signal, AbortSignal.timeout((maxDuration - 20) * 1000)]);
+src/app/api/questions/route.ts:8:export const maxDuration = 120;
+src/app/api/questions/route.ts:27:  const signal = AbortSignal.any([req.signal, AbortSignal.timeout((maxDuration - 10) * 1000)]);
+src/app/api/questions/followup/route.ts:6:export const maxDuration = 60;
+src/app/api/questions/followup/route.ts:18:    const signal = AbortSignal.any([req.signal, AbortSignal.timeout((maxDuration - 5) * 1000)]);
+src/app/api/stt/token/route.ts:5:export const maxDuration = 10;

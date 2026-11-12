@@ -1,0 +1,18 @@
+qa-phase transcript (stored order):
+  t=   2.0  qmwdx049x-1  네.
+  t=   3.3  qmwdx049x-2  지금 원가가 스티로폼보다 높은 건 맞습니다.
+  t=   5.9  qmwdx049x-3  다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되
+  t=  29.2  qmwdx0pa3-1  네.
+  t=  31.0  qmwdx0pa3-2  지금 원가가 스티로폼보다 높은 건 맞습니다.
+  t=  33.1  qmwdx0pa3-3  다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되
+  t=  52.4  qmwdx176p-1  네.
+  t=  53.1  qmwdx176p-2  지금 원가가 스티로폼보다 높은 건 맞습니다.
+  t=  56.3  qmwdx176p-3  다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되
+  t=  76.0  qmwdx1pda-1  네.
+  t=  77.1  qmwdx1pda-2  지금 원가가 스티로폼보다 높은 건 맞습니다.
+  t=  79.9  qmwdx1pda-3  다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되
+non-decreasing over whole Q&A: True
+qmwdx049x [2, 3.3, 5.9] strictly ascending within answer: True
+qmwdx0pa3 [29.2, 31, 33.1] strictly ascending within answer: True
+qmwdx176p [52.4, 53.1, 56.3] strictly ascending within answer: True
+qmwdx1pda [76, 77.1, 79.9] strictly ascending within answer: True

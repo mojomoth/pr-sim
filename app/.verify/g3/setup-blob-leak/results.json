@@ -1,0 +1,121 @@
+{
+  "results": [
+    {
+      "name": "seeded 6 judge blobs",
+      "ok": true,
+      "detail": [
+        "judge:j_seed1",
+        "judge:j_seed1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb",
+        "judge:j_seed3",
+        "judge:j_seed3:thumb"
+      ]
+    },
+    {
+      "name": "remove judge deletes judge:<id> and :thumb",
+      "ok": true,
+      "detail": [
+        "judge:j_seed1",
+        "judge:j_seed1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb"
+      ]
+    },
+    {
+      "name": "regenerate button shown",
+      "ok": true
+    },
+    {
+      "name": "regenerate deletes old judge:<id> and :thumb, stores new pair",
+      "ok": true,
+      "detail": [
+        "judge:j_mwdwis3f4xbe1",
+        "judge:j_mwdwis3f4xbe1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb"
+      ]
+    },
+    {
+      "name": "both samples stored",
+      "ok": true,
+      "detail": [
+        "judge:j_mwdwis3f4xbe1",
+        "judge:j_mwdwis3f4xbe1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb",
+        "pdf:b074e9bd3e49c31f",
+        "pdf:cb3e5a08f4107921"
+      ]
+    },
+    {
+      "name": "replace keeps PDF another session uses (pdf:A in s_seed_other)",
+      "ok": true,
+      "detail": [
+        "judge:j_mwdwis3f4xbe1",
+        "judge:j_mwdwis3f4xbe1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb",
+        "pdf:b074e9bd3e49c31f",
+        "pdf:cb3e5a08f4107921"
+      ]
+    },
+    {
+      "name": "replace deletes the old pdf:<docId> when no session uses it",
+      "ok": true,
+      "detail": [
+        "judge:j_mwdwis3f4xbe1",
+        "judge:j_mwdwis3f4xbe1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb",
+        "pdf:cb3e5a08f4107921"
+      ]
+    },
+    {
+      "name": "remove keeps PDF the other role of the same draft still uses",
+      "ok": true,
+      "detail": [
+        "judge:j_mwdwis3f4xbe1",
+        "judge:j_mwdwis3f4xbe1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb",
+        "pdf:cb3e5a08f4107921"
+      ]
+    },
+    {
+      "name": "remove deletes pdf:<docId>",
+      "ok": true,
+      "detail": [
+        "judge:j_mwdwis3f4xbe1",
+        "judge:j_mwdwis3f4xbe1:thumb",
+        "judge:j_seed2",
+        "judge:j_seed2:thumb"
+      ]
+    },
+    {
+      "name": "blobs == keys the draft references (no orphans, nothing missing)",
+      "ok": true,
+      "detail": {
+        "want": [
+          "judge:j_mwdwis3f4xbe1",
+          "judge:j_mwdwis3f4xbe1:thumb",
+          "judge:j_seed2",
+          "judge:j_seed2:thumb"
+        ],
+        "have": [
+          "judge:j_mwdwis3f4xbe1",
+          "judge:j_mwdwis3f4xbe1:thumb",
+          "judge:j_seed2",
+          "judge:j_seed2:thumb"
+        ]
+      }
+    }
+  ],
+  "logs": [
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ]
+}

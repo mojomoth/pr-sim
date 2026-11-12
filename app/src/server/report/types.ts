@@ -74,7 +74,10 @@ export interface SpeechMetrics {
 
 // ───────────────────────── shared refs ─────────────────────────
 
-export const DOC_LABEL: Record<DocRole, string> = { presentation: "발표자료", proposal: "제안자료" };
+/** Display labels (result/feedback screens). Prompts and the citation parser keep the unspaced words — see LLM_DOC_LABEL. */
+export const DOC_LABEL: Record<DocRole, string> = { presentation: "발표 자료", proposal: "제안 자료" };
+/** The words the report prompts use and that LLM-written citations come back with ("발표자료 p.3"); cite.tsx parses these. */
+export const LLM_DOC_LABEL: Record<DocRole, string> = { presentation: "발표자료", proposal: "제안자료" };
 
 export interface DocRef {
   doc: DocRole;

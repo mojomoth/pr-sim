@@ -1,0 +1,90 @@
+== GOOGLE_API_KEY production
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+! The environment argument is deprecated. Use --environment.
+
+✓ Added           GOOGLE_API_KEY
+  Project         mojomoths-projects/pr-sim
+  Environments    Production
+  Type            Secret
+  Stored as Secret by default. This value is hidden in the dashboard and unavailable to pulls; use `--type config` for values you need to read later.
+Next steps:
+- List Environment Variables:
+  vercel env ls --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+- Pull Development Environment Variables into .env.local:
+  vercel env pull --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+== GOOGLE_API_KEY preview
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+! The environment argument is deprecated. Use --environment.
+
+✓ Added           GOOGLE_API_KEY
+  Project         mojomoths-projects/pr-sim
+  Environments    Preview
+  Type            Secret
+  Stored as Secret by default. This value is hidden in the dashboard and unavailable to pulls; use `--type config` for values you need to read later.
+Next steps:
+- List Environment Variables:
+  vercel env ls --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+- Pull Development Environment Variables into .env.local:
+  vercel env pull --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+== OPENAI_API_KEY production
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+! The environment argument is deprecated. Use --environment.
+
+✓ Added           OPENAI_API_KEY
+  Project         mojomoths-projects/pr-sim
+  Environments    Production
+  Type            Secret
+  Stored as Secret by default. This value is hidden in the dashboard and unavailable to pulls; use `--type config` for values you need to read later.
+Next steps:
+- List Environment Variables:
+  vercel env ls --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+- Pull Development Environment Variables into .env.local:
+  vercel env pull --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+== OPENAI_API_KEY preview
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+! The environment argument is deprecated. Use --environment.
+
+✓ Added           OPENAI_API_KEY
+  Project         mojomoths-projects/pr-sim
+  Environments    Preview
+  Type            Secret
+  Stored as Secret by default. This value is hidden in the dashboard and unavailable to pulls; use `--type config` for values you need to read later.
+Next steps:
+- List Environment Variables:
+  vercel env ls --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+- Pull Development Environment Variables into .env.local:
+  vercel env pull --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+== CLAUDE_API_KEY production
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+! The environment argument is deprecated. Use --environment.
+
+✓ Added           CLAUDE_API_KEY
+  Project         mojomoths-projects/pr-sim
+  Environments    Production
+  Type            Secret
+  Stored as Secret by default. This value is hidden in the dashboard and unavailable to pulls; use `--type config` for values you need to read later.
+Next steps:
+- List Environment Variables:
+  vercel env ls --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+- Pull Development Environment Variables into .env.local:
+  vercel env pull --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+== CLAUDE_API_KEY preview
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+! The environment argument is deprecated. Use --environment.
+
+✓ Added           CLAUDE_API_KEY
+  Project         mojomoths-projects/pr-sim
+  Environments    Preview
+  Type            Secret
+  Stored as Secret by default. This value is hidden in the dashboard and unavailable to pulls; use `--type config` for values you need to read later.
+Next steps:
+- List Environment Variables:
+  vercel env ls --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app
+- Pull Development Environment Variables into .env.local:
+  vercel env pull --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app

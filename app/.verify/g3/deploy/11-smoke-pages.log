@@ -1,0 +1,21 @@
+## pages & static
+/ 200 text/html; charset=utf-8 14875B
+/setup 200 text/html; charset=utf-8 8867B
+/history 200 text/html; charset=utf-8 11370B
+/present?s=x 200 text/html; charset=utf-8 9425B
+/qa?s=x 200 text/html; charset=utf-8 9422B
+/result?s=x 200 text/html; charset=utf-8 9135B
+/pdfjs/pdf.worker.min.mjs 200 application/javascript; charset=utf-8 1271915B
+/worklets/pcm16k-worklet.js 200 application/javascript; charset=utf-8 1453B
+/samples/presentation.pdf 200 application/pdf 219075B
+/icon.png 200 image/png 31931B
+## /api/judges 1 slot (OpenAI image) — provider status check
+{"type":"error","slot":0,"code":"providers_unavailable","message":"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."}
+{"type":"done","ms":1509}
+
+HTTP 200 2.021095s
+## secret scan of client bundle (/ HTML + JS chunks)
+GOOGLE_API_KEY occurrences in client bundle: 0
+OPENAI_API_KEY occurrences in client bundle: 0
+CLAUDE_API_KEY occurrences in client bundle: 0
+key-pattern matches: 0

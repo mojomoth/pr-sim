@@ -66,8 +66,9 @@ export function HistoryScreen() {
     try {
       const draft = await cloneAsDraft(r);
       router.push(`/setup?s=${draft.id}`);
-    } catch (e) {
-      setActionError(e instanceof Error ? e.message : "기록을 복사하지 못했어요.");
+    } catch {
+      // Storage errors (IndexedDB DOMException) are not user-facing copy.
+      setActionError("다시 시작하지 못했어요. 다시 시도해 주세요.");
       setBusy("");
     }
   }
@@ -88,6 +89,7 @@ export function HistoryScreen() {
   return (
     <>
       <Screen bottomPad={84}>
+        {/* Draft 07's round profile button is left out on purpose: v1 has no accounts, so it would lead nowhere. Add it with profiles. */}
         <BrandHeader />
 
         <h1 className="mt-6 text-[28px] font-bold leading-9 tracking-[-0.8px]">

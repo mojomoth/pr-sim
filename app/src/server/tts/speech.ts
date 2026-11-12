@@ -17,6 +17,8 @@ const OPENAI_VOICES: Record<Gender, Record<Temperament, string>> = {
 
 const COOLDOWN_MS = { quota: 5 * 60_000, other: 60_000 };
 const cooldownUntil = new Map<string, number>();
+/** Models whose current cooldown came from a quota error, so a skipped model still reports "used up for today". */
+const quotaCooldown = new Set<string>();
 
 export interface SpeechResult {
   wav: Uint8Array;
@@ -89,6 +91,7 @@ export async function synthesizeSpeech(
     const { voice, style } = resolveVoice(p);
     for (const model of MODELS.geminiTts) {
       if ((cooldownUntil.get(model) ?? 0) > Date.now()) {
+        if (quotaCooldown.has(model)) quota = true;
         reasons.push(`${model} cooldown`);
         continue;
       }
@@ -98,19 +101,28 @@ export async function synthesizeSpeech(
       } catch (e) {
         const st = statusOf(e);
         if (st === 429) quota = true;
+        if (st === 429) quotaCooldown.add(model);
+        else quotaCooldown.delete(model);
         cooldownUntil.set(model, Date.now() + (st === 429 ? COOLDOWN_MS.quota : st === 404 || (st && st >= 500) ? COOLDOWN_MS.other : 0));
         reasons.push(`${model} ${st ?? (e as Error)?.name ?? "error"}`);
       }
     }
   }
   if (opts.provider !== "gemini" && left() > 3_000) {
-    try {
-      return await openaiSpeech(line, p, Math.min(30_000, left() - 1_000));
-    } catch (e) {
-      reasons.push(`${MODELS.openaiTts} ${statusOf(e) ?? (e as Error)?.name ?? "error"}`);
+    if ((cooldownUntil.get(MODELS.openaiTts) ?? 0) > Date.now()) reasons.push(`${MODELS.openaiTts} cooldown`);
+    else {
+      try {
+        return await openaiSpeech(line, p, Math.min(30_000, left() - 1_000));
+      } catch (e) {
+        const st = statusOf(e);
+        const code = (e as { code?: unknown })?.code;
+        // no credits left (429 insufficient_quota / credit_balance_exhausted) will not clear within a session: fail fast for a while
+        if (st === 429 && /quota|credit/i.test(`${code ?? ""} ${(e as { type?: unknown })?.type ?? ""}`)) cooldownUntil.set(MODELS.openaiTts, Date.now() + COOLDOWN_MS.quota);
+        reasons.push(`${MODELS.openaiTts} ${st ?? (e as Error)?.name ?? "error"}${typeof code === "string" ? ` ${code}` : ""}`);
+      }
     }
   }
   console.warn("[tts] every voice model failed:", reasons.join(", "));
-  if (left() <= 3_000) throw new ApiError("timeout", "음성 생성 시간이 초과됐어요. 질문은 글로 보고 이어 가세요.");
-  throw new ApiError("providers_unavailable", quota ? "오늘 음성 사용량을 모두 썼어요. 질문은 글로 보고 이어 가세요." : "지금은 음성을 만들 수 없어요. 질문은 글로 보고 이어 가세요.");
+  if (left() <= 3_000) throw new ApiError("timeout", "음성을 만드는 데 시간이 너무 오래 걸려요. 화면의 질문을 읽고 답변해 주세요.");
+  throw new ApiError("providers_unavailable", quota ? "오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요." : "지금은 질문 음성을 만들 수 없어요. 화면의 질문을 읽고 답변해 주세요.");
 }

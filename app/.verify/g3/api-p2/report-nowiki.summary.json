@@ -1,0 +1,13 @@
+{
+ "docScore": 51,
+ "scores": {
+  "structure": 77,
+  "logic": 40,
+  "evidence": 49,
+  "consistency": 33,
+  "clarity": 65
+ },
+ "groundedRefs": 19,
+ "issues": 7,
+ "overall": null
+}

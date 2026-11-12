@@ -53,3 +53,15 @@ export type ApiErrorCode = "bad_request" | "forbidden" | "too_large" | "unsuppor
 export interface ApiErrorBody {
   error: { code: ApiErrorCode; message: string; retryAfterSec?: number };
 }
+
+/** Caps checked on both sides: the client before sending, the server again on every request. */
+export const MAX_BODY_BYTES = 4_000_000; // Vercel request body limit is 4.5MB
+export const MAX_DOC_PAGES = 120;
+export const MAX_DOC_CHARS = 150_000;
+
+/** 45 → "45초", 130 → "약 2분", 7200 → "약 2시간" (retry hints people can read, not raw seconds). */
+export function waitText(sec: number): string {
+  if (sec < 60) return `${Math.max(1, Math.round(sec))}초`;
+  if (sec < 3600) return `약 ${Math.round(sec / 60)}분`;
+  return `약 ${Math.round(sec / 3600)}시간`;
+}

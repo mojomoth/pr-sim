@@ -1,0 +1,10 @@
+# never upload secrets or local env files
+.env
+.env*
+# local verification output, tests, build caches
+.verify/
+tests/
+.next/
+node_modules/
+*.tsbuildinfo
+.DS_Store

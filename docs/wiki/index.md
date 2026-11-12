@@ -9,6 +9,7 @@ PR-SIM 개발에 필요한 지식을 모아 두는 곳입니다. [Karpathy LLM W
 | [브랜드 아이덴티티](brand-identity.md) | 확정 로고와 사용 기준: 흑백 심볼·워드마크, 기준 색상, 컬러로 두는 미디어 | 2026-11-12 |
 | [개발 도구 적용법](tools.md) | fluent-korean, ponytail, no-ai-slop, hallmark, gauntlet-loop, LLM Wiki를 어느 게이트·역할에서 어떻게 쓰는지 | 2026-11-13 |
 | [v1 최소 API 계약](api-contract.md) | `app/src/app/api/**` 경로, 요청·응답 형식, 서버 무상태 원칙 | 2026-11-13 |
+| [v1 앱 구조](architecture.md) | 화면 경로 → 화면 파일 → 부르는 API → 서버 모듈, 라우트별 maxDuration과 제공자 순서 | 2026-11-13 |
 | [log.md](log.md) | 위키 변경 기록 (append-only) | 계속 |
 
 ## 원천 자료
@@ -18,9 +19,11 @@ PR-SIM 개발에 필요한 지식을 모아 두는 곳입니다. [Karpathy LLM W
 | 문서 | 내용 |
 |---|---|
 | [docs/dev-harness/v1/run.md](../dev-harness/v1/run.md) | 개발 통제 기록: 현재 게이트, 고정 결정, 역할과 파일 소유권, 게이트 통과 조건 |
-| [docs/dev-v1/report.md](../dev-v1/report.md) | 기술 결정과 검증 결과 (G0에서 작성 예정, 2026-11-13 기준 파일 없음) |
+| [docs/dev-v1/report.md](../dev-v1/report.md) | 기술 결정과 검증 결과: G0 모델 측정, G2 통합 E2E, G3 배포 실측, 결정 D1–D19, 미해결 문제 |
 | [docs/screens/draft/DESIGN.md](../screens/draft/DESIGN.md) | 화면 디자인 기준: 토큰, 컴포넌트, 시안 7종 해석 |
 | [docs/prompts/PROMPT_V1.md](../prompts/PROMPT_V1.md) | v1 요구사항 원문 |
+| `app/.verify/g2/`, `app/.verify/g3/` | G2·G3 검증 원자료: E2E 결과, API 응답, 코드·시안 리뷰, 배포 로그와 배포 URL 실측 |
+| [app/README.md](../../app/README.md) | 앱 실행·테스트·배포 방법 |
 
 ## 운영 규칙
 

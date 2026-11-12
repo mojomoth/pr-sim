@@ -1,0 +1,4 @@
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+Your Vercel project will no longer create deployments when you push to this repository.
+> Disconnected mojomoth/pr-sim.

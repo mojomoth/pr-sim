@@ -32,7 +32,7 @@ const DOWN_TTL_MS = 30 * 60_000;
 
 const tid = (t: Target) => `${t.provider}:${t.model}`;
 
-export const isProvider = (v: unknown): v is Provider => v === "claude" || v === "openai" || v === "gemini";
+const isProvider = (v: unknown): v is Provider => v === "claude" || v === "openai" || v === "gemini";
 
 function wanted(): "auto" | Provider {
   const v = (process.env.REPORT_LLM_PROVIDER ?? "auto").toLowerCase();
@@ -153,7 +153,7 @@ function summarize(failures: { target: string; provider: Provider; ko: string }[
 
 /** Korean, user-facing message for any error thrown by a report step (`short` = one line for a progress row). */
 export function koError(e: unknown, short = false): string {
-  if (e instanceof LlmUnavailableError) return short && e.summary ? `AI 채점 실패 · ${e.summary}` : e.message;
+  if (e instanceof LlmUnavailableError) return short && e.summary ? `AI 평가 실패 · ${e.summary}` : e.message;
   if (e instanceof Error && /[가-힣]/.test(e.message)) return e.message.slice(0, 200);
   return `처리 중 오류 (${classifyError(e).ko})`;
 }
@@ -251,8 +251,8 @@ export async function llmJson<T extends z.ZodType>(call: JsonCall<T>): Promise<z
   }
   const allFinal = failures.length > 0 && failures.every((f) => f.kind === "quota" || f.kind === "auth");
   const msg = allFinal
-    ? `AI 채점 모델을 모두 쓸 수 없어요 — ${summarize(failures)}. API 키 한도를 충전한 뒤 다시 시도해 주세요.`
-    : `AI 채점에 실패했어요 — ${summarize(failures)}. 잠시 후 다시 시도해 주세요.`;
+    ? `AI 평가 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (${summarize(failures)})`
+    : `AI 평가에 실패했어요. 잠시 뒤 다시 시도해 주세요. (${summarize(failures)})`;
   throw new LlmUnavailableError(msg, failures, summarize(failures));
 }
 

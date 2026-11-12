@@ -1,0 +1,195 @@
+{
+  "sid": "s_dep1_mwdz5vqj",
+  "results": [
+    {
+      "name": "https: secure context + mediaDevices",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "qa: questions generated on deployed",
+      "ok": true,
+      "detail": {
+        "sec": 10,
+        "main": 1,
+        "reserve": 5
+      }
+    },
+    {
+      "name": "qa: judge faces render in color (no filter)",
+      "ok": true,
+      "detail": [
+        {
+          "w": 256,
+          "filter": "none",
+          "opacity": "1"
+        },
+        {
+          "w": 256,
+          "filter": "none",
+          "opacity": "1"
+        },
+        {
+          "w": 256,
+          "filter": "none",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "name": "qa: TTS question spoken OR on-screen text fallback",
+      "ok": true,
+      "detail": {
+        "plays": [
+          {
+            "at": 1794513777238
+          }
+        ],
+        "tts": [
+          [
+            503,
+            null
+          ],
+          [
+            503,
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "name": "qa: STT answers saved",
+      "ok": true,
+      "detail": {
+        "qa": 2,
+        "answers": [
+          63,
+          60
+        ],
+        "qaSentences": 6,
+        "status": "report"
+      }
+    },
+    {
+      "name": "qa: follow-up endpoint called and answered",
+      "ok": true,
+      "detail": {
+        "followup": [
+          200,
+          200
+        ],
+        "decisions": [
+          "followup",
+          "next"
+        ],
+        "followupItems": 1,
+        "sawFollowText": true
+      }
+    },
+    {
+      "name": "result: report generated and stored",
+      "ok": true,
+      "detail": {
+        "reportSec": 56,
+        "provider": "gemini:gemini-3.5-flash-lite ×5, gemini:gemini-3.1-flash-lite ×2 (OpenAI 크레딧 소진 → 폴백)",
+        "net": [
+          {
+            "t": 1794513809807,
+            "url": "/api/report",
+            "status": 200
+          }
+        ]
+      }
+    },
+    {
+      "name": "result: page citation opens the slide/page sheet",
+      "ok": true,
+      "detail": {
+        "label": "발표 자료 2쪽 보기",
+        "opened": true,
+        "dlg": {
+          "text": "발표 자료 2쪽\n\npresentation.pdf\n\n4\n12쪽 중 2쪽\n2 / 12\n닫기",
+          "canvas": [
+            636,
+            636,
+            636
+          ]
+        }
+      }
+    },
+    {
+      "name": "result: utterance citation opens the transcript sheet",
+      "ok": true,
+      "detail": {
+        "label": "질의응답 00:00 답변 원문 보기",
+        "opened": true,
+        "dlg": {
+          "text": "질의응답 중 말한 내용\n00:00\n네.\n00:01\n지금 원가가 스티로폼보다 높은 건 맞습니다.\n00:04\n다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년\n00:17\n네.\n00:18\n지금 원가가 스티로폼보다 높은 건 맞습니다.\n00:21\n다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서\n닫기",
+          "canvas": []
+        }
+      }
+    },
+    {
+      "name": "history: session listed after reload",
+      "ok": true
+    },
+    {
+      "name": "history: reopen shows stored report, no new /api/report",
+      "ok": true
+    },
+    {
+      "name": "storage: same profile after browser restart still lists the session",
+      "ok": true
+    },
+    {
+      "name": "storage: another browser profile does NOT see the session (per-browser)",
+      "ok": true,
+      "detail": {
+        "listed": false,
+        "text": "쌓이는 연습,\n달라지는 발표.\n\n나의 시뮬레이션 기록\n\n총\n0회\n평균\n–점\n전체\n완료\n진행 중\n\n아직 연습 기록이 없어요\n\n첫 시뮬레이션을 마치면 점수와 피드백이 여기에 쌓여요.\n\n새 시뮬레이션"
+      }
+    }
+  ],
+  "timings": [
+    {
+      "url": "/api/questions",
+      "status": 200,
+      "ms": 9034
+    },
+    {
+      "url": "/api/tts",
+      "status": 503,
+      "ms": 103
+    },
+    {
+      "url": "/api/stt/token",
+      "status": 200,
+      "ms": 482
+    },
+    {
+      "url": "/api/questions/followup",
+      "status": 200,
+      "ms": 7060
+    },
+    {
+      "url": "/api/tts",
+      "status": 503,
+      "ms": 45
+    },
+    {
+      "url": "/api/stt/token",
+      "status": 200,
+      "ms": 401
+    },
+    {
+      "url": "/api/questions/followup",
+      "status": 200,
+      "ms": 4799
+    },
+    {
+      "url": "/api/report",
+      "status": 200,
+      "ms": 55068
+    }
+  ]
+}

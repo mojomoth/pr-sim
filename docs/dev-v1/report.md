@@ -1,6 +1,6 @@
 # PR-SIM v1 — 기술 검증·결정 기록
 
-기준일 2026-11-13. 원자료: `pocs/.verify/g0/bench/` (스크립트 `bench-openai.mjs`·`bench-followup.mjs`, 응답 원본 `raw/*.json`, 플랫폼 점검 `raw/platform-check.txt`).
+기준일 2026-11-13. 1–3절은 G0, 4–7절은 G2·G3 기록입니다. G0 원자료: `pocs/.verify/g0/bench/` (스크립트 `bench-openai.mjs`·`bench-followup.mjs`, 응답 원본 `raw/*.json`, 플랫폼 점검 `raw/platform-check.txt`).
 
 ## 1. 기술 검증 결과
 
@@ -85,3 +85,135 @@
 | U6 | Vercel Hobby 상업적 사용 불가 | 공개 전환 시 문제 | 전환 시 Pro |
 | U7 | `JEV_KEY` 용도 미상 | — | 확인 전까지 사용 안 함 |
 | U8 | PoC TTS 쿨다운이 서버 메모리에 남아 리셋 뒤에도 1순위를 건너뜀 | 오늘 1순위 건너뜀의 추정 원인 | v1은 쿨다운을 분 단위로 짧게 둠 |
+
+## 4. G2 통합 검증 (로컬, 실제 API)
+
+원자료: E2E `app/.verify/g2/e2e/round1..3/`, API 응답 `app/.verify/g2/api/`, 코드 리뷰 `app/.verify/g2/code/round{1,2,3}-codex.md`. 같은 흐름은 `app/tests/e2e/flow.mjs`(`pnpm test:e2e`)로 G3와 배포 검증에서 다시 실행했습니다.
+
+### 4-1. E2E 범위 (round3 기준)
+| 단계 | 확인한 내용 | 근거 |
+|---|---|---|
+| 설정 | 잘못된 업로드 3종 거절(.pdf로 이름만 바꾼 이미지, 손상 PDF, 31MB), PDF 2개(12쪽·58쪽) 첨부, 심사위원 3명 얼굴 생성, 발표·질의응답 각 1분 | `round3/s1-result.json` |
+| 위키 | 두 자료 모두 빌드 완료 | `round3/s1-result.json` `wikiText` |
+| 발표 | 카메라 미리보기, 슬라이드 버튼·방향키 이동, 실제 시각 기준 타이머, 60초 시간 종료, STT 전사 저장 | `round3/s1-result.json` |
+| 질의응답 | 질문 6개(본 질문 1·예비 5) 생성, TTS 2회 재생, 음성 답변 저장, 상태 `report` 전환 | `round3/s2-result.json` |
+| 결과 | 리포트 생성(`openai:gpt-6-astra`), 쪽 인용·발화 인용 시트 열림 | `round3/s2-result.json`, `round3/cite-result.json` |
+| 기록 | 새로고침 뒤 목록 표시, 다시 열 때 `/api/report` 재호출 없음, "다시 시작하기"가 같은 설정으로 새 세션 생성 | `round3/hist-result.json`, `round3/restart.log` |
+| API 오류 | 6개 라우트에서 빈 본문·JSON 아님·스키마 오류 → 400, 4.1MB 본문 → 413, 음수·21600초 초과 타임스탬프 → 400 | `round1/api-errors.txt`, `round3/tneg.json` |
+| 키 노출 | 내려받은 39개 파일(8.4MB)에서 키 값 0건 | `round1/keyscan.json` |
+
+### 4-2. 로컬 소요 시간 (초, 드라이버가 폴링 간격 단위로 잰 값)
+| 단계 | round2 | round3 | maxDuration |
+|---|---|---|---|
+| 심사위원 3명 얼굴 (`gpt-image-2`) | 11.0 | 11.0 | 120 |
+| 위키 (12쪽 + 58쪽 동시 빌드) | – | 194 | 300 |
+| 질문 6개 | 30.0 | 27.0 | 120 |
+| 리포트 (`gpt-6-astra` 다단계) | 116 | 120 | 300 |
+
+리포트는 G0 단일 평가 호출(28초, D3)과 달리 지표 계산·자료 평가·문항별 평가·종합을 여러 번 호출하기 때문에 120초 안팎이 걸렸습니다. 그래도 maxDuration 300초의 40% 수준이어서 여유가 있습니다.
+
+### 4-3. 코드 리뷰 (Codex `gpt-6-astra`)
+| 회차 | P0 | P1 | P2 | 처리 |
+|---|---|---|---|---|
+| round1 | 0 | 5 | 6 | 출처 검사·STT 늦은 소켓·Q&A 이탈 뒤 녹음 재시작 수정 |
+| round2 | 0 | 2 | 8 | 리포트 타임스탬프 상한(21600초) 추가 |
+| round3 | 0 | 4 | 4 | 클라이언트 번들에서 키 접근 경로 없음 확인. 남은 4건(Q&A 재개, 저장 실패 시 진행, 시간 종료 직후 전사 경합, chunked 본문 상한)은 G2 P2로 넘겨 G3에서 수정 |
+
+## 5. G3 완성·배포 검증
+
+원자료: `app/.verify/g3/` (P2 수정별 폴더, `cleanup-tests/`, `visual/`, `recheck1/`, `deploy/`, `deployed/round1/`).
+
+### 5-1. G2 P2 처리 결과 (로컬)
+| P2 | 결과 | 근거 |
+|---|---|---|
+| Q&A 답변 문장 `t` 역순, 발표 종료 직후 마지막 문장 경합 | 수정. 이어 붙인 문장의 `t`를 말하기 시작한 시각으로 두고, `stop()`이 이번 실행의 문장을 돌려줌 | `core-p2/results-fake.json`, `core-p2/results-live.json`, `core-sentence-t/fallback-sim.out.txt` |
+| Q&A 재개 시 꼬리질문·답변 유실 | 수정. 대기 중이던 꼬리질문을 먼저 묻고, 쓰던 답변을 복원함 | `SCREENS-B/qa-results.json` |
+| 저장 실패 시에도 진행 | 수정. 다시 시도 안내를 띄우고, 저장에 성공할 때까지 다음 단계로 넘어가지 않음 | `SCREENS-B/present-results.json`, `SCREENS-B/qa-results.json` |
+| 확인 대화상자 중 STT 계속 녹음 | 수정. 대화상자가 열리면 전사와 시계를 멈춤 | 같은 파일 |
+| IndexedDB 오류를 '기록 없음'으로 표시, `/result`가 진행 중 세션의 리포트 생성 | 수정. 오류 화면과 "다시 시도"를 따로 두고, 진행 중 세션은 원래 단계로 보냄 | `result-unfinished/run.log`, `screens-b-fix/copy-check.json` |
+| chunked 요청 본문 상한 | 수정. `content-length` 없이 6MB를 보내도 413 | `api-p2/body-cap.out.json` |
+| LintIssue 스키마 중복 | 수정. 질문·리포트가 공용 스키마를 씀 | `api-p2/lint-schema.out.json` |
+| 꼬리질문 답변 4000자 상한 | 수정. 9000자 답변을 4022자로 잘라 판정(200, 5.2초) | `api-p2/followup-long.out.json` |
+| 교체된 PDF·얼굴 blob 누수 | 수정. 다른 세션이 쓰는 PDF는 남기고, 고아 blob 0개 | `setup-blob-leak/results.json` |
+| 위키 없는 장문 자료가 리포트에서 0점 | 수정. 위키 없이도 자료 점수 51점·근거 인용 19건, 결과 화면이 빠진 위키를 먼저 빌드함 | `api-p2/report-nowiki.summary.json`, `result-unfinished/run.log` |
+| 네이티브용 CORS·origin 허용 목록 | 수정. `ALLOWED_ORIGINS`(D17) | `api-p2/origin-allowlist.out.json` |
+| 미사용 export | 일부 남음. knip 기준 `src`에 `PdfError` 1건 | `cleanup-tests/knip.txt` |
+
+### 5-2. 정리·테스트 (배포 직전)
+| 항목 | 결과 | 근거 |
+|---|---|---|
+| 단위 테스트 `pnpm test` | 25/25 | `recheck1/tests/unit.log` |
+| API 스모크 `pnpm test:api` | 14/14 | `recheck1/tests/api.log` |
+| `next build`, `tsc`, ESLint | 통과, 오류 0 | `recheck1/tests/build.log`, `cleanup-tests/{tsc,eslint}.log` |
+| 키 검사 (정적 파일·서버 HTML·RSC) | 6개 키 모두 0건 | `cleanup-tests/keyscan.json` |
+| 전체 흐름 E2E `pnpm test:e2e` | 10/12. 실패 2건은 얼굴·위키 생성이며 원인은 제공자 불가(U9·U10) | `recheck1/e2e/`, `cleanup-tests/e2e.out` |
+| 저하 경로 | 질문 200(폴백 체인), 꼬리질문 200×2, TTS 503 → 화면 글자 안내, 리포트 200(Gemini lite, 안내 문구 표시), 기록 표시 | `recheck1/verdict.json`, `recheck1/degraded/` |
+| 레이아웃 | 모바일 가로 넘침 0, 데스크톱 목업 화면 361×823·모서리 59px 안에 하단 바 포함(7개 화면), 이미지 필터 없음, Q&A 사진 채도 102.8(원본 108.1) | `recheck1/verdict.json` |
+| 시안 비교 (Claude CLI) | 화면마다 P1 0–2건, P2 4–21건 보고. 실측 확인 결과 P1 0건으로 판정했고, 크기·굵기·여백 차이는 P2로 남김(U13) | `recheck1/visual/claude-*.md`, `recheck1/verdict.json` |
+| 문구 검토 (Codex) | 수정 제안 16건 중 일부 반영(예: "페이지를 표시하지 못했어요"). 랜딩·기록 화면의 머리 문구는 그대로 둠 | `copy/codex.md`, `core-sentence-t/served-copy.txt` |
+
+### 5-3. 배포
+| 항목 | 값 | 근거 |
+|---|---|---|
+| URL | https://pr-sim-lake.vercel.app (배포 `dpl_EbiiHdQSNR3f34W4Bq8PtBG7KEky`, READY) | `deploy/summary.json` |
+| 방식 | Vercel CLI 65.14.0, `app/`에서 배포(`--cwd app`). 프로젝트 Root Directory는 비워 둠. Git 자동 연결은 바로 해제 | `deploy/01-link.log`, `deploy/02-git-disconnect.log` |
+| 리전·런타임 | `icn1`, fluid compute, Node 26.x (`app/vercel.json`) | `deploy/05-region.log` |
+| 빌드 | pnpm 11.6.0 설치 16초, `next build` 16.4.6 45초. 화면 6개 모두 정적(○), API 7개 동적(ƒ) | `deploy/10-build.log` |
+| 환경변수 | `GOOGLE_API_KEY`, `OPENAI_API_KEY`, `CLAUDE_API_KEY` 3개만 production·preview에 sensitive로 등록 | `deploy/summary.json` |
+| 업로드 제외 | `app/.vercelignore`: `.env*`, `.verify/`, `tests/`, `.next/` | `deploy/08-upload-check.log` |
+| 사고 | `vercel link`가 `app/.env.local`(루트 `.env` 심볼릭 링크)에 `VERCEL_OIDC_TOKEN`을 덧붙임 → 추가된 3줄 제거, 원래 키 6개로 복구 | `deploy/summary.json` `incidents` |
+
+### 5-4. 배포 URL 실측 (2026-11-13 05:00–05:15 KST)
+| 제약 | 측정 | 판정 | 근거 |
+|---|---|---|---|
+| 파일시스템 | `src`에 런타임 파일 쓰기 없음(빌드 스크립트 `sync-pdfjs.mjs`만). 기록은 IndexedDB에 저장되고, 새로고침·브라우저 재시작 뒤에도 남으며, 다른 프로필에서는 보이지 않음 | 통과 | `deployed/round1/fs-grep.txt`, `deployed/round1/qa-stdout.log` |
+| 리전 | 모든 API 응답의 `x-vercel-id`가 `icn1` | 통과 | `deployed/round1/api-probes.json` |
+| 질문 | 9.0초 / 120초 | 여유 | `deployed/round1/timings.json` |
+| 꼬리질문 | 7.1·4.8초 / 60초 | 여유 | 같은 파일 |
+| 리포트 | 55초 / 300초 (Gemini `3.5-flash-lite`×5·`3.1-flash-lite`×2 폴백) | 여유 | 같은 파일 |
+| STT 토큰 | 0.48·0.40초 / 10초 | 여유 | 같은 파일 |
+| 위키 58쪽 | 측정 못 함. 214ms 만에 `providers_unavailable`(U9·U10). 로컬 참고값 194초(4-2), 라우트는 280초에 504로 끊음 | 미확인 | `deployed/round1/wiki-timing.json` |
+| 시간 초과 | 504·`FUNCTION_INVOCATION_TIMEOUT` 0건 | 통과 | `deployed/round1/timings.json` |
+| 본문 상한 | 4.2MB → 앱 413 `too_large`(JSON) / 4.7·5.1MB → 플랫폼 413 `FUNCTION_PAYLOAD_TOO_LARGE`(text/plain) / 121쪽 → 앱 413. 클라이언트는 전송 전에 크기를 검사하고 맨 413도 `too_large`로 바꿔 보여 줌 | 통과 | 같은 파일 `bodyLimit` |
+| HTTPS·권한 | 보안 컨텍스트에서 `mediaDevices` 사용 가능. 카메라·마이크 권한을 거부하면 "권한이 필요해요"와 다시 시도 버튼 표시 | 통과 | `deployed/round1/extras/results-denied.json` |
+| 자동 재생 | 사용자 제스처 없는 `play()`는 `NotAllowedError`(대조군). 시작 버튼을 누른 뒤에는 2.5초 늦게 온 TTS도 재생됨 | 통과 | `deployed/round1/extras/results-autoplay.json` |
+| 데스크톱 1440×900 | 6개 화면 목업 392×852 중앙 배치, 가로 넘침 없음, 필터 없음 | 통과 | `deployed/round1/extras/results-desktop.json` |
+| API 오류 | 6개 라우트 빈 본문 400, 토큰은 Origin 없으면 403·있으면 200, 모두 `cache-control: no-store` | 통과 | `deployed/round1/api-probes.json` |
+| 키 노출 | 제공 파일 28개(JS 19개, 2.2MB)에서 키 값 0건, `sk-`·`AIza`·`sk-ant-` 패턴 0건 | 통과 | `deployed/round1/keyscan.json` |
+| 전체 흐름 | `flow.mjs` 10/12(얼굴·위키 실패, 화면은 오류를 안내함). 시드 세션 Q&A→결과→기록 13/13 | BLOCKED | `deployed/round1/verdict.json` |
+
+판정: P0 0건, P1 0건, P2 3건(verdict.json에 세부 항목은 적혀 있지 않음). 외부 제공자의 한도 초과와 크레딧 소진 때문에 "얼굴 생성"과 "위키 빌드"를 배포 URL에서 확인하지 못했으므로 상태는 BLOCKED입니다.
+
+## 6. 결정 (G2·G3)
+
+고정 결정의 정의는 run.md에 있고, 여기에는 근거와 실측만 적습니다.
+
+| # | 결정 | 근거 |
+|---|---|---|
+| D11 | 서버 무상태, 세션·PDF·위키·얼굴·리포트는 IndexedDB `pr-sim`(`sessions`·`blobs`)에 저장 | 배포 환경에서 재시작 뒤 유지, 다른 프로필에서는 안 보임, 런타임 파일 쓰기 0건(5-4) |
+| D12 | 화면 라우트는 경로 대신 쿼리 파라미터(`?s=`)로 세션을 받음 | 빌드 결과 화면 6개가 모두 정적(○) → Capacitor 정적 내보내기 후보(`deploy/10-build.log`) |
+| D13 | TTS 체인은 요청마다 한 번만 순회함. 모두 실패하면 503 `providers_unavailable`을 돌려주고, 화면은 질문을 글자로 보여 주며 Q&A를 이어 감 | Gemini 일일 한도·OpenAI 크레딧 소진 상태에서 Q&A가 끝까지 진행됨(`deployed/round1/qa-stdout.log`) |
+| D14 | 질문·리포트 체인 끝에 Gemini flash 계열을 추가: 리포트 `gpt-6-astra` → `gpt-6.1-sol` → `gpt-5.5` → Gemini(`REPORT_GEMINI_MODELS`) → Claude. 실제로 쓴 제공자와 폴백 사유를 결과 화면에 표시 | OpenAI 크레딧 소진 상태에서 리포트 55초 생성(5-4). D3·D6의 순서를 바꾸지 않고 확장 |
+| D15 | 위키는 OpenAI → Claude만 쓰고 Gemini 폴백을 두지 않음(`WIKI_LLM_PROVIDER`), 얼굴은 `gpt-image-2`만 씀. 실패하면 이름 첫 글자로 대체 | D4·D5(수치 정확도). 대신 U10의 영향이 큼 |
+| D16 | 앱 본문 상한 4MB(`content-length`와 chunked 모두), 플랫폼 상한 4.5MB 아래에서 JSON 413을 돌려줌 | 5-4 본문 상한 |
+| D17 | `ALLOWED_ORIGINS`(쉼표 목록, `scheme://host[:port]` 정확 일치): 비우면 같은 출처만 허용. 목록에 있는 출처는 CORS 헤더를 받고, STT 토큰도 fetch-metadata 없이 발급 | 네이티브 앱(`capacitor://localhost`) 대비. 설정 시 preflight 204·POST 200, 다른 출처 403(`api-p2/origin-allowlist.out.json`). 현재 Vercel에는 설정 안 함 |
+| D18 | 각 라우트는 `maxDuration`보다 먼저 스스로 끊음(위키·리포트 20초, 질문 10초, 꼬리질문 5초 전) | 플랫폼 강제 종료 대신 한국어 504를 보냄(`deployed/round1/fs-grep.txt`) |
+| D19 | Vercel 배포는 CLI로 `app/`에서 하고, Git 자동 배포는 끔 | 커밋·푸시는 오케스트레이터만 함. run.md의 "Root Directory = `app`"과 달리 프로젝트 설정은 비어 있고 `--cwd app`으로 같은 효과를 냄(충돌 기록) |
+
+## 7. 미해결 문제 (G3 배포 기준)
+
+| # | 문제 | 영향 | 대응 |
+|---|---|---|---|
+| U1 | Gemini 무료 등급 일일 한도(갱신) | 오늘 TTS 전부 503, 질문·리포트 폴백 후보도 줄어듦 | D13 글자 안내로 진행. 유료 등급 필요 |
+| U2 | Live STT 한도 수치(갱신) | 배포 E2E에서는 정상 전사(11문장) | 수치는 여전히 미확인 |
+| U4 | 58쪽 위키 시간(갱신) | 로컬 194초(12쪽 동시), 배포 미측정 | U9 해소 뒤 배포 URL에서 재측정 |
+| U9 | OpenAI `credit_balance_exhausted`(2026-11-13 04시 무렵부터, 로컬과 배포 모두) | 얼굴·위키 생성 불가, OpenAI TTS 폴백 불가, 질문·리포트는 Gemini로 내려감 | 크레딧 충전 후 `pnpm test:e2e`를 `BASE_URL=https://pr-sim-lake.vercel.app`으로 다시 실행 |
+| U10 | Claude API 2026-12-01까지 사용 불가 | U9와 겹치면 위키(D15)는 대체 경로가 없음 | 12-01 이후 재확인. 필요하면 위키에 Gemini 폴백 검토 |
+| U11 | 배포 URL 전체 흐름 BLOCKED(10/12) | G3 "배포 URL 재검증" 미완 | U9 해소 후 재실행 |
+| U12 | `ALLOWED_ORIGINS` 미설정 | 지금은 웹만 쓰므로 영향 없음 | 네이티브 빌드 때 Vercel 환경변수 등록 |
+| U13 | 시안과의 시각 차이 P2(타이머 크기·굵기, 진행 막대, 여백, 칩 모양, 데스크톱 프레임 안 사진 위치 등) | 기능 영향 없음 | `recheck1/visual/claude-*.md` 목록으로 후속 처리 |
+| U14 | hallmark sloplint 18 FAIL·2 REFLEX·1 WARN(색 리터럴, 자간 넓힌 머리글, 가운뎃점 메타 줄 등) | 디자인 토큰 일관성 | `visual/hallmark-sloplint.txt` 기준으로 정리 |
+| U15 | 미사용 export `PdfError` 1건 | 없음 | 다음 정리 때 제거 |
+| U16 | 배포 판정의 P2 3건이 항목별로 기록되지 않음 | 추적 불가 | 다음 배포 재검증에서 항목을 적음 |
+
+나머지 P2(위키 인용 쪽 경계 5/173, 인메모리 레이트리밋, STT 도메인 어휘 오인식)는 run.md의 P2 목록에서 관리합니다.

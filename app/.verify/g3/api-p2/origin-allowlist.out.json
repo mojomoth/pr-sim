@@ -1,0 +1,61 @@
+{
+  "unset": {
+    "preflightNative": {
+      "status": 204,
+      "headers": {
+        "allow": "OPTIONS, POST"
+      }
+    },
+    "preflightEvil": {
+      "status": 204,
+      "headers": {
+        "allow": "OPTIONS, POST"
+      }
+    },
+    "postNative": {
+      "status": 403,
+      "headers": {}
+    },
+    "postEvil": {
+      "status": 403,
+      "headers": {}
+    },
+    "tokenStrictNativeNoFetchMeta": false,
+    "tokenStrictSameSite": true,
+    "tokenStrictEvil": false
+  },
+  "set": {
+    "preflightNative": {
+      "status": 204,
+      "headers": {
+        "access-control-allow-headers": "content-type",
+        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-origin": "capacitor://localhost",
+        "access-control-max-age": "600",
+        "allow": "OPTIONS, POST",
+        "vary": "Origin"
+      }
+    },
+    "preflightEvil": {
+      "status": 204,
+      "headers": {
+        "allow": "OPTIONS, POST"
+      }
+    },
+    "postNative": {
+      "status": 200,
+      "headers": {
+        "access-control-allow-origin": "capacitor://localhost",
+        "access-control-expose-headers": "x-provider, x-model, x-voice, x-duration, retry-after",
+        "vary": "Origin"
+      }
+    },
+    "postEvil": {
+      "status": 403,
+      "headers": {}
+    },
+    "tokenStrictNativeNoFetchMeta": true,
+    "tokenStrictSameSite": true,
+    "tokenStrictEvil": false
+  }
+}

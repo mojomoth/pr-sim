@@ -1,0 +1,102 @@
+{
+ "static": {
+  "JEV_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "GOOGLE_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "OPENAI_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "CLAUDE_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "VERCEL_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "RENDER_API_KEY": {
+   "count": 0,
+   "files": []
+  }
+ },
+ "server_app_html_rsc": {
+  "JEV_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "GOOGLE_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "OPENAI_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "CLAUDE_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "VERCEL_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "RENDER_API_KEY": {
+   "count": 0,
+   "files": []
+  }
+ },
+ "server_all": {
+  "JEV_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "GOOGLE_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "OPENAI_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "CLAUDE_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "VERCEL_API_KEY": {
+   "count": 0,
+   "files": []
+  },
+  "RENDER_API_KEY": {
+   "count": 0,
+   "files": []
+  }
+ },
+ "git_tracked": {
+  "JEV_KEY": [],
+  "GOOGLE_API_KEY": [],
+  "OPENAI_API_KEY": [],
+  "CLAUDE_API_KEY": [],
+  "VERCEL_API_KEY": [],
+  "RENDER_API_KEY": []
+ },
+ "files_scanned": {
+  "static": 23,
+  "server_app": 169,
+  "server": 445,
+  "git_tracked": 1825
+ },
+ "key_names": [
+  "JEV_KEY",
+  "GOOGLE_API_KEY",
+  "OPENAI_API_KEY",
+  "CLAUDE_API_KEY",
+  "VERCEL_API_KEY",
+  "RENDER_API_KEY"
+ ]
+}

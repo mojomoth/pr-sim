@@ -1,5 +1,6 @@
 "use client";
 import { useId, useRef, useState } from "react";
+import { formatBytes } from "@/features/slide/pdf";
 import { Alert, Close, FileDoc, Refresh, Upload } from "./Icons";
 
 type Status = "idle" | "uploading" | "error";
@@ -10,12 +11,6 @@ export interface UploadedFile {
   pages: number;
   size: number;
   sample?: boolean;
-}
-
-function formatBytes(n: number): string {
-  if (n < 1024) return `${n}B`;
-  if (n < 1024 * 1024) return `${Math.round(n / 1024)}KB`;
-  return `${(n / 1024 / 1024).toFixed(1)}MB`;
 }
 
 /**
@@ -144,7 +139,7 @@ export function UploadRow({
           <span className="shrink-0 text-secondary tabular">업로드 중 {progress}%</span>
         </div>
         <div className="h-1.5 overflow-hidden rounded-full bg-line" aria-hidden="true">
-          <div className="h-full rounded-full bg-ink transition-[width] duration-150" style={{ width: `${progress}%` }} />
+          <div className="h-full w-full rounded-full bg-ink transition-transform duration-150" style={{ transform: `translateX(${progress - 100}%)` }} />
         </div>
       </div>
     );

@@ -5,14 +5,13 @@ import type { KeyNumber, LintIssue, WikiPage } from "@/server/wiki/types";
 import type { AnswerAssessment, ContextPack, Evidence, GeneratedQuestion } from "@/server/question/types";
 import type { Report } from "@/server/report/types";
 
-export type { DocInput, DocRole, Gender, JudgePersona, QAItem, Temperament, TranscriptSentence } from "@/server/types";
-export type { KeyNumber, LintIssue, WikiPage } from "@/server/wiki/types";
-export type { JudgeEvent, JudgeOut, RollAvoid } from "@/server/judge/types";
-export type { AnswerAssessment, ContextPack, Evidence, FollowUpRequest, FollowUpResult, GenerateEvent, GenerateInput, GeneratedQuestion, QJudge } from "@/server/question/types";
-export type { ProgressEvent, Report, ReportInput } from "@/server/report/types";
+export type { DocInput, DocRole, Temperament, TranscriptSentence } from "@/server/types";
+export type { RollAvoid } from "@/server/judge/types";
+export type { GeneratedQuestion, QJudge } from "@/server/question/types";
+export type { Report, ReportInput } from "@/server/report/types";
 
-export type SessionStatus = "setup" | "presentation" | "qa" | "report" | "done";
-export type Phase = "presentation" | "qa";
+type SessionStatus = "setup" | "presentation" | "qa" | "report" | "done";
+type Phase = "presentation" | "qa";
 
 export interface StoredDoc {
   role: DocRole;

@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-13",
+  "platform": "vercel",
+  "team": "mojomoths-projects (team_0EwRO6N2JgbZjtMzdfPPWx1J), plan hobby",
+  "project": { "name": "pr-sim", "id": "prj_k7BRGtfRXCDJVnwQURgkmU1h7Tu2", "framework": "nextjs", "rootDirectory": null, "deployFrom": "CLI --cwd app (so project rootDirectory stays empty)", "nodeVersion": "26.x", "fluid": true, "functionDefaultRegions": ["icn1"], "gitLink": "none (CLI link auto-connected mojomoth/pr-sim; disconnected immediately with `vercel git disconnect`)" },
+  "env": { "production+preview": ["GOOGLE_API_KEY", "OPENAI_API_KEY", "CLAUDE_API_KEY"], "type": "sensitive", "notUploaded": ["VERCEL_API_KEY", "RENDER_API_KEY", "JEV_KEY"] },
+  "deployment": { "id": "dpl_EbiiHdQSNR3f34W4Bq8PtBG7KEky", "deploymentUrl": "https://pr-73roxo1ar-mojomoths-projects.vercel.app", "productionUrl": "https://pr-sim-lake.vercel.app", "aliases": ["pr-sim-lake.vercel.app", "pr-sim-mojomoths-projects.vercel.app"], "readyState": "READY", "regions": ["icn1"], "build": "pnpm 11.6.0 install 16s, next build 16.4.6 ok, 45s" },
+  "maxDuration": { "stt/token": 10, "tts": 60, "questions/followup": 60, "judges": 120, "questions": 120, "wiki": 300, "report": 300, "note": "Hobby + fluid compute limit 300s; build accepted all, no route changed" },
+  "smoke": {
+    "GET /": "200 (x-vercel-id icn1)",
+    "POST /api/stt/token Origin=prod": "200 application/json, token len 76, model gemini-3.5-transcribe-live, cache-control no-store",
+    "POST /api/stt/token no Origin": "403",
+    "POST /api/tts valid": "503 providers_unavailable (EXTERNAL: Gemini TTS 429 daily quota + OpenAI 429 credit_balance_exhausted; same 503 on localhost:3000)",
+    "POST /api/tts bad body": "400 bad_request (zod issues)",
+    "POST /api/tts empty body": "400 bad_request",
+    "POST /api/judges": "200 NDJSON with slot error providers_unavailable (OpenAI credits exhausted)",
+    "pages/static": "/, /setup, /history, /present, /qa, /result, pdf.worker, worklet, sample pdf all 200",
+    "client bundle key scan": "0 occurrences of any provider key"
+  },
+  "incidents": [
+    "`vercel link` appended a VERCEL_OIDC_TOKEN block to app/.env.local (symlink to root .env); removed the 3 added lines, root .env restored to original 6 keys",
+    "`vercel link --yes` auto-connected the GitHub repo to the Vercel project; disconnected (no GitHub repo settings touched)"
+  ]
+}

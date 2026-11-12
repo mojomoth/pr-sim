@@ -35,16 +35,28 @@ function reportInput(s: SessionRecord): ReportInput {
   };
 }
 
+/** setup/presentation/qa = the practice is not over yet; only report/done sessions get a report. */
+const isUnfinished = (s: SessionRecord) => s.status === "setup" || s.status === "presentation" || s.status === "qa";
+
+/** Where 이어하기 goes for an unfinished session (same targets as 07 history). */
+function resumeHref(s: SessionRecord): string {
+  if (s.status === "setup") return `/setup?s=${s.id}`;
+  if (s.status === "qa" || s.resume?.phase === "qa") return `/qa?s=${s.id}`;
+  return `/present?s=${s.id}`;
+}
+
 export function ResultScreen() {
   const params = useSearchParams();
   const id = params.get("s") ?? "";
   const tab = params.get("tab");
   const [load, setLoad] = useState<Load>({ state: "loading" });
   const [gen, setGen] = useState<Gen | null>(null);
+  const [attempt, setAttempt] = useState(0);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     let alive = true;
+    setLoad({ state: "loading" });
     if (!id) {
       setLoad({ state: "missing" });
       return;
@@ -55,10 +67,10 @@ export function ResultScreen() {
     return () => {
       alive = false;
     };
-  }, [id]);
+  }, [id, attempt]);
 
   const session = load.state === "ready" ? load.session : null;
-  const canReport = !!session && !session.report && (!!session.docs.presentation || !!session.docs.proposal) && (session.transcript.length > 0 || session.qa.length > 0);
+  const canReport = !!session && !session.report && !isUnfinished(session) && (!!session.docs.presentation || !!session.docs.proposal) && (session.transcript.length > 0 || session.qa.length > 0);
 
   const generate = useCallback(async (s: SessionRecord) => {
     abortRef.current?.abort();
@@ -134,19 +146,44 @@ export function ResultScreen() {
   }, [canReport, session?.id]);
 
   if (load.state === "loading") return <Screen><StepHeader title="결과" backHref="/history" /><p className="mt-10 text-center text-[15px] text-secondary">불러오는 중…</p></Screen>;
-  if (load.state === "missing" || load.state === "failed")
+  if (load.state === "missing")
     return (
-      <Notice title={load.state === "missing" ? "기록을 찾을 수 없어요" : "기록을 불러오지 못했어요"} body={load.state === "missing" ? "삭제됐거나 다른 기기에서 진행한 연습이에요. 이 기기에 저장된 기록에서 다시 골라 주세요." : load.message}>
-        <Button href="/history">기록 보러 가기</Button>
+      <Notice title="기록을 찾을 수 없어요" body="삭제됐거나 다른 기기에서 진행한 연습이에요. 이 기기에 저장된 기록에서 다시 골라 주세요.">
+        <Button href="/history">연습 기록으로</Button>
+      </Notice>
+    );
+  // Storage could not be read (private mode, quota, another tab): the record may well exist, so offer a retry.
+  if (load.state === "failed")
+    return (
+      <Notice title="기록을 불러오지 못했어요" body={load.message}>
+        <div className="flex flex-col gap-2">
+          <Button onClick={() => setAttempt((n) => n + 1)}>다시 시도</Button>
+          <div className="flex justify-center">
+            <TextLink href="/history">기록으로 돌아가기</TextLink>
+          </div>
+        </div>
       </Notice>
     );
 
   const s = load.session;
+  if (!s.report && isUnfinished(s))
+    return (
+      <Notice title="아직 끝나지 않은 연습이에요" body="결과는 발표와 질의응답을 모두 마친 뒤에 만들어요. 멈춘 곳에서 이어서 진행해 주세요.">
+        <div className="flex flex-col gap-2">
+          <Button href={resumeHref(s)} arrow>
+            이어하기
+          </Button>
+          <div className="flex justify-center">
+            <TextLink href="/history">기록으로 돌아가기</TextLink>
+          </div>
+        </div>
+      </Notice>
+    );
   if (!s.report) {
     if (!canReport)
       return (
         <Notice title="아직 결과를 만들 수 없어요" body="발표나 질의응답 기록이 있어야 평가할 수 있어요. 연습을 마친 뒤에 다시 확인해 주세요.">
-          <Button href="/history">기록 보러 가기</Button>
+          <Button href="/history">연습 기록으로</Button>
         </Notice>
       );
     return <Progress gen={gen} onRetry={() => void generate(s)} />;
@@ -163,7 +200,7 @@ function Notice({ title, body, children }: { title: string; body: string; childr
           <Alert size={26} />
         </span>
         <h2 className="mt-5 text-[24px] font-bold leading-8 tracking-[-0.6px]">{title}</h2>
-        <p className="mt-2 max-w-[32ch] text-[15px] leading-[23px] text-secondary">{body}</p>
+        <p className="mt-2 max-w-[32ch] break-keep text-[15px] leading-[23px] text-secondary">{body}</p>
         <div className="mt-8 w-full">{children}</div>
       </div>
     </Screen>

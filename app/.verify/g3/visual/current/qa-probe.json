@@ -1,0 +1,65 @@
+[
+  {
+    "t": 3,
+    "scrollTop": 0,
+    "maxScroll": 394,
+    "ansBottom": 989,
+    "barTop": 696,
+    "hiddenPx": 293,
+    "chars": 213
+  },
+  {
+    "t": 6,
+    "scrollTop": 0,
+    "maxScroll": 420,
+    "ansBottom": 1015,
+    "barTop": 696,
+    "hiddenPx": 319,
+    "chars": 229
+  },
+  {
+    "t": 9,
+    "scrollTop": 0,
+    "maxScroll": 446,
+    "ansBottom": 1041,
+    "barTop": 696,
+    "hiddenPx": 345,
+    "chars": 252
+  },
+  {
+    "t": 12,
+    "scrollTop": 0,
+    "maxScroll": 472,
+    "ansBottom": 1067,
+    "barTop": 696,
+    "hiddenPx": 371,
+    "chars": 271
+  },
+  {
+    "t": 15,
+    "scrollTop": 0,
+    "maxScroll": 498,
+    "ansBottom": 1093,
+    "barTop": 696,
+    "hiddenPx": 397,
+    "chars": 292
+  },
+  {
+    "t": 18,
+    "scrollTop": 0,
+    "maxScroll": 498,
+    "ansBottom": 1093,
+    "barTop": 696,
+    "hiddenPx": 397,
+    "chars": 303
+  },
+  {
+    "t": "scrolled-to-end",
+    "scrollTop": 498,
+    "maxScroll": 498,
+    "ansBottom": 595,
+    "barTop": 696,
+    "hiddenPx": 0,
+    "chars": 306
+  }
+]

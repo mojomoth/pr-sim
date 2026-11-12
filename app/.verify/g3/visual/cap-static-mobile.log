@@ -1,0 +1,5 @@
+01-landing captured []
+02-setup captured [{"tag":"INPUT","text":"file","w":1,"h":1},{"tag":"INPUT","text":"file","w":1,"h":1},{"tag":"BUTTON","text":"친절함","w":60,"h":36},{"tag":"BUTTON","text":"빡셈","w":48,"h":36},{"tag":"BUTTON","text":"공격적"
+05-results captured [{"tag":"BUTTON","text":"발표자료 3쪽 보기","w":10,"h":24}]
+06-feedback captured [{"tag":"BUTTON","text":"질의응답 00:10 답변 원문 보기","w":83,"h":32},{"tag":"SUMMARY","text":"항목별 점수와 평가 근거","w":300,"h":21},{"tag":"BUTTON","text":"제안자료 57쪽 보기","w":56,"h":28},{"tag":"BUTTON","text":"발표자료 3쪽
+07-history captured []

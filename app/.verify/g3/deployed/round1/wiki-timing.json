@@ -1,0 +1,86 @@
+{
+  "proposal58": {
+    "status": 200,
+    "ct": "application/x-ndjson; charset=utf-8",
+    "vercelError": null,
+    "headersMs": 211,
+    "totalMs": 214,
+    "events": 3,
+    "first": {
+      "ms": 214,
+      "type": "progress",
+      "phase": "extracting",
+      "chunksDone": 0,
+      "chunksTotal": 0
+    },
+    "last": {
+      "ms": 214,
+      "type": "error",
+      "code": "providers_unavailable",
+      "message": "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+    },
+    "progress": [
+      {
+        "ms": 214,
+        "type": "progress",
+        "phase": "extracting",
+        "chunksDone": 0,
+        "chunksTotal": 0
+      },
+      {
+        "ms": 214,
+        "type": "progress",
+        "phase": "extracting",
+        "chunksDone": 0,
+        "chunksTotal": 8
+      }
+    ]
+  },
+  "presentation12": {
+    "status": 200,
+    "ct": "application/x-ndjson; charset=utf-8",
+    "vercelError": null,
+    "headersMs": 41,
+    "totalMs": 44,
+    "events": 3,
+    "first": {
+      "ms": 44,
+      "type": "progress",
+      "phase": "extracting",
+      "chunksDone": 0,
+      "chunksTotal": 0
+    },
+    "last": {
+      "ms": 44,
+      "type": "error",
+      "code": "providers_unavailable",
+      "message": "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+    },
+    "progress": [
+      {
+        "ms": 44,
+        "type": "progress",
+        "phase": "extracting",
+        "chunksDone": 0,
+        "chunksTotal": 0
+      },
+      {
+        "ms": 44,
+        "type": "progress",
+        "phase": "extracting",
+        "chunksDone": 0,
+        "chunksTotal": 2
+      }
+    ]
+  },
+  "pages121": {
+    "status": 413,
+    "body": "{\"error\":{\"code\":\"too_large\",\"message\":\"자료가 너무 길어요. 최대 120쪽·15만 자까지 쓸 수 있어요.\"}}"
+  },
+  "body4_2mb": {
+    "sentBytes": 4200387,
+    "status": 413,
+    "ct": "application/json",
+    "body": "{\"error\":{\"code\":\"too_large\",\"message\":\"보낼 자료가 너무 커요. 쪽수가 적은 자료로 다시 시도해 주세요.\"}}"
+  }
+}

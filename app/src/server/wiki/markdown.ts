@@ -51,7 +51,7 @@ export function buildFrontmatter(fm: Frontmatter): string {
 }
 
 /** [[slug]] or [[slug|label]] → slugs */
-export const WIKILINK_RE = /\[\[([^\]|#\n]+)(?:#[^\]|\n]*)?(?:\|([^\]\n]+))?\]\]/g;
+const WIKILINK_RE = /\[\[([^\]|#\n]+)(?:#[^\]|\n]*)?(?:\|([^\]\n]+))?\]\]/g;
 
 export function extractLinks(md: string): string[] {
   const out = new Set<string>();

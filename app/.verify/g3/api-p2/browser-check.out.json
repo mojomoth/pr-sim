@@ -1,0 +1,33 @@
+{
+  "result": {
+    "tts": {
+      "status": 200,
+      "provider": "openai",
+      "model": "gpt-4o-mini-tts",
+      "duration": "2.45",
+      "acao": null,
+      "bytes": 117644
+    },
+    "big": {
+      "status": 413,
+      "body": {
+        "error": {
+          "code": "too_large",
+          "message": "요청 본문이 너무 커요. 4MB 이하로 보내 주세요."
+        }
+      }
+    },
+    "options": {
+      "status": 204,
+      "allow": "OPTIONS, POST",
+      "acao": null
+    },
+    "token": {
+      "status": 200,
+      "hasToken": true
+    }
+  },
+  "logs": [
+    "[error] Failed to load resource: the server responded with a status of 413 (Payload Too Large)"
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "mobile": {
+    "summaryModelLine": "평가 모델 OpenAI gpt-6-astra · 2026. 11. 13. 오전 2:41",
+    "feedbackModelLine": "평가 모델 OpenAI gpt-6-astra · 2026. 11. 13. 오전 2:41",
+    "nav": {
+      "navCenter": 195,
+      "next": {
+        "text": "다음 질문 보기",
+        "visible": "visible",
+        "left": 127,
+        "right": 263,
+        "h": 44
+      },
+      "nextCenter": 195,
+      "prev": {
+        "text": "이전 질문",
+        "visible": "hidden",
+        "left": 24,
+        "right": 106,
+        "h": 44
+      }
+    },
+    "summary": {
+      "h": 48,
+      "w": 332,
+      "display": "flex",
+      "listStyle": "none",
+      "marker": "normal",
+      "hasChevron": true
+    },
+    "chips": [
+      {
+        "label": "질의응답 00:10 답변 원문 보기",
+        "visibleH": 32,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      },
+      {
+        "label": "제안 자료 57쪽 보기",
+        "visibleH": 32,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      },
+      {
+        "label": "제안 자료 58쪽 보기",
+        "visibleH": 32,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      },
+      {
+        "label": "발표 자료 3쪽 보기",
+        "visibleH": 32,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      }
+    ],
+    "detailsOpen": true,
+    "navQ2": {
+      "navCenter": 195,
+      "prev": {
+        "text": "이전 질문",
+        "visible": "visible",
+        "left": 24,
+        "right": 106
+      },
+      "next": {
+        "text": "다음 질문 보기",
+        "visible": "visible",
+        "left": 127,
+        "right": 263
+      },
+      "nextCenter": 195
+    },
+    "missingLabel": true,
+    "transcriptTitle": "질의응답 중 말한 내용",
+    "transcriptDialogText": "질의응답 중 말한 내용",
+    "analysis": {
+      "발표력분석": true,
+      "전달지표점수": true,
+      "잘한점": true,
+      "아쉬운점": true,
+      "다음연습에서는": true,
+      "old": [
+        "전사"
+      ]
+    },
+    "lite": {
+      "notice": "경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.8-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.",
+      "model": "평가 모델 Google gemini-3.8-flash-lite ×7, OpenAI gpt-6-astra ×2 (OpenAI 크레딧 소진 → 폴백) · 2026. 11. 13. 오전 2:41"
+    },
+    "missingButton": [
+      "연습 기록으로"
+    ],
+    "consoleErrors": []
+  },
+  "desktop": {
+    "summaryModelLine": "평가 모델 OpenAI gpt-6-astra · 2026. 11. 13. 오전 2:41",
+    "feedbackModelLine": "평가 모델 OpenAI gpt-6-astra · 2026. 11. 13. 오전 2:41",
+    "nav": {
+      "navCenter": 720,
+      "next": {
+        "text": "다음 질문 보기",
+        "visible": "visible",
+        "left": 657,
+        "right": 783,
+        "h": 41
+      },
+      "nextCenter": 720,
+      "prev": {
+        "text": "이전 질문",
+        "visible": "hidden",
+        "left": 562,
+        "right": 638,
+        "h": 41
+      }
+    },
+    "summary": {
+      "h": 44,
+      "w": 308,
+      "display": "flex",
+      "listStyle": "none",
+      "marker": "normal",
+      "hasChevron": true
+    },
+    "chips": [
+      {
+        "label": "질의응답 00:10 답변 원문 보기",
+        "visibleH": 30,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      },
+      {
+        "label": "제안 자료 57쪽 보기",
+        "visibleH": 30,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      },
+      {
+        "label": "제안 자료 58쪽 보기",
+        "visibleH": 30,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      },
+      {
+        "label": "발표 자료 3쪽 보기",
+        "visibleH": 30,
+        "hitAbove5": true,
+        "hitBelow5": true,
+        "hitAbove7": false
+      }
+    ],
+    "detailsOpen": true,
+    "navQ2": {
+      "navCenter": 720,
+      "prev": {
+        "text": "이전 질문",
+        "visible": "visible",
+        "left": 562,
+        "right": 638
+      },
+      "next": {
+        "text": "다음 질문 보기",
+        "visible": "visible",
+        "left": 657,
+        "right": 783
+      },
+      "nextCenter": 720
+    },
+    "missingLabel": true,
+    "transcriptTitle": "질의응답 중 말한 내용",
+    "transcriptDialogText": "질의응답 중 말한 내용",
+    "analysis": {
+      "발표력분석": true,
+      "전달지표점수": true,
+      "잘한점": true,
+      "아쉬운점": true,
+      "다음연습에서는": true,
+      "old": [
+        "전사"
+      ]
+    },
+    "lite": {
+      "notice": "경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.8-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.",
+      "model": "평가 모델 Google gemini-3.8-flash-lite ×7, OpenAI gpt-6-astra ×2 (OpenAI 크레딧 소진 → 폴백) · 2026. 11. 13. 오전 2:41"
+    },
+    "missingButton": [
+      "연습 기록으로"
+    ],
+    "consoleErrors": []
+  }
+}

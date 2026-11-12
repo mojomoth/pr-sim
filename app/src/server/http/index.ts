@@ -1,11 +1,10 @@
 import "server-only";
 import type { z } from "zod";
-import type { ApiErrorBody, ApiErrorCode } from "../types";
+import { MAX_BODY_BYTES, waitText, type ApiErrorBody, type ApiErrorCode } from "../types";
 
-// Shared plumbing for every /api route: origin check, in-memory rate limit, 4MB JSON body cap + zod,
+// Shared plumbing for every /api route: origin check (+ ALLOWED_ORIGINS CORS), in-memory rate limit, 4MB JSON body cap + zod,
 // one error shape ({ error: { code, message, retryAfterSec? } }, Korean message) and NDJSON streaming.
 
-export const MAX_BODY_BYTES = 4_000_000;
 export const NO_STORE = { "cache-control": "no-store" } as const;
 
 const STATUS: Record<ApiErrorCode, number> = {
@@ -32,22 +31,17 @@ const DEFAULT_MESSAGE: Record<ApiErrorCode, string> = {
 
 const RETRYABLE: ReadonlySet<ApiErrorCode> = new Set(["rate_limited", "providers_unavailable", "timeout", "upstream"]);
 
-/** "30초" · "약 2분" · "약 3시간" — retry hints people can read (not raw seconds). */
-export function waitText(sec: number): string {
-  if (sec < 60) return `${Math.max(1, Math.round(sec))}초`;
-  if (sec < 3600) return `약 ${Math.round(sec / 60)}분`;
-  return `약 ${Math.round(sec / 3600)}시간`;
-}
-
+// Plain fields (no constructor parameter properties) so Node's type stripping can load this file in tests.
 export class ApiError extends Error {
-  constructor(
-    public code: ApiErrorCode,
-    message?: string,
-    public retryAfterSec?: number,
-    public issues?: { path: string; message: string }[],
-  ) {
+  code: ApiErrorCode;
+  retryAfterSec?: number;
+  issues?: { path: string; message: string }[];
+  constructor(code: ApiErrorCode, message?: string, retryAfterSec?: number, issues?: { path: string; message: string }[]) {
     super(message ?? (code === "rate_limited" && retryAfterSec ? `요청이 많아요. ${waitText(retryAfterSec)} 뒤 다시 시도해 주세요.` : DEFAULT_MESSAGE[code]));
     this.name = "ApiError";
+    this.code = code;
+    this.retryAfterSec = retryAfterSec;
+    this.issues = issues;
   }
 }
 
@@ -75,12 +69,25 @@ export function errorResponse(e: unknown, tag: string): Response {
 }
 
 /**
+ * Origins outside this host that may call the API (e.g. a future native build: `capacitor://localhost`),
+ * from env ALLOWED_ORIGINS (comma list, exact `scheme://host[:port]`). Unset → same-origin only.
+ */
+function allowedOrigin(req: Request): string | null {
+  const origin = req.headers.get("origin");
+  if (!origin || !process.env.ALLOWED_ORIGINS) return null;
+  const list = process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim().replace(/\/+$/, "")).filter(Boolean);
+  return list.includes(origin) ? origin : null;
+}
+
+/**
  * Reject cross-site calls (provider quota must not be usable by other sites).
+ * An Origin on the ALLOWED_ORIGINS list always passes.
  * lenient: a request without Fetch-Metadata (curl, server-to-server) passes.
  * strict (token): needs `sec-fetch-site: same-origin`, or an Origin equal to this host.
  * Headers can be forged by a non-browser client; real protection needs user auth.
  */
-export function sameOrigin(req: Request, strict = false): boolean {
+function sameOrigin(req: Request, strict = false): boolean {
+  if (allowedOrigin(req)) return true;
   const site = req.headers.get("sec-fetch-site");
   if (site) return site === "same-origin" || (!strict && site === "none");
   if (!strict) return true;
@@ -92,6 +99,38 @@ export function sameOrigin(req: Request, strict = false): boolean {
   } catch {
     return false;
   }
+}
+
+const EXPOSE = "x-provider, x-model, x-voice, x-duration, retry-after";
+
+/** Wrap a route's POST so responses to an allow-listed Origin carry CORS headers (no-op when ALLOWED_ORIGINS is unset). */
+export function cors(handler: (req: Request) => Promise<Response>): (req: Request) => Promise<Response> {
+  return async (req) => {
+    const res = await handler(req);
+    const origin = allowedOrigin(req);
+    if (origin) {
+      res.headers.set("access-control-allow-origin", origin);
+      res.headers.set("access-control-expose-headers", EXPOSE);
+      res.headers.append("vary", "Origin");
+    }
+    return res;
+  };
+}
+
+/** OPTIONS for every route: CORS preflight for an allow-listed Origin, otherwise what Next answers by default (204 + Allow). */
+export function preflight(req: Request): Response {
+  const origin = allowedOrigin(req);
+  const headers: Record<string, string> = { allow: "OPTIONS, POST" };
+  if (origin) {
+    Object.assign(headers, {
+      "access-control-allow-origin": origin,
+      "access-control-allow-methods": "POST, OPTIONS",
+      "access-control-allow-headers": req.headers.get("access-control-request-headers") ?? "content-type",
+      "access-control-max-age": "600",
+      vary: "Origin",
+    });
+  }
+  return new Response(null, { status: 204, headers });
 }
 
 // Fixed-window limit per client and route (instance memory: a soft guard only on serverless).
@@ -127,12 +166,42 @@ export function guard(req: Request, bucket: Bucket, strict = false): Response | 
   return errorResponse(new ApiError("rate_limited", undefined, Math.max(1, Math.ceil((w.start + WINDOW_MS - now) / 1000))), bucket);
 }
 
-/** Read a JSON body (≤ 4MB) and validate it. Throws ApiError too_large / bad_request. */
+const TOO_LARGE_BODY = "보낼 자료가 너무 커요. 쪽수가 적은 자료로 다시 시도해 주세요.";
+
+/** Body bytes, stopping as soon as MAX_BODY_BYTES is passed (a chunked request has no content-length). */
+async function readBody(req: Request): Promise<Uint8Array> {
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) throw new ApiError("too_large", TOO_LARGE_BODY);
+  if (!req.body) return new Uint8Array();
+  const reader = req.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_BODY_BYTES) {
+        reader.cancel().catch(() => {});
+        throw new ApiError("too_large", TOO_LARGE_BODY);
+      }
+      chunks.push(value);
+    }
+  } catch (e) {
+    if (e instanceof ApiError) throw e;
+    throw new ApiError("bad_request");
+  }
+  const buf = new Uint8Array(size);
+  let at = 0;
+  for (const c of chunks) {
+    buf.set(c, at);
+    at += c.byteLength;
+  }
+  return buf;
+}
+
+/** Read a JSON body (≤ 4MB, enforced while streaming) and validate it. Throws ApiError too_large / bad_request. */
 export async function readJson<S extends z.ZodType>(req: Request, schema: S): Promise<z.infer<S>> {
-  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) throw new ApiError("too_large", "요청 본문이 너무 커요. 4MB 이하로 보내 주세요.");
-  const buf = await req.arrayBuffer().catch(() => null);
-  if (!buf) throw new ApiError("bad_request");
-  if (buf.byteLength > MAX_BODY_BYTES) throw new ApiError("too_large", "요청 본문이 너무 커요. 4MB 이하로 보내 주세요.");
+  const buf = await readBody(req);
   let raw: unknown;
   try {
     raw = JSON.parse(new TextDecoder().decode(buf));

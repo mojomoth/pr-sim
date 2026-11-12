@@ -48,7 +48,7 @@ export function HeaderPill({ href, onClick, children, label, outline }: { href?:
 }
 
 /** Back chevron: `onClick` (e.g. confirm before leaving a live session) > `href` > history back. */
-export function BackButton({ href, onClick, label = "뒤로 가기" }: { href?: string; onClick?: () => void; label?: string }) {
+function BackButton({ href, onClick, label = "뒤로 가기" }: { href?: string; onClick?: () => void; label?: string }) {
   const router = useRouter();
   const cls = "-ml-2 inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-surface";
   if (href && !onClick)

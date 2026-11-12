@@ -1,0 +1,25 @@
+{
+  "schema": {
+    "inChars": 9000,
+    "outChars": 4022,
+    "tail": "는 톤당 18만 원이고 공정 수율 …(답변이 길어 뒤 5,000자 생략)",
+    "threadOutChars": 4022,
+    "shortUnchanged": true
+  },
+  "live": {
+    "status": 200,
+    "ms": 5208,
+    "decision": "followup",
+    "verdict": "부분",
+    "remark": "산식이 빠져 있습니다.",
+    "usage": {
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "inputTokens": 6649,
+      "cachedInputTokens": 0,
+      "outputTokens": 312,
+      "ms": 5172,
+      "ttftMs": 2742
+    }
+  }
+}

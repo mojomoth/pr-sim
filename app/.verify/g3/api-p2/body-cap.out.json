@@ -1,0 +1,30 @@
+{
+  "chunked6mb": {
+    "status": 413,
+    "te": "chunked(auto)",
+    "cl": null,
+    "body": "{\"error\":{\"code\":\"too_large\",\"message\":\"요청 본문이 너무 커요. 4MB 이하로 보내 주세요.\"}}"
+  },
+  "chunkedSmallInvalid": {
+    "status": 400,
+    "te": "chunked(auto)",
+    "cl": null,
+    "body": "{\"error\":{\"code\":\"bad_request\",\"message\":\"요청 형식이 올바르지 않아요.\",\"issues\":[{\"path\":\"gender\",\"message\":\"Invalid option: expected one of \\\"male\\\"|\\\"female\\\"\"},{\"path\":\"age\",\"message\":\"Invalid input: expected number, received undefined\"},{\"path\":\"temperament\",\"message\":\"Invalid option: expected one of \\\"fri"
+  },
+  "chunkedNotJson": {
+    "status": 400,
+    "te": "chunked(auto)",
+    "cl": null,
+    "body": "{\"error\":{\"code\":\"bad_request\",\"message\":\"요청 본문이 올바른 JSON이 아니에요.\"}}"
+  },
+  "emptyBody": {
+    "status": 400,
+    "te": "chunked(auto)",
+    "cl": null,
+    "body": "{\"error\":{\"code\":\"bad_request\",\"message\":\"요청 본문이 올바른 JSON이 아니에요.\"}}"
+  },
+  "contentLengthOver": {
+    "status": 413,
+    "body": "{\"error\":{\"code\":\"too_large\",\"message\":\"요청 본문이 너무 커요. 4MB 이하로 보내 주세요.\"}}"
+  }
+}

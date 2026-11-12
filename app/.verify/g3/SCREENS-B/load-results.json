@@ -1,0 +1,22 @@
+[
+  {
+    "name": "present: IndexedDB read error → 기록을 불러오지 못했어요 (not 기록을 찾을 수 없어요)",
+    "ok": true
+  },
+  {
+    "name": "present: 다시 시도 after storage recovers → screen loads",
+    "ok": true
+  },
+  {
+    "name": "qa: IndexedDB read error → 기록을 불러오지 못했어요 (not 기록을 찾을 수 없어요)",
+    "ok": true
+  },
+  {
+    "name": "qa: 다시 시도 after storage recovers → screen loads",
+    "ok": true
+  },
+  {
+    "name": "qa: unknown id still → 기록을 찾을 수 없어요",
+    "ok": true
+  }
+]

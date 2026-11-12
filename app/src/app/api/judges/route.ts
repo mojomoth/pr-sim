@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { MODELS } from "@/server/ai";
-import { errorResponse, guard, ndjson, readJson, toApiError } from "@/server/http";
+import { cors, errorResponse, guard, ndjson, preflight, readJson, toApiError } from "@/server/http";
 import { startPanel } from "@/server/judge/generate";
 import type { JudgeEvent } from "@/server/judge/types";
 
@@ -23,7 +23,9 @@ const Body = z.object({
 
 // POST /api/judges { temperaments (1–3), avoid? } → application/x-ndjson, one line per event:
 //   {type:"judge", slot, judge: JudgeOut, model} · {type:"error", slot, code, message} · {type:"done", ms}
-export async function POST(req: Request) {
+export const OPTIONS = preflight;
+
+export const POST = cors(async (req: Request) => {
   const denied = guard(req, "judges");
   if (denied) return denied;
   let body: z.infer<typeof Body>;
@@ -48,4 +50,4 @@ export async function POST(req: Request) {
     );
     send({ type: "done", ms: Date.now() - t0 });
   });
-}
+});

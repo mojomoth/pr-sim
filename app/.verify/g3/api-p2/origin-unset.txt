@@ -1,0 +1,21 @@
+## OPTIONS /api/tts (ALLOWED_ORIGINS unset) — before this change: 204, allow: OPTIONS, POST
+HTTP/1.1 204 No Content
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+allow: OPTIONS, POST
+
+## cross-site POST /api/tts (Origin capacitor://localhost, sec-fetch-site cross-site)
+HTTP/1.1 403 Forbidden
+Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+cache-control: no-store
+content-type: application/json
+Transfer-Encoding: chunked
+
+{"error":{"code":"forbidden","message":"허용되지 않은 요청이에요."}}
+
+## token: no origin (strict)
+403
+## token: foreign Origin, no fetch-metadata
+403
+## token: same-origin fetch-metadata (status + header names only)
+HTTP/1.1 200 OK
+Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding

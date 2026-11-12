@@ -1,0 +1,59 @@
+[
+  {
+    "name": "present: listening",
+    "ok": true
+  },
+  {
+    "name": "present: confirm open → transcriber stopped, clock paused",
+    "ok": true,
+    "detail": {
+      "st": "내 발표 · 대기 중",
+      "tA": "00:32",
+      "tB": "00:32"
+    }
+  },
+  {
+    "name": "present: confirm closed → listening again",
+    "ok": true
+  },
+  {
+    "name": "present: time-up save failure → retry notice, no 발표 시간이 끝났어요 dialog",
+    "ok": true
+  },
+  {
+    "name": "present: status not advanced while failing",
+    "ok": true,
+    "detail": "presentation"
+  },
+  {
+    "name": "present: retry → saved (status qa) and only then the 질의응답 시작하기 dialog",
+    "ok": true,
+    "detail": {
+      "status": "qa"
+    }
+  },
+  {
+    "name": "present: transcript saved incl. sentences said while the save was failing",
+    "ok": true,
+    "detail": {
+      "n": 9,
+      "t": [
+        0.7,
+        2.1,
+        5.8,
+        8.9,
+        10.4,
+        14.1,
+        20.7,
+        28.8,
+        33.8
+      ],
+      "bubble": "내 발표 · 발표 종료\n국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다."
+    }
+  },
+  {
+    "name": "present: → /qa",
+    "ok": true,
+    "detail": "http://localhost:3000/qa?s=s_g3pr"
+  }
+]

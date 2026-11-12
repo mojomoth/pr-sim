@@ -1,0 +1,26 @@
+## GET /
+HTTP/2 200 
+x-vercel-id: icn1::d7hxg-1794513444003-208d9be7453a
+200 text/html; charset=utf-8 0.547262s
+## POST /api/stt/token (Origin=https://pr-sim-lake.vercel.app)
+200 application/json
+cache-control: no-store
+x-vercel-id: icn1::icn1::d7hxg-1794513444559-92aec8deb565
+keys ['config', 'expiresAt', 'model', 'token'] model gemini-3.5-transcribe-live expiresAt 2026-11-12T20:27:25.070Z token_len 76
+## POST /api/stt/token no origin (expect 403)
+403
+## POST /api/tts short line
+400 application/json 202B 0.597837s
+x-vercel-id: icn1::icn1::w26tk-1794513446388-746bfc9e5cb6
+00000000: 7b22 6572 726f 7222 3a7b 2263            {"error":{"c
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"temperament","message":"Invalid option: expected one of \"friendly\"|\"strict\"|\"aggressive\""}]}}## POST /api/tts bad body (expect 400)
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"text","message":"Too small: expected string to have >=1 characters"},{"path":"gender","message":"Invalid option: expected one of \"male\"|\"female\""},{"path":"age","message":"Invalid input: expected number, received undefined"},{"path":"temperament","message":"Invalid option: expected one of \"friendly\"|\"strict\"|\"aggressive\""}]}}
+400 application/json
+## POST /api/tts empty body
+{"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}}
+400
+## POST /api/tts short line (valid temperament)
+503 application/json 152B 2.215088s
+x-vercel-id: icn1::icn1::r4nfz-1794513451602-e3d64db21e90
+00000000: 7b22 6572 726f 7222 3a7b 2263            {"error":{"c
+{"error":{"code":"providers_unavailable","message":"오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요."}}

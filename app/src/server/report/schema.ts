@@ -1,21 +1,12 @@
 import "server-only";
 import { z } from "zod";
-import { DocIn, TranscriptIn } from "../wiki/schema";
+import { DocIn, LintIssueIn, TranscriptIn } from "../wiki/schema";
 import type { ReportInput } from "./types";
 
 const JudgeIn = z.object({
   id: z.string().min(1).max(64),
   name: z.string().min(1).max(100),
   temperament: z.enum(["friendly", "strict", "aggressive"]),
-});
-
-const LintIssueIn = z.object({
-  type: z.enum(["contradiction", "cross-doc-mismatch", "orphan", "broken-link", "missing-citation", "bad-citation", "gap", "missing-page", "stale"]),
-  severity: z.enum(["high", "medium", "low"]),
-  message: z.string().max(4000),
-  pages: z.array(z.string().max(120)).max(200),
-  citations: z.array(z.number().int().min(1).max(10_000)).max(200),
-  otherCitations: z.array(z.number().int().min(1).max(10_000)).max(200).optional(),
 });
 
 const ReportInputIn = z.object({

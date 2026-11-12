@@ -65,17 +65,6 @@ export const VideoOff = (p: P) => (
     <path d="M3 3l18 18" />
   </Svg>
 );
-export const Expand = (p: P) => (
-  <Svg {...p}>
-    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
-  </Svg>
-);
-export const User = (p: P) => (
-  <Svg {...p}>
-    <circle cx="12" cy="8" r="4" />
-    <path d="M4 21a8 8 0 0 1 16 0" />
-  </Svg>
-);
 export const Alert = (p: P) => (
   <Svg {...p}>
     <circle cx="12" cy="12" r="9" />

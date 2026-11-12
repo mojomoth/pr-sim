@@ -1,6 +1,6 @@
 /**
  * Speech bubble. `variant="judge"` = judge question / my live transcript on gray, `variant="me"` =
- * my answer (black, inverse text, right-aligned). `listening` shows "음성 인식 중" and a blinking caret
+ * my answer (black, inverse text, right-aligned, speech tail). `listening` shows "음성 인식 중" and a blinking caret
  * after the text; otherwise `status` (e.g. "인식 완료") is shown next to the label.
  */
 export function Bubble({
@@ -23,7 +23,13 @@ export function Bubble({
   const me = variant === "me";
   const state = listening ? "음성 인식 중" : status;
   return (
-    <div className={`rounded-[20px] px-5 py-4 ${me ? "ml-auto w-[88%] rounded-br-[6px] bg-ink text-inverse" : "bg-surface text-ink"} ${className}`} aria-live={live ? "polite" : undefined}>
+    <div className={`relative rounded-[20px] px-5 py-4 ${me ? "ml-auto w-[88%] rounded-br-none bg-ink text-inverse" : "bg-surface text-ink"} ${className}`} aria-live={live ? "polite" : undefined}>
+      {me && (
+        // Speech tail at the bottom-right corner (draft 04), same fill as the bubble.
+        <svg className="pointer-events-none absolute -right-[11px] bottom-0 h-[22px] w-[13px] text-ink" viewBox="0 0 13 22" aria-hidden="true">
+          <path d="M0 0 C0 9 3 17 13 22 L0 22 Z" fill="currentColor" />
+        </svg>
+      )}
       {(label || state) && (
         <p className={`mb-1 text-[13px] leading-5 ${me ? "text-inverse/75" : "text-secondary"}`}>
           {label}

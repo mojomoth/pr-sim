@@ -1,0 +1,140 @@
+{
+  "bubble": "내 발표 · 음성 인식 중\n먼저 여러분 집에 택배 상자 하나",
+  "03-presentation": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [
+        "DIV.absolute inset-0",
+        "DIV.absolute top-0 flex items-center justify-center",
+        "DIV.relative bg-white will-change-transform",
+        "CANVAS.",
+        "DIV.absolute top-0 flex items-center justify-center"
+      ],
+      "smallTargets": [
+        {
+          "tag": "BUTTON",
+          "text": "뒤로 가기",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "종료",
+          "w": 55,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "이전 슬라이드",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "다음 슬라이드",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "전체 화면으로 보기",
+          "w": 41,
+          "h": 41
+        }
+      ],
+      "bar": {
+        "left": 540,
+        "top": 716,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 147
+      },
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 89,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 774
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 839,
+      "clientH": 839,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 95
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 295
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 295
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 295
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 295
+        },
+        {
+          "tag": "VIDEO",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 96
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 98
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 98
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 98
+        }
+      ]
+    }
+  }
+}

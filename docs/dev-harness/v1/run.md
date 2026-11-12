@@ -10,7 +10,7 @@
 | G0 준비 | PASS | CLI·제공자 실측, `docs/wiki/{tools,api-contract}.md`, `docs/dev-v1/report.md`, 원자료 `pocs/.verify/g0/bench/` |
 | G1 PoC | PASS | 7개 PoC 독립 검증 1회차 전부 PASS(P0/P1 0건), 증거 `pocs/.verify/g1/<poc>/round1/` |
 | G2 통합 | PASS | 독립 E2E 14항목 실제 API로 통과(`app/.verify/g2/e2e/round1..3/`), Codex gpt-6-astra 코드 리뷰 P1 3건 수정 후 round3 PASS |
-| G3 완성·배포 | TODO | — |
+| G3 완성·배포 | IN PROGRESS | 워크플로 `wf_4ccb8f2c-669` (P2 정리·시안 비교·정리·테스트 → 배포 → 배포 URL 재검증) |
 
 ## 고정 결정 (변경 시 report.md에 근거 기록)
 

@@ -1,0 +1,60 @@
+{
+  "mobile": {
+    "scrollH": 844,
+    "clientH": 844,
+    "tiles": [
+      {
+        "w": 84,
+        "h": 86
+      },
+      {
+        "w": 84,
+        "h": 86
+      },
+      {
+        "w": 84,
+        "h": 86
+      }
+    ],
+    "judgesLeft": 57,
+    "judgesRight": 333,
+    "judgesBottom": 683,
+    "barTop": 703,
+    "gapToBar": 20,
+    "timerLabel": [
+      "발표 중",
+      "종료",
+      "",
+      "발표 남은 시간"
+    ]
+  },
+  "desktop": {
+    "scrollH": 846,
+    "clientH": 839,
+    "tiles": [
+      {
+        "w": 77,
+        "h": 79
+      },
+      {
+        "w": 77,
+        "h": 79
+      },
+      {
+        "w": 77,
+        "h": 79
+      }
+    ],
+    "judgesLeft": 593,
+    "judgesRight": 847,
+    "judgesBottom": 719,
+    "barTop": 716,
+    "gapToBar": -3,
+    "timerLabel": [
+      "발표 중",
+      "종료",
+      "",
+      "발표 남은 시간"
+    ]
+  }
+}

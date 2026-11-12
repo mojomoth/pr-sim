@@ -103,6 +103,9 @@ body {
   font-family: var(--font-sans);
   letter-spacing: -0.2px;
   -webkit-font-smoothing: antialiased;
+  /* Korean: break between words (어절), never inside one; only an over-long unbroken run is split. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* ---- Device shell (full-screen mode = default) ---- */
@@ -184,7 +187,7 @@ body {
 }
 
 .tabular { font-variant-numeric: tabular-nums; }
-:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; box-shadow: 0 0 0 2px #fff; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-canvas); }
 
 /* ---- Motion: 180–240ms opacity/translate (DESIGN.md) ---- */
 @keyframes ui-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

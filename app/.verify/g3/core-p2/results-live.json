@@ -1,0 +1,26 @@
+[
+  {
+    "name": "live: sentences recognized",
+    "ok": true,
+    "detail": {
+      "n": 7,
+      "st": {
+        "status": "idle",
+        "error": null
+      }
+    }
+  },
+  {
+    "name": "live: t non-decreasing (order spoken)",
+    "ok": true,
+    "detail": [
+      0.6,
+      2,
+      17.9,
+      18.4,
+      35.1,
+      35.7,
+      39
+    ]
+  }
+]

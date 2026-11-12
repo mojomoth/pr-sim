@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BottomBar, Button, TextLink } from "@/components/Button";
 import { HeaderPill, StepHeader } from "@/components/Header";
-import { ArrowRight, Check, ChevronLeft } from "@/components/Icons";
+import { ArrowRight, Check, ChevronLeft, ChevronRight } from "@/components/Icons";
 import { JudgeAvatar } from "@/components/JudgeCard";
 import { Card, Screen } from "@/components/Layout";
 import { useBlobUrl } from "@/features/session/db";
@@ -197,16 +197,19 @@ function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord
           </span>
         </div>
         <p className="mt-1.5 whitespace-pre-line text-[17px] font-medium leading-[26px]"><CiteText text={q.feedback} /></p>
-        <details className="mt-3 rounded-[20px] border border-line px-4 py-3">
-          <summary className="cursor-pointer text-[14px] font-semibold">항목별 점수와 평가 근거</summary>
-          <div className="mt-3 flex flex-col gap-2.5">
+        <details className="group mt-3 rounded-[20px] border border-line">
+          <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-2 rounded-[20px] px-4 text-[14px] font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
+            항목별 점수와 평가 근거
+            <ChevronRight size={18} className="shrink-0 rotate-90 text-secondary transition-transform duration-200 group-open:-rotate-90" />
+          </summary>
+          <div className="flex flex-col gap-2.5 px-4 pt-1">
             <Meter label="관련성" value={q.scores.relevance} />
             <Meter label="정확성" value={q.scores.accuracy} />
             <Meter label="근거 활용" value={q.scores.evidence} />
             <Meter label="완결성" value={q.scores.completeness} />
             <Meter label="태도" value={q.scores.composure} />
           </div>
-          <p className="mt-3 text-[14px] leading-[22px] text-secondary"><CiteText text={q.rationale} /></p>
+          <p className="px-4 pb-4 pt-3 text-[14px] leading-[22px] text-secondary"><CiteText text={q.rationale} /></p>
         </details>
       </div>
 
@@ -218,7 +221,7 @@ function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord
 
       {q.missing.length > 0 && (
         <div className="mt-5 px-1">
-          <p className="text-[14px] text-secondary">좋은 답변에 필요했던 것</p>
+          <p className="text-[14px] text-secondary">답변에 넣었으면 좋았을 내용</p>
           <ul className="mt-2 flex flex-col gap-1.5">
             {q.missing.map((m, k) => (
               <li key={k} className="flex gap-2 text-[15px] leading-[22px]">
@@ -242,8 +245,9 @@ function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord
         )}
       </div>
 
-      <nav className="mt-4 flex items-center justify-between" aria-label="질문 이동">
-        <button type="button" onClick={() => onIndex(index - 1)} disabled={index === 0} className="inline-flex h-11 items-center gap-1 rounded-full px-3 text-[15px] font-semibold disabled:invisible">
+      {/* 06 draft: "다음 질문 보기 →" centred under the answer card; "이전 질문" sits in the left gutter. */}
+      <nav className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center" aria-label="질문 이동">
+        <button type="button" onClick={() => onIndex(index - 1)} disabled={index === 0} className="inline-flex h-11 items-center gap-0.5 justify-self-start rounded-full pr-2 text-[15px] font-semibold text-secondary disabled:invisible">
           <ChevronLeft size={18} /> 이전 질문
         </button>
         <button type="button" onClick={() => onIndex(index + 1)} disabled={index >= total - 1} className="inline-flex h-11 items-center gap-1.5 rounded-full px-3 text-[16px] font-semibold disabled:text-secondary">
@@ -327,7 +331,7 @@ function SpeechSection({ report }: { report: Report }) {
   const maxBar = Math.max(1, ...m.rateTimeline.map((x) => x.syllables), 340);
   return (
     <div className="flex flex-col gap-3">
-      <SectionTitle aside={<ScorePill score={report.overall.sub.delivery} />}>내용 및 전달력 분석</SectionTitle>
+      <SectionTitle aside={<ScorePill score={report.overall.sub.delivery} />}>발표력 분석</SectionTitle>
 
       {a && (
         <Card>
@@ -351,7 +355,7 @@ function SpeechSection({ report }: { report: Report }) {
 
       <Card>
         <div className="flex items-baseline justify-between">
-          <p className="text-[16px] font-semibold">전달 점수</p>
+          <p className="text-[16px] font-semibold">전달 지표 점수</p>
           <span className="text-[28px] font-bold leading-9 tracking-[-0.8px] tabular">{m.deliveryScore}</span>
         </div>
         {m.deliveryPenalties.length ? (
@@ -413,7 +417,7 @@ function SpeechSection({ report }: { report: Report }) {
           {m.pauses.items.length > 0 && (
             <div className="mt-4">
               <p className="text-[15px] font-semibold">긴 침묵 ({m.pauses.threshold}초 이상)</p>
-              <ul className="mt-2 flex flex-wrap gap-1.5">
+              <ul className="mt-2 flex flex-wrap gap-x-1.5 gap-y-3">
                 {m.pauses.items.map((p) => (
                   <li key={p.afterSentenceId} className="flex items-center gap-1">
                     <SentenceRef id={p.afterSentenceId} />
@@ -460,7 +464,7 @@ function SpeechSection({ report }: { report: Report }) {
                   </p>
                 )}
                 {c.sentenceIds.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-x-1.5 gap-y-3">
                     {c.sentenceIds.slice(0, 3).map((id) => (
                       <SentenceRef key={id} id={id} />
                     ))}
@@ -584,7 +588,7 @@ function SummarySection({ report }: { report: Report }) {
     <div className="flex flex-col gap-3">
       <SectionTitle>정리</SectionTitle>
       {strengths.length > 0 && (
-        <Card title="강점">
+        <Card title="잘한 점">
           <ul className="flex flex-col gap-2">
             {strengths.map((s, k) => (
               <li key={k} className="flex gap-2 text-[15px] leading-[22px]">
@@ -598,7 +602,7 @@ function SummarySection({ report }: { report: Report }) {
         </Card>
       )}
       {a && a.improvements.length > 0 && (
-        <Card title="부족한 점">
+        <Card title="아쉬운 점">
           <ul className="flex flex-col gap-2">
             {a.improvements.map((s, k) => (
               <li key={k} className="flex gap-2 text-[15px] leading-[22px]">
@@ -612,7 +616,7 @@ function SummarySection({ report }: { report: Report }) {
         </Card>
       )}
       {report.overall.priorities.length > 0 && (
-        <Card title="개선 제안">
+        <Card title="다음 연습에서는">
           <ol className="flex flex-col gap-4">
             {report.overall.priorities.map((p, k) => (
               <li key={k} className="grid grid-cols-[20px_minmax(0,1fr)] gap-2">

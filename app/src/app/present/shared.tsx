@@ -2,7 +2,7 @@
 // Shared by /present and /qa: load the session named by ?s=, the not-found state, judge faces from
 // IndexedDB blobs, and the camera/mic problem notice.
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { PermissionNotice } from "@/components/CameraView";
 import { Refresh } from "@/components/Icons";
@@ -13,22 +13,28 @@ import type { SessionRecord, StoredJudge } from "@/features/session/types";
 import { mediaErrorText, type MediaStatus } from "@/platform";
 import { TEMPERAMENT_LABEL } from "@/server/types";
 
-type Loaded = { state: "loading" } | { state: "missing" } | { state: "ready"; rec: SessionRecord };
+type Loaded = { state: "loading" } | { state: "missing" } | { state: "error" } | { state: "ready"; rec: SessionRecord };
 
-/** The session named by ?s=<id> (read once; screens persist through updateSession). */
-export function useSessionFromQuery(): Loaded & { id: string } {
+/**
+ * The session named by ?s=<id> (read once; screens persist through updateSession). A storage failure
+ * (blocked or unavailable IndexedDB) is "error", not "missing": the record may still be there.
+ */
+export function useSessionFromQuery(): Loaded & { id: string; retry: () => void } {
   const id = useSearchParams().get("s") ?? "";
-  const [loaded, setLoaded] = useState<{ id: string; value: Loaded }>({ id: "", value: { state: "loading" } });
+  const [attempt, setAttempt] = useState(0);
+  const key = `${attempt}:${id}`;
+  const [loaded, setLoaded] = useState<{ key: string; value: Loaded }>({ key: "", value: { state: "loading" } });
   useEffect(() => {
     let cancelled = false;
     (id ? getSession(id) : Promise.resolve(undefined))
-      .then((rec) => !cancelled && setLoaded({ id, value: rec ? { state: "ready", rec } : { state: "missing" } }))
-      .catch(() => !cancelled && setLoaded({ id, value: { state: "missing" } }));
+      .then((rec) => !cancelled && setLoaded({ key, value: rec ? { state: "ready", rec } : { state: "missing" } }))
+      .catch(() => !cancelled && setLoaded({ key, value: { state: "error" } }));
     return () => {
       cancelled = true;
     };
-  }, [id]);
-  return { id, ...(loaded.id === id ? loaded.value : { state: "loading" }) };
+  }, [id, key]);
+  const retry = useCallback(() => setAttempt((n) => n + 1), []);
+  return { id, retry, ...(loaded.key === key ? loaded.value : { state: "loading" }) };
 }
 
 export function LoadingScreen() {
@@ -46,11 +52,28 @@ export function MissingSession() {
     <Screen>
       <div className="mt-24 flex flex-col items-center gap-3 text-center" role="alert">
         <p className="text-[20px] font-semibold">기록을 찾을 수 없어요</p>
-        <p className="text-[15px] leading-[22px] text-secondary">삭제됐거나 다른 기기에서 만든 기록이에요. 목록에서 다시 골라 주세요.</p>
+        <p className="text-[15px] leading-[22px] text-secondary">삭제됐거나 다른 기기에서 만든 기록이에요. 연습 기록에서 다시 골라 주세요.</p>
         <div className="mt-4 flex w-full flex-col gap-2">
-          <Button href="/history">기록 목록으로</Button>
+          <Button href="/history">연습 기록으로</Button>
           <Button href="/setup" variant="secondary">
             새로 시작하기
+          </Button>
+        </div>
+      </div>
+    </Screen>
+  );
+}
+
+export function LoadFailed({ onRetry }: { onRetry: () => void }) {
+  return (
+    <Screen>
+      <div className="mt-24 flex flex-col items-center gap-3 text-center" role="alert">
+        <p className="text-[20px] font-semibold">기록을 불러오지 못했어요</p>
+        <p className="text-[15px] leading-[22px] text-secondary">브라우저 저장소를 열지 못했어요. 이 앱을 연 다른 탭을 닫고 다시 시도해 주세요. 기록은 지워지지 않았어요.</p>
+        <div className="mt-4 flex w-full flex-col gap-2">
+          <Button onClick={onRetry}>다시 시도</Button>
+          <Button href="/history" variant="secondary">
+            연습 기록으로
           </Button>
         </div>
       </div>

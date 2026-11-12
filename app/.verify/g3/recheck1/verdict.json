@@ -1,0 +1,9 @@
+{
+  "round": "G3 recheck1",
+  "status": "BLOCKED",
+  "blocker": "OpenAI org credit_balance_exhausted (insufficient_quota) since this run; Claude API blocked until 2026-12-01. /api/judges (gpt-image-2 only) and /api/wiki (OpenAI→Claude only) return providers_unavailable, so the full real-API E2E cannot pass.",
+  "tests": { "unit": "25/25 pass", "api_smoke": "14/14 pass", "next_build": "exit 0", "e2e_flow": "10/12 pass; fails = judge faces, wiki (both providers_unavailable)" },
+  "degraded_path": { "questions": "200 (fallback chain)", "followup": "200 x2", "tts": "503 → on-screen text fallback", "report": "200 via Gemini lite fallback with disclaimer, score shown", "history": "session listed" },
+  "layout": { "horizontal_overflow_mobile": 0, "desktop_frame": "screen 361x823 inside device, radius 59px, overflow hidden, bottom bar inside screen on all 7 screens", "img_filters": "none on all screens", "qa_photo_saturation_vs_source": "102.8 vs 108.1 (full strength)" },
+  "visual_P1_confirmed": 0
+}

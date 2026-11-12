@@ -1,0 +1,25 @@
+{
+  "target": "https://pr-sim-lake.vercel.app",
+  "measuredAt": "2026-11-13 05:00-05:15 KST",
+  "region": "icn1 (x-vercel-id on every API response)",
+  "maxDuration": { "stt/token": 10, "tts": 60, "questions/followup": 60, "judges": 120, "questions": 120, "wiki": 300, "report": 300 },
+  "wiki": {
+    "proposal58pages_100789chars": { "status": 200, "streamedMs": 214, "outcome": "error providers_unavailable after 'extracting 0/8 chunks' (OpenAI 429 credit_balance_exhausted, Claude blocked)", "buildTimeMeasured": false },
+    "presentation12pages_2682chars": { "status": 200, "streamedMs": 44, "outcome": "error providers_unavailable" },
+    "reference_local_G0": "58p/100k chars 125 s, 128p/200k chars 240 s (api-contract.md) — route aborts at 280 s with 504 before the 300 s platform kill"
+  },
+  "report": { "ms": 55068, "status": 200, "provider": "gemini-3.5-flash-lite x5, gemini-3.1-flash-lite x2 (OpenAI credit exhausted -> fallback, disclaimer shown)", "vsMaxDuration": "55 s / 300 s", "reference_primary_gpt-6-astra": "28 s (docs/dev-v1/report.md D3)" },
+  "questions": { "ms": 9034, "status": 200, "vsMaxDuration": "9 s / 120 s" },
+  "followup": [ { "ms": 7060, "status": 200 }, { "ms": 4799, "status": 200 } ],
+  "tts": [ { "ms": 103, "status": 503, "note": "Gemini daily quota + OpenAI credit exhausted -> on-screen text fallback" }, { "ms": 45, "status": 503 } ],
+  "sttToken": [ { "ms": 482, "status": 200 }, { "ms": 401, "status": 200 } ],
+  "judges": { "ms": 1321, "status": 200, "outcome": "NDJSON slot error providers_unavailable (gpt-image-2, OpenAI credit exhausted)" },
+  "timeouts": { "504_or_FUNCTION_INVOCATION_TIMEOUT_seen": 0 },
+  "bodyLimit": {
+    "4.2MB_json_to_wiki": { "status": 413, "contentType": "application/json", "code": "too_large", "source": "app" },
+    "4.7MB_json_to_wiki": { "status": 413, "contentType": "text/plain", "x-vercel-error": "FUNCTION_PAYLOAD_TOO_LARGE", "source": "platform" },
+    "5.1MB_json_to_wiki": { "status": 413, "contentType": "text/plain", "x-vercel-error": "FUNCTION_PAYLOAD_TOO_LARGE", "source": "platform", "ms": 658 },
+    "121pages_to_wiki": { "status": 413, "code": "too_large", "source": "app" },
+    "client": "features/session/api.ts pre-checks Blob size > MAX_BODY_BYTES and maps bare 413 to too_large, so the UI never shows the platform page"
+  }
+}

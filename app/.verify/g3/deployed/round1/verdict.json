@@ -1,0 +1,13 @@
+{
+  "round": "G3 deployed round1",
+  "target": "https://pr-sim-lake.vercel.app",
+  "status": "BLOCKED",
+  "blocker": "EXTERNAL: OpenAI 429 credit_balance_exhausted (checked directly 2026-11-13 05:00 KST) + Claude API blocked until 2026-12-01 + Gemini TTS daily quota. /api/judges (gpt-image-2) and /api/wiki (OpenAI->Claude only) return providers_unavailable on deployed AND localhost:3000, so 'generated faces', 'wiki built' and the 58-page wiki build time cannot be verified today.",
+  "flow_e2e (tests/e2e/flow.mjs BASE_URL=deployed)": "10/12 PASS; FAIL = judge faces, wiki (both providers_unavailable, graceful UI)",
+  "seeded_qa_result_history (qa-result.mjs)": "13/13 PASS: questions 9 s, TTS 503 -> text fallback, live STT answers, follow-up x2 (decision followup/next), report 55 s, page + utterance citation sheets, history reload, reopen without new /api/report, browser restart persists, fresh profile sees 0 records + '기록을 찾을 수 없어요' deep link",
+  "extras": "desktop 1440x900 mockup 6/6 PASS; camera denied + mic denied show '권한이 필요해요' + 다시 시도; autoplay: play() without gesture -> NotAllowedError (control), TTS after real tap plays (stub WAV via interception, 2.5 s delay)",
+  "api": "empty body 400 on all 6 routes, malformed 400, zod 400, token 403 without Origin / 200 with, cache-control no-store",
+  "storage": "no fs writes in src (only build script features/slide/sync-pdfjs.mjs); records in IndexedDB, persist across reload and restart, not visible in another profile",
+  "keyscan": "28 served files (19 JS, 2.2 MB): 0 key-value occurrences for all 6 .env keys, 0 sk-/AIza/sk-ant- patterns",
+  "P0": 0, "P1": 0, "P2": 3
+}

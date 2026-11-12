@@ -1,4 +1,3 @@
-import { Close } from "./Icons";
 import { Waveform } from "./Waveform";
 
 /** What every judge component needs. `persona` is the visible label (친절함 / 빡셈 / 공격적). */
@@ -39,25 +38,6 @@ export function JudgeAvatar({ judge, size = 56 }: { judge: JudgeView; size?: num
   );
 }
 
-/** Setup row: face, name, caption, persona chips slot (`children`), remove. */
-export function JudgeRow({ judge, caption = "심사위원", onRemove, children }: { judge: JudgeView; caption?: string; onRemove?: () => void; children?: React.ReactNode }) {
-  return (
-    <li className="ui-enter flex flex-wrap items-center gap-x-3 gap-y-2.5 rounded-[20px] bg-surface p-3 pl-3.5">
-      <JudgeAvatar judge={judge} size={52} />
-      <div className="min-w-0 flex-1 border-l border-line pl-3">
-        <p className="text-[17px] font-bold leading-6">{judge.name}</p>
-        <p className="truncate text-[12px] leading-[18px] text-secondary">{caption}</p>
-      </div>
-      {onRemove && (
-        <button type="button" onClick={onRemove} aria-label={`${judge.name} 심사위원 삭제`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-card">
-          <Close size={20} />
-        </button>
-      )}
-      {children && <div className="w-full pl-[64px]">{children}</div>}
-    </li>
-  );
-}
-
 /** Presentation tile: face + "이름 · 성향"; `speaking` adds a black ring and a waveform badge. */
 export function JudgeTile({ judge, speaking }: { judge: JudgeView; speaking?: boolean }) {
   return (
@@ -79,8 +59,21 @@ export function JudgeTile({ judge, speaking }: { judge: JudgeView; speaking?: bo
   );
 }
 
-/** Q&A hero: large face card with "이름 · 성향" badge and a 질문 중 / 답변 듣는 중 pill. */
-export function JudgeHero({ judge, speaking }: { judge: JudgeView; speaking: boolean }) {
+/** What the Q&A hero's pill says. `ended` hides the pill (nobody is asking or listening any more). */
+export type JudgeHeroStatus = "asking" | "listening" | "judging" | "ended";
+const HERO_STATUS: Record<Exclude<JudgeHeroStatus, "ended">, string> = {
+  asking: "질문 중",
+  listening: "답변 듣는 중",
+  judging: "답변 살펴보는 중",
+};
+
+/**
+ * Q&A hero: large face card with "이름 · 성향" badge and a status pill (질문 중 / 답변 듣는 중 /
+ * 답변 살펴보는 중; none once ended). `status` wins over the legacy `speaking` flag
+ * (speaking → asking, otherwise listening).
+ */
+export function JudgeHero({ judge, speaking, status }: { judge: JudgeView; speaking?: boolean; status?: JudgeHeroStatus }) {
+  const s: JudgeHeroStatus = status ?? (speaking ? "asking" : "listening");
   return (
     <div className="relative aspect-[4/3.3] w-full">
       <JudgeFace judge={judge} className="h-full w-full rounded-[28px]" />
@@ -88,10 +81,12 @@ export function JudgeHero({ judge, speaking }: { judge: JudgeView; speaking: boo
         <span className="inline-flex h-10 min-w-0 items-center truncate rounded-full bg-canvas px-4 text-[15px] font-bold">
           {judge.name} · {judge.persona}
         </span>
-        <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-ink/70 px-3.5 text-[14px] font-semibold text-inverse backdrop-blur-sm" aria-live="polite">
-          <Waveform bars={5} active={speaking} className="h-4" />
-          {speaking ? "질문 중" : "답변 듣는 중"}
-        </span>
+        {s !== "ended" && (
+          <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-ink/70 px-3.5 text-[14px] font-semibold text-inverse backdrop-blur-sm" aria-live="polite">
+            <Waveform bars={5} active={s === "asking"} className="h-4" />
+            {HERO_STATUS[s]}
+          </span>
+        )}
       </div>
     </div>
   );

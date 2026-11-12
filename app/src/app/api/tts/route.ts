@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { errorResponse, guard, NO_STORE, readJson } from "@/server/http";
+import { cors, errorResponse, guard, NO_STORE, preflight, readJson } from "@/server/http";
 import { synthesizeSpeech } from "@/server/tts/speech";
 
 // runtime: default nodejs (the segment option is not allowed with cacheComponents)
@@ -16,7 +16,9 @@ const Body = z.object({
 
 // POST /api/tts { text, gender, age, temperament, provider? } → audio/wav
 // Headers: x-provider (gemini|openai), x-model, x-voice, x-duration (seconds).
-export async function POST(req: Request) {
+export const OPTIONS = preflight;
+
+export const POST = cors(async (req: Request) => {
   const denied = guard(req, "tts");
   if (denied) return denied;
   try {
@@ -36,4 +38,4 @@ export async function POST(req: Request) {
   } catch (e) {
     return errorResponse(e, "tts");
   }
-}
+});

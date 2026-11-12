@@ -1,0 +1,15 @@
+0.7s 200 /api/questions 
+24.1s 503 /api/tts 
+24.5s 200 /api/stt/token 
+25.6s 503 /api/tts 
+42.9s 200 /api/questions/followup 
+44.1s 503 /api/tts 
+44.4s 200 /api/stt/token 
+45.2s 503 /api/tts 
+61.0s 200 /api/questions/followup 
+62.3s 503 /api/tts 
+63.2s 200 /api/stt/token 
+96.0s 200 /api/questions/followup 
+97.3s 503 /api/tts 
+97.6s 200 /api/stt/token 
+114.3s 200 /api/questions/followup 

@@ -1,0 +1,33 @@
+{
+  "chips": [
+    {
+      "text": "친절함",
+      "h": 32,
+      "hitAbove5": true,
+      "hitBelow5": true,
+      "effectiveHitH": 44
+    },
+    {
+      "text": "빡셈",
+      "h": 32,
+      "hitAbove5": true,
+      "hitBelow5": true,
+      "effectiveHitH": 44
+    },
+    {
+      "text": "공격적",
+      "h": 32,
+      "hitAbove5": true,
+      "hitBelow5": true,
+      "effectiveHitH": 44
+    }
+  ],
+  "bottomBar": {
+    "bg": "rgb(255, 255, 255)",
+    "backdrop": "none"
+  },
+  "bodyWrap": {
+    "wordBreak": "keep-all",
+    "overflowWrap": "break-word"
+  }
+}

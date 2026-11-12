@@ -237,7 +237,7 @@ function PageCanvas({ doc, pageNumber, box, dpr, zoom, active, onSize, onRendere
     >
       {state !== "done" && (
         <div className="absolute inset-0 flex items-center justify-center text-sm text-secondary tabular">
-          {state === "error" ? "페이지를 그리지 못했어요" : <span className="animate-pulse">{pageNumber}</span>}
+          {state === "error" ? "페이지를 표시하지 못했어요" : <span className="animate-pulse">{pageNumber}</span>}
         </div>
       )}
     </div>

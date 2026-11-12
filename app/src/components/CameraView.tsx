@@ -14,7 +14,7 @@ const STATUS_TEXT: Record<MediaStatus, string> = {
   unsupported: "지원되지 않는 브라우저",
 };
 
-/** My camera in full color (mirrored). Shows status text when not live. `variant="inset"` overlays the slide. */
+/** My camera in full color (mirrored). Shows status text when not live. `variant="inset"` is a landscape 4:3 thumbnail with a white ring that overlays the slide (draft 03). */
 export function CameraView({ stream, status, variant = "panel", className = "" }: { stream: MediaStream | null; status: MediaStatus; variant?: "inset" | "panel"; className?: string }) {
   const video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -26,18 +26,18 @@ export function CameraView({ stream, status, variant = "panel", className = "" }
   const inset = variant === "inset";
   return (
     <div
-      className={`relative overflow-hidden bg-secondary/90 ${inset ? "aspect-[3/4] w-[92px] rounded-[16px] ring-[3px] ring-canvas" : "aspect-video w-full rounded-[28px]"} ${className}`}
+      className={`relative overflow-hidden bg-secondary/90 ${inset ? "aspect-[4/3] w-[104px] rounded-[14px] ring-[3px] ring-canvas" : "aspect-video w-full rounded-[28px]"} ${className}`}
       aria-label="내 카메라"
       role="img"
     >
       <video ref={video} muted playsInline autoPlay className={`absolute inset-0 h-full w-full -scale-x-100 object-cover ${status === "live" ? "" : "hidden"}`} />
       {status !== "live" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-card p-2 text-center text-secondary">
-          <VideoOff size={inset ? 20 : 28} />
+          <VideoOff size={inset ? 18 : 28} />
           <span className={`${inset ? "text-[11px] leading-4" : "text-[14px]"} font-medium`}>{STATUS_TEXT[status]}</span>
         </div>
       )}
-      <span className={`absolute bottom-2 left-2 inline-flex items-center rounded-full bg-canvas font-bold ${inset ? "h-6 px-2 text-[12px]" : "h-8 px-3 text-[13px]"}`}>나</span>
+      <span className={`absolute inline-flex items-center rounded-full bg-canvas font-bold ${inset ? "bottom-1.5 left-1.5 h-6 px-2 text-[12px]" : "bottom-2 left-2 h-8 px-3 text-[13px]"}`}>나</span>
     </div>
   );
 }

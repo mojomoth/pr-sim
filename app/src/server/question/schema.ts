@@ -1,7 +1,7 @@
 import "server-only";
 // zod schemas: LLM structured output + API input validation. (Isomorphic.)
 import { z } from "zod";
-import { DocIn, TranscriptIn } from "../wiki/schema";
+import { DocIn, LintIssueIn, TranscriptIn } from "../wiki/schema";
 
 // LLM output (OpenAI strict json_schema / Claude output_config.format): every field required, no bounds
 // keywords (clamped in code instead).
@@ -55,23 +55,18 @@ const IdIn = z.string().min(1).max(120);
 const PageListIn = z.array(PageIn).max(1000);
 const CountIn = z.number().int().nonnegative();
 
-export const EvidenceIn = z.object({
+const EvidenceIn = z.object({
   doc: EvidenceDocIn, page: PageIn.nullable(), quote: z.string().max(4000),
   verified: z.boolean().optional(), correctedPage: PageIn.nullable().optional(),
 });
-export const GeneratedQuestionIn = z.object({
+const GeneratedQuestionIn = z.object({
   id: IdIn, judgeId: z.string().min(1).max(64), question: z.string().max(2000),
   intent: z.string().max(4000), targetClaim: z.string().max(4000),
   evidence: z.array(EvidenceIn).max(20), difficulty: z.number().min(1).max(5),
   targetId: IdIn.nullable().optional(), kind: z.enum(["main", "reserve", "followup"]),
   parentId: IdIn.optional(), latencyMs: z.number().nonnegative().optional(),
 });
-export const LintIssueIn = z.object({
-  type: z.enum(["contradiction", "cross-doc-mismatch", "orphan", "broken-link", "missing-citation", "bad-citation", "gap", "missing-page", "stale"]),
-  severity: SeverityIn, message: z.string().max(10_000),
-  pages: z.array(z.string().max(200)).max(1000), citations: PageListIn, otherCitations: PageListIn.optional(),
-});
-export const ContextPackIn = z.object({
+const ContextPackIn = z.object({
   id: IdIn, createdAt: z.string().max(100), situation: z.string().max(4000), transcriptSentences: CountIn,
   presentationDocId: z.string().max(120).optional(), proposalDocId: z.string().max(120).optional(),
   queries: z.array(z.object({
@@ -105,10 +100,15 @@ export const GenerateIn = z.object({
   avoidQuestions: z.array(z.string().max(400)).max(30).optional(), pack: ContextPackIn.optional(),
   lint: z.array(LintIssueIn).max(200).optional(),
 });
+const ANSWER_MAX = 4000;
+/** Spoken answers can run long: keep the first ANSWER_MAX chars with a note instead of rejecting the request (body ≤ 4MB still applies). */
+const AnswerIn = z.string().transform((s) =>
+  s.length > ANSWER_MAX ? `${s.slice(0, ANSWER_MAX)} …(답변이 길어 뒤 ${(s.length - ANSWER_MAX).toLocaleString()}자 생략)` : s,
+);
 export const FollowUpIn = z.object({
   packText: z.string().max(200_000), judge: QJudgeIn, asked: GeneratedQuestionIn, original: GeneratedQuestionIn,
-  answer: z.string().max(4000),
-  thread: z.array(z.object({ question: z.string().max(2000), answer: z.string().max(4000) })).max(6),
+  answer: AnswerIn,
+  thread: z.array(z.object({ question: z.string().max(2000), answer: AnswerIn })).max(6),
   followupsSoFar: z.number().int().nonnegative(), remainingSec: z.number().optional(),
   pending: z.array(GeneratedQuestionIn).max(30), transcript: z.array(TranscriptIn).max(2000),
   docs: z.array(z.object({ role: DocRoleIn, pageTexts: z.array(z.string().max(150_000)).max(1000) })).max(2)

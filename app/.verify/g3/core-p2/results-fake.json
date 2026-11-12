@@ -1,0 +1,44 @@
+[
+  {
+    "name": "fake: 3 sentences in spoken order (carry merged across the pause)",
+    "ok": true,
+    "detail": [
+      {
+        "t": 0.7,
+        "text": "네."
+      },
+      {
+        "t": 2,
+        "text": "지금 원가가 스티로폼보다 높은 건 맞습니다."
+      },
+      {
+        "t": 3.5,
+        "text": "다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서"
+      }
+    ]
+  },
+  {
+    "name": "fake: t strictly ascending (order spoken)",
+    "ok": true,
+    "detail": [
+      0.7,
+      2,
+      3.5
+    ]
+  },
+  {
+    "name": "fake: carried sentence t = when it started (setup+3.0s), not the utterance start",
+    "ok": true,
+    "detail": {
+      "carried": 3.5,
+      "want": 3.5,
+      "setupAt": 0.4838999999910593,
+      "first": 0.7
+    }
+  },
+  {
+    "name": "fake: stop() returns this run's sentences",
+    "ok": true,
+    "detail": 3
+  }
+]

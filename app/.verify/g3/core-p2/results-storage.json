@@ -1,0 +1,55 @@
+[
+  {
+    "name": "storage: platform.storage.deleteBlob exists",
+    "ok": true,
+    "detail": {
+      "before": [
+        true,
+        true
+      ],
+      "afterPlatform": [
+        false,
+        true
+      ],
+      "afterDb": [
+        false,
+        false
+      ],
+      "missingOk": true,
+      "hasInInterface": true
+    }
+  },
+  {
+    "name": "storage: deleteBlob(a) removes only a",
+    "ok": true,
+    "detail": {
+      "before": [
+        true,
+        true
+      ],
+      "afterPlatform": [
+        false,
+        true
+      ],
+      "afterDb": [
+        false,
+        false
+      ],
+      "missingOk": true,
+      "hasInInterface": true
+    }
+  },
+  {
+    "name": "storage: db.deleteBlob (detached) removes b",
+    "ok": true,
+    "detail": [
+      false,
+      false
+    ]
+  },
+  {
+    "name": "storage: deleting a missing key resolves",
+    "ok": true,
+    "detail": true
+  }
+]

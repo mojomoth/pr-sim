@@ -1,0 +1,20 @@
+{
+  "base": "https://pr-sim-lake.vercel.app",
+  "filesScanned": 28,
+  "jsFiles": 19,
+  "bytes": 2247839,
+  "keyValueOccurrences": {
+    "JEV_KEY": 0,
+    "GOOGLE_API_KEY": 0,
+    "OPENAI_API_KEY": 0,
+    "CLAUDE_API_KEY": 0,
+    "VERCEL_API_KEY": 0,
+    "RENDER_API_KEY": 0
+  },
+  "patternMatches": {
+    "sk-proj-/sk-": 0,
+    "AIza": 0,
+    "sk-ant-": 0,
+    "process.env.*_API_KEY": 0
+  }
+}

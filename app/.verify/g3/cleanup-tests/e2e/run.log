@@ -1,0 +1,14 @@
+[19:36:12] session s_mwdy7pze6o1d4p1a
+[19:36:12] FAIL setup: 3 judge faces generated — {"faces":0}
+[19:36:12] PASS setup: notpdf upload rejected with a message — "업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도"
+[19:36:13] PASS setup: corrupt upload rejected with a message — "업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도"
+[19:36:13] PASS setup: big31mb upload rejected with a message — "업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도"
+[19:36:13] PASS setup: both PDFs attached
+[19:36:14] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[19:36:18] FAIL setup: wiki built for both documents
+[19:36:21] PASS present: camera preview playing — [{"w":640,"playing":true}]
+[19:36:22] PASS present: slide next button and arrow key — {"p1":1,"p2":2,"p3":1}
+[19:36:37] PASS present: timer follows the wall clock — {"a":"00:56","b":"00:41"}
+[19:37:19] PASS present: time-up dialog at ~60s — {"timeUp":60.518}
+[19:37:20] PASS present: STT transcript saved — {"n":11,"status":"qa"}
+[19:37:20] FAILED 2/12 → /Users/jyl/work/study/pr-sim/app/.verify/g3/cleanup-tests/e2e

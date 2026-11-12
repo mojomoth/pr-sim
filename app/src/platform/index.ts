@@ -28,6 +28,5 @@ export const platform: Platform = {
 export const useCamera = platform.useCamera;
 export { MediaAccessError, mediaErrorText } from "./web/media";
 export { rms } from "./web/mic";
-export { StorageError } from "./web/storage";
-export type { MediaDevice, MediaFailure, MediaStatus } from "./web/media";
+export type { MediaStatus } from "./web/media";
 export type { MicHandle, Playback };

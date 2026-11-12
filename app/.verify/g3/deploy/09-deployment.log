@@ -1,0 +1,2 @@
+regions ['icn1'] readyState READY alias ['pr-sim-lake.vercel.app', 'pr-sim-mojomoths-projects.vercel.app']
+functions cfg {}

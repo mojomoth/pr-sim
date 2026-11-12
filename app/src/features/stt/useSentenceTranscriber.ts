@@ -95,8 +95,11 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
     mic: null as MicHandle | null,
     vad: new EnergyVad(),
     asm: new SentenceAssembler(),
-    utterStart: null as Mark | null, // start of the utterance whose text is being recognized
-    seen: [] as Mark[], // per-sentence first-seen mark within the current utterance
+    // When the text still being recognized started: the VAD speech start, or the start of the
+    // carried (unfinished) sentence. Every sentence's t is the moment it STARTED being spoken.
+    utterStart: null as Mark | null,
+    seen: [] as Mark[], // per-sentence start mark within the current utterance (index 0 = utterStart)
+    lastT: 0, // t of the last emitted sentence: t never goes backwards (sentences stay in spoken order)
     session: null as LiveSession | null,
     liveOpen: false,
     liveBuf: [] as Uint8Array[], // pcm16 frames waiting to be sent
@@ -119,7 +122,8 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
     (texts: string[], m: Mark) => {
       if (!texts.length) return;
       const s = r.current;
-      const made = texts.map<TranscriptSentence>((text) => ({ id: `${s.runId}-${++s.seq}`, t: Math.round(m.t * 10) / 10, text, phase, ...(m.slide != null ? { slide: m.slide } : {}) }));
+      const t = (s.lastT = Math.max(s.lastT, Math.round(m.t * 10) / 10));
+      const made = texts.map<TranscriptSentence>((text) => ({ id: `${s.runId}-${++s.seq}`, t, text, phase, ...(m.slide != null ? { slide: m.slide } : {}) }));
       s.run.push(...made);
       setSentences((prev) => [...prev, ...made]);
       made.forEach((x) => cb.current.onSentence?.(x));
@@ -155,20 +159,29 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
         }
         const p = s.asm.preview(interim);
         const parts = [...p.complete, p.rest].filter(Boolean);
-        // remember when (and on which slide) each sentence of this utterance first appeared
-        for (let i = 0; i < parts.length; i++) s.seen[i] ??= mark(1);
+        // when (and on which slide) each sentence of this utterance started: the first one when the
+        // utterance (or the carried sentence) started, later ones when they first appeared
+        for (let i = 0; i < parts.length; i++) s.seen[i] ??= i === 0 ? s.utterStart : mark(1);
         setPartialSentences(parts);
       }
       const fin = sc?.inputTranscription?.text;
       if (fin != null) {
         const out = s.asm.push(fin, true);
-        const base = s.utterStart ?? mark(0);
-        out.forEach((txt, i) => emit([txt], s.seen[i] ?? base));
+        // Each sentence starts at its own seen mark. A sentence that never showed up in an interim
+        // has no mark: it started after the sentence before it, so it inherits that sentence's mark
+        // (never the utterance start, which would put it before the sentences it follows).
+        let prev = s.utterStart ?? mark(0);
+        const at = (i: number): Mark => {
+          const m = s.seen[i];
+          return (prev = m && m.t >= prev.t ? m : prev);
+        };
+        out.forEach((txt, i) => emit([txt], at(i)));
         const pend = s.asm.pending;
-        // a carried (unfinished) sentence keeps the time it started being spoken
-        s.seen = pend ? [s.seen[out.length] ?? base] : [];
+        // a carried (unfinished) sentence keeps the time it started being spoken; it is now the
+        // start of the text being recognized (used by the silence/stop flush)
+        s.utterStart = pend ? at(out.length) : null;
+        s.seen = s.utterStart ? [s.utterStart] : [];
         setPartialSentences(pend ? [pend] : []);
-        if (!pend) s.utterStart = null;
         scheduleCarryFlush();
         s.finalWaiter?.();
       }

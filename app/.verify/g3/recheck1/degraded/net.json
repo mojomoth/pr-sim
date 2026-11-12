@@ -1,0 +1,34 @@
+[
+  {
+    "url": "/api/questions",
+    "status": 200
+  },
+  {
+    "url": "/api/tts",
+    "status": 503
+  },
+  {
+    "url": "/api/stt/token",
+    "status": 200
+  },
+  {
+    "url": "/api/questions/followup",
+    "status": 200
+  },
+  {
+    "url": "/api/tts",
+    "status": 503
+  },
+  {
+    "url": "/api/stt/token",
+    "status": 200
+  },
+  {
+    "url": "/api/questions/followup",
+    "status": 200
+  },
+  {
+    "url": "/api/report",
+    "status": 200
+  }
+]

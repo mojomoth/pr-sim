@@ -1,0 +1,47 @@
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+  Inspect         https://vercel.com/mojomoths-projects/pr-sim/EbiiHdQSNR3f34W4Bq8PtBG7KEky
+  Production      https://pr-73roxo1ar-mojomoths-projects.vercel.app
+▲ Aliased         https://pr-sim-lake.vercel.app
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_EbiiHdQSNR3f34W4Bq8PtBG7KEky",
+    "url": "https://pr-73roxo1ar-mojomoths-projects.vercel.app",
+    "productionUrl": "https://pr-sim-lake.vercel.app",
+    "inspectorUrl": "https://vercel.com/mojomoths-projects/pr-sim/EbiiHdQSNR3f34W4Bq8PtBG7KEky",
+    "readyState": "READY",
+    "target": "production",
+    "environment": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_EbiiHdQSNR3f34W4Bq8PtBG7KEky",
+    "buildMachine": {
+      "cores": 2,
+      "memory": 8192,
+      "machine": "basic",
+      "selectionType": "fixed",
+      "selectionSource": "plan-default"
+    },
+    "deploymentProtection": [
+      "vercel_authentication"
+    ]
+  },
+  "message": "Deployment pr-73roxo1ar-mojomoths-projects.vercel.app ready. Production URL: https://pr-sim-lake.vercel.app",
+  "next": [
+    {
+      "command": "vercel git connect --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app",
+      "when": "Automatically deploy changes on every push"
+    },
+    {
+      "command": "vercel curl https://pr-sim-lake.vercel.app",
+      "when": "Verify deployment, including when Deployment Protection is enabled"
+    },
+    {
+      "command": "vercel inspect pr-73roxo1ar-mojomoths-projects.vercel.app --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod --scope mojomoths-projects --cwd /Users/jyl/work/study/pr-sim/app",
+      "when": "Promote to production"
+    }
+  ]
+}

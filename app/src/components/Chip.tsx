@@ -1,8 +1,12 @@
 "use client";
 import { useRef } from "react";
 
-/** Pill chip. Selected = black surface (DESIGN.md). `onSurface` = for use on a gray card. */
-export function Chip({
+/**
+ * Pill chip. Selected = black surface (DESIGN.md). `onSurface` = for use on a gray card.
+ * `sm` keeps the draft's 36px pill but an invisible ::before stretches the hit area to 44px tall
+ * (DESIGN.md tap target) without growing the row.
+ */
+function Chip({
   selected,
   onClick,
   children,
@@ -14,9 +18,9 @@ export function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center justify-center rounded-full font-medium transition-colors duration-200 ${size === "sm" ? "h-9 px-3 text-[14px]" : "h-11 px-5 text-[15px]"} ${
-        selected ? "bg-ink text-inverse" : onSurface ? "bg-card text-ink hover:bg-line" : "bg-surface text-ink hover:bg-card"
-      }`}
+      className={`inline-flex items-center justify-center rounded-full font-medium transition-colors duration-200 ${
+        size === "sm" ? "relative h-9 px-3 text-[14px] before:absolute before:inset-x-0 before:-inset-y-1 before:content-['']" : "h-11 px-5 text-[15px]"
+      } ${selected ? "bg-ink text-inverse" : onSurface ? "bg-card text-ink hover:bg-line" : "bg-surface text-ink hover:bg-card"}`}
       {...rest}
     >
       {children}

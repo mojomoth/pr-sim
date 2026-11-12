@@ -1,0 +1,14 @@
+PASS qa: POST /api/questions → questions saved (pack, main, reserve) — {"main":["q_j_mwdja2lbcyyyv_1","q_j_mwdjbetg50soz_1"],"reserve":["q_j_mwdja1fzc0gw5_1","q_j_mwdja2lbcyyyv_2","q_j_mwdjbetg50soz_2","q_j_mwdja1fzc0gw5_2"]}
+25.9s ready
+PASS qa: judge question bubble + hero (질문/답변) + answer bubble — "질의응답\n종료\n\n질의응답 남은 시간\n\n01:56\n\n경희 · 친절함\n답변 듣는 중\n\n심사위원 질문 · 1 / 2\n\n대표님, 발표에서 말씀하신 연간 51억 개의 택배 물량은 정말 큰 잠재력을 가진 시장으로 보이는데요. 이렇게 방대한 시장 속에서 리웨이브가 목표한 점유율을 달성하기 위해 가장 집중하고 계신 고객 확보 전략이 무엇인지 듣고 싶습니다.\n\n오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요.\n\n질문 다시 듣기\n\n내 답변 · 음성 인식 중\n\n답변을 말씀해 주세요…\n\n천천히, 핵심부터 답변해 보세요.\n\n듣고 "
+PASS qa 390×844: mic/waveform row fully visible (inside the bottom bar) — {"barTop":696,"rowTop":708,"rowBottom":764,"vh":844,"inBar":true}
+PASS qa 390×844: answer bubble not under the bottom bar (scrolled to end) — {"elTop":477,"elBottom":663,"barTop":696,"viewport":844,"hidden":false}
+43.4s answered 1
+68.7s answered 2
+91.4s answered 3
+114.9s answered 4
+PASS qa: end dialog (time up / questions done) → 결과 보기
+PASS qa: QA items recorded (question, answer, answerSentenceIds, evidence, assessment, decision) — [{"q":"대표님, 발표에서 말씀하신 연간 51억 개의 택배 물량은 정말 큰 잠재력","a":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리","ids":3,"ev":2,"as":"회피","d":"followup","f":false},{"q":"연간 51억 개의 택배 시장에서 저희 제품을 선택할 고객들을 어떻게 설득","a":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리","ids":3,"ev":1,"as":"회피","d":"next","f":true},{"q":"발표 자료에는 2026년 세트당 원가가 118원이라고 되어 있는데, 제안","a":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리","ids":3,"ev":2,"a
+PASS qa: qa-phase transcript sentences persisted — 12
+PASS qa: status → report, resume cleared — {"status":"report"}
+PASS qa: auto-advance to /result?s= — "http://localhost:3000/result?s=s_g2screensb"

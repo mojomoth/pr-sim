@@ -2,15 +2,13 @@
 // Every failure becomes an ApiError whose `message` is Korean and can be shown as is.
 // Aborts (caller's AbortSignal) are re-thrown untouched: check `e.name === "AbortError"`.
 import { apiUrl } from "@/platform/config";
-import type { ApiErrorBody, ApiErrorCode, DocInput } from "@/server/types";
+import { MAX_BODY_BYTES, waitText, type ApiErrorBody, type ApiErrorCode, type DocInput } from "@/server/types";
 import type { JudgeEvent, RollAvoid } from "@/server/judge/types";
 import type { WikiEvent } from "@/server/wiki/types";
 import type { FollowUpRequest, FollowUpResult, GenerateEvent, GenerateInput } from "@/server/question/types";
 import type { ProgressEvent, ReportInput } from "@/server/report/types";
 import type { Temperament, TtsRequest } from "./types";
 
-/** Same cap as the server (Vercel body limit 4.5MB). */
-const MAX_BODY_BYTES = 4_000_000;
 
 export type ClientErrorCode = ApiErrorCode | "network";
 
@@ -22,18 +20,13 @@ const DEFAULT_MESSAGE: Record<ClientErrorCode, string> = {
   rate_limited: "요청이 많아요. 잠시 뒤 다시 시도해 주세요.",
   providers_unavailable: "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
   timeout: "응답 시간이 초과됐어요. 다시 시도해 주세요.",
-  upstream: "AI 서비스 오류가 났어요. 다시 시도해 주세요.",
+  upstream: "AI 서비스에 오류가 생겼어요. 다시 시도해 주세요.",
   network: "서버에 연결하지 못했어요. 인터넷 연결을 확인한 뒤 다시 시도해 주세요.",
 };
 
 const RETRYABLE = new Set<ClientErrorCode>(["rate_limited", "providers_unavailable", "timeout", "upstream", "network"]);
 
-/** 45 → "45초", 130 → "약 2분", 7200 → "약 2시간" (retry hints people can read, not raw seconds). */
-export function waitText(sec: number): string {
-  if (sec < 60) return `${Math.max(1, Math.round(sec))}초`;
-  if (sec < 3600) return `약 ${Math.round(sec / 60)}분`;
-  return `약 ${Math.round(sec / 3600)}시간`;
-}
+export { waitText };
 
 export class ApiError extends Error {
   readonly retryable: boolean;

@@ -1,0 +1,14 @@
+key present: true
+gpt-4o-mini-tts wav 429 {
+        "type": "insufficient_quota",
+        "code": "credit_balance_exhausted"
+gpt-4o-mini-tts mp3 429 {
+        "type": "insufficient_quota",
+        "code": "credit_balance_exhausted"
+tts-1 wav 429 {
+        "type": "insufficient_quota",
+        "code": "credit_balance_exhausted"
+models 200 tts-1,tts-1-hd,gpt-audio-2025-08-28,tts-1-1106,gpt-4o-mini-tts,tts-1-hd-1106,gpt-audio-mini-2025-12-15,gpt-audio-mini,gpt-4o-mini-tts-2025-03-20,gpt-audio-1.5,gpt-4o-mini-tts-2025-12-15,gpt-audio
+openai responses 429 credit_balance_exhausted
+gemini-3.8-flash-tts 429 RESOURCE_EXHAUSTED You exceeded your current quota, please check your plan and billing details. For more information on this error, head to
+gemini-3.8-flash-lite-tts 429 RESOURCE_EXHAUSTED You exceeded your current quota, please check your plan and billing details. For more information on this error, head to

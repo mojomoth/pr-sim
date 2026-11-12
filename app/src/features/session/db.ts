@@ -63,6 +63,7 @@ export async function deleteSession(id: string): Promise<void> {
 }
 
 export const getBlob = storage.getBlob;
+export const deleteBlob = storage.deleteBlob;
 
 /** Store an uploaded PDF under "pdf:<docId>" and return the key. */
 export async function storePdf(docId: string, file: Blob): Promise<string> {

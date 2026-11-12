@@ -1,0 +1,67 @@
+{
+  "qaText": "질의응답\n종료\n\n질의응답 남은 시간 · 이어하기\n\n01:53\n\n성수 · 빡셈\n답변 듣는 중\n\n심사위원 질문 · 2 / 2\n\n2026년 양산 원가가 발표자료에는 세트당 118원, 제안자료에는 142원으로 나옵니다. 어느 쪽이 맞습니까?\n\n질문을 다시 들을 수 있어요.\n\n질문 다시 듣기\n\n내 답변 · 음성 인식 중\n\n네. 지금 원가가 스티로폼보다 높은 것 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면\n\n천천히, 핵심부터 답변해 보세요.\n\n질문과 답변 기록 1개\n펼치기\n듣고 있어요\n답변 완료",
+  "04-review": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [],
+      "bar": {
+        "left": 0,
+        "top": 696,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 148
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 1082,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 342
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 885,
+      "barTop": 696,
+      "hidden": true,
+      "lastText": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리"
+    }
+  }
+}

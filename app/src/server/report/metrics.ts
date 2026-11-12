@@ -214,7 +214,7 @@ export function computeSpeechMetrics(transcript: TranscriptSentence[], opts: Met
     if (targetSeconds > 0 && timeUsage < 0.85) pen(`시간 미달 (${Math.round(timeUsage * 100)}%)`, Math.min(20, (0.85 - timeUsage) * 60));
     if (targetSeconds > 0 && timeUsage > 1.02) pen(`시간 초과 (${Math.round(timeUsage * 100)}%)`, Math.min(25, (timeUsage - 1.02) * 100));
     if (pauseItems.length) pen(`긴 침묵 ${pauseItems.length}회`, Math.min(10, pauseItems.length * 2));
-    if (avgSentenceSyllables > 45) pen(`문장이 김 (평균 ${avgSentenceSyllables}음절)`, Math.min(10, (avgSentenceSyllables - 45) / 2));
+    if (avgSentenceSyllables > 45) pen(`긴 문장 (평균 ${avgSentenceSyllables}음절)`, Math.min(10, (avgSentenceSyllables - 45) / 2));
     const st = [...stutters.values()].reduce((a, b) => a + b, 0);
     if (st) pen(`말 더듬기·반복 ${st}회`, Math.min(5, st));
   }

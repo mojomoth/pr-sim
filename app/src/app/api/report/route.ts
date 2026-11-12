@@ -1,4 +1,4 @@
-import { errorResponse, guard, ndjson, readJson } from "@/server/http";
+import { cors, errorResponse, guard, ndjson, preflight, readJson } from "@/server/http";
 import { generateReport, ReportIncompleteError } from "@/server/report/generate";
 import { ReportIn } from "@/server/report/schema";
 import type { ProgressEvent } from "@/server/report/types";
@@ -10,7 +10,9 @@ export const maxDuration = 300;
 // POST /api/report { session: ReportInput, provider? } → application/x-ndjson of ProgressEvent:
 //   steps → step … → {type:"done", report} | {type:"error", code, message, failedSteps?, retryable}
 // An incomplete report is never sent. Transcript citations use TranscriptSentence.id; document citations are DocRef pages.
-export async function POST(req: Request) {
+export const OPTIONS = preflight;
+
+export const POST = cors(async (req: Request) => {
   const denied = guard(req, "report");
   if (denied) return denied;
   let body: Awaited<ReturnType<typeof readJson<typeof ReportIn>>>;
@@ -30,4 +32,4 @@ export async function POST(req: Request) {
       send({ type: "error", code: signal.aborted ? "timeout" : e.code, message: signal.aborted ? "응답 시간이 초과됐어요. 다시 시도해 주세요." : e.message, failedSteps: e.failedSteps, retryable: e.retryable });
     }
   });
-}
+});

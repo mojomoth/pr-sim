@@ -27,7 +27,7 @@ export function Timer({ label, remaining, total, warnAt = 30, compact }: { label
         {milestone}
       </span>
       <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-line" role="progressbar" aria-label={`${label} 진행`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(100 - pct)}>
-        <div className={`h-full rounded-full transition-[width] duration-300 ease-linear ${warn || done ? "bg-error" : "bg-ink"}`} style={{ width: `${pct}%` }} />
+        <div className={`h-full w-full rounded-full transition-transform duration-300 ease-linear ${warn || done ? "bg-error" : "bg-ink"}`} style={{ transform: `translateX(${pct - 100}%)` }} />
       </div>
     </div>
   );

@@ -1,0 +1,35 @@
+[
+  {
+    "name": "autoplay control: play() without a gesture is blocked by the policy",
+    "ok": true,
+    "detail": {
+      "control": "NotAllowedError"
+    }
+  },
+  {
+    "name": "autoplay: TTS (stubbed WAV, 2.5s server delay) plays after the start tap under user-activation policy",
+    "ok": true,
+    "detail": {
+      "ready": true,
+      "pre": {
+        "hasBeenActive": false,
+        "isActive": false,
+        "audio": 0
+      },
+      "post": {
+        "hasBeenActive": true
+      },
+      "ttsCalls": 2,
+      "audio": [
+        {
+          "at": 1794513919458,
+          "ok": true
+        },
+        {
+          "at": 1794513921991,
+          "ok": true
+        }
+      ]
+    }
+  }
+]

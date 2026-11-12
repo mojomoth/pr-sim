@@ -7,7 +7,7 @@ const DB_VERSION = 1;
 const SESSIONS = "sessions";
 const BLOBS = "blobs";
 
-export class StorageError extends Error {
+class StorageError extends Error {
   constructor(
     public kind: "unavailable" | "quota" | "failed",
     message: string,
@@ -137,6 +137,10 @@ export const storage = {
   },
   putBlob(key: string, blob: Blob): Promise<void> {
     return run<IDBValidKey>([BLOBS], "readwrite", (tx) => tx.objectStore(BLOBS).put(blob, key)).then(() => undefined);
+  },
+  /** Remove one blob (e.g. a replaced PDF or judge photo). Missing keys are a no-op. */
+  deleteBlob(key: string): Promise<void> {
+    return run<undefined>([BLOBS], "readwrite", (tx) => tx.objectStore(BLOBS).delete(key)).then(() => undefined);
   },
   deleteBlobs(keys: string[]): Promise<void> {
     return run<undefined>([BLOBS], "readwrite", (tx) => {

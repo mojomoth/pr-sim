@@ -30,7 +30,7 @@ function useCite(): Cite {
 const PHASE_LABEL = { presentation: "발표", qa: "질의응답" } as const;
 
 /** "발표 01:23" — t is seconds since that phase started. */
-export function stampOf(s: TranscriptSentence): string {
+function stampOf(s: TranscriptSentence): string {
   return `${PHASE_LABEL[s.phase]} ${mmss(Math.floor(s.t))}`;
 }
 
@@ -51,7 +51,8 @@ export function CiteProvider({ session, children }: { session: SessionRecord; ch
   );
 }
 
-const chip = "inline-flex min-h-8 items-center rounded-full border px-2.5 text-[13px] font-semibold tabular transition-colors hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+// 32px pill; the ::before strip extends the tap target to 44px tall (chip rows use gap-y-3 so strips never overlap).
+const chip = "relative inline-flex min-h-8 items-center rounded-full border px-2.5 before:absolute before:inset-x-0 before:-inset-y-1.5 before:content-[''] text-[13px] font-semibold tabular transition-colors hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 /** "제안자료 p.34" chips (dashed = page not confirmed in the raw text). */
 export function DocRefChips({ refs, max = 4 }: { refs: DocRef[]; max?: number }) {
@@ -67,7 +68,7 @@ export function DocRefChips({ refs, max = 4 }: { refs: DocRef[]; max?: number })
     });
   if (!items.length) return null;
   return (
-    <span className="flex flex-wrap gap-1.5">
+    <span className="flex flex-wrap gap-x-1.5 gap-y-3">
       {items.map((i) => (
         <PageLink key={`${i.doc}:${i.page}`} doc={i.doc} page={i.page} quote={i.quote} grounded={i.grounded} onOpen={open} />
       ))}
@@ -185,7 +186,7 @@ function TranscriptSheet({ transcript, ids, onClose }: { transcript: TranscriptS
     el?.scrollIntoView({ block: "center" });
   }, [ids]);
   return (
-    <Dialog open onClose={onClose} title={target ? `${PHASE_LABEL[target.phase]} 전사` : "전사"}>
+    <Dialog open onClose={onClose} title={target ? `${PHASE_LABEL[target.phase]} 중 말한 내용` : "말한 내용"}>
       <ol ref={listRef} className="mt-3 flex max-h-[calc(var(--app-h)*0.55)] flex-col gap-1 overflow-y-auto overscroll-contain break-keep [overflow-wrap:anywhere]" aria-label="발화 기록">
         {list.map((s) => {
           const hit = ids.includes(s.id);

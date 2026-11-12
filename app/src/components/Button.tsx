@@ -68,7 +68,7 @@ export function TextLink({ href, children, onClick }: { href: string; children: 
  */
 export function BottomBar({ children, line = true }: { children: React.ReactNode; line?: boolean }) {
   return (
-    <div className={`app-bottom-bar bg-canvas/95 backdrop-blur-sm ${line ? "border-t border-line" : ""}`}>
+    <div className={`app-bottom-bar bg-canvas ${line ? "border-t border-line" : ""}`}>
       <div className="flex w-full flex-col gap-2 px-[var(--gutter)] pt-3">{children}</div>
     </div>
   );

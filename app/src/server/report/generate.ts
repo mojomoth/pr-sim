@@ -24,7 +24,7 @@ import type { z } from "zod";
 import { computeSpeechMetrics, countFillers } from "./metrics";
 import { ConsistencySchema, consistencyPrompt, DocSchema, docPrompt, OverallSchema, overallPrompt, QASchema, qaPrompt, SpeechSchema, speechPrompt } from "./prompts";
 import {
-  DOC_LABEL,
+  LLM_DOC_LABEL,
   REPORT_VERSION,
   SUBSCORE_LABEL,
   type ConsistencyRow,
@@ -119,14 +119,14 @@ async function run(session: ReportInput, opts: GenerateOptions): Promise<Report>
   const presentQ = session.qa.map((q, i) => ({ q, i }));
   const initial: StepInfo[] = [
     { id: "metrics", group: "speech", label: "발표 지표 계산 (말 속도·군말·침묵·시간)", status: "pending" },
-    { id: "docs", group: "prep", label: "자료 위키 준비", status: "pending" },
-    { id: "lint", group: "materials", label: "위키 점검 (문서 내·문서 간 수치)", status: "pending" },
-    { id: "speech", group: "speech", label: "발표 내용 분석 · 슬라이드 커버리지", status: "pending" },
+    { id: "docs", group: "prep", label: "자료 불러오기", status: "pending" },
+    { id: "lint", group: "materials", label: "자료 수치 점검", status: "pending" },
+    { id: "speech", group: "speech", label: "발표 내용 · 슬라이드별 설명 분석", status: "pending" },
     ...presentQ.map(({ q, i }) => ({ id: `qa:${i}`, group: "qa" as const, label: `질문 ${i + 1} · ${q.judge.name}`, status: "pending" as const })),
-    { id: "doc:presentation", group: "materials", label: "발표자료 품질", status: "pending" },
-    { id: "doc:proposal", group: "materials", label: "제안자료 품질", status: "pending" },
-    { id: "consistency", group: "materials", label: "덱 ↔ 제안서 수치 대조", status: "pending" },
-    { id: "overall", group: "overall", label: "종합 점수 · 코멘트", status: "pending" },
+    { id: "doc:presentation", group: "materials", label: "발표 자료 평가", status: "pending" },
+    { id: "doc:proposal", group: "materials", label: "제안 자료 평가", status: "pending" },
+    { id: "consistency", group: "materials", label: "두 자료의 수치 비교", status: "pending" },
+    { id: "overall", group: "overall", label: "종합 점수와 총평", status: "pending" },
   ];
   initial.forEach((s) => steps.set(s.id, s));
   emit({ type: "steps", steps: initial });
@@ -170,7 +170,7 @@ async function run(session: ReportInput, opts: GenerateOptions): Promise<Report>
     if (metrics.sentenceCount === 0 && session.qa.length === 0) throw new ReportIncompleteError("평가할 발표 내용과 질의응답이 모두 비어 있어요. 발표를 마친 뒤 다시 만들어 주세요.", [], false, "bad_request");
 
     // 2. documents (wiki)
-    const docs = await step("docs", async () => resolveDocs(session), (d) => [d.presentation && `덱 ${d.presentation.pageCount}쪽`, d.proposal && `제안서 ${d.proposal.pageCount}쪽`].filter(Boolean).join(" · "));
+    const docs = await step("docs", async () => resolveDocs(session), (d) => [d.presentation && `발표 자료 ${d.presentation.pageCount}쪽`, d.proposal && `제안 자료 ${d.proposal.pageCount}쪽`].filter(Boolean).join(" · "));
     const pres = docs.presentation;
     const prop = docs.proposal;
 
@@ -197,7 +197,7 @@ async function run(session: ReportInput, opts: GenerateOptions): Promise<Report>
       metrics.sentenceCount === 0
         ? (skip("speech", "발표 전사 없음"), Promise.resolve(null))
         : pres || prop
-          ? soft(step("speech", (u) => runSpeech(session, docs, u), (s) => `구조 ${s.scores.structure} · 커버리지 ${Math.round(s.coverageRate * 100)}%`))
+          ? soft(step("speech", (u) => runSpeech(session, docs, u), (s) => `구조 ${s.scores.structure}점 · 설명한 슬라이드 ${Math.round(s.coverageRate * 100)}%`))
           : (skip("speech", "자료 없음"), Promise.resolve(null));
 
     // 3b. Q&A (parallel, cap 6)
@@ -285,7 +285,7 @@ async function run(session: ReportInput, opts: GenerateOptions): Promise<Report>
     emit({ type: "done", report });
     return report;
   } catch (e) {
-    const err = e instanceof ReportIncompleteError ? e : new ReportIncompleteError(`리포트를 만들지 못했어요 — ${koError(e)}`, [], true, e instanceof LlmUnavailableError ? "providers_unavailable" : "upstream");
+    const err = e instanceof ReportIncompleteError ? e : new ReportIncompleteError(`결과를 만들지 못했어요. (${koError(e)})`, [], true, e instanceof LlmUnavailableError ? "providers_unavailable" : "upstream");
     throw err;
   }
 }
@@ -305,7 +305,7 @@ function failIfErrors(errors: Map<string, unknown>, steps: Map<string, StepInfo>
   const llm = [...errors.values()].find((e): e is LlmUnavailableError => e instanceof LlmUnavailableError);
   const reason = llm ? llm.message : koError(errors.values().next().value);
   throw new ReportIncompleteError(
-    `리포트를 완성하지 못했어요 (${ids.length}개 섹션 실패: ${labels.slice(0, 3).join(", ")}${labels.length > 3 ? " 외" : ""}). ${reason}`,
+    `결과 일부를 만들지 못했어요(실패: ${labels.slice(0, 3).join(", ")}${labels.length > 3 ? ` 외 ${labels.length - 3}개` : ""}). ${reason}`,
     ids,
     !(llm?.final ?? false),
     llm ? "providers_unavailable" : "upstream",
@@ -314,10 +314,10 @@ function failIfErrors(errors: Map<string, unknown>, steps: Map<string, StepInfo>
 
 function excludedSubScores(sub: SubScores, m: SpeechMetrics, session: ReportInput, hasDocs: boolean): Overall["excluded"] {
   const out: NonNullable<Overall["excluded"]> = [];
-  if (sub.delivery == null) out.push({ key: "delivery", reason: m.sentenceCount === 0 ? "발표 단계 전사가 없어요" : "발표 분석 불가" });
-  if (sub.logic == null) out.push({ key: "logic", reason: "발표 전사와 자료가 없어요" });
-  if (sub.response == null) out.push({ key: "response", reason: session.qa.length === 0 ? "질의응답이 없어요" : "질의응답 평가 불가" });
-  if (sub.materials == null) out.push({ key: "materials", reason: hasDocs ? "자료 평가 불가" : "평가할 자료가 없어요" });
+  if (sub.delivery == null) out.push({ key: "delivery", reason: m.sentenceCount === 0 ? "발표 전사 없음" : "발표 분석 실패" });
+  if (sub.logic == null) out.push({ key: "logic", reason: "발표 전사·자료 없음" });
+  if (sub.response == null) out.push({ key: "response", reason: session.qa.length === 0 ? "질의응답 없음" : "질의응답 평가 실패" });
+  if (sub.materials == null) out.push({ key: "materials", reason: hasDocs ? "자료 평가 실패" : "평가할 자료 없음" });
   return out;
 }
 
@@ -490,9 +490,13 @@ async function runQA(session: ReportInput, i: number, docs: Docs, crossLint: str
 
 const PROPOSAL_PRIORITY = ["원가-구조", "재무-계획", "시장-규모", "운영-생산", "리스크", "고객-세일즈", "비즈니스-모델", "성과-지표", "경쟁사", "투자-조건", "제품-기술", "문제-정의", "팀", "로드맵"];
 
+const BODY_BUDGET = 28_000;
+
 async function docBody(d: DocCtx): Promise<string> {
   if (isSmall(d)) return rawText(d);
   const pages = listPages(d.doc);
+  // no wiki (build failed/skipped): page-marked raw text, each page cut to fit — never an empty body
+  if (!pages.length) return `(전문 ${d.chars.toLocaleString()}자 — 위키가 없어 쪽마다 앞부분만 발췌, [p.N] = 원문 쪽)\n\n${rawText(d, BODY_BUDGET)}`;
   const slugs = pages.map((p) => p.slug).filter((s) => s !== "overview" && s !== "주요-수치" && !s.startsWith("질의-"));
   slugs.sort((a, b) => {
     const ia = PROPOSAL_PRIORITY.indexOf(a);
@@ -501,10 +505,9 @@ async function docBody(d: DocCtx): Promise<string> {
   });
   const parts = [`### 개요 (wiki overview)\n${await wikiPage(d.doc, "overview", 6000)}`];
   let used = parts[0].length;
-  const BUDGET = 28_000;
   for (const s of slugs) {
-    if (used > BUDGET - 800) break;
-    const body = await wikiPage(d.doc, s, Math.min(4000, BUDGET - used));
+    if (used > BODY_BUDGET - 800) break;
+    const body = await wikiPage(d.doc, s, Math.min(4000, BODY_BUDGET - used));
     parts.push(`### [[${s}]]\n${body}`);
     used += body.length + 10;
   }
@@ -528,7 +531,7 @@ async function runDoc(
     body: await docBody(d),
     numbers: keyNumbersText(d),
     otherNumbers: other ? keyNumbersText(other, 60) : "",
-    selfLint: lintText(self, DOC_LABEL[d.role]),
+    selfLint: lintText(self, LLM_DOC_LABEL[d.role]),
     crossLint: other ? lintText(cross, "제안자료", "발표자료") : "(상대 문서 없음)",
   });
   const r = await llmJson({ name: "doc_evaluation", ...p, schema: DocSchema, effort: "high", usage });
@@ -594,7 +597,7 @@ async function runOverall(
     `## 질의응답\n${qa.map((q) => `- Q${q.index + 1} (${q.judge.name}) ${q.score}점 ${q.verdict}: ${q.question}\n  피드백: ${q.feedback}\n  모순: ${q.contradictions.map((c) => c.docSays).join(" / ") || "없음"}`).join("\n") || "(질문 없음)"}`,
   );
   lines.push(
-    `## 자료 품질\n${docs.map((d) => `- ${DOC_LABEL[d.role]} ${d.score}점: ${d.summary}\n  주요 이슈: ${d.issues.slice(0, 3).map((i) => `${i.title}(${i.severity})`).join(", ")}`).join("\n")}\n- 덱↔제안서 불일치: ${consistency.filter((r) => r.status === "mismatch").map((r) => `${r.metric} ${r.presentation?.value}↔${r.proposal?.value}`).join(", ") || "없음"}`,
+    `## 자료 품질\n${docs.map((d) => `- ${LLM_DOC_LABEL[d.role]} ${d.score}점: ${d.summary}\n  주요 이슈: ${d.issues.slice(0, 3).map((i) => `${i.title}(${i.severity})`).join(", ")}`).join("\n")}\n- 덱↔제안서 불일치: ${consistency.filter((r) => r.status === "mismatch").map((r) => `${r.metric} ${r.presentation?.value}↔${r.proposal?.value}`).join(", ") || "없음"}`,
   );
   const p = overallPrompt(lines.join("\n\n"));
   return llmJson({ name: "overall", ...p, schema: OverallSchema, effort: "medium", usage });

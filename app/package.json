@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --import ./tests/ts-hooks.mjs --test \"tests/unit/*.test.mts\"",
+    "test:api": "node --test tests/api/smoke.test.mjs",
+    "test:e2e": "node tests/e2e/flow.mjs",
+    "sync:pdfjs": "node src/features/slide/sync-pdfjs.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",

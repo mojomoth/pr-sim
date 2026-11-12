@@ -61,6 +61,7 @@ export async function wikiPage(doc: WikiDoc, slug: string, budget = 6000): Promi
 /** Context for a question/topic: whole raw for small docs, queryWiki slice (cited) for large ones. */
 export async function topicContext(doc: DocCtx, query: string, budget = 5000): Promise<string> {
   if (isSmall(doc)) return rawText(doc);
+  if (!doc.doc.pages.size) return rawText(doc, budget); // no wiki: page-marked raw excerpt instead of an empty slice
   try {
     const r = await queryWiki(doc.doc, query, { maxContextChars: budget, maxPages: 4 });
     return r.context;

@@ -1,0 +1,47 @@
+[
+  {
+    "t": 3,
+    "scrollTop": 263,
+    "maxScroll": 334,
+    "ansBottom": 681,
+    "barTop": 709,
+    "hiddenPx": 0,
+    "chars": 208
+  },
+  {
+    "t": 6,
+    "scrollTop": 263,
+    "maxScroll": 334,
+    "ansBottom": 681,
+    "barTop": 709,
+    "hiddenPx": 0,
+    "chars": 229
+  },
+  {
+    "t": "after-wheel-up+2.5s",
+    "scrollTop": 0,
+    "maxScroll": 334,
+    "ansBottom": 924,
+    "barTop": 709,
+    "hiddenPx": 215,
+    "chars": 252
+  },
+  {
+    "t": "after-wheel-up+8.5s",
+    "scrollTop": 263,
+    "maxScroll": 334,
+    "ansBottom": 681,
+    "barTop": 709,
+    "hiddenPx": 0,
+    "chars": 289
+  },
+  {
+    "t": "scrolled-to-end",
+    "scrollTop": 334,
+    "maxScroll": 334,
+    "ansBottom": 616,
+    "barTop": 709,
+    "hiddenPx": 0,
+    "chars": 292
+  }
+]

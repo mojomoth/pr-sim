@@ -18,14 +18,9 @@ export interface WikiDoc {
 
 export const RESERVED = new Set(["index", "log", "log-queries", "schema", "overview", "주요-수치"]);
 /** Meta files that are not content pages. */
-export const META_SLUGS = ["index", "SCHEMA"];
+const META_SLUGS = ["index", "SCHEMA"];
 
 export const docChars = (doc: WikiDoc) => doc.raw.reduce((a, t) => a + t.length, 0);
-
-export function readRawPage(doc: WikiDoc, page: number): string | null {
-  if (!Number.isInteger(page) || page < 1 || page > doc.raw.length) return null;
-  return doc.raw[page - 1];
-}
 
 function key(slug: string): string | null {
   if (slug === "SCHEMA" || slug === "schema") return "SCHEMA";
@@ -44,7 +39,7 @@ export function writePage(doc: WikiDoc, slug: string, md: string) {
   doc.pages.set(k, md);
 }
 
-export function pageInfoOf(slug: string, md: string): WikiPageInfo {
+function pageInfoOf(slug: string, md: string): WikiPageInfo {
   const { fm, body } = parseFrontmatter(md);
   const title = fm.title ?? body.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? slug;
   const type = (fm.type as PageType) ?? (slug === "index" || slug === "SCHEMA" ? "meta" : "topic");

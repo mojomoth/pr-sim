@@ -1,0 +1,19 @@
+PASS qa-resume: 이어서 질의응답하기
+PASS qa-resume: the pending follow-up is asked first (꼬리질문) — "질의응답\n종료\n\n질의응답 남은 시간 · 이어하기\n\n01:15\n\n경희 · 친절함\n질문 중\n\n꼬리질문 · 1 / 2\n\n네, 원가 방향은 이해했습니다.\n그럼 2028년 96억 원 매출에서 웨이브셀과 웨이브팩이 각각 어느 정도를 맡는지 조금 더 설명해 주실까요?\n질문과 답변 기록 1개\n펼치기\n질문 듣는 중\n답변 완료"
+PASS qa-resume: question text = saved follow-up — "그럼 2028년 96억 원 매출에서 웨이브셀과 웨이브팩이 각각 어느 정도를 맡는지 조금 더 설명해 주실까요?"
+PASS qa: hero photo full strength (no opacity/filter/animation on photo or ancestors, nothing over it) — {"w":342,"h":254,"chain":[],"topIsImg":true}
+PASS qa-resume: unfinished answer restored into 내 답변 — {"ans":"내 답변 · 음성 인식 중\n\n네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 2028년에는","carry":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 "}
+PASS qa: confirm open → transcriber stopped (대기 중) and clock paused — {"rowPaused":"대기 중","timerA":"01:10","timerB":"01:10"}
+PASS qa: confirm closed → transcriber listening again — "듣고 있어요"
+PASS qa: answer save failure → retry notice, does not move to the next question — "질의응답\n종료\n\n질의응답 남은 시간 · 이어하기\n\n00:56\n\n1분 남음\n경희 · 친절함\n답변 듣는 중\n\n꼬리질문 · 1 / 2\n\n네, 원가 방향은 이해했습니다.\n그럼 2028년 96억 원 매출에서 웨이브셀과 웨이브팩이 각각 어느 정도를 맡는지 조금 더 설명해 주실까요?\n\n지금은 음성을 만들 수 없어요. 질문은 글로 보고 이어 가세요.\n\n질문 다시 듣기\n\n내 답변\n\n네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 2028년에는 네. 지금 원가가 스티로폼보다 높은 건 맞습 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는\n\n답변 기록을 저장하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.\n\n다시 시도\n질문과 답변 기록 1개\n펼치기\n대기 중\n답변 완료"
+PASS qa: save-failure alert (with 다시 시도) scrolled into view above the bottom bar — {"alertBottom":628,"barTop":696}
+PASS qa: nothing advanced in storage while failing — 1
+PASS qa: retry saves the follow-up answer incl. the restored sentences — {"q":"q_j_mwdja2lbcyyyv_1_f1","ids":["qmwdtzcl2-1","qmwdtzcl2-2","qmwdtzcl2-3","qmwdwvk0x-1","qmwdwvk0x-2","qmwdwvs84-1","qmwdwvs84-2","qmwdwvs84-3"],"ans":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 "}
+qa t: [
+  18.1, 18.4, 17.2,
+  55.2, 55.5, 54.7,
+  46.9, 47.5, 50.8,
+  51.6, 54.6
+]
+PASS qa: after Q&A ended the hero pill is hidden — {"text":"답변 듣는 중","display":"none"}
+PASS qa: end saved status report — {"status":"report","qa":3}

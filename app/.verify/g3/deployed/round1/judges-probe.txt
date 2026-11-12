@@ -1,0 +1,4 @@
+{"type":"error","slot":0,"code":"providers_unavailable","message":"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."}
+{"type":"done","ms":1321}
+
+HTTP 200 1.480642s

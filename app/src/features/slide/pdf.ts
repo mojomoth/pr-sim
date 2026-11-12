@@ -4,6 +4,7 @@
 //   (copied by ./sync-pdfjs.mjs), so no bundler-specific worker handling is needed.
 import type * as PdfjsLib from "pdfjs-dist";
 import type { PDFDocumentLoadingTask, PDFDocumentProxy, RenderTask } from "pdfjs-dist";
+import { MAX_DOC_PAGES } from "@/server/types";
 
 export type { PDFDocumentProxy, RenderTask };
 
@@ -15,7 +16,7 @@ const PDFJS_ASSET_BASE = "/pdfjs/";
 /** Upload limits (client; the server re-checks text length). */
 export const PDF_LIMITS = {
   maxBytes: 30 * 1024 * 1024,
-  maxPages: 120,
+  maxPages: MAX_DOC_PAGES,
 } as const;
 
 /** A page with fewer non-space characters than this counts as empty (scanned image, picture-only slide). */
@@ -75,7 +76,7 @@ export function describePdfError(err: unknown): string {
   return "PDF를 여는 중에 문제가 생겼어요. 다시 시도해 주세요.";
 }
 
-export class PdfError extends Error {
+class PdfError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "PdfError";
@@ -94,8 +95,8 @@ function hasPdfMagic(head: Uint8Array): boolean {
   return s.includes("%PDF-");
 }
 
-/** Cheap checks before parsing: type, size, magic bytes. Throws PdfError. Returns the bytes. */
-async function checkFile(file: Blob): Promise<Uint8Array> {
+/** Cheap checks before parsing: type, size, magic bytes. Throws PdfError. Returns the bytes. (Exported for tests.) */
+export async function checkFile(file: Blob): Promise<Uint8Array> {
   const name = file instanceof File ? file.name : "";
   const typeOk = !file.type || file.type === "application/pdf" || file.type === "application/octet-stream" || /\.pdf$/i.test(name);
   if (!typeOk) throw new PdfError("PDF 파일만 올릴 수 있어요.");
@@ -131,19 +132,8 @@ async function openValidated(file: Blob): Promise<{ doc: PDFDocumentProxy; data:
   return { doc, data };
 }
 
-/**
- * Upload check: type, size (≤ 30MB), %PDF magic, readable by pdf.js (not encrypted / corrupt),
- * page count (≤ 120). Throws PdfError with a Korean message. Returns the page count.
- */
-export async function validatePdf(file: Blob): Promise<number> {
-  const { doc } = await openValidated(file);
-  const n = doc.numPages;
-  void doc.loadingTask.destroy();
-  return n;
-}
-
 /** Per-page text (index 0 = p.1), whitespace-normalised. Same joining as unpdf (item.str + EOL). */
-export async function extractPageTexts(doc: PDFDocumentProxy, onProgress?: (done: number, total: number) => void): Promise<string[]> {
+async function extractPageTexts(doc: PDFDocumentProxy, onProgress?: (done: number, total: number) => void): Promise<string[]> {
   const out: string[] = [];
   for (let p = 1; p <= doc.numPages; p++) {
     const page = await doc.getPage(p);

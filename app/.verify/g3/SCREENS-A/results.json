@@ -1,0 +1,519 @@
+{
+  "360": {
+    "rows": [
+      {
+        "h": 64,
+        "w": 320,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "경희",
+            "clipped": false
+          },
+          {
+            "text": "50대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 53,
+            "h": 32,
+            "top": 1088,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 42,
+            "h": 32,
+            "top": 1088,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 53,
+            "h": 32,
+            "top": 1088,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            44,
+            44,
+            156,
+            36
+          ]
+        },
+        "close": {
+          "w": 36,
+          "h": 44
+        }
+      },
+      {
+        "h": 64,
+        "w": 320,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "성수",
+            "clipped": false
+          },
+          {
+            "text": "50대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 53,
+            "h": 32,
+            "top": 1162,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 42,
+            "h": 32,
+            "top": 1162,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 53,
+            "h": 32,
+            "top": 1162,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            44,
+            44,
+            156,
+            36
+          ]
+        },
+        "close": {
+          "w": 36,
+          "h": 44
+        }
+      },
+      {
+        "h": 64,
+        "w": 320,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "성민",
+            "clipped": false
+          },
+          {
+            "text": "40대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 53,
+            "h": 32,
+            "top": 1236,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 42,
+            "h": 32,
+            "top": 1236,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 53,
+            "h": 32,
+            "top": 1236,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            44,
+            44,
+            156,
+            36
+          ]
+        },
+        "close": {
+          "w": 36,
+          "h": 44
+        }
+      }
+    ],
+    "pageH": 1498,
+    "overflowX": 0,
+    "hintLines": 2,
+    "hintText": "성향에 따라 질문하는 말투와 강도가 달라져요. 심사위원은 최대 3명까지 추가할 수 있어요.",
+    "logs": []
+  },
+  "390": {
+    "rows": [
+      {
+        "h": 64,
+        "w": 342,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "경희",
+            "clipped": false
+          },
+          {
+            "text": "50대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 53,
+            "h": 32,
+            "top": 1088,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 42,
+            "h": 32,
+            "top": 1088,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 53,
+            "h": 32,
+            "top": 1088,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            44,
+            66,
+            156,
+            36
+          ]
+        },
+        "close": {
+          "w": 36,
+          "h": 44
+        }
+      },
+      {
+        "h": 64,
+        "w": 342,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "성수",
+            "clipped": false
+          },
+          {
+            "text": "50대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 53,
+            "h": 32,
+            "top": 1162,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 42,
+            "h": 32,
+            "top": 1162,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 53,
+            "h": 32,
+            "top": 1162,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            44,
+            66,
+            156,
+            36
+          ]
+        },
+        "close": {
+          "w": 36,
+          "h": 44
+        }
+      },
+      {
+        "h": 64,
+        "w": 342,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "성민",
+            "clipped": false
+          },
+          {
+            "text": "40대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 53,
+            "h": 32,
+            "top": 1236,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 42,
+            "h": 32,
+            "top": 1236,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 53,
+            "h": 32,
+            "top": 1236,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            44,
+            66,
+            156,
+            36
+          ]
+        },
+        "close": {
+          "w": 36,
+          "h": 44
+        }
+      }
+    ],
+    "pageH": 1498,
+    "overflowX": 0,
+    "hintLines": 2,
+    "hintText": "성향에 따라 질문하는 말투와 강도가 달라져요. 심사위원은 최대 3명까지 추가할 수 있어요.",
+    "logs": []
+  },
+  "personaTap": {
+    "before": "친절함",
+    "after": "공격적"
+  },
+  "desktop": {
+    "rows": [
+      {
+        "h": 59,
+        "w": 317,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "경희",
+            "clipped": false
+          },
+          {
+            "text": "50대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 49,
+            "h": 30,
+            "top": 1092,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 39,
+            "h": 30,
+            "top": 1092,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 49,
+            "h": 30,
+            "top": 1092,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            41,
+            62,
+            144,
+            33
+          ]
+        },
+        "close": {
+          "w": 33,
+          "h": 41
+        }
+      },
+      {
+        "h": 59,
+        "w": 317,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "성수",
+            "clipped": false
+          },
+          {
+            "text": "50대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 49,
+            "h": 30,
+            "top": 1160,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 39,
+            "h": 30,
+            "top": 1160,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 49,
+            "h": 30,
+            "top": 1160,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            41,
+            62,
+            144,
+            33
+          ]
+        },
+        "close": {
+          "w": 33,
+          "h": 41
+        }
+      },
+      {
+        "h": 59,
+        "w": 317,
+        "overflowEls": 0,
+        "texts": [
+          {
+            "text": "성민",
+            "clipped": false
+          },
+          {
+            "text": "40대",
+            "clipped": false
+          }
+        ],
+        "chips": [
+          {
+            "t": "친절함",
+            "w": 49,
+            "h": 30,
+            "top": 1228,
+            "hitH": "44px"
+          },
+          {
+            "t": "빡셈",
+            "w": 39,
+            "h": 30,
+            "top": 1228,
+            "hitH": "44px"
+          },
+          {
+            "t": "공격적",
+            "w": 49,
+            "h": 30,
+            "top": 1228,
+            "hitH": "44px"
+          }
+        ],
+        "style": {
+          "wrap": "nowrap",
+          "gap": "4px",
+          "pad": "0px 10px",
+          "fs": "13px",
+          "rowParts": [
+            41,
+            62,
+            144,
+            33
+          ]
+        },
+        "close": {
+          "w": 33,
+          "h": 41
+        }
+      }
+    ],
+    "pageH": 1516,
+    "overflowX": 0,
+    "hintLines": 2,
+    "hintText": "성향에 따라 질문하는 말투와 강도가 달라져요. 심사위원은 최대 3명까지 추가할 수 있어요.",
+    "logs": []
+  }
+}

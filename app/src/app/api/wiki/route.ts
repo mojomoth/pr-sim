@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { errorResponse, guard, ndjson, readJson } from "@/server/http";
+import { cors, errorResponse, guard, ndjson, preflight, readJson } from "@/server/http";
 import { buildWiki } from "@/server/wiki/ingest";
 import { checkDocLimits, DocIn } from "@/server/wiki/schema";
 import { toWikiPages, wikiDocFrom } from "@/server/wiki/store";
@@ -14,7 +14,9 @@ const Body = z.object({ doc: DocIn.omit({ wiki: true, keyNumbers: true }) });
 //   {type:"progress", phase, chunksDone, chunksTotal, roundsDone, roundsTotal, msg} …
 //   {type:"done", wiki: WikiPage[], keyNumbers, usage (by "provider:model"), ms} | {type:"error", code, message, retryable}
 // 413 over 120 pages / 150k chars, 422 when < 30 % of pages carry text. The build stops 20 s before maxDuration (504).
-export async function POST(req: Request) {
+export const OPTIONS = preflight;
+
+export const POST = cors(async (req: Request) => {
   const denied = guard(req, "wiki");
   if (denied) return denied;
   let body: z.infer<typeof Body>;
@@ -30,4 +32,4 @@ export async function POST(req: Request) {
     const { usage, ms } = await buildWiki(doc, { onProgress: send, signal });
     send({ type: "done", wiki: toWikiPages(doc), keyNumbers: doc.keyNumbers, usage, ms });
   });
-}
+});

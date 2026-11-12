@@ -1,0 +1,14 @@
+[20:01:07] session s_mwdz3rrr1z6j2w5n
+[20:01:09] FAIL setup: 3 judge faces generated — {"faces":0,"note":"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."}
+[20:01:09] PASS setup: notpdf upload rejected with a message — "업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도"
+[20:01:10] PASS setup: corrupt upload rejected with a message — "업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도"
+[20:01:11] PASS setup: big31mb upload rejected with a message — "업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도 | AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도"
+[20:01:11] PASS setup: both PDFs attached
+[20:01:12] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[20:01:14] FAIL setup: wiki built for both documents — "자료 분석 실패 · AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n"
+[20:01:17] PASS present: camera preview playing — [{"w":640,"playing":true}]
+[20:01:18] PASS present: slide next button and arrow key — {"p1":1,"p2":2,"p3":1}
+[20:01:33] PASS present: timer follows the wall clock — {"a":"00:56","b":"00:41"}
+[20:02:15] PASS present: time-up dialog at ~60s — {"timeUp":60.271}
+[20:02:16] PASS present: STT transcript saved — {"n":11,"status":"qa"}
+[20:02:16] FAILED 2/12 → /Users/jyl/work/study/pr-sim/app/.verify/g3/deployed/round1/flow

@@ -1,7 +1,7 @@
 "use client";
 // 03 · 발표 — remaining time, PDF slides with my camera, live transcript, the judges.
 // The transcript is saved sentence by sentence and the remaining time every few seconds, so a reload
-// or 기록 → 이어하기 resumes where the presenter left off.
+// or 연습 기록 → 이어서 진행 resumes where the presenter left off.
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Bubble } from "@/components/Bubble";
@@ -18,7 +18,7 @@ import { useCountdown, useSecondsOverride } from "@/features/session/useCountdow
 import { SlideViewer } from "@/features/slide/SlideViewer";
 import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
 import { platform, useCamera } from "@/platform";
-import { cameraViewStatus, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeTile, useSessionFromQuery } from "./shared";
+import { cameraViewStatus, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeTile, useSessionFromQuery } from "./shared";
 
 export function PresentScreen() {
   const s = useSessionFromQuery();
@@ -31,6 +31,7 @@ export function PresentScreen() {
   }, [done, status, s.id, router]);
   if (s.state === "loading" || done) return <LoadingScreen />;
   if (s.state === "missing") return <MissingSession />;
+  if (s.state === "error") return <LoadFailed onRetry={s.retry} />;
   return <Presentation key={s.rec.id} rec={s.rec} />;
 }
 
@@ -47,6 +48,8 @@ function Presentation({ rec }: { rec: SessionRecord }) {
   const [confirm, setConfirm] = useState<null | "exit" | "back" | "finish">(null);
   const [timeUp, setTimeUp] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  /** A required save failed: this retries it (and then continues where it stopped). */
+  const [saveRetry, setSaveRetry] = useState<null | (() => void)>(null);
 
   // ── slides ──
   const [deck, setDeck] = useState<Blob | null | undefined>(undefined);
@@ -68,12 +71,19 @@ function Presentation({ rec }: { rec: SessionRecord }) {
   const [micOn, setMicOn] = useState(true);
   const cam = useCamera(camOn && stage !== "ended");
 
+  // Every sentence of this visit; the phase-ending save re-adds any whose own save failed.
+  const said = useRef<TranscriptSentence[]>([]);
   const persistSentence = useCallback(
     (x: TranscriptSentence) => {
-      updateSession(id, (cur) => ({ ...cur, transcript: [...cur.transcript, x] })).catch(() => setSaveError("전사 내용을 저장하지 못했어요. 저장 공간을 확인해 주세요."));
+      said.current.push(x);
+      updateSession(id, (cur) => ({ ...cur, transcript: [...cur.transcript, x] })).catch(() => setSaveError("말한 내용을 저장하지 못했어요. 저장 공간을 확인해 주세요."));
     },
     [id],
   );
+  const withSaid = (cur: SessionRecord): TranscriptSentence[] => {
+    const have = new Set(cur.transcript.map((x) => x.id));
+    return [...cur.transcript, ...said.current.filter((x) => !have.has(x.id))];
+  };
   const stt = useSentenceTranscriber({ phase: "presentation", getSlide: () => pageRef.current, onSentence: persistSentence });
 
   // ── time ──
@@ -111,6 +121,26 @@ function Presentation({ rec }: { rec: SessionRecord }) {
     if (micOn) void stt.start(elapsed());
   };
 
+  // A confirm sheet pauses the countdown, so it pauses the transcriber too (otherwise words spoken
+  // meanwhile get times past the clock, and sentences after it resumes go back in time).
+  const stageRef = useRef(stage);
+  useEffect(() => {
+    stageRef.current = stage;
+  }, [stage]);
+  const paused = useRef<Promise<unknown> | null>(null);
+  const openConfirm = (kind: "exit" | "back" | "finish") => {
+    setConfirm(kind);
+    if (micOn && !paused.current) paused.current = stt.stop();
+  };
+  const closeConfirm = async () => {
+    setConfirm(null);
+    const p = paused.current;
+    if (!p) return;
+    await p;
+    paused.current = null;
+    if (micOn && stageRef.current === "live") void stt.start(elapsed());
+  };
+
   const toggleMic = () => {
     if (micOn) {
       setMicOn(false);
@@ -121,27 +151,52 @@ function Presentation({ rec }: { rec: SessionRecord }) {
     }
   };
 
-  /** End the presentation (time up or 발표 마치기): keep the last words, then hand over to Q&A. */
-  const finish = async () => {
+  /**
+   * End the presentation (time up or 발표 마치기): wait for the last words, then save them with the
+   * Q&A status. Only a successful save moves on (`then`); a failed one shows a retry and stays here.
+   */
+  const finish = async (then: () => void) => {
     setStage("ended");
+    stageRef.current = "ended";
+    await paused.current;
     await stt.stop();
-    await updateSession(id, { status: "qa", resume: undefined }).catch(() => {});
+    const save = async () => {
+      setSaveRetry(null);
+      try {
+        await updateSession(id, (cur) => ({ ...cur, transcript: withSaid(cur), status: "qa", resume: undefined }));
+      } catch {
+        setSaveError("발표 기록을 저장하지 못해 질의응답으로 넘어가지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.");
+        setSaveRetry(() => () => void save());
+        return;
+      }
+      setSaveError(null);
+      then();
+    };
+    await save();
   };
   useEffect(() => {
-    finishRef.current = () => {
-      setTimeUp(true);
-      void finish();
-    };
+    finishRef.current = () => void finish(() => setTimeUp(true));
   });
 
   const leave = async (to: string) => {
     setConfirm(null);
-    if (stage === "live") {
-      setStage("ended");
-      await stt.stop();
-      await saveResume().catch(() => {});
-    }
-    router.push(to);
+    if (stage !== "live") return router.push(to);
+    setStage("ended");
+    stageRef.current = "ended";
+    await paused.current;
+    await stt.stop();
+    const save = async () => {
+      setSaveRetry(null);
+      try {
+        await updateSession(id, (cur) => ({ ...cur, transcript: withSaid(cur), status: "presentation", resume: { phase: "presentation", remainingSec: Math.max(1, Math.ceil(remRef.current)) } }));
+      } catch {
+        setSaveError("기록을 저장하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.");
+        setSaveRetry(() => () => void save());
+        return;
+      }
+      router.push(to);
+    };
+    await save();
   };
 
   // ── transcript bubble ──
@@ -152,15 +207,17 @@ function Presentation({ rec }: { rec: SessionRecord }) {
   const sttState =
     stage === "ready"
       ? "시작 전"
-      : !micOn
-        ? "마이크 꺼짐"
-        : stt.status === "connecting"
-          ? "연결 중"
-          : listening
-            ? "음성 인식 중"
-            : stt.status === "error"
-              ? "멈춤"
-              : "대기 중";
+      : stage === "ended"
+        ? "발표 종료"
+        : !micOn
+          ? "마이크 꺼짐"
+          : stt.status === "connecting"
+            ? "연결 중"
+            : listening
+              ? "음성 인식 중"
+              : stt.status === "error"
+                ? "멈춤"
+                : "대기 중";
 
   const judges = rec.judges.slice(0, 3);
 
@@ -171,14 +228,14 @@ function Presentation({ rec }: { rec: SessionRecord }) {
         <div className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-2">
           <StepHeader
             title="발표 중"
-            onBack={stage === "live" ? () => setConfirm("back") : () => router.push(`/setup?s=${id}`)}
+            onBack={stage === "live" ? () => openConfirm("back") : () => router.push(`/setup?s=${id}`)}
             right={
-              <HeaderPill outline onClick={() => (stage === "live" ? setConfirm("exit") : router.push("/history"))}>
+              <HeaderPill outline onClick={() => (stage === "live" ? openConfirm("exit") : router.push("/history"))}>
                 종료
               </HeaderPill>
             }
           />
-          <Timer label={resumeSec ? "발표 남은 시간 · 이어하기" : "발표 남은 시간"} remaining={remaining} total={total} compact />
+          <Timer label={resumeSec ? "발표 남은 시간 · 이어서 진행" : "발표 남은 시간"} remaining={remaining} total={total} compact />
         </div>
 
         <div className="mt-3 flex flex-col gap-3 [--slide-max-h:min(260px,calc(var(--app-h)*0.3))]">
@@ -226,14 +283,25 @@ function Presentation({ rec }: { rec: SessionRecord }) {
             {micOn && stt.error && <MediaProblem device="mic" status={micStatusFromError(stt.error)} message={stt.error} onRetry={() => void stt.start(elapsed())} />}
             {stt.notice && <p className="px-1 text-[13px] text-secondary">{stt.notice}</p>}
             {saveError && (
-              <p className="px-1 text-[13px] text-error" role="alert">
-                {saveError}
-              </p>
+              <div role="alert" className="flex items-center gap-3 px-1">
+                <p className="min-w-0 flex-1 text-[13px] leading-[18px] text-error">{saveError}</p>
+                {saveRetry && (
+                  <button type="button" onClick={saveRetry} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-ink px-4 text-[14px] font-semibold text-inverse">
+                    다시 시도
+                  </button>
+                )}
+              </div>
             )}
           </section>
 
           {judges.length > 0 && (
-            <section aria-label="심사위원" className="mx-auto grid w-full max-w-[276px] grid-cols-3 gap-3">
+            // Draft 03: three tiles fill the width. Their height follows the space left above the bottom
+            // bar (taller phones get near-square tiles; the desktop frame, with its home-indicator inset,
+            // gets shorter ones) so the names never run into the bar. Photo crop stays full color.
+            <section
+              aria-label="심사위원"
+              className="flex w-full justify-center gap-3 [&>figure]:w-[calc((100%-24px)/3)] [&>figure]:flex-none [&_figure>div]:aspect-auto [&_figure>div]:h-[clamp(72px,calc(var(--app-h)-var(--safe-bottom-pad)-740px),104px)] [&_img]:object-[50%_30%]"
+            >
               {judges.map((j) => (
                 <SessionJudgeTile key={j.id} judge={j} />
               ))}
@@ -253,7 +321,7 @@ function Presentation({ rec }: { rec: SessionRecord }) {
             {resumeSec ? "이어서 발표하기" : "발표 시작"}
           </Button>
         ) : (
-          <Button onClick={() => setConfirm("finish")} arrow disabled={stage === "ended"}>
+          <Button onClick={() => openConfirm("finish")} arrow disabled={stage === "ended"}>
             발표 마치기
           </Button>
         )}
@@ -265,19 +333,18 @@ function Presentation({ rec }: { rec: SessionRecord }) {
         body="질의응답으로 넘어가요. 심사위원이 발표 내용을 바탕으로 질문해요."
         confirmLabel="발표 마치기"
         cancelLabel="계속 발표하기"
-        onClose={() => setConfirm(null)}
-        onConfirm={async () => {
+        onClose={() => void closeConfirm()}
+        onConfirm={() => {
           setConfirm(null);
-          await finish();
-          router.push(`/qa?s=${id}`);
+          void finish(() => router.push(`/qa?s=${id}`));
         }}
       />
       <ConfirmDialog
         open={confirm === "exit" || confirm === "back"}
         title={confirm === "back" ? "발표를 멈추고 나갈까요?" : "시뮬레이션을 종료할까요?"}
-        body="지금까지 진행한 내용은 기록에 ‘진행 중’으로 남아요. 목록에서 이어서 할 수 있어요."
+        body="지금까지 진행한 내용은 연습 기록에 ‘진행 중’으로 남아요. 연습 기록에서 이어서 할 수 있어요."
         confirmLabel={confirm === "back" ? "나가기" : "종료하기"}
-        onClose={() => setConfirm(null)}
+        onClose={() => void closeConfirm()}
         onConfirm={() => void leave(confirm === "back" ? `/setup?s=${id}` : "/history")}
       />
       <PhaseEndDialog

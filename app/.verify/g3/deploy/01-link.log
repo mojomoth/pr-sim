@@ -1,0 +1,20 @@
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.14.0
+
+  Directory       ~/work/study/pr-sim/app
+
+  Local settings detected in vercel.json:
+  Build Command: pnpm build
+  Framework: nextjs
+  Install Command: pnpm install --frozen-lockfile
+  Merging default Project Settings for Next.js. Previously listed overrides are prioritized.
+
+  Detected Next.js (Build Command: next build, Output Directory: Next.js default)
+
+✓ Created         mojomoths-projects/pr-sim
+> Connecting GitHub repository: https://github.com/mojomoth/pr-sim
+> Connected
+
+> Downloading a fresh `VERCEL_OIDC_TOKEN` for pr-sim
+
+✓ Updated         .env.local file

@@ -1,0 +1,272 @@
+{
+  "empty": {
+    "/api/tts": {
+      "status": 400,
+      "ms": 267,
+      "ct": "application/json",
+      "cache": "no-store",
+      "vercelId": "icn1::icn1::r4nfz-1794513609083-ac738dae30b6",
+      "vercelError": null,
+      "provider": null,
+      "model": null,
+      "bytes": 93,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 본문이 올바른 JSON이 아니에요."
+        }
+      }
+    },
+    "/api/judges": {
+      "status": 400,
+      "ms": 270,
+      "ct": "application/json",
+      "cache": "no-store",
+      "vercelId": "icn1::icn1::w26tk-1794513609303-a9d3e6c8b7f9",
+      "vercelError": null,
+      "provider": null,
+      "model": null,
+      "bytes": 93,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 본문이 올바른 JSON이 아니에요."
+        }
+      }
+    },
+    "/api/wiki": {
+      "status": 400,
+      "ms": 351,
+      "ct": "application/json",
+      "cache": "no-store",
+      "vercelId": "icn1::icn1::w26tk-1794513609568-7968ecfe92bc",
+      "vercelError": null,
+      "provider": null,
+      "model": null,
+      "bytes": 93,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 본문이 올바른 JSON이 아니에요."
+        }
+      }
+    },
+    "/api/questions": {
+      "status": 400,
+      "ms": 191,
+      "ct": "application/json",
+      "cache": "no-store",
+      "vercelId": "icn1::icn1::w26tk-1794513609941-a6a97a12ea89",
+      "vercelError": null,
+      "provider": null,
+      "model": null,
+      "bytes": 93,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 본문이 올바른 JSON이 아니에요."
+        }
+      }
+    },
+    "/api/questions/followup": {
+      "status": 400,
+      "ms": 172,
+      "ct": "application/json",
+      "cache": "no-store",
+      "vercelId": "icn1::icn1::w26tk-1794513610112-fa817b7ae8d1",
+      "vercelError": null,
+      "provider": null,
+      "model": null,
+      "bytes": 93,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 본문이 올바른 JSON이 아니에요."
+        }
+      }
+    },
+    "/api/report": {
+      "status": 400,
+      "ms": 71,
+      "ct": "application/json",
+      "cache": "no-store",
+      "vercelId": "icn1::icn1::w26tk-1794513610283-cfcc24ab976a",
+      "vercelError": null,
+      "provider": null,
+      "model": null,
+      "bytes": 93,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 본문이 올바른 JSON이 아니에요."
+        }
+      }
+    }
+  },
+  "malformed": {
+    "status": 400,
+    "ms": 75,
+    "ct": "application/json",
+    "cache": "no-store",
+    "vercelId": "icn1::icn1::w26tk-1794513610359-0f1a5e9d2803",
+    "vercelError": null,
+    "provider": null,
+    "model": null,
+    "bytes": 93,
+    "body": {
+      "error": {
+        "code": "bad_request",
+        "message": "요청 본문이 올바른 JSON이 아니에요."
+      }
+    }
+  },
+  "badFields": {
+    "status": 400,
+    "ms": 53,
+    "ct": "application/json",
+    "cache": "no-store",
+    "vercelId": "icn1::icn1::8d62c-1794513610429-61dff1d69718",
+    "vercelError": null,
+    "provider": null,
+    "model": null,
+    "bytes": 321,
+    "body": {
+      "error": {
+        "code": "bad_request",
+        "message": "요청 형식이 올바르지 않아요.",
+        "issues": [
+          {
+            "path": "text",
+            "message": "Too small: expected string to have >=1 characters"
+          },
+          {
+            "path": "gender",
+            "message": "Invalid option: expected one of \"male\"|\"female\""
+          },
+          {
+            "path": "age",
+            "message": "Too small: expected number to be >=20"
+          }
+        ]
+      }
+    }
+  },
+  "wikiBadDoc": {
+    "status": 400,
+    "ms": 70,
+    "ct": "application/json",
+    "cache": "no-store",
+    "vercelId": "icn1::icn1::dtqj4-1794513610484-6167366da85d",
+    "vercelError": null,
+    "provider": null,
+    "model": null,
+    "bytes": 448,
+    "body": {
+      "error": {
+        "code": "bad_request",
+        "message": "요청 형식이 올바르지 않아요.",
+        "issues": [
+          {
+            "path": "doc.role",
+            "message": "Invalid option: expected one of \"presentation\"|\"proposal\""
+          },
+          {
+            "path": "doc.docId",
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "path": "doc.filename",
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "path": "doc.pageTexts",
+            "message": "Invalid input: expected array, received undefined"
+          }
+        ]
+      }
+    }
+  },
+  "wiki5mb": {
+    "sentBytes": 5100389,
+    "status": 413,
+    "ms": 658,
+    "ct": "text/plain; charset=utf-8",
+    "cache": "public, max-age=0, must-revalidate",
+    "vercelId": "icn1::dtqj4-1794513610584-52c7201501d6",
+    "vercelError": "FUNCTION_PAYLOAD_TOO_LARGE",
+    "provider": null,
+    "model": null,
+    "bytes": 93,
+    "body": "Request Entity Too Large\n\nFUNCTION_PAYLOAD_TOO_LARGE\n\nicn1::dtqj4-1794513610584-52c7201501d6\n"
+  },
+  "wiki47mbAscii": {
+    "sentBytes": 4700389,
+    "status": 413,
+    "ms": 662,
+    "ct": "text/plain; charset=utf-8",
+    "cache": "public, max-age=0, must-revalidate",
+    "vercelId": "icn1::hbvrr-1794513611233-d5eec595000d",
+    "vercelError": "FUNCTION_PAYLOAD_TOO_LARGE",
+    "provider": null,
+    "model": null,
+    "bytes": 93,
+    "body": "Request Entity Too Large\n\nFUNCTION_PAYLOAD_TOO_LARGE\n\nicn1::hbvrr-1794513611233-d5eec595000d\n"
+  },
+  "tokenNoOrigin": {
+    "status": 403,
+    "ms": 168,
+    "ct": "application/json",
+    "cache": "no-store",
+    "vercelId": "icn1::icn1::w26tk-1794513611891-b372658b6683",
+    "vercelError": null,
+    "provider": null,
+    "model": null,
+    "bytes": 79,
+    "body": {
+      "error": {
+        "code": "forbidden",
+        "message": "허용되지 않은 요청이에요."
+      }
+    }
+  },
+  "token": {
+    "status": 200,
+    "ms": 439,
+    "ct": "application/json",
+    "cache": "no-store",
+    "vercelId": "icn1::icn1::w26tk-1794513612059-d7a3187fe4b7",
+    "vercelError": null,
+    "provider": null,
+    "model": null,
+    "bytes": 229,
+    "body": {
+      "token": "<76 chars>",
+      "model": "gemini-3.5-transcribe-live",
+      "expiresAt": "2026-11-12T20:30:12.079Z",
+      "config": {
+        "inputAudioTranscription": {
+          "languageCodes": [
+            "ko-KR"
+          ]
+        }
+      }
+    }
+  },
+  "tts": {
+    "status": 503,
+    "ms": 2564,
+    "ct": "application/json",
+    "cache": "no-store",
+    "vercelId": "icn1::icn1::w26tk-1794513612502-2b649ba88570",
+    "vercelError": null,
+    "provider": null,
+    "model": null,
+    "bytes": 152,
+    "body": {
+      "error": {
+        "code": "providers_unavailable",
+        "message": "오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요."
+      }
+    }
+  }
+}

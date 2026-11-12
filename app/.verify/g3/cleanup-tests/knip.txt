@@ -1,0 +1,6 @@
+Unused files (54)
+Unused exports (2)
+PdfError  class  src/features/slide/pdf.ts:79:14
+CHROME           tests/e2e/lib.mjs:12:14        
+Configuration hints (1)
+. (root)  Create knip.json configuration file, and add entry and/or refine project files (54 unused files)

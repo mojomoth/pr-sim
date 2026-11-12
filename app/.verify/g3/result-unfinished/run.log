@@ -1,0 +1,8 @@
+setup: href=/setup?s=s_u_setup want=/setup?s=s_u_setup OK apiCalls=[] status=setup report=false
+presentation: href=/present?s=s_u_pres want=/present?s=s_u_pres OK apiCalls=[] status=presentation report=false
+qa: href=/qa?s=s_u_qa want=/qa?s=s_u_qa OK apiCalls=[] status=qa report=false
+done+report: summary OK apiCalls=[]
+status=report: generation requested apiCalls=["POST /api/wiki","POST /api/wiki"]
+missing: OK
+storage error: OK retryBtn=true
+storage retry: OK → unfinished notice

@@ -20,7 +20,7 @@ import { useCountdown, useSecondsOverride } from "@/features/session/useCountdow
 import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
 import { platform, type Playback } from "@/platform";
 import { TEMPERAMENT_LABEL } from "@/server/types";
-import { LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeAvatar, SessionJudgeHero, useSessionFromQuery } from "../present/shared";
+import { LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeAvatar, SessionJudgeHero, useSessionFromQuery } from "../present/shared";
 
 export function QaScreen() {
   const s = useSessionFromQuery();
@@ -32,16 +32,19 @@ export function QaScreen() {
   }, [elsewhere, status, s.id, router]);
   if (s.state === "loading" || elsewhere) return <LoadingScreen />;
   if (s.state === "missing") return <MissingSession />;
+  if (s.state === "error") return <LoadFailed onRetry={s.retry} />;
   return <QA key={s.rec.id} rec={s.rec} />;
 }
 
-type Stage = "preparing" | "prep-error" | "ready" | "asking" | "answering" | "judging" | "judge-error" | "ended";
+type Stage = "preparing" | "prep-error" | "ready" | "asking" | "answering" | "judging" | "judge-error" | "save-error" | "ended";
 type Bundle = NonNullable<SessionRecord["questions"]>;
 type Current = { q: GeneratedQuestion; original: GeneratedQuestion; remark?: string; n: number; of: number; judge: StoredQA["judge"] };
+type Unsaved = { entry: StoredQA; followup?: GeneratedQuestion };
+const SAVE_FAILED = "답변 기록을 저장하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.";
 
 const STAGE_TEXT: Record<string, string> = {
   context: "발표 내용과 자료를 살펴보고 있어요.",
-  plan: "심사위원마다 물어볼 지점을 나누고 있어요.",
+  plan: "심사위원별로 질문할 주제를 나누고 있어요.",
   generate: "심사위원이 질문을 쓰고 있어요.",
   ground: "질문의 근거를 자료에서 확인하고 있어요.",
   done: "질문을 정리하고 있어요.",
@@ -58,6 +61,17 @@ function toDocInputs(rec: SessionRecord): DocInput[] {
 
 function toQJudge(j: StoredJudge): QJudge {
   return { id: j.id, name: j.name, temperament: j.temperament, gender: j.gender, age: Math.round(j.age), fullName: j.fullName };
+}
+
+/** The same answer (a save retried after an unknown outcome must not add it twice). */
+function sameEntry(a: StoredQA, b: StoredQA) {
+  return a.questionId === b.questionId && a.askedAt === b.askedAt;
+}
+
+/** `cur` plus the sentences it is missing (their own saves failed). */
+function withSentences(cur: TranscriptSentence[], all: TranscriptSentence[]) {
+  const have = new Set(cur.map((x) => x.id));
+  return [...cur, ...all.filter((x) => !have.has(x.id))];
 }
 
 function inTopic(questionId: string, original: GeneratedQuestion) {
@@ -83,6 +97,8 @@ function QA({ rec }: { rec: SessionRecord }) {
   const [micOn, setMicOn] = useState(true);
   const [confirm, setConfirm] = useState<null | "exit" | "back">(null);
   const [endReason, setEndReason] = useState<null | "time" | "exhausted">(null);
+  /** A required save failed: this retries it (and then continues where it stopped). */
+  const [saveRetry, setSaveRetry] = useState<null | (() => void)>(null);
   const [prep, setPrep] = useState<{ stage: string; planned: number; got: Record<string, number>; failed: string[]; count: number; bundle?: Bundle | null }>(() => ({
     stage: "context",
     planned: 0,
@@ -107,6 +123,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     emptyWarned: false,
     collecting: false, // STT sentences belong to the current answer
     entry: null as StoredQA | null, // answered, waiting for the judge's decision
+    unsaved: null as Unsaved | null, // judged, being saved (or its save failed)
     speakSeq: 0,
     playback: null as Playback | null,
     tts: new Map<string, Promise<TtsResult>>(),
@@ -115,6 +132,8 @@ function QA({ rec }: { rec: SessionRecord }) {
     ended: false,
     micOn: true,
     started: false,
+    paused: false, // a confirm sheet is open: the countdown and the transcriber both wait
+    pausing: null as Promise<unknown> | null,
   });
   const setStage = useCallback(
     (st: Stage) => {
@@ -149,7 +168,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     };
   }, [live, stage, saveResume]);
 
-  // ── STT: answer sentences ──
+  // ── STT: answer sentences ── (a failed write here is repaired by the next record/end/leave save)
   const onSentence = useCallback(
     (x: TranscriptSentence) => {
       E.current.transcript = [...E.current.transcript, x];
@@ -164,6 +183,27 @@ function QA({ rec }: { rec: SessionRecord }) {
   const stt = useSentenceTranscriber({ phase: "qa", onSentence });
   const { start: sttStart, stop: sttStop } = stt;
   const answerRef = useRef<HTMLDivElement>(null);
+  const answerBoxRef = useRef<HTMLDivElement>(null);
+  /** When the presenter last scrolled by hand: following the answer pauses for a few seconds after. */
+  const userScrollAt = useRef(0);
+  useEffect(() => {
+    const sc = document.getElementById("app-scroll");
+    if (!sc) return;
+    const mark = () => (userScrollAt.current = Date.now());
+    const onKey = (e: KeyboardEvent) => ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(e.key) && mark();
+    sc.addEventListener("wheel", mark, { passive: true });
+    sc.addEventListener("touchmove", mark, { passive: true });
+    sc.addEventListener("keydown", onKey);
+    return () => {
+      sc.removeEventListener("wheel", mark);
+      sc.removeEventListener("touchmove", mark);
+      sc.removeEventListener("keydown", onKey);
+    };
+  }, []);
+  const saveAlertRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (saveRetry) saveAlertRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [saveRetry]);
   const sttStopRef = useRef(sttStop);
   useEffect(() => {
     sttStopRef.current = sttStop;
@@ -257,8 +297,7 @@ function QA({ rec }: { rec: SessionRecord }) {
   const listen = useCallback(() => {
     if (E.current.ended) return;
     setStage("answering");
-    if (E.current.micOn) void sttStart(elapsed());
-    requestAnimationFrame(() => answerRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }));
+    if (E.current.micOn && !E.current.paused) void sttStart(elapsed());
     const nextId = E.current.pending[0];
     const next = nextId ? E.current.items.get(nextId) : undefined;
     if (next) tts(next).catch(() => {}); // prefetch the next question's voice while the presenter answers
@@ -318,19 +357,19 @@ function QA({ rec }: { rec: SessionRecord }) {
   }, [cancelSpeech]);
 
   const ask = useCallback(
-    (q: GeneratedQuestion, original: GeneratedQuestion, remark?: string) => {
+    (q: GeneratedQuestion, original: GeneratedQuestion, remark?: string, carry: TranscriptSentence[] = []) => {
       const j = judgeOf(q.judgeId);
       if (E.current.ended || !j) return;
       if (q === original) E.current.asked++;
       const cur: Current = { q, original, remark, n: E.current.asked, of: Math.max(E.current.planned, E.current.asked), judge: { id: j.id, name: j.name, temperament: j.temperament } };
       E.current.current = cur;
-      E.current.answer = [];
+      E.current.answer = carry; // resumed: what was already said for this question
       E.current.collecting = true;
       E.current.emptyWarned = false;
       E.current.entry = null;
       E.current.askedAt = elapsed();
       setCurrent(cur);
-      setAnswer([]);
+      setAnswer(carry);
       setNotice(null);
       setError(null);
       setStage("asking");
@@ -339,18 +378,49 @@ function QA({ rec }: { rec: SessionRecord }) {
     [elapsed, judgeOf, setStage, speak],
   );
 
+  /** Save one answered question (and a follow-up it produced). Resolves false if storage failed. */
   const record = useCallback(
-    (entry: StoredQA, followup?: GeneratedQuestion) => {
-      E.current.log = [...E.current.log, entry];
-      setLog(E.current.log);
+    async (entry: StoredQA, followup?: GeneratedQuestion) => {
       if (followup) E.current.items.set(followup.id, followup);
-      updateSession(id, (cur) => ({
-        ...cur,
-        qa: [...cur.qa, entry],
-        ...(followup && cur.questions ? { questions: { ...cur.questions, items: [...cur.questions.items, followup] } } : {}),
-      })).catch(() => setNotice("답변 기록을 저장하지 못했어요. 저장 공간을 확인해 주세요."));
+      try {
+        await updateSession(id, (cur) => ({
+          ...cur,
+          transcript: withSentences(cur.transcript, E.current.transcript),
+          qa: cur.qa.some((x) => sameEntry(x, entry)) ? cur.qa : [...cur.qa, entry],
+          ...(followup && cur.questions && !cur.questions.items.some((x) => x.id === followup.id) ? { questions: { ...cur.questions, items: [...cur.questions.items, followup] } } : {}),
+        }));
+      } catch {
+        return false;
+      }
+      if (!E.current.log.some((x) => sameEntry(x, entry))) {
+        E.current.log = [...E.current.log, entry];
+        setLog(E.current.log);
+      }
+      return true;
     },
     [id],
+  );
+
+  /** record(), then `then()`; a failed save stays on this question with a retry (never moves on silently). */
+  const commit = useCallback(
+    async (u: Unsaved, then: () => void) => {
+      E.current.unsaved = u; // end()/leave() save it if they run meanwhile
+      const attempt = async () => {
+        setSaveRetry(null);
+        const ok = await record(u.entry, u.followup);
+        if (E.current.ended) return;
+        if (ok) {
+          E.current.unsaved = null;
+          setError(null);
+          return then();
+        }
+        setError(SAVE_FAILED);
+        setStage("save-error");
+        setSaveRetry(() => () => void attempt());
+      };
+      await attempt();
+    },
+    [record, setStage],
   );
 
   const end = useCallback(
@@ -361,14 +431,36 @@ function QA({ rec }: { rec: SessionRecord }) {
       cancelSpeech();
       platform.audio.stopAll();
       E.current.followupAbort?.abort();
+      await E.current.pausing;
       await sttStop();
       // keep an answer the time ran out on (no judgement)
       const c = E.current.current;
-      if (E.current.entry) record(E.current.entry);
-      else if (c && E.current.collecting && E.current.answer.length) record(answerEntry(c, E.current.answer, E.current.askedAt));
+      let last: Unsaved | null =
+        E.current.unsaved ??
+        (E.current.entry ? { entry: E.current.entry } : c && E.current.collecting && E.current.answer.length ? { entry: answerEntry(c, E.current.answer, E.current.askedAt) } : null);
+      E.current.unsaved = null;
+      E.current.entry = null;
       E.current.collecting = false;
-      await updateSession(id, { status: "report", resume: undefined }).catch(() => {});
-      setEndReason(reason);
+      // Only a saved session moves on to the result; otherwise stay with a retry.
+      const save = async () => {
+        setSaveRetry(null);
+        let ok = !last || (await record(last.entry, last.followup));
+        if (ok) {
+          last = null;
+          ok = await updateSession(id, (cur) => ({ ...cur, transcript: withSentences(cur.transcript, E.current.transcript), status: "report", resume: undefined })).then(
+            () => true,
+            () => false,
+          );
+        }
+        if (!ok) {
+          setError(SAVE_FAILED);
+          setSaveRetry(() => () => void save());
+          return;
+        }
+        setError(null);
+        setEndReason(reason);
+      };
+      await save();
     },
     [id, cancelSpeech, record, setStage, sttStop],
   );
@@ -376,7 +468,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     endRef.current = (r) => void end(r);
   });
 
-  const nextQuestion = useCallback(() => {
+  const nextQuestion = useCallback((carry?: TranscriptSentence[]) => {
     const b = E.current.bundle;
     if (!b) return;
     let nextId = E.current.pending.shift();
@@ -388,7 +480,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     }
     const q = nextId ? E.current.items.get(nextId) : undefined;
     if (!q) return void end("exhausted");
-    ask(q, q);
+    ask(q, q, undefined, carry);
   }, [ask, end]);
 
   const judgeAnswer = useCallback(
@@ -421,9 +513,7 @@ function QA({ rec }: { rec: SessionRecord }) {
         if (E.current.ended) return;
         E.current.entry = null;
         const followup = r.decision === "followup" && r.followup ? r.followup : undefined;
-        record({ ...entry, assessment: r.assessment, decision: r.decision, remark: r.remark }, followup);
-        if (followup) ask(followup, c.original, r.remark);
-        else nextQuestion();
+        await commit({ entry: { ...entry, assessment: r.assessment, decision: r.decision, remark: r.remark }, followup }, () => (followup ? ask(followup, c.original, r.remark) : nextQuestion()));
       } catch (err) {
         if (E.current.ended || (err as { name?: string })?.name === "AbortError") return;
         setError(err instanceof ApiError ? err.message : "답변을 확인하지 못했어요. 다시 시도해 주세요.");
@@ -432,7 +522,7 @@ function QA({ rec }: { rec: SessionRecord }) {
         if (E.current.followupAbort === ctrl) E.current.followupAbort = null;
       }
     },
-    [ask, judgeOf, nextQuestion, record, rec, setStage],
+    [ask, commit, judgeOf, nextQuestion, rec, setStage],
   );
 
   const submit = async () => {
@@ -444,7 +534,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     const text = E.current.answer.map((x) => x.text).join(" ").trim();
     if (!text && !E.current.emptyWarned) {
       E.current.emptyWarned = true;
-      setNotice("답변이 아직 들리지 않았어요. 다시 말씀해 주세요. 이대로 넘어가려면 ‘답변 완료’를 한 번 더 누르세요.");
+      setNotice("아직 인식된 답변이 없어요. 다시 말씀해 주세요. 이대로 넘어가려면 ‘답변 완료’를 한 번 더 누르세요.");
       listen();
       return;
     }
@@ -455,9 +545,10 @@ function QA({ rec }: { rec: SessionRecord }) {
   };
 
   const skipAfterError = () => {
-    if (E.current.entry) record(E.current.entry);
+    const entry = E.current.entry;
     E.current.entry = null;
-    nextQuestion();
+    if (entry) void commit({ entry }, () => nextQuestion());
+    else nextQuestion();
   };
 
   const startQa = () => {
@@ -471,7 +562,21 @@ function QA({ rec }: { rec: SessionRecord }) {
     E.current.asked = new Set(E.current.log.filter((x) => !x.followup).map((x) => x.questionId)).size;
     E.current.planned = E.current.asked + E.current.pending.length;
     void saveResume().catch(() => {});
-    nextQuestion();
+    // Resumed mid-question: the words already said after the last saved answer belong to the question
+    // that was open (asked again first: a pending follow-up, else the next queued question).
+    const used = new Set(E.current.log.flatMap((x) => x.answerSentenceIds));
+    const qaSaid = E.current.transcript.filter((x) => x.phase === "qa");
+    let after = qaSaid.length;
+    while (after > 0 && !used.has(qaSaid[after - 1].id)) after--;
+    const carry = qaSaid.slice(after);
+    // A follow-up is saved with the answer that produced it; one without an answer was still open.
+    const followup = [...E.current.items.values()].filter((q) => q.kind === "followup" && !asked.has(q.id)).at(-1);
+    if (followup) {
+      const original = (followup.parentId && E.current.items.get(followup.parentId)) || followup;
+      const prev = E.current.log.at(-1);
+      return ask(followup, original, prev?.decision === "followup" ? prev.remark : undefined, carry);
+    }
+    nextQuestion(carry);
   };
 
   const replay = async () => {
@@ -481,6 +586,21 @@ function QA({ rec }: { rec: SessionRecord }) {
     setStage("asking");
     await stt.stop();
     void speak(c.q, c.remark);
+  };
+
+  // A confirm sheet pauses the countdown, so it pauses the transcriber too (otherwise words spoken
+  // meanwhile get times past the clock, and sentences after it resumes go back in time).
+  const openConfirm = (kind: "exit" | "back") => {
+    setConfirm(kind);
+    E.current.paused = true;
+    if (E.current.stage === "answering" && E.current.micOn && !E.current.pausing) E.current.pausing = sttStop();
+  };
+  const closeConfirm = async () => {
+    setConfirm(null);
+    E.current.paused = false;
+    await E.current.pausing;
+    E.current.pausing = null;
+    if (!E.current.ended && !E.current.paused && E.current.stage === "answering" && E.current.micOn) void sttStart(elapsed());
   };
 
   const toggleMic = () => {
@@ -496,32 +616,67 @@ function QA({ rec }: { rec: SessionRecord }) {
 
   const leave = async () => {
     setConfirm(null);
-    if (live && !E.current.ended) {
-      E.current.ended = true;
-      cancelSpeech();
-      platform.audio.stopAll();
-      E.current.followupAbort?.abort();
-      await stt.stop();
-      if (E.current.entry) record(E.current.entry); // answered but not judged yet
-      await saveResume().catch(() => {});
-    }
-    router.push("/history");
+    if (!live || E.current.ended) return router.push("/history");
+    E.current.ended = true;
+    setStage("ended");
+    cancelSpeech();
+    platform.audio.stopAll();
+    E.current.followupAbort?.abort();
+    await E.current.pausing;
+    await stt.stop();
+    // answered but not judged (or judged but not saved yet); an unfinished answer stays in the transcript
+    let last: Unsaved | null = E.current.unsaved ?? (E.current.entry ? { entry: E.current.entry } : null);
+    E.current.unsaved = null;
+    E.current.entry = null;
+    const save = async () => {
+      setSaveRetry(null);
+      let ok = !last || (await record(last.entry, last.followup));
+      if (ok) {
+        last = null;
+        ok = await updateSession(id, (cur) => ({
+          ...cur,
+          transcript: withSentences(cur.transcript, E.current.transcript),
+          status: "qa",
+          resume: { phase: "qa", remainingSec: Math.max(1, Math.ceil(remRef.current)) },
+        })).then(
+          () => true,
+          () => false,
+        );
+      }
+      if (!ok) {
+        setError(SAVE_FAILED);
+        setSaveRetry(() => () => void save());
+        return;
+      }
+      router.push("/history");
+    };
+    await save();
   };
 
   // ── view ──
   const judge = current ? judgeOf(current.q.judgeId) : undefined;
   const listening = stt.status === "listening";
   const answerText = [...answer.map((x) => x.text), ...stt.partialSentences].join(" ");
-  const answerState = !micOn ? "마이크 꺼짐" : stt.status === "connecting" ? "연결 중" : stage === "judging" ? "답변 완료" : undefined;
+  const answerState = !micOn ? "마이크 꺼짐" : stt.status === "connecting" ? "연결 중" : listening ? "음성 인식 중" : stage === "judging" ? "답변 완료" : undefined;
   const showMicRow = live && stage !== "ended";
+  // Keep the live answer in view while it is transcribed: newest line visible inside the bubble, and the
+  // bubble itself above the fixed mic row (#app-scroll's scroll-padding-bottom clears the bottom bar).
+  const following = stage === "answering" || stage === "judging";
+  useEffect(() => {
+    if (!following) return;
+    const box = answerBoxRef.current;
+    if (box) box.scrollTop = box.scrollHeight;
+    if (Date.now() - userScrollAt.current < 4000) return;
+    answerRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [following, answerText]);
 
   return (
     <>
       <Screen bottomPad={showMicRow ? 132 : 72}>
         {/* DESIGN.md: the step name and the remaining time stay at the top (the logo row scrolls away). */}
         <div className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-2">
-          <StepHeader title="질의응답" onBack={live && stage !== "ended" ? () => setConfirm("back") : () => router.push("/history")} right={<HeaderPill onClick={() => (live && stage !== "ended" ? setConfirm("exit") : router.push("/history"))}>종료</HeaderPill>} />
-          <Timer label={resumeSec ? "질의응답 남은 시간 · 이어하기" : "질의응답 남은 시간"} remaining={remaining} total={total} compact />
+          <StepHeader title="질의응답" onBack={live && stage !== "ended" ? () => openConfirm("back") : () => router.push("/history")} right={<HeaderPill onClick={() => (live && stage !== "ended" ? openConfirm("exit") : router.push("/history"))}>종료</HeaderPill>} />
+          <Timer label={resumeSec ? "질의응답 남은 시간 · 이어서 진행" : "질의응답 남은 시간"} remaining={remaining} total={total} compact />
         </div>
 
         {!live ? (
@@ -529,7 +684,9 @@ function QA({ rec }: { rec: SessionRecord }) {
         ) : (
           <div className="mt-4 flex flex-col gap-3">
             {judge && current && (
-              <div key={current.q.id} className="ui-fade h-[clamp(180px,calc(var(--app-h)-590px),300px)] [&>div]:aspect-auto [&>div]:h-full">
+              // No fade/opacity on the photo (it must stay full strength). Once Q&A is over the hero's
+              // 질문 중 / 답변 듣는 중 pill is hidden: nobody is asking or listening any more.
+              <div className={`h-[clamp(180px,calc(var(--app-h)-590px),300px)] [&>div]:aspect-auto [&>div]:h-full ${stage === "ended" ? "[&_[aria-live]]:hidden" : ""}`}>
                 <SessionJudgeHero judge={judge} speaking={speaking || stage === "asking"} />
               </div>
             )}
@@ -549,8 +706,13 @@ function QA({ rec }: { rec: SessionRecord }) {
             )}
             {stage !== "asking" && current && (
               <div ref={answerRef} className="scroll-mb-4">
-                <Bubble variant="me" label="내 답변" listening={listening} status={answerState} className="ui-enter">
-                  {answerText || <span className="text-inverse/60">{micOn ? "답변을 말씀해 주세요…" : "마이크를 켜고 답변해 주세요."}</span>}
+                {/* Draft 04: the answer sits right above the mic row. The text keeps its latest lines in
+                    view (capped height, pinned to the end) so the question above stays on screen too. */}
+                <Bubble variant="me" label="내 답변" status={answerState} className="ui-enter">
+                  <div ref={answerBoxRef} className="max-h-[156px] overflow-y-auto overscroll-contain [scrollbar-width:none]">
+                    {answerText || <span className="text-inverse/60">{micOn ? "답변을 말씀해 주세요…" : "마이크를 켜고 답변해 주세요."}</span>}
+                    {listening && <span className="ui-caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-inverse" aria-hidden="true" />}
+                  </div>
                 </Bubble>
               </div>
             )}
@@ -558,6 +720,14 @@ function QA({ rec }: { rec: SessionRecord }) {
               <p className="text-center text-[14px] text-secondary" role="status">
                 {judge.name} 심사위원이 답변을 살펴보고 있어요…
               </p>
+            )}
+            {saveRetry && error && (
+              <div ref={saveAlertRef} role="alert" className="scroll-mb-[150px] flex flex-col gap-3 rounded-[20px] border border-line p-4">
+                <p className="text-[14px] leading-5 text-error">{error}</p>
+                <Button size="md" onClick={saveRetry}>
+                  다시 시도
+                </Button>
+              </div>
             )}
             {stage === "judge-error" && error && (
               <div role="alert" className="flex flex-col gap-3 rounded-[20px] border border-line p-4">
@@ -598,7 +768,7 @@ function QA({ rec }: { rec: SessionRecord }) {
               {micOn ? <Mic size={22} /> : <MicOff size={22} />}
             </button>
             <Waveform bars={26} level={listening ? stt.level : 0} active={listening} className="h-7 min-w-0 flex-1 justify-center text-secondary" />
-            <span className="shrink-0 text-[13px] font-medium text-secondary">{!micOn ? "마이크 꺼짐" : stage === "asking" ? "질문 듣는 중" : listening ? "듣고 있어요" : "대기 중"}</span>
+            <span className="shrink-0 text-[13px] font-medium text-secondary">{!micOn ? "마이크 꺼짐" : stage === "asking" ? "질문 듣는 중" : listening ? "듣는 중" : "대기 중"}</span>
           </div>
         )}
         {live ? (
@@ -611,7 +781,7 @@ function QA({ rec }: { rec: SessionRecord }) {
           </Button>
         ) : (
           <Button onClick={startQa} arrow disabled={stage !== "ready"}>
-            {stage === "ready" ? (log.length ? "이어서 질의응답하기" : "질의응답 시작") : "질문을 준비하고 있어요…"}
+            {stage === "ready" ? (log.length ? "질의응답 이어 가기" : "질의응답 시작") : "질문을 준비하고 있어요…"}
           </Button>
         )}
       </BottomBar>
@@ -619,9 +789,9 @@ function QA({ rec }: { rec: SessionRecord }) {
       <ConfirmDialog
         open={confirm !== null}
         title={confirm === "back" ? "질의응답을 멈추고 나갈까요?" : "시뮬레이션을 종료할까요?"}
-        body="지금까지 진행한 내용은 기록에 ‘진행 중’으로 남아요. 목록에서 이어서 할 수 있어요."
+        body="지금까지 진행한 내용은 연습 기록에 ‘진행 중’으로 남아요. 연습 기록에서 이어서 할 수 있어요."
         confirmLabel={confirm === "back" ? "나가기" : "종료하기"}
-        onClose={() => setConfirm(null)}
+        onClose={() => void closeConfirm()}
         onConfirm={() => void leave()}
       />
       <PhaseEndDialog
