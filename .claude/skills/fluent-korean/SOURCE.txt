@@ -1,0 +1,5 @@
+source: https://github.com/snflkd/fluent-korean
+commit: ce8683f0eba8cddb91de4dcd151425ff73e60498
+fetched: 2026-11-13
+license: MIT
+note: output-style(fluent-korean.md, 코딩 지침 유지판)을 Skill로 감쌈. frontmatter만 교체, 본문 원문 유지, README 선택 블록 2개 추가. 플러그인·outputStyle 설정은 바꾸지 않음.

@@ -1,0 +1,5 @@
+source: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+commit: ac46de1ad27f92b28ac95459c782c07f6b8c964a
+fetched: 2026-11-13
+license: (gist, 명시 없음) 원문은 references/에 참고용으로만 보관
+note: SKILL.md는 PR-SIM용으로 새로 쓴 운영 절차. 위키 규칙 원본은 docs/wiki/index.md 의 "운영 규칙" 절.

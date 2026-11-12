@@ -5,6 +5,13 @@ import type { NextConfig } from "next";
 // mounted at /<name> via thin route files in app/<name>/.
 const nextConfig: NextConfig = {
   serverExternalPackages: ["pdfjs-dist", "unpdf", "puppeteer-core"],
+  // Gate 1 requirement: every PoC is reachable under /pocs/<name> as well.
+  async rewrites() {
+    return [
+      { source: "/pocs", destination: "/" },
+      { source: "/pocs/:path*", destination: "/:path*" },
+    ];
+  },
   turbopack: {
     rules: {
       "*.css": {

@@ -1,0 +1,5 @@
+source: https://github.com/DietrichGebert/ponytail
+commit: 96608e078b2d5ea607c5c3b8b5a54d1c1fba6846
+fetched: 2026-11-13
+license: MIT
+note: skills/ponytail-audit/SKILL.md 원문 그대로. 플러그인 훅·band·board는 설치하지 않음.

@@ -1,0 +1,5 @@
+source: https://github.com/petergyang/no-ai-slop
+commit: 000650b156983f5159695b441477f4e63b25dc85
+fetched: 2026-11-13
+license: MIT
+note: SKILL.md, eval.md 원문 그대로. 영어 문체 기준이므로 한국어 문구는 fluent-korean과 함께 쓴다.

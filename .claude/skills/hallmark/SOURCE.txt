@@ -1,0 +1,5 @@
+source: https://github.com/Nutlope/hallmark
+commit: 04977e15f3dfd6ee4b74c887dac3eb52665d6c92
+fetched: 2026-11-13
+license: MIT
+note: skills/hallmark 복사. 제외: references/themes/*.jpg(5.6MB, 새 페이지 빌드용), scripts/fixtures/, *.test.mjs. install.mjs·install-hook.mjs·imagegen.mjs는 실행하지 않음.

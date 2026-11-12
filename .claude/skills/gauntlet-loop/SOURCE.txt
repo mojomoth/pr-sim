@@ -1,0 +1,5 @@
+source: https://github.com/robonuggets/gauntlet-loop
+commit: 9b1975a1b8f01981f3f1e6b667ad3aaf907178ea
+fetched: 2026-11-13
+license: CC BY 4.0 (skill: Jay E/RoboNuggets, technique: Matt Shumer)
+note: SKILL.md 원문 그대로.
