@@ -106,3 +106,24 @@ export async function saveSession(data: unknown): Promise<{ ref: string; session
   await writeFile(path.join(dir, `${stem}.json`), body);
   return { ref: `saved:${stem}`, session, renamed: true, duplicate };
 }
+
+const TYPE_KO: Record<string, string> = { string: "문자열", number: "숫자", array: "배열", object: "객체", boolean: "참/거짓", int: "정수" };
+
+/** Korean, UI-safe summary of why a pasted value is not a SessionRecord (zod issues → "situation: 문자열이 필요해요").
+ *  The raw zod JSON stays available to API clients as `detail`; the UI shows only these lines. */
+export function koSessionIssues(e: unknown, max = 4): string[] {
+  const issues = (e as { issues?: { code: string; path: PropertyKey[]; expected?: string; input?: unknown; message?: string }[] })?.issues;
+  if (!Array.isArray(issues)) return ["SessionRecord 구조를 확인해 주세요."];
+  const lines = issues.slice(0, max).map((i) => {
+    const where = i.path.length ? i.path.map((p) => (typeof p === "number" ? `[${p}]` : String(p))).join(".").replace(/\.\[/g, "[") : "(최상위)";
+    if (i.code === "invalid_type") {
+      const want = TYPE_KO[i.expected ?? ""] ?? i.expected ?? "올바른 값";
+      return /received undefined/.test(i.message ?? "") ? `${where}: 항목이 없어요 (${want} 필요)` : `${where}: ${want} 형식이어야 해요`;
+    }
+    if (i.code === "invalid_value" || i.code === "invalid_enum_value") return `${where}: 허용되지 않는 값이에요`;
+    if (i.code === "too_small" || i.code === "too_big") return `${where}: 값의 범위·길이가 맞지 않아요`;
+    return `${where}: 형식이 맞지 않아요`;
+  });
+  if (issues.length > max) lines.push(`외 ${issues.length - max}건`);
+  return lines;
+}

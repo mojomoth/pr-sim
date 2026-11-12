@@ -1,4 +1,4 @@
-import { listSessions, saveSession } from "@/report/lib";
+import { koSessionIssues, listSessions, saveSession } from "@/report/lib";
 
 // GET /api/report/sessions → SessionSummary[] (fixture + question PoC + saved + test samples, listed dynamically)
 export async function GET() {
@@ -14,6 +14,10 @@ export async function POST(req: Request) {
     const { ref, renamed, duplicate } = await saveSession(body);
     return Response.json({ ref, renamed: !!renamed, duplicate: !!duplicate }, { status: 201 });
   } catch (e) {
-    return Response.json({ error: "SessionRecord 형식이 아닙니다", detail: e instanceof Error ? e.message.slice(0, 600) : String(e) }, { status: 400 });
+    // `issues` = Korean lines for the UI; `detail` = raw zod JSON for API clients (never rendered)
+    return Response.json(
+      { error: "SessionRecord 형식이 아니에요", issues: koSessionIssues(e), detail: e instanceof Error ? e.message.slice(0, 600) : String(e) },
+      { status: 400 },
+    );
   }
 }

@@ -3,6 +3,6 @@ import "server-only";
 //   import { generateReport, computeSpeechMetrics, type Report } from "@/report/lib";
 export { generateReport, isCompleteReport, readCachedReport, ReportIncompleteError, reportKey, subScores, weightedTotal, type GenerateOptions } from "./generate";
 export { computeSpeechMetrics, countFillers, countSyllables, findFillers } from "./metrics";
-export { listSessions, getSession, saveSession } from "./sessions";
+export { listSessions, getSession, saveSession, koSessionIssues } from "./sessions";
 export { isProvider, llmHealth, providerLabel, LlmUnavailableError, type Provider } from "./llm";
 export type * from "./types";
