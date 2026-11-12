@@ -1,0 +1,21 @@
+{
+  "sid": "s_mwdvsbhb4h002u15",
+  "hiddenCite": {
+    "label": "발표자료 3쪽 보기",
+    "chain": [
+      "BUTTON d=inline-block v=visible cv=visible open=",
+      "SPAN d=inline v=visible cv=visible open=",
+      "P d=block v=visible cv=visible open=",
+      "DETAILS d=block v=visible cv=visible open=false",
+      "DIV d=block v=visible cv=visible open=",
+      "DIV d=flex v=visible cv=visible open=",
+      "SECTION d=flex v=visible cv=visible open=",
+      "DIV d=flex v=visible cv=visible open="
+    ]
+  },
+  "historyHasSid": true,
+  "historyText": "쌓이는 연습,\n달라지는 발표.\n\n나의 시뮬레이션 기록\n\n총\n1회\n평균\n53점\n전체\n완료\n진행 중\n2026.11.13\n완료\n삭제\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.\n\n발표 1분 · 질의응답 1분\n\n53점\n\n매출 근거부터 보완해요.\n\n결과 보기\n다시 시작하기\n새 시뮬레이션",
+  "reopenText": "종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표.\n\n이번 발표의 종합 점수\n\n53\n/ 100\n\n문제 설명은 명확했지만 투자 근거가 부족해요.\n\n발표력\n81\n논리성\n42\n대응력\n39\n자료 품질\n55\n발표 총평\n\n택배 폐기물의 규모와 규제에 따른 대체재 필요성은 자료에 맞게 설명해요. 다만 문제 제기 이후 해결책·​사업성·​실적·​투자 요청이 빠져, 리웨이브에 투자해야 하는 이유까지는 전달하지 못해요.\n\n잘한 점\n상자 개봉 장면으로 p.2의 폐기물 문제를 쉽게 설명했어요.\np.2의 5",
+  "reportCallsAfterReopen": 0,
+  "error": "Waiting failed: 15000ms exceeded"
+}

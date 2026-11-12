@@ -1,0 +1,41 @@
+[
+  {
+    "t": 1794508372104,
+    "url": "/api/questions",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/x-ndjson; charset=utf-8"
+  },
+  {
+    "t": 1794508403766,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "cedar",
+    "duration": "13.5"
+  },
+  {
+    "t": 1794508417850,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794508431443,
+    "url": "/api/questions/followup",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794508432641,
+    "url": "/api/report",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/x-ndjson; charset=utf-8"
+  }
+]

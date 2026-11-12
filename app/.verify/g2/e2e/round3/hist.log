@@ -1,0 +1,11 @@
+[18:39:54] hidden cite {"label":"발표자료 3쪽 보기","chain":["BUTTON d=inline-block v=visible cv=visible open=","SPAN d=inline v=visible cv=visible open=","P d=block v=visible cv=visible open=","DETAILS d=block v=visible cv=visible open=false","DIV d=block v=visible cv=visible open=","DIV d=flex v=visible cv=visible open=","SECTION d=flex v=visible cv=visible open=","DIV d=flex v=visible cv=visible open="]}
+[18:39:59] history has sid true
+[18:40:03] reopen report calls 0 종합 결과 기록 한 번 더, 더 좋은 발표로. 친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 이번 발표의 종합 점수 53 / 100 문제 설명은 명확했지만 투자 근거가 부족해요. 발표력 81 논리성 42 대응
+[18:40:18] ERROR TimeoutError: Waiting failed: 15000ms exceeded
+    at new WaitTask (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/common/WaitTask.js:46:34)
+    at IsolatedWorld.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Realm.js:49:26)
+    at CdpFrame.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:585:43)
+    at CdpFrame.<anonymous> (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/util/decorators.js:101:27)
+    at CdpPage.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Page.js:1547:37)
+    at clickText (file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e3/lib.mjs:146:24)
+    at file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e3/hist.mjs:39:9

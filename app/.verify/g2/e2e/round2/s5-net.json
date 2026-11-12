@@ -1,0 +1,98 @@
+[
+  {
+    "t": 1794507628736,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "coral",
+    "duration": "13.05"
+  },
+  {
+    "t": 1794507633978,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "coral",
+    "duration": "16.3"
+  },
+  {
+    "t": 1794507650799,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507679513,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "coral",
+    "duration": "13.7"
+  },
+  {
+    "t": 1794507694223,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507710933,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507714826,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507720712,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507726296,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507732644,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507739509,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507743807,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  }
+]

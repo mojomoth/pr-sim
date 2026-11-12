@@ -1,0 +1,9 @@
+[17:59:10] ERROR B TimeoutError: Waiting failed: 60000ms exceeded
+    at new WaitTask (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/common/WaitTask.js:46:34)
+    at IsolatedWorld.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Realm.js:49:26)
+    at CdpFrame.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:585:43)
+    at CdpFrame.<anonymous> (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/util/decorators.js:101:27)
+    at CdpPage.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Page.js:1547:37)
+    at clickText (file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e/lib.mjs:110:24)
+    at file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e/s4-denied.mjs:14:11
+[18:00:38] denied ["카메라 권한이 필요해요 브라우저나 기기 설정에서 카메라 접근을 허용한 뒤 다시 시도해 주세요. 다시 시도"] ["카메라 권한이 필요해요 브라우저나 기기 설정에서 카메라 접근을 허용한 뒤 다시 시도해 주세요. 다시 시도","마이크 권한이 필요해요 브라우저나 기기 설정에서 마이크 접근을 허용한 뒤 다시 시도해 주세요. 다시 시도"]

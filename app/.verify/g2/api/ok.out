@@ -1,0 +1,4 @@
+{"type":"steps","steps":[{"id":"metrics","group":"speech","label":"발표 지표 계산 (말 속도·군말·침묵·시간)","status":"pending"},{"id":"docs","group":"prep","label":"자료 위키 준비","status":"pending"},{"id":"lint","group":"materials","label":"위키 점검 (문서 내·문서 간 수치)","status":"pending"},{"id":"speech","group":"speech","label":"발표 내용 분석 · 슬라이드 커버리지","status":"pending"},{"id":"doc:presentation","group":"materials","label":"발표자료 품질","status":"pending"},{"id":"doc:proposal","group":"materials","label":"제안자료 품질","status":"pending"},{"id":"consistency","group":"materials","label":"덱 ↔ 제안서 수치 대조","status":"pending"},{"id":"overall","group":"overall","label":"종합 점수 · 코멘트","status":"pending"}]}
+{"type":"step","step":{"id":"metrics","group":"speech","label":"발표 지표 계산 (말 속도·군말·침묵·시간)","status":"running"}}
+{"type":"step","step":{"id":"metrics","group":"speech","label":"발표 지표 계산 (말 속도·군말·침묵·시간)","status":"done","ms":1,"detail":"330음절/분 · 군말 0회 · 전달 78점"}}
+{"type":"step","step":{"i

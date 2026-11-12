@@ -1,0 +1,13 @@
+[18:20:29] A {"stageBeforeBack":"질의응답 종료 질의응답 남은 시간 04:59 선희 · 친절함 질문 중 심사위원 질문 · 1 / 1 제품군을 확장하는 계획이 인상적이었습니다. 두 공장의 생산능력과 판매 단가를 고려할 때, 2029년 매출 목표는 어떤 제품별 매출로 달성하실 계획인가요? 질문 듣는 중 답변 완료","path":"/history","blobPlaysAfterNav":[],"liveAudioTracks":0,"openWs":0,"wsCreatedAfterNav":0}
+[18:21:15] B {"whileAnswering":{"liveAudioTracks":1,"openWs":0},"judgingText":"질의응답 종료 질의응답 남은 시간 04:32 선희 · 친절함 답변 듣는 중 심사위원 질문 · 1 / 1 제품군을 확장하는 계획이 인상적이었습니다. 두 공장의 생산능력과 판매 단가를 고려할 때, 2029년 매출 목표는 어떤 제품별 매출로 달성하실 계획인가요? 내 답변 · 답변 완료 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 선희 심사위원이 답변을 살펴보고 있어요… 대기 중 답변 확인 중…","path":"/history","blobPlaysAfterNav":[],"liveAudioTracks":0,"openWs":0,"wsCreatedAfterNav":0,"followupFailed":["[requestfailed] http://localhost:3000/api/questions/followup net::ERR_ABORTED"],"ttsAfterNav":0}
+[18:21:34] C {"tag":"answering baseline","liveAudio":1,"openWs":1,"wsTotal":1,"status":["음성 인식 중"]}
+[18:21:39] C {"tag":"C1 off","liveAudio":0,"openWs":0,"wsTotal":1,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:21:45] C {"tag":"C1 after on→off during gUM","liveAudio":0,"openWs":0,"wsTotal":1,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:21:54] C {"tag":"C2 after on→off during token fetch","liveAudio":0,"openWs":0,"wsTotal":1,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:21:59] C {"tag":"C3 off 0ms after token","liveAudio":0,"openWs":0,"wsTotal":2,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:22:05] C {"tag":"C3 off 150ms after token","liveAudio":0,"openWs":0,"wsTotal":3,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:22:11] C {"tag":"C3 off 400ms after token","liveAudio":0,"openWs":0,"wsTotal":4,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:22:18] C {"tag":"C3 off 800ms after token","liveAudio":0,"openWs":0,"wsTotal":5,"status":["마이크 꺼짐","마이크 꺼짐"]}
+[18:22:31] C {"tag":"C4 off→on within 0.7s, +8s","liveAudio":1,"openWs":1,"wsTotal":7,"status":["음성 인식 중"]}
+[18:22:51] C {"tag":"C5 steady +20s","liveAudio":1,"openWs":1,"wsTotal":7,"status":["음성 인식 중"]}
+[18:22:57] C6 {"tag":"C6 after Back while answering","liveAudio":0,"openWs":0,"wsCreatedAfterNav":0,"blobPlaysAfterNav":0}

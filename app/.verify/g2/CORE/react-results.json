@@ -1,0 +1,135 @@
+{
+  "at": "2026-11-12T17:20:03.958Z",
+  "results": [
+    {
+      "name": "slide: loads sample PDF from Blob, 1 / 12",
+      "ok": true,
+      "detail": {
+        "pages": [
+          "1/12"
+        ],
+        "cam": "live",
+        "blobUrl": "blob:http://localhost:3000/6cb3086b-7b11-448b-a0e2-6245ab3a4216",
+        "indicator": "1 / 12"
+      }
+    },
+    {
+      "name": "camera: useCamera live (fake camera) in slide overlay",
+      "ok": true,
+      "detail": "live"
+    },
+    {
+      "name": "db: useBlobUrl gives an object URL",
+      "ok": true,
+      "detail": "blob:http://localhost:3000/6cb3086b-7b11-448b-a0e2-6245ab3a4216"
+    },
+    {
+      "name": "slide: next button + drag swipe → 3 / 12, onPageChange fired",
+      "ok": true,
+      "detail": {
+        "pages": [
+          "1/12",
+          "2/12",
+          "3/12"
+        ],
+        "indicator": "3 / 12"
+      }
+    },
+    {
+      "name": "slide: keyboard ArrowLeft → 2 / 12",
+      "ok": true,
+      "detail": "2 / 12"
+    },
+    {
+      "name": "countdown: counts down, pause holds, resume continues",
+      "ok": true,
+      "detail": {
+        "c0": 7.199,
+        "c1": 7.199,
+        "c2": 7.199,
+        "c3": 6.197
+      }
+    },
+    {
+      "name": "stt: hook connects (token → Live)",
+      "ok": true,
+      "detail": {
+        "status": "listening",
+        "error": null,
+        "partial": [],
+        "n": 0
+      }
+    },
+    {
+      "name": "stt: stop() returns run sentences with id/t(offset 30s)/phase/slide=2, onSentence called",
+      "ok": true,
+      "detail": [
+        {
+          "id": "pmwdtc4ri-1",
+          "t": 31.3,
+          "text": "안녕하세요.",
+          "phase": "presentation",
+          "slide": 2
+        },
+        {
+          "id": "pmwdtc4ri-2",
+          "t": 31.7,
+          "text": "저는 리웨이브 대표 김서연입니다.",
+          "phase": "presentation",
+          "slide": 2
+        },
+        {
+          "id": "pmwdtc4ri-3",
+          "t": 35.8,
+          "text": "오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠습니다.",
+          "phase": "presentation",
+          "slide": 2
+        },
+        {
+          "id": "pmwdtc4ri-4",
+          "t": 42.4,
+          "text": "먼저 여러분 집에 택배 상자 하나 열어 보시면 안에 뭐가 들어 있는지 떠올려 보시면 좋겠습니다.",
+          "phase": "presentation",
+          "slide": 2
+        },
+        {
+          "id": "pmwdtc4ri-5",
+          "t": 50.5,
+          "text": "대부분 스티로폼이나 에어캡",
+          "phase": "presentation",
+          "slide": 2
+        }
+      ]
+    },
+    {
+      "name": "stt: sentence times non-decreasing",
+      "ok": true,
+      "detail": [
+        31.3,
+        31.7,
+        35.8,
+        42.4,
+        50.5
+      ]
+    },
+    {
+      "name": "stt: status idle after stop",
+      "ok": true,
+      "detail": "idle"
+    },
+    {
+      "name": "slide: fullscreen toggle",
+      "ok": true,
+      "detail": "true"
+    }
+  ],
+  "logs": [
+    "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "[warn] The resource http://localhost:3000/next.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+    "[warn] Warning: Ephemeral token support is experimental and may change in future versions.",
+    "[warn] The resource http://localhost:3000/next.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+    "[warn] The resource http://localhost:3000/next.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+  ]
+}

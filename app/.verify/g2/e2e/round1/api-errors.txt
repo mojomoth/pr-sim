@@ -1,0 +1,21 @@
+tts body=[] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+tts body=[{}] → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"text","message":"Invalid input: expected string, received undefined"},{"path":"gender","message":"Invalid option: expected one of \"male\"|\"female\""},{"path":"age","message":"Inva
+tts body=[not-json] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+judges body=[] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+judges body=[{}] → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"temperaments","message":"Invalid input: expected array, received undefined"}]}} [HTTP 400]
+judges body=[not-json] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+wiki body=[] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+wiki body=[{}] → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"doc","message":"Invalid input: expected object, received undefined"}]}} [HTTP 400]
+wiki body=[not-json] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+questions body=[] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+questions body=[{}] → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"qaMinutes","message":"Invalid input: expected number, received undefined"},{"path":"transcript","message":"Invalid input: expected array, received undefined"},{"path":"docs","messag
+questions body=[not-json] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+questions/followup body=[] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+questions/followup body=[{}] → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"packText","message":"Invalid input: expected string, received undefined"},{"path":"judge","message":"Invalid input: expected object, received undefined"},{"path":"asked","message":"
+questions/followup body=[not-json] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+report body=[] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+report body=[{}] → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"session","message":"Invalid input: expected object, received undefined"}]}} [HTTP 400]
+report body=[not-json] → {"error":{"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}} [HTTP 400]
+tts 4.1MB body → {"error":{"code":"too_large","message":"요청 본문이 너무 커요. 4MB 이하로 보내 주세요."}} [HTTP 413]
+report 4.1MB body → {"error":{"code":"too_large","message":"요청 본문이 너무 커요. 4MB 이하로 보내 주세요."}} [HTTP 413]
+tts age=5 → {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"age","message":"Too small: expected number to be >=20"}]}} [HTTP 400]

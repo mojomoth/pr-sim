@@ -1,0 +1,47 @@
+{
+  "files": 39,
+  "totalBytes": 8391023,
+  "matches": {
+    "JEV_KEY": {
+      "fullValueFiles": 0,
+      "first12Files": 0
+    },
+    "GOOGLE_API_KEY": {
+      "fullValueFiles": 0,
+      "first12Files": 0
+    },
+    "OPENAI_API_KEY": {
+      "fullValueFiles": 0,
+      "first12Files": 0
+    },
+    "CLAUDE_API_KEY": {
+      "fullValueFiles": 0,
+      "first12Files": 0
+    },
+    "VERCEL_API_KEY": {
+      "fullValueFiles": 0,
+      "first12Files": 0
+    },
+    "RENDER_API_KEY": {
+      "fullValueFiles": 0,
+      "first12Files": 0
+    }
+  },
+  "genericPrefixes": {
+    "sk-": 0,
+    "sk-proj-": 0,
+    "sk-ant-": 0,
+    "AIza": 0,
+    "AQ.": 0,
+    "vcp_": 0,
+    "rnd_": 0
+  },
+  "processEnvKeyNames": {
+    "JEV_KEY": 0,
+    "GOOGLE_API_KEY": 1,
+    "OPENAI_API_KEY": 0,
+    "CLAUDE_API_KEY": 0,
+    "VERCEL_API_KEY": 0,
+    "RENDER_API_KEY": 0
+  }
+}

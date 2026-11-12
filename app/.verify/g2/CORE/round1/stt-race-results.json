@@ -1,0 +1,84 @@
+{
+  "results": [
+    {
+      "name": "A: stop during pending mic → mic track released, no socket",
+      "ok": true,
+      "detail": {
+        "ws": 0,
+        "wsTotal": 0,
+        "tracks": 0,
+        "status": "idle"
+      }
+    },
+    {
+      "name": "B: stop during token fetch → no socket opened, mic released",
+      "ok": true,
+      "detail": {
+        "ws": 0,
+        "wsTotal": 0,
+        "tracks": 0,
+        "status": "idle"
+      }
+    },
+    {
+      "name": "C: stop while socket connecting → socket closed after open, mic released",
+      "ok": true,
+      "detail": {
+        "ws": 0,
+        "wsTotal": 1,
+        "tracks": 0,
+        "status": "idle"
+      }
+    },
+    {
+      "name": "D: next start → listening with exactly one live socket",
+      "ok": true,
+      "detail": {
+        "ws": 1,
+        "wsTotal": 2,
+        "tracks": 1,
+        "status": "listening",
+        "error": null,
+        "notice": null
+      }
+    },
+    {
+      "name": "D: stop → socket and mic released",
+      "ok": true,
+      "detail": {
+        "ws": 0,
+        "wsTotal": 2,
+        "tracks": 0,
+        "status": "idle"
+      }
+    },
+    {
+      "name": "E: start/stop/start → one live socket, listening",
+      "ok": true,
+      "detail": {
+        "ws": 1,
+        "wsTotal": 3,
+        "tracks": 1,
+        "status": "listening"
+      }
+    },
+    {
+      "name": "E: final stop → nothing left open",
+      "ok": true,
+      "detail": {
+        "ws": 0,
+        "wsTotal": 3,
+        "tracks": 0,
+        "status": "idle"
+      }
+    }
+  ],
+  "logs": [
+    "[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+    "[log] [HMR] connected",
+    "[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+    "[warn] Warning: Ephemeral token support is experimental and may change in future versions.",
+    "[warn] Warning: Ephemeral token support is experimental and may change in future versions.",
+    "[warn] Warning: Ephemeral token support is experimental and may change in future versions."
+  ]
+}

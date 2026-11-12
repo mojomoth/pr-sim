@@ -1,0 +1,135 @@
+[
+  {
+    "name": "present: slide viewer ready with sample deck",
+    "ok": true
+  },
+  {
+    "name": "present: timer shows 01:00 before start",
+    "ok": true,
+    "detail": "01:00"
+  },
+  {
+    "name": "present: 3 judge faces from IndexedDB blobs",
+    "ok": true,
+    "detail": [
+      {
+        "src": "blob:",
+        "ok": true,
+        "alt": "경희 심사위원 얼굴"
+      },
+      {
+        "src": "blob:",
+        "ok": true,
+        "alt": "성수 심사위원 얼굴"
+      },
+      {
+        "src": "blob:",
+        "ok": true,
+        "alt": "성민 심사위원 얼굴"
+      }
+    ]
+  },
+  {
+    "name": "present: camera inset live + mirrored",
+    "ok": true,
+    "detail": {
+      "hidden": false,
+      "w": 640,
+      "mirrored": "-1 1 none"
+    }
+  },
+  {
+    "name": "present: next button + ArrowRight → 3 / 12",
+    "ok": true
+  },
+  {
+    "name": "present: live transcript bubble (내 발표 · 음성 인식 중 / text)",
+    "ok": true,
+    "detail": "내 발표 · 음성 인식 중\n먼저 여러분 집에 택배 상자 하나 열어 보시면"
+  },
+  {
+    "name": "present 390×844: judge row not under the bottom bar (scrolled to end)",
+    "ok": true,
+    "detail": {
+      "elTop": 571,
+      "elBottom": 683,
+      "barTop": 703,
+      "viewport": 844,
+      "hidden": false
+    }
+  },
+  {
+    "name": "present: sentences persisted incrementally with t + slide",
+    "ok": true,
+    "detail": [
+      {
+        "t": 1.4,
+        "slide": 1,
+        "text": "안녕하세요?"
+      },
+      {
+        "t": 1.7,
+        "slide": 1,
+        "text": "저는 리웨이브 대표 김서연입니다."
+      },
+      {
+        "t": 5.9,
+        "slide": 1,
+        "text": "오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠"
+      }
+    ]
+  },
+  {
+    "name": "present: resume.remainingSec saved while live",
+    "ok": true,
+    "detail": {
+      "phase": "presentation",
+      "remainingSec": 46
+    }
+  },
+  {
+    "name": "present: reload → 이어서 발표하기 with saved remaining time, slide restored",
+    "ok": true,
+    "detail": {
+      "tRes": "00:46",
+      "page": "1 / 12"
+    }
+  },
+  {
+    "name": "present: time up → 발표 시간이 끝났어요 dialog",
+    "ok": true
+  },
+  {
+    "name": "present: auto-advance to /qa?s=",
+    "ok": true,
+    "detail": "http://localhost:3000/qa?s=s_g2screensb"
+  },
+  {
+    "name": "present: transcript continued after resume (t increases)",
+    "ok": true,
+    "detail": {
+      "before": 3,
+      "after": 11,
+      "t": [
+        1.4,
+        1.7,
+        5.9,
+        15.9,
+        16.1,
+        19.8,
+        25.4,
+        34.4,
+        39.5,
+        46.2,
+        54.8
+      ]
+    }
+  },
+  {
+    "name": "present: status → qa, resume cleared",
+    "ok": true,
+    "detail": {
+      "status": "qa"
+    }
+  }
+]

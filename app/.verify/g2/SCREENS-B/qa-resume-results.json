@@ -1,0 +1,28 @@
+[
+  {
+    "name": "qa-resume: ready state with 이어서 질의응답하기 and saved time",
+    "ok": true,
+    "detail": "00:40"
+  },
+  {
+    "name": "qa-resume: continues with the next unanswered main question",
+    "ok": true,
+    "detail": "질의응답\n종료\n\n질의응답 남은 시간 · 이어하기 · 곧 종료\n\n00:27\n\n30초 남음\n성수 · 빡셈\n답변 듣는 중\n\n심사위원 질문 · 2 / 2\n\n2026년 양산 원가가 발표자료에는 세트당 118원, 제안자료에는 142원으로 나옵니다. 어느 쪽이 맞습니까?\n\n질문을 다시 들을 수 있어요.\n\n질문 다시 듣기\n\n내 답변 · 음성 인식 중\n\n답변을 말씀해 주세요…\n\n천천히, 핵심부터 답변해 보세요.\n\n질문과 답변 기록 1개\n펼치기\n듣고 있어요\n답변 완료"
+  },
+  {
+    "name": "qa-resume: 종료 → /history with status qa + resume.remainingSec",
+    "ok": true,
+    "detail": {
+      "url": "http://localhost:3000/history",
+      "status": "qa",
+      "resume": {
+        "phase": "qa",
+        "remainingSec": 27
+      },
+      "firstMain": [
+        "q_j_mwdja2lbcyyyv_1",
+        "q_j_mwdjbetg50soz_1"
+      ]
+    }
+  }
+]

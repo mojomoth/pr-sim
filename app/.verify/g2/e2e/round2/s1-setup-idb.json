@@ -1,0 +1,78 @@
+{
+  "id": "s_mwdv4vpp3t03734c",
+  "status": "setup",
+  "setup": {
+    "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+    "presentationMinutes": 1,
+    "qaMinutes": 1
+  },
+  "docs": {
+    "presentation": {
+      "role": "presentation",
+      "docId": "b074e9bd3e49c31f",
+      "filename": "presentation.pdf",
+      "bytes": 219075,
+      "pageCount": 12,
+      "pdfKey": "pdf:b074e9bd3e49c31f",
+      "pageTexts": "[12 pages]",
+      "emptyPages": [],
+      "wikiState": "ready",
+      "wiki": "[14 wiki pages]",
+      "keyNumbers": "[55]",
+      "wikiBuiltAt": "2026-11-12T18:11:35.211Z"
+    },
+    "proposal": {
+      "role": "proposal",
+      "docId": "cb3e5a08f4107921",
+      "filename": "proposal.pdf",
+      "bytes": 1136635,
+      "pageCount": 58,
+      "pdfKey": "pdf:cb3e5a08f4107921",
+      "pageTexts": "[58 pages]",
+      "emptyPages": [],
+      "wikiState": "ready",
+      "wiki": "[20 wiki pages]",
+      "keyNumbers": "[60]",
+      "wikiBuiltAt": "2026-11-12T18:13:22.970Z"
+    }
+  },
+  "judges": [
+    {
+      "id": "j_mwdv5375yh5pj",
+      "name": "선희",
+      "fullName": "안선희",
+      "gender": "female",
+      "age": 55,
+      "voiceHint": "50대 여성, 따뜻하고 부드러운 목소리",
+      "temperament": "friendly",
+      "imageKey": "judge:j_mwdv5375yh5pj",
+      "thumbKey": "judge:j_mwdv5375yh5pj:thumb"
+    },
+    {
+      "id": "j_mwdv53p5qkqjq",
+      "name": "윤희",
+      "fullName": "이윤희",
+      "gender": "female",
+      "age": 36,
+      "voiceHint": "30대 여성, 차분하고 단호한 목소리",
+      "temperament": "strict",
+      "imageKey": "judge:j_mwdv53p5qkqjq",
+      "thumbKey": "judge:j_mwdv53p5qkqjq:thumb"
+    },
+    {
+      "id": "j_mwdv53mnlzyaa",
+      "name": "민재",
+      "fullName": "권민재",
+      "gender": "male",
+      "age": 48,
+      "voiceHint": "40대 남성, 날카롭고 압박감 있는 목소리",
+      "temperament": "aggressive",
+      "imageKey": "judge:j_mwdv53mnlzyaa",
+      "thumbKey": "judge:j_mwdv53mnlzyaa:thumb"
+    }
+  ],
+  "transcript": [],
+  "qa": [],
+  "createdAt": "2026-11-12T18:10:00.969Z",
+  "updatedAt": "2026-11-12T18:13:22.985Z"
+}

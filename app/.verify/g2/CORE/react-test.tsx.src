@@ -1,0 +1,99 @@
+// Mounted by react-run.mjs inside http://localhost:3000/ (harness serves it at /__test/react-test.tsx).
+import { useEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { useCamera } from "@/platform";
+import { useBlobUrl, createSession, storeJudgeImage } from "@/features/session/db";
+import { mmss, useCountdown } from "@/features/session/useCountdown";
+import { SlideViewer, type SlideViewerHandle } from "@/features/slide/SlideViewer";
+import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
+
+declare global {
+  interface Window {
+    T: Record<string, unknown>;
+  }
+}
+window.T = { pages: [] as string[] };
+
+function Camera() {
+  const cam = useCamera(true);
+  const v = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (v.current && cam.stream) v.current.srcObject = cam.stream;
+    window.T.cam = cam.status;
+  }, [cam.stream, cam.status]);
+  return (
+    <div className="absolute bottom-2 right-2 h-[96px] w-[72px] overflow-hidden rounded-[12px] bg-ink">
+      <video ref={v} autoPlay muted playsInline className="h-full w-full -scale-x-100 object-cover" />
+    </div>
+  );
+}
+
+function Countdown() {
+  const [running, setRunning] = useState(true);
+  const remaining = useCountdown(10, { running });
+  useEffect(() => {
+    window.T.countdown = remaining;
+    window.T.setRunning = setRunning;
+  });
+  return <p data-countdown className="text-center text-[40px] font-bold tabular">{mmss(remaining)}</p>;
+}
+
+function Stt({ getSlide }: { getSlide: () => number }) {
+  const t = useSentenceTranscriber({ phase: "presentation", getSlide, onSentence: (s) => (window.T.onSentence as unknown[]).push(s) });
+  useEffect(() => {
+    window.T.onSentence ??= [];
+    window.T.stt = { status: t.status, error: t.error, partial: t.partialSentences, n: t.sentences.length };
+    window.T.sttStart = t.start;
+    window.T.sttStop = t.stop;
+  });
+  return (
+    <div className="rounded-[16px] bg-surface p-3 text-[14px]" data-stt={t.status}>
+      <p className="font-semibold">내 발표 · {t.status}</p>
+      <p>{t.sentences.at(-1)?.text ?? t.partialSentences.join(" ")}</p>
+      {t.error && <p className="text-error">{t.error}</p>}
+    </div>
+  );
+}
+
+function JudgePhoto({ k }: { k: string }) {
+  const url = useBlobUrl(k);
+  useEffect(() => {
+    window.T.blobUrl = url ?? null;
+  }, [url]);
+  return url ? <img src={url} alt="" className="h-16 w-16 rounded-[12px] object-cover" /> : null;
+}
+
+function App({ pdf, thumbKey }: { pdf: Blob; thumbKey: string }) {
+  const ref = useRef<SlideViewerHandle>(null);
+  const slide = useRef(1);
+  useEffect(() => {
+    window.T.viewer = ref.current;
+  });
+  return (
+    <div className="mx-auto flex max-w-[430px] flex-col gap-3 p-4">
+      <Countdown />
+      <SlideViewer
+        ref={ref}
+        src={pdf}
+        onPageChange={(p, total) => {
+          slide.current = p;
+          (window.T.pages as string[]).push(`${p}/${total}`);
+        }}
+      >
+        <Camera />
+      </SlideViewer>
+      <Stt getSlide={() => slide.current} />
+      <JudgePhoto k={thumbKey} />
+    </div>
+  );
+}
+
+export async function mount(judgeB64: string) {
+  const pdf = await (await fetch("/samples/presentation.pdf")).blob();
+  await createSession({ situation: "t", presentationMinutes: 1, qaMinutes: 1 });
+  const { thumbKey } = await storeJudgeImage("j_react", { mime: "image/webp", base64: judgeB64 });
+  const host = document.createElement("div");
+  host.style.cssText = "position:fixed;inset:0;z-index:99999;overflow:auto;background:var(--color-canvas,#fff)";
+  document.body.appendChild(host);
+  createRoot(host).render(<App pdf={pdf} thumbKey={thumbKey} />);
+}

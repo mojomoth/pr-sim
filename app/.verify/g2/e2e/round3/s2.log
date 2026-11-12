@@ -1,0 +1,18 @@
+[18:33:19] questions ms 27008 count 6
+[18:33:19] question shown 심사위원 질문 · 1 / 1 생산 확대 계획이 인상적이었습니다. 두 공장 물량을 모두 세트당 165원에 팔아도 연 34.65억 원인데, 2028년 매출 96억 원은 어떻게 달성하실 계획인가요?
+[18:33:47] answer before submit 내 답변 · 음성 인식 중 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 after 9.506
+[18:33:52] qa ended at 32.209 audio [{"src":"data:audio/wav;base64,UklGRsQAAABXQVZFZm","at":1794508399906,"playing":1794508399999,"maxTime":13.5,"ended":1794508417378},{"src":"blob:http://localhost:3000/6b0780a2-5f76","at":1794508403767,"playing":1794508403825,"maxTime":13.5,"ended":1794508417379}]
+[18:33:52] qa entries 1 status report
+[18:35:56] report ms 120003
+[18:35:57] summary cite buttons 2 ["발표자료 2쪽 보기","발표자료 2쪽 보기"]
+[18:35:59] summary cite 발표자료 2쪽 보기 {"title":"발표자료 2쪽","viewer":{"page":"2","state":"ready","total":"12"},"text":"발표자료 2쪽 presentation.pdf 4 12쪽 중 2쪽 2 / 12 닫기","hiddenDialogs":1}
+[18:36:03] summary cite 발표자료 2쪽 보기 {"title":"발표자료 2쪽","viewer":{"page":"2","state":"ready","total":"12"},"text":"발표자료 2쪽 presentation.pdf 4 12쪽 중 2쪽 2 / 12 닫기","hiddenDialogs":1}
+[18:36:06] feedback cite buttons 10 ["발표자료 3쪽 보기","제안자료 16쪽 보기","발표자료 6쪽 보기","질의응답 00:18 답변 원문 보기"]
+[18:36:16] ERROR TimeoutError: Waiting failed: 10000ms exceeded
+    at new WaitTask (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/common/WaitTask.js:46:34)
+    at IsolatedWorld.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Realm.js:49:26)
+    at CdpFrame.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:585:43)
+    at CdpFrame.<anonymous> (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/util/decorators.js:101:27)
+    at CdpPage.waitForFunction (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/api/Page.js:1547:37)
+    at clickCites (file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e3/s2-qa-result.mjs:114:18)
+    at async file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e3/s2-qa-result.mjs:140:26

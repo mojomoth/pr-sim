@@ -1,0 +1,2 @@
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"session.transcript.1.t","message":"Too big: expected number to be <=21600"}]}}
+HTTP 400 0.008983s

@@ -1,0 +1,10 @@
+0.7s 200 /api/questions 
+30.2s 200 /api/tts openai
+43.9s 200 /api/stt/token 
+45.9s 200 /api/tts openai
+65.0s 200 /api/questions/followup 
+68.1s 200 /api/tts openai
+81.4s 200 /api/stt/token 
+99.6s 200 /api/questions/followup 
+109.2s 200 /api/stt/token 
+127.1s 200 /api/questions/followup 

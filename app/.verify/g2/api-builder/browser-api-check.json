@@ -1,0 +1,38 @@
+{
+  "result": {
+    "token": {
+      "status": 200,
+      "model": "gemini-3.5-transcribe-live",
+      "hasToken": true,
+      "expiresAt": "2026-11-12T17:54:49.262Z"
+    },
+    "tts": {
+      "status": 200,
+      "type": "audio/wav",
+      "provider": "openai",
+      "model": "gpt-4o-mini-tts",
+      "bytes": 91244,
+      "decodedSec": 1.9
+    },
+    "wikiBad": {
+      "status": 400,
+      "body": {
+        "error": {
+          "code": "bad_request",
+          "message": "요청 형식이 올바르지 않아요.",
+          "issues": [
+            {
+              "path": "doc",
+              "message": "Invalid input: expected object, received undefined"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "logs": [
+    "[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+    "[log] [HMR] connected",
+    "[error] Failed to load resource: the server responded with a status of 400 (Bad Request)"
+  ]
+}

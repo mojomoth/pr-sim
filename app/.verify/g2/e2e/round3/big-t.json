@@ -1,0 +1,1 @@
+{"session":{"id":"x1","situation":"테스트","presentationMinutes":1,"qaMinutes":1,"judges":[],"transcript":[{"id":"s1","t":0,"text":"안녕하세요","phase":"presentation"},{"id":"s2","t":6000000000,"text":"끝","phase":"presentation"}],"qa":[],"docs":[{"role":"presentation","docId":"0123456789abcdef","filename":"a.pdf","pageTexts":["hello"]}]}}

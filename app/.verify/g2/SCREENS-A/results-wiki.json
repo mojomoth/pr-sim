@@ -1,0 +1,14 @@
+{
+  "wikiSec": 86.018,
+  "text": "자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.",
+  "db": {
+    "wikiState": "ready",
+    "pages": 13,
+    "keyNumbers": 58,
+    "judges": 3
+  },
+  "logs": [
+    "[log] [HMR] connected",
+    "[log] [HMR] connected"
+  ]
+}

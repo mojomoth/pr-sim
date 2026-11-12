@@ -1,0 +1,306 @@
+{
+  "sid": "s_mwdua5s56m6w3x73",
+  "questionsMs": 28002,
+  "questions": {
+    "order": [
+      "q_j_mwduafm5w53nv_1",
+      "q_j_mwduadbcgunnf_1",
+      "q_j_mwduaf84t0xiu_1",
+      "q_j_mwduafm5w53nv_2",
+      "q_j_mwduadbcgunnf_2",
+      "q_j_mwduaf84t0xiu_2"
+    ],
+    "main": [
+      "q_j_mwduafm5w53nv_1"
+    ],
+    "reserve": [
+      "q_j_mwduadbcgunnf_1",
+      "q_j_mwduaf84t0xiu_1",
+      "q_j_mwduafm5w53nv_2",
+      "q_j_mwduadbcgunnf_2",
+      "q_j_mwduaf84t0xiu_2"
+    ],
+    "items": [
+      {
+        "id": "q_j_mwduafm5w53nv_1",
+        "judgeId": "j_mwduafm5w53nv",
+        "kind": "main",
+        "question": "공장 증설 계획이 인상적이었습니다. 두 공장의 최대 생산량을 표준가로 전량 판매해도 연 34.65억 원인데, 2028년 매출 96억 원은 어떻게 달성하시나요?",
+        "evidence": 4,
+        "intent": "생산능력과 연간 매출 목표의 차이를 메울 추가 매출원을 확인한다."
+      },
+      {
+        "id": "q_j_mwduafm5w53nv_2",
+        "judgeId": "j_mwduafm5w53nv",
+        "kind": "reserve",
+        "question": "분기별 목표를 구체적으로 세우신 점이 인상적이었습니다. 2028년 말 월 출고량 목표와 분기 매출 26억 원 목표를 연결하는 매출 구성을 조금 더 설명해 주시겠어요?",
+        "evidence": 3,
+        "intent": "2028년 4분기 출고량 목표와 분기 매출 목표를 연결하는 제품별 매출 구성을 확인한다."
+      },
+      {
+        "id": "q_j_mwduadbcgunnf_1",
+        "judgeId": "j_mwduadbcgunnf",
+        "kind": "reserve",
+        "question": "2026년 세트당 원가가 발표자료에는 118원, 사업계획서에는 142원으로 나옵니다. 어느 쪽이 맞고 차이가 발생한 근거는 무엇입니까?",
+        "evidence": 2,
+        "intent": "양산 원가와 매출총이익률의 자료 간 불일치를 검증한다."
+      },
+      {
+        "id": "q_j_mwduadbcgunnf_2",
+        "judgeId": "j_mwduadbcgunnf",
+        "kind": "reserve",
+        "question": "2027년 매출 32억 원의 전제인 월 신규 고객 8곳을 확보할 수 있다는 근거를 전환율과 영업 기회 규모로 말씀해 주십시오.",
+        "evidence": 2,
+        "intent": "신규 고객 확보 목표를 뒷받침하는 영업 단계별 전환 근거를 검증한다."
+      },
+      {
+        "id": "q_j_mwduaf84t0xiu_1",
+        "judgeId": "j_mwduaf84t0xiu",
+        "kind": "reserve",
+        "question": "2029년 목표 시장 규모가 발표자료에서는 340억 원인데 제안자료에서는 210억 원입니다. 어느 수치가 실제 목표이며 왜 다릅니까?",
+        "evidence": 2,
+        "intent": "서로 다른 2029년 목표 시장 규모의 기준과 차이의 원인을 확인한다."
+      },
+      {
+        "id": "q_j_mwduaf84t0xiu_2",
+        "judgeId": "j_mwduaf84t0xiu",
+        "kind": "reserve",
+        "question": "원료 공급 위험을 낮게 평가하셨는데, 수협과의 공급 협력이 중단되면 대체 원료는 어떻게 확보하실 겁니까?",
+        "evidence": 1,
+        "intent": "수협 공급 중단 시 대체 조달 계획의 실효성을 확인한다."
+      }
+    ]
+  },
+  "judges": [
+    {
+      "id": "j_mwduafm5w53nv",
+      "name": "혜원",
+      "temperament": "friendly"
+    },
+    {
+      "id": "j_mwduadbcgunnf",
+      "name": "용준",
+      "temperament": "strict"
+    },
+    {
+      "id": "j_mwduaf84t0xiu",
+      "name": "지훈",
+      "temperament": "aggressive"
+    }
+  ],
+  "qaTrace": [
+    {
+      "at": 0.004,
+      "q": "심사위원 질문 · 1 / 1 공장 증설 계획이 인상적이었습니다. 두 공장의 최대 생산량을 표준가로 전량 판매해도 연 34.65억 원인데, 2028년 매출 96억 원은 어떻게 달성하시나요?"
+    },
+    {
+      "at": 28.71,
+      "submitted": "내 답변 · 음성 인식 중 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서"
+    }
+  ],
+  "timerSamples": [
+    {
+      "t": 0.004,
+      "timer": "01:00"
+    },
+    {
+      "t": 3.609,
+      "timer": "00:57"
+    },
+    {
+      "t": 7.124,
+      "timer": "00:53"
+    },
+    {
+      "t": 10.644,
+      "timer": "00:50"
+    },
+    {
+      "t": 14.162,
+      "timer": "00:47"
+    },
+    {
+      "t": 17.679,
+      "timer": "00:43"
+    },
+    {
+      "t": 30.819,
+      "timer": "00:30"
+    }
+  ],
+  "qaEndedAtSec": 32.931,
+  "audio": [
+    {
+      "src": "data:audio/wav;base64,UklGRsQAAABXQVZFZm",
+      "at": 1794505910458,
+      "playing": 1794505910552,
+      "maxTime": 15.1,
+      "ended": 1794505929440
+    },
+    {
+      "src": "blob:http://localhost:3000/bd1e6bf3-696a",
+      "at": 1794505914233,
+      "playing": 1794505914292,
+      "maxTime": 15.1,
+      "ended": 1794505929441
+    }
+  ],
+  "qa": [
+    {
+      "judge": {
+        "id": "j_mwduafm5w53nv",
+        "name": "혜원",
+        "temperament": "friendly"
+      },
+      "question": "공장 증설 계획이 인상적이었습니다. 두 공장의 최대 생산량을 표준가로 전량 판매해도 연 34.65억 원인데, 2028년 매출 96억 원은 어떻게 달성하시나요?",
+      "answer": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년",
+      "askedAt": 0,
+      "questionId": "q_j_mwduafm5w53nv_1",
+      "followup": false,
+      "evidence": [
+        {
+          "doc": "proposal",
+          "page": 43,
+          "quote": "현재 완도 1공장은 월 최대 25만 세트 생산능력을 보유하고 있고",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 43,
+          "quote": "완도 2공장은 2027년 3분기 가동을 목표로 하며 월 150만 세트 규모를 계획하고 있다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "세트당 165원",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 38,
+          "quote": "2028년 96억 원, 2029년 210억 원의 매출을 계획하고 있다.",
+          "verified": true
+        }
+      ],
+      "answerSentenceIds": [
+        "qmwduhwww-1",
+        "qmwduhwww-2",
+        "qmwduhwww-3"
+      ],
+      "assessment": {
+        "score": 1,
+        "verdict": "회피",
+        "reason": "질문은 두 공장의 생산능력 대비 2028년 매출 96억 원 달성 경로였지만, 답변은 원가와 원료 구조만 언급해 매출원이나 물량·단가 가정을 설명하지 못했습니다."
+      },
+      "decision": "next",
+      "remark": "네, 우선 여기까지 듣겠습니다."
+    }
+  ],
+  "qaTranscript": [
+    {
+      "id": "qmwduhwww-1",
+      "t": 20.4,
+      "text": "네.",
+      "phase": "qa"
+    },
+    {
+      "id": "qmwduhwww-2",
+      "t": 20.7,
+      "text": "지금 원가가 스티로폼보다 높은 건 맞습니다.",
+      "phase": "qa"
+    },
+    {
+      "id": "qmwduhwww-3",
+      "t": 19.4,
+      "text": "다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년",
+      "phase": "qa"
+    }
+  ],
+  "statusAfterQa": "report",
+  "reportMs": 112005,
+  "resultText": "종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표.\n\n이번 발표의 종합 점수\n\n54\n/ 100\n\n문제 제기는 명확했어요.\n\n발표력\n82\n논리성\n43\n대응력\n39\n자료 품질\n56\n발표 총평\n\n택배 폐기물의 규모와 규제에 따른 대체재 필요성을 자료와 일치하는 수치로 설명해 문제 제기는 명확해요. 다만 해결책의 성능, 사업성과, 수익모델, 투자 요청을 제시하지 않아 투자 심사위원이 리웨이브에 투자해야 할 이유까지는 전달하지 못해요.\n\n잘한 점\n51억 개·​31만 톤을 p.2와 일치하게 설명했어요.\n규제 종료를 고객의 대체재 필요성과 연결했어요.\n군말 없이 57.5초로 제한 시간을 지켰어요.\n다음 연습에서는\n1\n\n매출 격차 질문에 직접 답해요\n\n다음 연습에서는 차액 61.35억 원을 먼저 인정하고, 추가 매출의 물량·​단가 근거와 아직 검증하지 못한 부분을 구분해 답해 보세요.\n\n2\n\n문서 간 핵심 수치를 통일해요\n\n다음 연습 전 원가·​이익률·​SOM의 기준 시점과 산식을 대조한 표를 만들고, 검증한 값으로 두 자료를 함께 수정해 보세요.\n\n3\n\n성장 목표를 생산·판매로 검증해요\n\n연도별 생산능력·​판매물량·​단가·​필요 자금을 한 표로 연결하고, 검증되지 않은 가정을 표시한 뒤 근거가 부족한 목표는 조정해 보세요.\n\n발표 1분 · 질의응답 1분 · 질문 1개\n\n평가 모델 openai:gpt-6-astra · 2026. 11. 13. 오전 2:54\n\n상세 피드백 보기\n기록으로 돌아가기",
+  "statusAfterReport": "done",
+  "reportMeta": {
+    "keys": [
+      "meta",
+      "speech",
+      "qa",
+      "materials",
+      "overall"
+    ],
+    "provider": {
+      "version": 4,
+      "sessionId": "s_mwdua5s56m6w3x73",
+      "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+      "presentationMinutes": 1,
+      "qaMinutes": 1,
+      "judges": 3,
+      "questions": 1,
+      "docIds": {
+        "presentation": "b074e9bd3e49c31f",
+        "proposal": "cb3e5a08f4107921"
+      },
+      "provider": "openai:gpt-6-astra",
+      "createdAt": "2026-11-12T17:54:16.961Z",
+      "ms": 113085,
+      "timings": {
+        "metrics": 0,
+        "docs": 5,
+        "lint": 18907,
+        "speech": 45107,
+        "qa:0": 53060,
+        "consistency": 63860,
+        "doc:presentation": 81345,
+        "doc:proposal": 86571,
+        "overall": 26508
+      },
+      "usage": {
+        "calls": 6,
+        "inputTokens": 59120,
+        "outputTokens": 13496,
+        "byModel": {
+          "openai:gpt-6-astra": 6
+        }
+      },
+      "warnings": []
+    }
+  },
+  "citesSummary": [
+    {
+      "label": "발표자료 2쪽 보기",
+      "title": "준비한 질문이 모두 끝났어요",
+      "viewer": null,
+      "text": "준비한 질문이 모두 끝났어요답변을 정리해 종합 결과를 보여 드릴게요.4초 뒤 자동으로 넘어가요결과 보기"
+    }
+  ],
+  "citesFeedback": [
+    {
+      "label": "발표자료 3쪽 보기",
+      "title": "준비한 질문이 모두 끝났어요",
+      "viewer": null,
+      "text": "준비한 질문이 모두 끝났어요답변을 정리해 종합 결과를 보여 드릴게요.4초 뒤 자동으로 넘어가요결과 보기"
+    },
+    {
+      "label": "발표자료 9쪽 보기",
+      "title": "준비한 질문이 모두 끝났어요",
+      "viewer": null,
+      "text": "준비한 질문이 모두 끝났어요답변을 정리해 종합 결과를 보여 드릴게요.4초 뒤 자동으로 넘어가요결과 보기"
+    },
+    {
+      "label": "제안자료 30쪽 보기",
+      "title": "준비한 질문이 모두 끝났어요",
+      "viewer": null,
+      "text": "준비한 질문이 모두 끝났어요답변을 정리해 종합 결과를 보여 드릴게요.4초 뒤 자동으로 넘어가요결과 보기"
+    },
+    {
+      "label": "질의응답 00:20 답변 원문 보기",
+      "title": "준비한 질문이 모두 끝났어요",
+      "viewer": null,
+      "text": "준비한 질문이 모두 끝났어요답변을 정리해 종합 결과를 보여 드릴게요.4초 뒤 자동으로 넘어가요결과 보기"
+    }
+  ],
+  "historyText": "쌓이는 연습,\n달라지는 발표.\n\n나의 시뮬레이션 기록\n\n총\n1회\n평균\n54점\n전체\n완료\n진행 중\n2026.11.13\n완료\n삭제\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.\n\n발표 1분 · 질의응답 1분\n\n54점\n\n매출 근거부터 보완해요.\n\n결과 보기\n다시 시작하기\n새 시뮬레이션",
+  "reopenSame": "종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표.\n\n이번 발표의 종합 점수\n\n54\n/ 100\n\n문제 제기는 명확했어요.\n\n발표력\n82\n논리성\n43\n대응력\n39\n자료 품질\n56\n발표 총평\n\n택배 폐기물의 규모와 규제에 따른 대체재 필요성을 자료와 일치하는 수치로 설명해 문제 제기는 명확해요. 다만 해결책의 성능, 사업성과, 수익모델, 투자 요청을 제시하지 않아 투자 심사위원이 리웨이브에 투자해야 할 이유까지는 전달하지 못해요.\n\n잘한 점\n51억 개·​31만 톤을 p.2와 일치하게 설명했어요.\n규제 종료를 고객의 대체재 필요성과 연결했어요.\n군말 없이 57.5초로 제한 시간을 지켰어요.\n다음 연습에서는\n1\n\n매출 격차 질문에 직접 답해요\n\n다음 연습에서는 차액",
+  "reportCallsAfterReopen": 0
+}

@@ -1,0 +1,486 @@
+[
+  {
+    "id": "s_mwdvsbhb4h002u15",
+    "status": "done",
+    "setup": {
+      "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+      "presentationMinutes": 1,
+      "qaMinutes": 1
+    },
+    "docs": {
+      "presentation": {
+        "role": "presentation",
+        "docId": "b074e9bd3e49c31f",
+        "filename": "presentation.pdf",
+        "bytes": 219075,
+        "pageCount": 12,
+        "pdfKey": "pdf:b074e9bd3e49c31f",
+        "pageTexts": "[12 pages]",
+        "emptyPages": [],
+        "wikiState": "ready",
+        "wiki": "[13 wiki pages]",
+        "keyNumbers": "[56]",
+        "wikiBuiltAt": "2026-11-12T18:29:52.375Z"
+      },
+      "proposal": {
+        "role": "proposal",
+        "docId": "cb3e5a08f4107921",
+        "filename": "proposal.pdf",
+        "bytes": 1136635,
+        "pageCount": 58,
+        "pdfKey": "pdf:cb3e5a08f4107921",
+        "pageTexts": "[58 pages]",
+        "emptyPages": [],
+        "wikiState": "ready",
+        "wiki": "[20 wiki pages]",
+        "keyNumbers": "[60]",
+        "wikiBuiltAt": "2026-11-12T18:31:40.949Z"
+      }
+    },
+    "judges": [
+      {
+        "id": "j_mwdvsikq0lq9l",
+        "name": "준식",
+        "fullName": "박준식",
+        "gender": "male",
+        "age": 63,
+        "voiceHint": "60대 남성, 따뜻하고 부드러운 목소리",
+        "temperament": "friendly",
+        "imageKey": "judge:j_mwdvsikq0lq9l",
+        "thumbKey": "judge:j_mwdvsikq0lq9l:thumb"
+      },
+      {
+        "id": "j_mwdvsjoits1w6",
+        "name": "준호",
+        "fullName": "조준호",
+        "gender": "male",
+        "age": 37,
+        "voiceHint": "30대 남성, 차분하고 단호한 목소리",
+        "temperament": "strict",
+        "imageKey": "judge:j_mwdvsjoits1w6",
+        "thumbKey": "judge:j_mwdvsjoits1w6:thumb"
+      },
+      {
+        "id": "j_mwdvsjlx16f00",
+        "name": "영숙",
+        "fullName": "오영숙",
+        "gender": "female",
+        "age": 52,
+        "voiceHint": "50대 여성, 날카롭고 압박감 있는 목소리",
+        "temperament": "aggressive",
+        "imageKey": "judge:j_mwdvsjlx16f00",
+        "thumbKey": "judge:j_mwdvsjlx16f00:thumb"
+      }
+    ],
+    "transcript": [
+      {
+        "id": "pmwdvwtop-1",
+        "t": 2.1,
+        "text": "안녕하세요?",
+        "phase": "presentation",
+        "slide": 2
+      },
+      {
+        "id": "pmwdvwtop-2",
+        "t": 2.5,
+        "text": "저는 리웨이브 대표 김서연입니다.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-3",
+        "t": 5.8,
+        "text": "오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠습니다.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-4",
+        "t": 11.9,
+        "text": "먼저 여러분 집에 택배 상자 하나 열어 보시면 안에 뭐가 들어 있는지 떠올려 보시면 좋겠습니다.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-5",
+        "t": 20.4,
+        "text": "대부분 스티로폼이나 에어캡 같은 완충재가 들어있죠.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-6",
+        "t": 25.5,
+        "text": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-7",
+        "t": 32.2,
+        "text": "그리고 여기서 나오는 완충재 폐기물은 연간 약 31만 톤으로 추정됩니다.문제는 이렇게 오염된 스티로폼과 에어캡은 사실상 재활용이 안 된다는 점입니다.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-8",
+        "t": 48.2,
+        "text": "게다가 과대포장 규제 계도 기간이 끝나면서 브랜드들은 지금 당장 대체제를 찾아야 하는 상황입니다.",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-9",
+        "t": 57.8,
+        "text": "안녕하세요?",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "pmwdvwtop-10",
+        "t": 57.8,
+        "text": "저는 리웨이브",
+        "phase": "presentation",
+        "slide": 3
+      },
+      {
+        "id": "qmwdvz8ma-1",
+        "t": 18.3,
+        "text": "네.",
+        "phase": "qa"
+      },
+      {
+        "id": "qmwdvz8ma-2",
+        "t": 18.6,
+        "text": "지금 원가가 스티로폼보다 높은 건 맞습니다.",
+        "phase": "qa"
+      },
+      {
+        "id": "qmwdvz8ma-3",
+        "t": 18.1,
+        "text": "다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년",
+        "phase": "qa"
+      }
+    ],
+    "qa": [
+      {
+        "judge": {
+          "id": "j_mwdvsikq0lq9l",
+          "name": "준식",
+          "temperament": "friendly"
+        },
+        "question": "생산 확대 계획이 인상적이었습니다. 두 공장 물량을 모두 세트당 165원에 팔아도 연 34.65억 원인데, 2028년 매출 96억 원은 어떻게 달성하실 계획인가요?",
+        "answer": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년",
+        "askedAt": 0,
+        "questionId": "q_j_mwdvsikq0lq9l_1",
+        "followup": false,
+        "evidence": [
+          {
+            "doc": "proposal",
+            "page": 5,
+            "quote": "생산능력 월 최대 25만 세트 완도 1공장, 가동률 72%",
+            "verified": true
+          },
+          {
+            "doc": "proposal",
+            "page": 43,
+            "quote": "완도 2공장은 2027년 3분기 가동을 목표로 하며 월 150만 세트 규모를 계획하고 있다.",
+            "verified": true
+          },
+          {
+            "doc": "proposal",
+            "page": 5,
+            "quote": "현재 양산 기준 원가 구조는 세트당 142원, 판매가 165원으로 매출총이익률은 약 14%이다.",
+            "verified": true
+          },
+          {
+            "doc": "proposal",
+            "page": 38,
+            "quote": "2028년 96억 원, 2029년 210억 원의 매출을 계획하고 있다.",
+            "verified": true
+          }
+        ],
+        "answerSentenceIds": [
+          "qmwdvz8ma-1",
+          "qmwdvz8ma-2",
+          "qmwdvz8ma-3"
+        ],
+        "assessment": {
+          "score": 2,
+          "verdict": "부분",
+          "reason": "질문은 2028년 매출 96억 원을 어떤 물량·제품·단가 구성으로 달성하는지였는데, 답변은 원가와 원료 조달 이야기로 시작해 매출 구성에는 답하지 못했습니다."
+        },
+        "decision": "next",
+        "remark": "네, 취지는 이해했습니다."
+      }
+    ],
+    "createdAt": "2026-11-12T18:28:14.493Z",
+    "updatedAt": "2026-11-12T18:35:54.557Z",
+    "questions": {
+      "pack": "[pack]",
+      "lint": "[13]",
+      "items": [
+        {
+          "id": "q_j_mwdvsikq0lq9l_1",
+          "judgeId": "j_mwdvsikq0lq9l",
+          "question": "생산 확대 계획이 인상적이었습니다. 두 공장 물량을 모두 세트당 165원에 팔아도 연 34.65억 원인데, 2028년 매출 96억 원은 어떻게 달성하실 계획인가요?",
+          "intent": "생산능력과 매출 목표 사이의 차이를 메울 매출 구성을 확인한다.",
+          "targetClaim": "2028년 매출 96억 원 달성 계획",
+          "targetId": "t1",
+          "evidence": [
+            {
+              "doc": "proposal",
+              "page": 5,
+              "quote": "생산능력 월 최대 25만 세트 완도 1공장, 가동률 72%",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 43,
+              "quote": "완도 2공장은 2027년 3분기 가동을 목표로 하며 월 150만 세트 규모를 계획하고 있다.",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 5,
+              "quote": "현재 양산 기준 원가 구조는 세트당 142원, 판매가 165원으로 매출총이익률은 약 14%이다.",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "2028년 96억 원, 2029년 210억 원의 매출을 계획하고 있다.",
+              "verified": true
+            }
+          ],
+          "difficulty": 3,
+          "kind": "main",
+          "latencyMs": 9128
+        },
+        {
+          "id": "q_j_mwdvsikq0lq9l_2",
+          "judgeId": "j_mwdvsikq0lq9l",
+          "question": "흑자 전환 이후의 성장 계획이 인상적이었습니다. 2029년 매출총이익률 44% 이상과 영업이익 31억 원을 뒷받침하는 비용 계획을 조금 더 자세히 말씀해 주시겠어요?",
+          "intent": "2029년 매출총이익률과 영업이익 목표를 연결하는 비용 가정을 확인한다.",
+          "targetClaim": "2029년 영업이익 31억 원과 매출총이익률 44% 이상 목표",
+          "targetId": "t3",
+          "evidence": [
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "2028년 +6억 원, 2029년 +31억 원으로 개선된다.",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "매출총이익률 실적 기준 미공개 약 14% 약 24% 내외 약 44% 44% 이상 유지 목표",
+              "verified": true
+            }
+          ],
+          "difficulty": 3,
+          "kind": "reserve",
+          "latencyMs": 9128
+        },
+        {
+          "id": "q_j_mwdvsjoits1w6_1",
+          "judgeId": "j_mwdvsjoits1w6",
+          "question": "2026년 세트당 양산 원가가 발표자료에는 118원, 제안자료에는 142원으로 나옵니다. 어느 쪽이 맞는 수치입니까?",
+          "intent": "양산 원가의 자료 간 불일치를 확인한다.",
+          "targetClaim": "2026년 양산 세트당 원가",
+          "targetId": "t4",
+          "evidence": [
+            {
+              "doc": "presentation",
+              "page": 6,
+              "quote": "원가 / 세트 (2026 양산)\n118원",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 5,
+              "quote": "현재 양산 기준 원가 구조는 세트당 142원, 판매가 165원으로 매출총이익률은 약 14%이다.",
+              "verified": true
+            }
+          ],
+          "difficulty": 4,
+          "kind": "reserve",
+          "latencyMs": 5547
+        },
+        {
+          "id": "q_j_mwdvsjoits1w6_2",
+          "judgeId": "j_mwdvsjoits1w6",
+          "question": "2029년 확보 가능 시장이 발표자료에는 340억 원, 제안자료에는 210억 원으로 나옵니다. 어느 쪽이 맞는 목표입니까?",
+          "intent": "2029년 확보 가능 시장 목표의 자료 간 불일치를 확인한다.",
+          "targetClaim": "2029년 확보 가능 시장 규모",
+          "targetId": "t5",
+          "evidence": [
+            {
+              "doc": "presentation",
+              "page": 5,
+              "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 4,
+              "quote": "회사는 2029년 SOM 210억 원을 목표로 하고 있으며, 이는 SAM의\n약 3.1%에 해당한다.",
+              "verified": true
+            }
+          ],
+          "difficulty": 3,
+          "kind": "reserve",
+          "latencyMs": 5547
+        },
+        {
+          "id": "q_j_mwdvsjlx16f00_1",
+          "judgeId": "j_mwdvsjlx16f00",
+          "question": "2028년 매출 96억 원과 영업이익 6억 원은 어떤 비용 가정으로 산출하셨습니까? 매출총이익률 44%를 적용한 손익 계산을 설명해 주시겠습니까?",
+          "intent": "2028년 흑자 목표의 원가와 판관비 산정 근거를 검증한다.",
+          "targetClaim": "2028년 매출 96억 원과 영업이익 6억 원 달성",
+          "targetId": "t2",
+          "evidence": [
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "2027년 32억 원, 2028년 96억 원, 2029년 210억 원의 매출을 계획하고 있다.",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "2028년 +6억 원, 2029년 +31억 원으로 개선된다.",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "2028년 44% 수준으로 상승한다.",
+              "verified": true
+            }
+          ],
+          "difficulty": 5,
+          "kind": "reserve",
+          "latencyMs": 8825
+        },
+        {
+          "id": "q_j_mwdvsjlx16f00_2",
+          "judgeId": "j_mwdvsjlx16f00",
+          "question": "매월 신규 고객 8곳을 확보한다는 가정은 낙관적으로 보이는데요. 현재 영업 후보 수와 계약 전환율로 어떻게 뒷받침하십니까?",
+          "intent": "신규 고객 확보 가정을 뒷받침하는 영업 후보 규모와 전환율을 확인한다.",
+          "targetClaim": "2027년부터 월 신규 고객 8곳 확보",
+          "targetId": "t6",
+          "evidence": [
+            {
+              "doc": "proposal",
+              "page": 38,
+              "quote": "본계약 전환과 2027년부터 월 신규 고객 8곳 확보라는 두 가지 조건만을 전제로 한다.",
+              "verified": true
+            }
+          ],
+          "difficulty": 4,
+          "kind": "reserve",
+          "latencyMs": 8825
+        }
+      ],
+      "order": [
+        "q_j_mwdvsikq0lq9l_1",
+        "q_j_mwdvsjoits1w6_1",
+        "q_j_mwdvsikq0lq9l_2",
+        "q_j_mwdvsjlx16f00_2",
+        "q_j_mwdvsjlx16f00_1",
+        "q_j_mwdvsjoits1w6_2"
+      ],
+      "main": [
+        "q_j_mwdvsikq0lq9l_1"
+      ],
+      "reserve": [
+        "q_j_mwdvsjoits1w6_1",
+        "q_j_mwdvsikq0lq9l_2",
+        "q_j_mwdvsjlx16f00_2",
+        "q_j_mwdvsjlx16f00_1",
+        "q_j_mwdvsjoits1w6_2"
+      ]
+    },
+    "report": "[report present]",
+    "finishedAt": "2026-11-12T18:35:54.549Z"
+  },
+  {
+    "id": "s_mwdw8kfs5n28070e",
+    "status": "setup",
+    "setup": {
+      "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+      "presentationMinutes": 1,
+      "qaMinutes": 1
+    },
+    "docs": {
+      "presentation": {
+        "role": "presentation",
+        "docId": "b074e9bd3e49c31f",
+        "filename": "presentation.pdf",
+        "bytes": 219075,
+        "pageCount": 12,
+        "pdfKey": "pdf:b074e9bd3e49c31f",
+        "pageTexts": "[12 pages]",
+        "emptyPages": [],
+        "wikiState": "ready",
+        "wiki": "[13 wiki pages]",
+        "keyNumbers": "[56]",
+        "wikiBuiltAt": "2026-11-12T18:29:52.375Z"
+      },
+      "proposal": {
+        "role": "proposal",
+        "docId": "cb3e5a08f4107921",
+        "filename": "proposal.pdf",
+        "bytes": 1136635,
+        "pageCount": 58,
+        "pdfKey": "pdf:cb3e5a08f4107921",
+        "pageTexts": "[58 pages]",
+        "emptyPages": [],
+        "wikiState": "ready",
+        "wiki": "[20 wiki pages]",
+        "keyNumbers": "[60]",
+        "wikiBuiltAt": "2026-11-12T18:31:40.949Z"
+      }
+    },
+    "judges": [
+      {
+        "id": "j_8344d9c433e4",
+        "name": "준식",
+        "fullName": "박준식",
+        "gender": "male",
+        "age": 63,
+        "voiceHint": "60대 남성, 따뜻하고 부드러운 목소리",
+        "temperament": "friendly",
+        "imageKey": "judge:j_8344d9c433e4",
+        "thumbKey": "judge:j_8344d9c433e4:thumb"
+      },
+      {
+        "id": "j_95f9d70b4e12",
+        "name": "준호",
+        "fullName": "조준호",
+        "gender": "male",
+        "age": 37,
+        "voiceHint": "30대 남성, 차분하고 단호한 목소리",
+        "temperament": "strict",
+        "imageKey": "judge:j_95f9d70b4e12",
+        "thumbKey": "judge:j_95f9d70b4e12:thumb"
+      },
+      {
+        "id": "j_559d6953ff4d",
+        "name": "영숙",
+        "fullName": "오영숙",
+        "gender": "female",
+        "age": 52,
+        "voiceHint": "50대 여성, 날카롭고 압박감 있는 목소리",
+        "temperament": "aggressive",
+        "imageKey": "judge:j_559d6953ff4d",
+        "thumbKey": "judge:j_559d6953ff4d:thumb"
+      }
+    ],
+    "transcript": [],
+    "qa": [],
+    "createdAt": "2026-11-12T18:40:52.600Z",
+    "updatedAt": "2026-11-12T18:40:52.601Z"
+  }
+]

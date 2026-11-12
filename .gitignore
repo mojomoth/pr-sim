@@ -21,3 +21,9 @@ pocs/.verify/
 pocs/devlog/*.jsonl
 app/.data/
 .verify/**/*.webm
+
+# gate evidence: keep reports/json, drop heavy media
+app/.verify/**/*.png
+app/.verify/**/*.wav
+app/.verify/**/*.webp
+app/.verify/**/*.pdf

@@ -1,0 +1,288 @@
+{
+  "results": [
+    {
+      "name": "tts-loading: navigated away from /qa",
+      "ok": true,
+      "detail": "/history"
+    },
+    {
+      "name": "tts-loading: no judge clip played after leaving",
+      "ok": true,
+      "detail": {
+        "late": [],
+        "audioPlaying": false
+      }
+    },
+    {
+      "name": "tts-loading: no mic opened after leaving",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "tts-loading: no live mic track left",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "answering: navigated away from /qa",
+      "ok": true,
+      "detail": "/history"
+    },
+    {
+      "name": "answering: no judge clip played after leaving",
+      "ok": true,
+      "detail": {
+        "late": [],
+        "audioPlaying": false
+      }
+    },
+    {
+      "name": "answering: no mic opened after leaving",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "answering: no live mic track left",
+      "ok": true,
+      "detail": {
+        "before": 1,
+        "after": 0
+      }
+    },
+    {
+      "name": "judging: navigated away from /qa",
+      "ok": true,
+      "detail": "/history"
+    },
+    {
+      "name": "judging: no judge clip played after leaving",
+      "ok": true,
+      "detail": {
+        "late": [],
+        "audioPlaying": false
+      }
+    },
+    {
+      "name": "judging: no mic opened after leaving",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "judging: no live mic track left",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "judging: follow-up request was in flight and got cancelled",
+      "ok": true,
+      "detail": [
+        "200 /api/tts",
+        "200 /api/stt/token",
+        "delay 5000ms /api/questions/followup",
+        "failed /api/questions/followup net::ERR_ABORTED"
+      ]
+    },
+    {
+      "name": "finalizing: navigated away from /qa",
+      "ok": true,
+      "detail": "/history"
+    },
+    {
+      "name": "finalizing: no judge clip played after leaving",
+      "ok": true,
+      "detail": {
+        "late": [],
+        "audioPlaying": false
+      }
+    },
+    {
+      "name": "finalizing: no mic opened after leaving",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "finalizing: no live mic track left",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "finalizing: no follow-up request sent after leaving",
+      "ok": false,
+      "detail": [
+        "200 /api/tts",
+        "200 /api/stt/token",
+        "failed /api/questions/followup net::ERR_ABORTED"
+      ]
+    }
+  ],
+  "out": {
+    "ttsLoading": {
+      "before": {
+        "path": "/qa",
+        "ev": [],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "after": {
+        "path": "/history",
+        "ev": [],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "net": [
+        "delay 6000ms /api/tts",
+        "200 /api/tts"
+      ],
+      "logs": []
+    },
+    "answering": {
+      "before": {
+        "path": "/qa",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4986.5
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 16941.70000000298,
+            "audio": true
+          }
+        ],
+        "liveMic": 1,
+        "audioPlaying": false
+      },
+      "after": {
+        "path": "/history",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4986.5
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 16941.70000000298,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "net": [
+        "200 /api/tts",
+        "200 /api/stt/token"
+      ],
+      "logs": [
+        "[warn] Warning: Ephemeral token support is experimental and may change in future versions."
+      ]
+    },
+    "judging": {
+      "before": {
+        "path": "/qa",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4433.29999999702
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 16248.89999999106,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "after": {
+        "path": "/history",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4433.29999999702
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 16248.89999999106,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "net": [
+        "200 /api/tts",
+        "200 /api/stt/token",
+        "delay 5000ms /api/questions/followup",
+        "failed /api/questions/followup net::ERR_ABORTED"
+      ],
+      "logs": [
+        "[warn] Warning: Ephemeral token support is experimental and may change in future versions.",
+        "[requestfailed] http://localhost:3000/api/questions/followup net::ERR_ABORTED"
+      ]
+    },
+    "finalizing": {
+      "before": {
+        "path": "/qa",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4540.5
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 15799.5,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "after": {
+        "path": "/history",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4540.5
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 15799.5,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "net": [
+        "200 /api/tts",
+        "200 /api/stt/token",
+        "failed /api/questions/followup net::ERR_ABORTED"
+      ],
+      "logs": [
+        "[warn] Warning: Ephemeral token support is experimental and may change in future versions.",
+        "[requestfailed] http://localhost:3000/api/questions/followup net::ERR_ABORTED"
+      ]
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "results": [
+    {
+      "name": "finalizing: navigated away from /qa",
+      "ok": true,
+      "detail": "/history"
+    },
+    {
+      "name": "finalizing: no judge clip played after leaving",
+      "ok": true,
+      "detail": {
+        "late": [],
+        "audioPlaying": false
+      }
+    },
+    {
+      "name": "finalizing: no mic opened after leaving",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "finalizing: no live mic track left",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "finalizing: no follow-up decision delivered after leaving (none sent, or aborted)",
+      "ok": true,
+      "detail": [
+        "200 /api/tts",
+        "200 /api/stt/token"
+      ]
+    }
+  ],
+  "out": {
+    "finalizing": {
+      "before": {
+        "path": "/qa",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4171.20000000298
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 16184.29999999702,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "after": {
+        "path": "/history",
+        "ev": [
+          {
+            "k": "play",
+            "path": "/qa",
+            "t": 4171.20000000298
+          },
+          {
+            "k": "gum",
+            "path": "/qa",
+            "t": 16184.29999999702,
+            "audio": true
+          }
+        ],
+        "liveMic": 0,
+        "audioPlaying": false
+      },
+      "net": [
+        "200 /api/tts",
+        "200 /api/stt/token"
+      ],
+      "logs": [
+        "[warn] Warning: Ephemeral token support is experimental and may change in future versions."
+      ]
+    }
+  }
+}

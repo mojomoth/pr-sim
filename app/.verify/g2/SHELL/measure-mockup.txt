@@ -1,0 +1,14 @@
+size 851 1848 center alpha 0 corner alpha 0
+screen bbox left,top,right,bottom (inclusive): 36 34 815 1816  w 780  h 1783
+as % of image: left 4.2303 top 1.8398 width 91.6569 height 96.4827
+top-left offsets [125, 107, 99, 83, 67, 48, 26, 13, 6, 2, 0]
+bottom-left offsets [625, 107, 98, 82, 67, 47, 26, 13, 6, 2, 0]
+top-right offsets [120, 108, 99, 82, 67, 48, 26, 13, 6, 2, 0]
+circle-fit radius (err,R): TL (6.441, 116) BL (1839.534, 155) TR (5.38, 116)
+opaque inside top band: x 306 632 y 34 128
+row 1816 transparent count 5 min 661 max 665
+row 1815 transparent count 564 min 143 max 706
+row 1814 transparent count 582 min 134 max 715
+row 1813 transparent count 596 min 128 max 723
+BL fit (skip artifact rows) (1.582, 112) last full-width row from bottom 114
+island bbox 306 54 545 128 w 240 h 75

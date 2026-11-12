@@ -1,0 +1,49 @@
+[
+  {
+    "t": 1794507826985,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "coral",
+    "duration": "15.7"
+  },
+  {
+    "t": 1794507838140,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "coral",
+    "duration": "12.8"
+  },
+  {
+    "t": 1794507851528,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  },
+  {
+    "t": 1794507885419,
+    "url": "/api/tts",
+    "method": "POST",
+    "status": 200,
+    "ct": "audio/wav",
+    "provider": "openai",
+    "model": "gpt-4o-mini-tts",
+    "voice": "coral",
+    "duration": "13.45"
+  },
+  {
+    "t": 1794507899418,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "status": 200,
+    "ct": "application/json"
+  }
+]

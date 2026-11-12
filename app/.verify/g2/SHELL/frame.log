@@ -1,0 +1,122 @@
+{
+ "desktop": {
+  "before": {
+   "viewport": [
+    1280,
+    860
+   ],
+   "frameMode": true,
+   "deviceScale": "min(1, tan(atan2(100dvh - 48px, 924px)), tan(atan2(100vw - 48px, 425.5px)))",
+   "deviceTransform": "matrix(0.878788, 0, 0, 0.878788, -212.75, -462)",
+   "screen": {
+    "x": 468,
+    "y": 38.1,
+    "w": 344.5,
+    "h": 784.8,
+    "bottom": 822.8
+   },
+   "scroll": {
+    "x": 468,
+    "y": 85.5,
+    "w": 344.5,
+    "h": 737.3,
+    "bottom": 822.8
+   },
+   "bar": {
+    "x": 468,
+    "y": 733.2,
+    "w": 344.5,
+    "h": 89.6,
+    "bottom": 822.8
+   },
+   "layoutWidth": 392,
+   "layoutHeight": 893,
+   "scrollClientH": 839,
+   "scrollH": 2582,
+   "docScrollH": 860,
+   "winScrollable": false,
+   "title": "PR·SIM",
+   "lang": "ko",
+   "themeColor": "#ffffff",
+   "icons": [
+    "icon /favicon.ico",
+    "icon /icon.png",
+    "apple-touch-icon /apple-touch-icon.png"
+   ],
+   "font": "\"Pretendard Variable\", Pretendard, \"Noto"
+  },
+  "barAfterScroll": {
+   "x": 468,
+   "y": 733.2,
+   "w": 344.5,
+   "h": 89.6,
+   "bottom": 822.8
+  },
+  "scrollTop": 1743,
+  "logs": [
+   "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[error] Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "mobile": {
+  "before": {
+   "viewport": [
+    390,
+    844
+   ],
+   "frameMode": false,
+   "deviceScale": "",
+   "deviceTransform": "none",
+   "screen": {
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 844,
+    "bottom": 844
+   },
+   "scroll": {
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 844,
+    "bottom": 844
+   },
+   "bar": {
+    "x": 0,
+    "y": 760,
+    "w": 390,
+    "h": 84,
+    "bottom": 844
+   },
+   "layoutWidth": 390,
+   "layoutHeight": 844,
+   "scrollClientH": 844,
+   "scrollH": 2582,
+   "docScrollH": 844,
+   "winScrollable": false,
+   "title": "PR·SIM",
+   "lang": "ko",
+   "themeColor": "#ffffff",
+   "icons": [
+    "icon /favicon.ico",
+    "icon /icon.png",
+    "apple-touch-icon /apple-touch-icon.png"
+   ],
+   "font": "\"Pretendard Variable\", Pretendard, \"Noto"
+  },
+  "barAfterScroll": {
+   "x": 0,
+   "y": 760,
+   "w": 390,
+   "h": 84,
+   "bottom": 844
+  },
+  "scrollTop": 1738,
+  "logs": [
+   "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[error] Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ }
+}

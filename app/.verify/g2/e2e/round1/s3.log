@@ -1,0 +1,17 @@
+[17:56:42] restart buttons 1
+[17:56:45] restart {"status":"setup","setup":{"situation":"친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.","presentationMinutes":1,"qaMinutes":1},"judges":["혜원/friendly","용준/strict","지훈/aggressive"],"docs":["presentation","proposal"],"wiki":["ready","ready"],"transcript":0,"qa":0}
+[17:57:00] media after leaving present [{"connected":true,"visible":false,"tracks":[]}] early transcript 4
+[17:57:00] questions fail UI {"alerts":["질문을 준비하지 못했어요 AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."],"hasRetry":true}
+[17:57:24] questions retry → 질문이 준비됐어요
+[17:57:25] report abort UI ["서버에 연결하지 못했어요. 인터넷 연결을 확인한 뒤 다시 시도해 주세요. 다시 시도 기록으로 돌아가기"]
+[17:57:28] report 429 UI ["요청이 많아요. 약 2분 뒤 다시 시도해 주세요. 다시 시도 기록으로 돌아가기"]
+[17:57:37] missing {"present":"기록을 찾을 수 없어요 삭제됐거나 다른 기기에서 만든 기록이에요. 목록에서 다시 골라 주세요. 기록 목록으로 새로 시작하기","qa":"기록을 찾을 수 없어요 삭제됐거나 다른 기기에서 만든 기록이에요. 목록에서 다시 골라 주세요. 기록 목록으로 새로 시작하기","result":"결과 기록을 찾을 수 없어요 삭제됐거나 다른 기기에서 진행한 연습이에요. 이 기기에 저장된 기록에서 다시 골라 주세요. 기록 보러 가기","setup":"기록을 찾을 수 없어요 삭제됐거나 다른 기기에서 만든 기록이에요. 새로 설정해 주세요. 새로 설정하기 기록 목록으로"}
+[17:57:42] ERROR B ProtocolError: Protocol error (Browser.setPermission): Invalid PermissionDescriptor name: videoCapture
+    at <instance_members_initializer> (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:108:14)
+    at new Callback (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:16)
+    at CallbackRegistry.create (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+    at Connection._rawSend (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:125:26)
+    at CdpCDPSession.send (file:///Users/jyl/work/study/pr-sim/pocs/node_modules/.pnpm/puppeteer-core@25.17.0/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+    at file:///private/tmp/claude-501/-Users-jyl-work-study-pr-sim/df436add-6d4f-4ca4-ae61-70ee964c3e79/scratchpad/e2e/s3-restart-errors.mjs:117:68
+[17:57:57] desktop {"landing":{"mockupImgs":[],"mockupEls":1,"appScroll":{"x":539.5032958984375,"y":38.75324630737305,"w":361.4544677734375,"h":823.4155883789062},"docW":1440,"winW":1440},"setup":{"mockupImgs":[],"mockupEls":1,"appScroll":{"x":539.5032958984375,"y":88.54545593261719,"w":361.4544677734375,"h":773.6233520507812},"docW":1440,"winW":1440},"result":{"mockupImgs":[],"mockupEls":1,"appScroll":{"x":539.5032958984375,"y":88.54545593261719,"w":361.4544677734375,"h":773.6233520507812},"docW":1440,"winW":1440},"history":{"mockupImgs":[],"mockupEls":1,"appScroll":{"x":539.5032958984375,"y":88.54545593261719,"w":361.4544677734375,"h":773.6233520507812},"docW":1440,"winW":1440}}
+[17:57:59] mobile {"appScroll":{"x":0,"y":0,"w":390,"h":844},"visibleMockups":0,"docW":390}

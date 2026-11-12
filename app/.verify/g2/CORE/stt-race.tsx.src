@@ -1,0 +1,27 @@
+// Mounted by stt-race-run.mjs: exposes useSentenceTranscriber start/stop on window.T.
+import { useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
+
+declare global {
+  interface Window {
+    T: Record<string, unknown>;
+  }
+}
+window.T = {};
+
+function Stt() {
+  const t = useSentenceTranscriber({ phase: "qa" });
+  useEffect(() => {
+    window.T.stt = { status: t.status, error: t.error, notice: t.notice };
+    window.T.sttStart = t.start;
+    window.T.sttStop = t.stop;
+  });
+  return <p data-stt={t.status}>{t.status} {t.error ?? ""}</p>;
+}
+
+export function mount() {
+  const el = document.createElement("div");
+  document.body.prepend(el);
+  createRoot(el).render(<Stt />);
+}

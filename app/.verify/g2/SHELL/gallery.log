@@ -1,0 +1,20 @@
+desktop a {"imgs":[{"src":"/brand/lockup-black.png","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-minseo.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-junho.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-doyun.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-junho.jpg","ok":true,"filter":"none"}],"overflowX":false}
+desktop b {"imgs":[{"src":"/brand/lockup-black.png","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-minseo.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-doyun.jpg","ok":true,"filter":"none"}],"overflowX":false}
+desktop logs [
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)'
+]
+mobile a {"imgs":[{"src":"/brand/lockup-black.png","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-minseo.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-junho.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-doyun.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-junho.jpg","ok":true,"filter":"none"}],"overflowX":false}
+mobile b {"imgs":[{"src":"/brand/lockup-black.png","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-minseo.jpg","ok":true,"filter":"none"},{"src":"http://localhost:3100/ui/judge-doyun.jpg","ok":true,"filter":"none"}],"overflowX":false}
+mobile logs [
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)',
+  '[error] Failed to load resource: the server responded with a status of 404 (Not Found)'
+]

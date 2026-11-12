@@ -1,0 +1,4 @@
+0.7s 200 /api/questions 
+31.2s 200 /api/tts gemini
+45.0s 200 /api/stt/token 
+64.8s 200 /api/questions/followup 

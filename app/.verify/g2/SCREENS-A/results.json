@@ -1,0 +1,150 @@
+{
+  "results": [
+    {
+      "name": "landing title",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "landing links",
+      "ok": true,
+      "detail": "[\"/history\",\"/setup\"]"
+    },
+    {
+      "name": "landing no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "history empty state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "setup draft id in url",
+      "ok": true,
+      "detail": "s_mwdtocb0101o5k3s"
+    },
+    {
+      "name": "3 judges generating (skeleton)",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "start disabled before input",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "invalid pdf inline error",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sample attached + situation prefilled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "wiki building status",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "slider + works",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "judges generated with color faces",
+      "ok": true,
+      "detail": "9.866s [{\"src\":\"blob:\",\"w\":256},{\"src\":\"blob:\",\"w\":256},{\"src\":\"blob:\",\"w\":256}] "
+    },
+    {
+      "name": "persona change keeps face, offers regenerate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "draft survives reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "wiki resumes after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "start enabled when ready",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "start navigates to /present?s=id",
+      "ok": true,
+      "detail": "http://localhost:3000/present?s=s_mwdtocb0101o5k3s"
+    },
+    {
+      "name": "session saved as presentation",
+      "ok": true,
+      "detail": "{\"status\":\"presentation\",\"judges\":3,\"docs\":[\"presentation\"],\"wiki\":\"building\"}"
+    },
+    {
+      "name": "back from /present keeps input",
+      "ok": true,
+      "detail": "http://localhost:3000/setup?s=s_mwdtocb0101o5k3s"
+    },
+    {
+      "name": "history header count/avg",
+      "ok": false,
+      "detail": "쌓이는 연습, | 달라지는 발표. |  | 나의 시뮬레이션 기록 |  | 총 | 3회 | 평균 | 79점 | 전체 | 완료 | 진행 중 | 2026.11.12 | 완료 | 삭제 |  | 친환경 패키징 사업 제안 |  | 발표 5분 · 질의응답 3분 |  | 82점 |  | 답변에 근거를 더해 보세요. |  | 결과 보기 | 다시 시작하기 | 2026.11.10 | 완료 | 삭제 |  | 신규 서비스 투자 제안 |  | 발표 5분 · 질의응답 3분 |  | 76점 |  | 핵심 수치를"
+    },
+    {
+      "name": "history items",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "이어하기 → /qa?s=",
+      "ok": true,
+      "detail": "/qa?s=seed_prog"
+    },
+    {
+      "name": "결과 보기 → /result?s=",
+      "ok": true,
+      "detail": "/result?s=seed_done1"
+    },
+    {
+      "name": "filter 완료",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "filter 진행 중",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "delete removes record",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "name": "다시 시작하기 → prefilled new draft",
+      "ok": false,
+      "detail": "s_mwdtotv409210n5t"
+    },
+    {
+      "name": "unknown draft id → 기록을 찾을 수 없어요",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "logs": [
+    "[log] [Fast Refresh] rebuilding",
+    "[log] [Fast Refresh] done in 2ms",
+    "[log] [Fast Refresh] rebuilding",
+    "[log] [Fast Refresh] done in 360ms"
+  ]
+}

@@ -1,0 +1,12 @@
+[18:38:44] direct buttons 10 visible 9 [{"l":"질의응답 00:18 답변 원문 보기","vis":true},{"l":"발표자료 3쪽 보기","vis":false},{"l":"제안자료 16쪽 보기","vis":true},{"l":"발표자료 6쪽 보기","vis":true},{"l":"발표자료 9쪽 보기","vis":true},{"l":"발표자료 11쪽 보기","vis":true},{"l":"제안자료 16쪽 보기","vis":true},{"l":"발표자료 6쪽 보기","vis":true},{"l":"발표자료 9쪽 보기","vis":true},{"l":"발표자료 11쪽 보기","vis":true}]
+[18:38:46] direct 질의응답 00:18 답변 원문 보기 true {"viewer":null,"current":"00:18 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년","text":"질의응답 전사 00:18 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 00:18 네. 00:18 지금 원가가 스티로폼보다 높은 건 맞습니다. 닫기"}
+[18:38:49] direct 제안자료 16쪽 보기 true {"viewer":{"page":"16","state":"ready","total":"58"},"text":"제안자료 16쪽 proposal.pdf 14 18 58쪽 중 16쪽 16 / 58 닫기"}
+[18:38:52] direct 발표자료 6쪽 보기 true {"viewer":{"page":"6","state":"ready","total":"12"},"text":"발표자료 6쪽 presentation.pdf 4 8 12쪽 중 6쪽 6 / 12 닫기"}
+[18:38:55] direct 발표자료 9쪽 보기 true {"viewer":{"page":"9","state":"ready","total":"12"},"text":"발표자료 9쪽 presentation.pdf 7 11 12쪽 중 9쪽 9 / 12 닫기"}
+[18:38:57] direct 발표자료 11쪽 보기 true {"viewer":{"page":"11","state":"ready","total":"12"},"text":"발표자료 11쪽 presentation.pdf 9 12쪽 중 11쪽 11 / 12 닫기"}
+[18:39:04] tabclick buttons 10 visible 9 [{"l":"질의응답 00:18 답변 원문 보기","vis":true},{"l":"발표자료 3쪽 보기","vis":false},{"l":"제안자료 16쪽 보기","vis":true},{"l":"발표자료 6쪽 보기","vis":true},{"l":"발표자료 9쪽 보기","vis":true},{"l":"발표자료 11쪽 보기","vis":true},{"l":"제안자료 16쪽 보기","vis":true},{"l":"발표자료 6쪽 보기","vis":true},{"l":"발표자료 9쪽 보기","vis":true},{"l":"발표자료 11쪽 보기","vis":true}]
+[18:39:06] tabclick 질의응답 00:18 답변 원문 보기 true {"viewer":null,"current":"00:18 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년","text":"질의응답 전사 00:18 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 00:18 네. 00:18 지금 원가가 스티로폼보다 높은 건 맞습니다. 닫기"}
+[18:39:09] tabclick 제안자료 16쪽 보기 true {"viewer":{"page":"16","state":"ready","total":"58"},"text":"제안자료 16쪽 proposal.pdf 14 18 58쪽 중 16쪽 16 / 58 닫기"}
+[18:39:12] tabclick 발표자료 6쪽 보기 true {"viewer":{"page":"6","state":"ready","total":"12"},"text":"발표자료 6쪽 presentation.pdf 4 8 12쪽 중 6쪽 6 / 12 닫기"}
+[18:39:14] tabclick 발표자료 9쪽 보기 true {"viewer":{"page":"9","state":"ready","total":"12"},"text":"발표자료 9쪽 presentation.pdf 7 11 12쪽 중 9쪽 9 / 12 닫기"}
+[18:39:17] tabclick 발표자료 11쪽 보기 true {"viewer":{"page":"11","state":"ready","total":"12"},"text":"발표자료 11쪽 presentation.pdf 9 12쪽 중 11쪽 11 / 12 닫기"}

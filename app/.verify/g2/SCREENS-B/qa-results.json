@@ -1,0 +1,81 @@
+[
+  {
+    "name": "qa: POST /api/questions → questions saved (pack, main, reserve)",
+    "ok": true,
+    "detail": {
+      "main": [
+        "q_j_mwdja2lbcyyyv_1"
+      ],
+      "reserve": [
+        "q_j_mwdjbetg50soz_1",
+        "q_j_mwdja1fzc0gw5_1",
+        "q_j_mwdja2lbcyyyv_2",
+        "q_j_mwdja1fzc0gw5_2",
+        "q_j_mwdjbetg50soz_2"
+      ]
+    }
+  },
+  {
+    "name": "qa: judge question bubble + hero (질문/답변) + answer bubble",
+    "ok": true,
+    "detail": "질의응답\n종료\n\n질의응답 남은 시간\n\n00:39\n\n1분 남음\n경희 · 친절함\n답변 듣는 중\n\n심사위원 질문 · 1 / 1\n\n생산 확대 계획이 인상적이었습니다. 두 공장의 생산능력을 고려할 때 2029년 매출 목표는 어떤 제품별 매출로 달성하실 계획인가요?\n\n질문을 다시 들을 수 있어요.\n\n질문 다시 듣기\n\n내 답변 · 음성 인식 중\n\n답변을 말씀해 주세요…\n\n천천히, 핵심부터 답변해 보세요.\n\n듣고 있어요\n답변 완료"
+  },
+  {
+    "name": "qa 390×844: mic/waveform row fully visible (inside the bottom bar)",
+    "ok": true,
+    "detail": {
+      "barTop": 696,
+      "rowTop": 708,
+      "rowBottom": 764,
+      "vh": 844,
+      "inBar": true
+    }
+  },
+  {
+    "name": "qa 390×844: answer bubble not under the bottom bar (scrolled to end)",
+    "ok": true,
+    "detail": {
+      "elTop": 477,
+      "elBottom": 663,
+      "barTop": 696,
+      "viewport": 844,
+      "hidden": false
+    }
+  },
+  {
+    "name": "qa: end dialog (time up / questions done) → 결과 보기",
+    "ok": true
+  },
+  {
+    "name": "qa: QA items recorded (question, answer, answerSentenceIds, evidence, assessment, decision)",
+    "ok": true,
+    "detail": [
+      {
+        "q": "생산 확대 계획이 인상적이었습니다. 두 공장의 생산능력을 고려할 때 20",
+        "a": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리",
+        "ids": 3,
+        "ev": 4,
+        "as": "부분",
+        "d": "next",
+        "f": false
+      }
+    ]
+  },
+  {
+    "name": "qa: qa-phase transcript sentences persisted",
+    "ok": true,
+    "detail": 3
+  },
+  {
+    "name": "qa: status → report, resume cleared",
+    "ok": true,
+    "detail": {
+      "status": "report"
+    }
+  },
+  {
+    "name": "qa: auto-advance to /result?s=",
+    "ok": true,
+    "detail": "http://localhost:3000/result?s=s_g2screensb"
+  }
+]

@@ -1,0 +1,78 @@
+{
+  "id": "s_mwdua5s56m6w3x73",
+  "status": "setup",
+  "setup": {
+    "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+    "presentationMinutes": 1,
+    "qaMinutes": 1
+  },
+  "docs": {
+    "presentation": {
+      "role": "presentation",
+      "docId": "b074e9bd3e49c31f",
+      "filename": "presentation.pdf",
+      "bytes": 219075,
+      "pageCount": 12,
+      "pdfKey": "pdf:b074e9bd3e49c31f",
+      "pageTexts": "[12 pages]",
+      "emptyPages": [],
+      "wikiState": "ready",
+      "wiki": "[13 wiki pages]",
+      "keyNumbers": "[53]",
+      "wikiBuiltAt": "2026-11-12T17:47:37.011Z"
+    },
+    "proposal": {
+      "role": "proposal",
+      "docId": "cb3e5a08f4107921",
+      "filename": "proposal.pdf",
+      "bytes": 1136635,
+      "pageCount": 58,
+      "pdfKey": "pdf:cb3e5a08f4107921",
+      "pageTexts": "[58 pages]",
+      "emptyPages": [],
+      "wikiState": "ready",
+      "wiki": "[20 wiki pages]",
+      "keyNumbers": "[60]",
+      "wikiBuiltAt": "2026-11-12T17:49:13.033Z"
+    }
+  },
+  "judges": [
+    {
+      "id": "j_mwduafm5w53nv",
+      "name": "혜원",
+      "fullName": "이혜원",
+      "gender": "female",
+      "age": 47,
+      "voiceHint": "40대 여성, 따뜻하고 부드러운 목소리",
+      "temperament": "friendly",
+      "imageKey": "judge:j_mwduafm5w53nv",
+      "thumbKey": "judge:j_mwduafm5w53nv:thumb"
+    },
+    {
+      "id": "j_mwduadbcgunnf",
+      "name": "용준",
+      "fullName": "오용준",
+      "gender": "male",
+      "age": 34,
+      "voiceHint": "30대 남성, 차분하고 단호한 목소리",
+      "temperament": "strict",
+      "imageKey": "judge:j_mwduadbcgunnf",
+      "thumbKey": "judge:j_mwduadbcgunnf:thumb"
+    },
+    {
+      "id": "j_mwduaf84t0xiu",
+      "name": "지훈",
+      "fullName": "서지훈",
+      "gender": "male",
+      "age": 40,
+      "voiceHint": "40대 남성, 날카롭고 압박감 있는 목소리",
+      "temperament": "aggressive",
+      "imageKey": "judge:j_mwduaf84t0xiu",
+      "thumbKey": "judge:j_mwduaf84t0xiu:thumb"
+    }
+  ],
+  "transcript": [],
+  "qa": [],
+  "createdAt": "2026-11-12T17:46:07.684Z",
+  "updatedAt": "2026-11-12T17:49:13.048Z"
+}

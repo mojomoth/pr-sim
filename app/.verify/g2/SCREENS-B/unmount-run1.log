@@ -1,0 +1,34 @@
+PASS tts-loading: navigated away from /qa — "/history"
+PASS tts-loading: no judge clip played after leaving — {"late":[],"audioPlaying":false}
+PASS tts-loading: no mic opened after leaving — []
+PASS tts-loading: no live mic track left — {"before":0,"after":0}
+PASS answering: navigated away from /qa — "/history"
+PASS answering: no judge clip played after leaving — {"late":[],"audioPlaying":false}
+PASS answering: no mic opened after leaving — []
+PASS answering: no live mic track left — {"before":1,"after":0}
+PASS judging: navigated away from /qa — "/history"
+PASS judging: no judge clip played after leaving — {"late":[],"audioPlaying":false}
+PASS judging: no mic opened after leaving — []
+PASS judging: no live mic track left — {"before":0,"after":0}
+PASS judging: follow-up request was in flight and got cancelled — ["200 /api/tts","200 /api/stt/token","delay 5000ms /api/questions/followup","failed /api/questions/followup net::ERR_ABORTED"]
+PASS finalizing: navigated away from /qa — "/history"
+PASS finalizing: no judge clip played after leaving — {"late":[],"audioPlaying":false}
+PASS finalizing: no mic opened after leaving — []
+PASS finalizing: no live mic track left — {"before":0,"after":0}
+FAIL finalizing: no follow-up request sent after leaving — ["200 /api/tts","200 /api/stt/token","failed /api/questions/followup net::ERR_ABORTED"]
+SOME FAILED
+ttsLoading [ 'delay 6000ms /api/tts', '200 /api/tts' ]
+answering [ '200 /api/tts', '200 /api/stt/token' ]
+judging [
+  '200 /api/tts',
+  '200 /api/stt/token',
+  'delay 5000ms /api/questions/followup',
+  'failed /api/questions/followup net::ERR_ABORTED'
+]
+finalizing [
+  '200 /api/tts',
+  '200 /api/stt/token',
+  'failed /api/questions/followup net::ERR_ABORTED'
+]
+
+[exited with code 0]

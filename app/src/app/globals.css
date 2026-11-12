@@ -1,26 +1,231 @@
 @import "tailwindcss";
 
+/*
+ * PR·SIM shell — tokens (docs/screens/draft/DESIGN.md) + device frame.
+ *
+ * HOW SCREENS LAY OUT (read this first)
+ * The app always renders inside a phone-sized "screen" (#app-screen), in both modes:
+ *   - Frame mode (desktop: ≥768×700 viewport with a fine pointer): the screen is drawn inside
+ *     /device/mockup-iphone.png at a fixed 392×893 logical size and the whole device is scaled
+ *     to fit the browser height (never above 1×).
+ *   - Full-screen mode (phones, tablets, short windows): the screen is 100dvh, centered,
+ *     max 560px wide, honoring env(safe-area-inset-*).
+ * Rules that follow from this:
+ *   1. #app-scroll is the scroll container, not the window. Scroll it with
+ *      document.getElementById("app-scroll"), never window.scrollTo.
+ *   2. position:fixed is relative to #app-screen (it has `contain: layout`), so a
+ *      `fixed inset-x-0 bottom-0` bar sits at the bottom of the phone screen in both modes.
+ *      Use the `app-bottom-bar` class (or <BottomBar/>), which adds var(--safe-bottom-pad)
+ *      (max(16px, bottom safe area)). Reserve room for it at the end of the page:
+ *      <Screen bottomPad={N}/> → padding-bottom: calc(N px + var(--safe-bottom-pad)).
+ *   3. Do not use 100vh/100dvh: use var(--app-h) (height of #app-scroll) or the
+ *      `h-app` / `min-h-app` utilities. Tailwind's h-dvh/min-h-dvh/h-screen/min-h-screen are
+ *      remapped to var(--app-h) below as a safety net.
+ *   4. Viewport breakpoints (sm/md/lg/xl/2xl) are removed: inside the frame the browser
+ *      viewport says nothing about the phone width. Design single-column, 390px first.
+ *   5. Modals/portals: render into document.getElementById("app-screen") (see <Dialog/>),
+ *      not document.body, or they escape the phone.
+ *   6. Content starts below var(--safe-top) (status bar / Dynamic Island). A full-bleed screen
+ *      (landing photo) adds the `app-bleed` class to its root: the top inset is then removed
+ *      and the screen must pad its own header with var(--safe-top).
+ *
+ * Mockup geometry, measured from the PNG alpha channel (flood fill from the center, alpha<128;
+ * script + output: app/.verify/g2/SHELL/measure-mockup.{py,txt}). Image 851×1848 = 425.5×924 @2x.
+ *   screen hole  x 36–815 (w 780), y 34–1815 (h 1782; row 1816 is a 5px anti-alias sliver)
+ *                → 18, 17, 390×891 logical
+ *   corner radius  circle fit 116px top / 112px bottom → 58px / 56px
+ *   The bezel's inner edge is anti-aliased over ~2 image px (alpha 17–236 at x 35–36 / 815–816,
+ *   y 33–34 / 1815–1816), so #app-screen is drawn 1 logical px larger on each side and tucked under
+ *   it: 17, 16, 392×893, radius 59 / 57. No seam shows even on full-bleed dark content.
+ *   Dynamic Island x 306–545, y 54–128 → 120×37.5 at 10px from the screen top → safe-top 54px
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-canvas: #ffffff;
+  --color-surface: #f5f5f5;
+  --color-card: #ececec;
+  --color-line: #e2e2e2;
+  --color-ink: #111111;
+  --color-secondary: #626262;
+  --color-inverse: #ffffff;
+  --color-error: #b42318;
+
+  --gutter: 24px;
+
+  /* Device contract (full-screen defaults; frame mode overrides below). */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --screen-h: 100dvh;
+  --app-h: calc(var(--screen-h) - var(--safe-top));
+  --safe-bottom-pad: max(16px, var(--safe-bottom));
+}
+@media (max-width: 360px) {
+  :root { --gutter: 20px; }
+}
+
+@theme {
+  --breakpoint-*: initial;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canvas: var(--color-canvas);
+  --color-surface: var(--color-surface);
+  --color-card: var(--color-card);
+  --color-line: var(--color-line);
+  --color-ink: var(--color-ink);
+  --color-secondary: var(--color-secondary);
+  --color-inverse: var(--color-inverse);
+  --color-error: var(--color-error);
+  --radius-button: 20px;
+  --radius-input: 16px;
+  --radius-card-lg: 28px;
+  --radius-card-sm: 20px;
+  --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+@utility h-app { height: var(--app-h); }
+@utility min-h-app { min-height: var(--app-h); }
+@utility max-h-app { max-height: var(--app-h); }
+@utility h-dvh { height: var(--app-h); }
+@utility min-h-dvh { min-height: var(--app-h); }
+@utility h-screen { height: var(--app-h); }
+@utility min-h-screen { min-height: var(--app-h); }
+
+html { color-scheme: light; height: 100%; }
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  letter-spacing: -0.2px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Device shell (full-screen mode = default) ---- */
+.device { position: relative; height: 100%; }
+.app-screen {
+  position: relative;
+  contain: layout; /* containing block for position:fixed descendants */
+  display: flex;
+  flex-direction: column;
+  height: var(--screen-h);
+  max-width: 560px;
+  margin: 0 auto;
+  padding-top: var(--safe-top);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+  overflow: hidden;
+  background: var(--color-canvas);
+}
+.app-screen:has(.app-bleed) { padding-top: 0; }
+.app-screen:has(.app-bleed) .app-scroll { --app-h: var(--screen-h); }
+.app-scroll {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+/* Keep focused / scrolled-to elements clear of a fixed bottom bar. */
+.app-scroll:has(.app-bottom-bar) { scroll-padding-bottom: 180px; }
+.app-bottom-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 30;
+  padding-bottom: var(--safe-bottom-pad);
+}
+
+/* ---- Frame mode: desktop (wide, tall enough, fine pointer) ---- */
+@media (min-width: 768px) and (min-height: 700px) and (hover: hover) and (pointer: fine) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --safe-top: 54px;
+    --safe-bottom: 34px;
+    --safe-left: 0px;
+    --safe-right: 0px;
+    --screen-h: 893px;
+    /* unitless length ratio via tan(atan2(a, b)) = a / b; 24px margin above and below */
+    --device-scale: min(1, tan(atan2(100dvh - 48px, 924px)), tan(atan2(100vw - 48px, 425.5px)));
+  }
+  body { background: var(--color-surface); }
+  .device {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 425.5px;
+    height: 924px;
+    transform: translate(-50%, -50%) scale(var(--device-scale));
+  }
+  .device::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: url("/device/mockup-iphone.png") center / 100% 100% no-repeat;
+  }
+  .app-screen {
+    position: absolute;
+    left: 17px;
+    top: 16px;
+    width: 392px;
+    max-width: none;
+    margin: 0;
+    border-radius: 59px 59px 57px 57px;
+    z-index: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.tabular { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; box-shadow: 0 0 0 2px #fff; }
+
+/* ---- Motion: 180–240ms opacity/translate (DESIGN.md) ---- */
+@keyframes ui-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes ui-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ui-sheet { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes ui-wave { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+@keyframes ui-caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes ui-dot { from { transform: scale(0); } to { transform: scale(1); } }
+.ui-enter { animation: ui-enter 220ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.ui-fade { animation: ui-fade 180ms ease-out both; }
+.ui-sheet { animation: ui-sheet 220ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.ui-wave { animation: ui-wave 900ms ease-in-out infinite; transform-origin: center; }
+.ui-caret { animation: ui-caret 1s steps(1) infinite; }
+.ui-dot { animation: ui-dot 240ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---- Range (MinuteSlider): thin gray track, black active segment, black round thumb ---- */
+.ui-range { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+.ui-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-ink) 0 var(--pct), var(--color-line) var(--pct) 100%);
+}
+.ui-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-ink) 0 var(--pct), var(--color-line) var(--pct) 100%);
+}
+.ui-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -9px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  border: 3px solid var(--color-canvas);
+  box-shadow: 0 0 0 1px var(--color-ink);
+}
+.ui-range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 999px; background: var(--color-ink); border: 3px solid var(--color-canvas); }
+.ui-range:focus-visible { outline: none; box-shadow: none; }
+.ui-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-ink); }

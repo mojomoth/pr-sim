@@ -9,7 +9,7 @@
 |---|---|---|
 | G0 준비 | PASS | CLI·제공자 실측, `docs/wiki/{tools,api-contract}.md`, `docs/dev-v1/report.md`, 원자료 `pocs/.verify/g0/bench/` |
 | G1 PoC | PASS | 7개 PoC 독립 검증 1회차 전부 PASS(P0/P1 0건), 증거 `pocs/.verify/g1/<poc>/round1/` |
-| G2 통합 | TODO | — |
+| G2 통합 | PASS | 독립 E2E 14항목 실제 API로 통과(`app/.verify/g2/e2e/round1..3/`), Codex gpt-6-astra 코드 리뷰 P1 3건 수정 후 round3 PASS |
 | G3 완성·배포 | TODO | — |
 
 ## 고정 결정 (변경 시 report.md에 근거 기록)
@@ -23,6 +23,7 @@
 - **PDF**: 브라우저에서 pdf.js로 렌더·페이지별 텍스트 추출. 용량 제한·형식 검사는 클라이언트+서버 모두. 서버엔 PDF 원본 대신 페이지 텍스트만 전송(Vercel 요청 본문 4.5MB 제한 회피).
 - **네이티브 분리**: 카메라·마이크·저장소·오디오 재생은 `app/src/platform/` 인터페이스 뒤에 둔다(지금은 web 구현만, 네이티브 프로젝트 생성 안 함).
 - **AI 모델**: STT = Gemini Live(`gemini-3.5-transcribe-live`, 에페메랄 토큰) / TTS = Gemini TTS(쿼터 소진 시 폴백은 report.md 결정) / 얼굴 = OpenAI `gpt-image-2` / 질문 = `gpt-6.1-terra`(low) / 꼬리질문 = `gpt-5.5`(low) / 리포트 = `gpt-6-astra`(medium) / 위키 = `gpt-6.1-terra`(low)+개요 `gpt-6.1-sol` / TTS 폴백 = Gemini 3.8 flash-tts → flash-lite-tts → OpenAI `gpt-4o-mini-tts` (근거 report.md). Claude API는 2026-12-01까지 한도 초과 → 폴백 전용.
+- **라우트**: `/`, `/setup`, `/present?s=`, `/qa?s=`, `/result?s=[&tab=feedback]`, `/history` — 쿼리 파라미터 id로 Capacitor 정적 내보내기 대비. 서버 코드는 `app/src/server/**`, 클라이언트 코어는 `app/src/features/**`·`app/src/platform/**`.
 - **키**: `.env`(루트) → `app/.env.local`, `pocs/.env.local`. 서버 Route Handler에서만 사용. 클라이언트 번들·로그·git 금지. Vercel에는 환경변수로 등록.
 
 ## 에이전트 역할과 파일 소유권
@@ -57,10 +58,12 @@ P0/P1은 반드시 수정. P2는 아래 목록에 기록 후 진행 가능.
 - [x] G0 PoC 개발 서버(3100) + `/pocs/*` rewrite, 7개 경로 200
 - [x] G0 도구 적용법(`.claude/skills/` 9종 설치), API 계약, 모델 측정, report/wiki 초기화
 - [x] G1 PoC 독립 검증 (수정 루프 불필요)
-- [ ] G2 v1 앱
+- [x] G2 v1 앱 (셸·코어·API 7종·화면 6종, P1 3건 수정: STT 늦은 소켓 정리, Q&A 언마운트 정리, 리포트 타임스탬프 상한)
 - [ ] G3 완성·배포
 
-## P2 보류 목록 (G2에서 v1 앱에 반영할 것은 ★)
+## P2 보류 목록 (★ = G2에서 반영 완료)
+
+G2 신규 P2(G3에서 처리): Q&A 답변 문장 t 역순 · Q&A 재개 시 꼬리질문 유실 · 저장 실패 시에도 진행 · 발표 종료 직후 STT 마지막 문장 경합 · 확인 대화상자 중 STT 계속 녹음 · IndexedDB 오류를 '기록 없음'으로 표시 · /result가 진행 중 세션도 리포트 생성 · chunked 요청 본문 상한 · LintIssue 스키마 중복 · 꼬리질문 답변 4000자 상한 · 교체된 PDF/얼굴 blob 누수 · 미사용 export(아이콘 3, readRawPage, validatePdf) · 네이티브용 CORS/origin 허용 목록 · 리포트에 위키 없는 장문 자료 0점
 
 - ★ 업로드 전 클라이언트 용량·형식 검사 + 서버 측 검사(wiki/slide PoC는 클라이언트 또는 서버 한쪽만)
 - ★ 쿼터 오류 재시도 시간을 사람이 읽는 형태로(초 단위 X)
@@ -77,5 +80,5 @@ P0/P1은 반드시 수정. P2는 아래 목록에 기록 후 진행 가능.
 
 ## 마지막 검증 결과 / 다음 작업
 
-- 마지막: G1 PoC 7종 독립 검증 PASS (2026-11-13)
-- 다음: G2 — `app/`에 기반(플랫폼·저장소·프레임) → API 이식 + 화면 병렬 구현 → E2E 독립 검증
+- 마지막: G2 E2E round3 PASS (2026-11-13)
+- 다음: G3 — 시안 비교(Claude CLI)·심사 화면 사진 흐림 확인·P2 정리·ponytail 정리·빌드·키 검사 → Vercel 배포 → 배포 URL 재검증

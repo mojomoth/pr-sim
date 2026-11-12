@@ -1,0 +1,16 @@
+[18:28:14] setup sid s_mwdvsbhb4h002u15
+[18:28:25] judges done ms 11013
+[18:28:25] upload notpdf → 업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도
+[18:28:26] upload corrupt → 업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도
+[18:28:26] upload big31mb → 업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도
+[18:28:28] uploaded ["presentation.pdf 12페이지 · 214KB","proposal.pdf 58페이지 · 1.1MB","준식 60대 · 심사위원","준호 30대 · 심사위원","영숙 50대 · 심사위원"]
+[18:28:28] footer 총 2분 · 심사위원 3명
+[18:31:42] wiki 194003 자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요. | 자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.
+[18:31:44] timer at start 01:00
+[18:31:47] camera [{"w":640,"h":480,"rs":4,"paused":false}]
+[18:31:54] slides [{"step":"start","page":"1/12","ind":"1 / 12"},{"step":"btn next","page":"2/12","ind":"2 / 12"},{"step":"btn next","page":"3/12","ind":"3 / 12"},{"step":"btn prev","page":"2/12","ind":"2 / 12"},{"step":"key right","page":"3/12","ind":"3 / 12"},{"step":"key left","page":"2/12","ind":"2 / 12"},{"step":"swipe left (next)","page":"3/12","ind":"3 / 12"},{"step":"swipe right (prev)","page":"2/12","ind":"2 / 12"},{"step":"btn next (final)","page":"3/12","ind":"3 / 12"}]
+[18:31:54] slide color {"tag":"CANVAS","coloredPct":0.4,"filter":"none / none"}
+[18:32:14] timer {"start":"01:00","a":"00:51","b":"00:31","wallSec":20.003,"timerSec":20,"sinceStartSec":29.63,"remainingAtB":31}
+[18:32:14] bubble 내 발표 · 음성 인식 중 국내 택배 물량은 2024년 기준으로
+[18:32:44] time up dialog at 60.22
+[18:32:46] transcript n 10 status qa
