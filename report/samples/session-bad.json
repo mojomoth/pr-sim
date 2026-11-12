@@ -1,0 +1,174 @@
+{
+ "id": "report-test-bad",
+ "situation": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유치를 위한 벤처캐피털 투자심사위원회 피칭. 심사위원 3명 앞에서 친환경 패키징 사업(해조류 부산물 기반 생분해 완충재)을 5분 발표하고 3분 질의응답을 진행한다.",
+ "presentationMinutes": 5,
+ "qaMinutes": 3,
+ "judges": [
+  {
+   "id": "judge-friendly-1",
+   "name": "이정민",
+   "temperament": "friendly",
+   "gender": "female",
+   "age": 44
+  },
+  {
+   "id": "judge-strict-1",
+   "name": "박준호",
+   "temperament": "strict",
+   "gender": "male",
+   "age": 52
+  },
+  {
+   "id": "judge-aggressive-1",
+   "name": "최태성",
+   "temperament": "aggressive",
+   "gender": "male",
+   "age": 58
+  }
+ ],
+ "transcript": [
+  {
+   "t": 1,
+   "text": "음, 어, 안녕하세요, 저 저희는 리웨이브고요, 그 웨이브셀이라는 거를 만들고 있습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 5.1,
+   "text": "어, 그러니까 이제 택배 완충재가 약간 문제가 많잖아요, 다들 아시다시피.",
+   "phase": "presentation"
+  },
+  {
+   "t": 8.6,
+   "text": "음, 그 스티로폼 같은 거 진짜 재활용이 거의 안 되고 막 쓰레기가 엄청 나옵니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 12.4,
+   "text": "그래서 저희가 이제 해조류로 완충재를 만들었는데요, 어, 뭐랄까 완전 친환경입니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 16.5,
+   "text": "음, 그, 일단 흙에 묻으면 뭐 금방 다 분해가 되고요, 성능도 스티로폼이랑 거의 똑같습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 27.2,
+   "text": "그리고 이제 시장이 진짜 큰데요, 음, 전체가 4조 2천억이고 저희는 그중에 SOM 500억 원을 먹을 수 있다고 봅니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 32.6,
+   "text": "어, 그러니까 점유율로 치면 약간 한 7퍼센트 정도인데 이건 뭐 충분히 가능하다고 생각합니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 37.1,
+   "text": "음, 비즈니스 모델은 그냥 기업한테 파는 거고요, 이제 구독 같은 것도 하고 막 그렇습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 41.4,
+   "text": "어, 판매가는 165원이고 원가는 세트당 98원이라서, 그러니까 이익률이 한 40퍼센트 나옵니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 46.3,
+   "text": "음, 이게 진짜 엄청 좋은 구조라서, 뭐 경쟁사들은 약간 따라오기 힘들 거라고 봅니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 50.3,
+   "text": "그 경쟁사는 음, 스티로폼이랑 종이랑 버섯 같은 게 있는데 저희가 제일 좋습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 54.1,
+   "text": "어, 이제 트랙션은요, 고객이 지금 30곳 정도 되고요, 재구매율이 95퍼센트입니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 58.2,
+   "text": "음, 누적 출고도 막 300만 세트 정도 되고 LOI도 받았고 그렇습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 66.6,
+   "text": "어, 그 재무는 음, 내년에 50억, 그 다음에 150억, 2029년에는 500억 정도 할 수 있을 것 같습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 71.6,
+   "text": "그러니까 이제 이건 뭐 고객들이 계속 늘어나니까 자연스럽게 되는 거라서요.",
+   "phase": "presentation"
+  },
+  {
+   "t": 75.4,
+   "text": "음, 공장은 지금 1공장이 있는데 이게 뭐 충분히 다 커버가 됩니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 82.6,
+   "text": "어, 팀은 그, 저랑 CTO랑 COO가 있고 다들 진짜 경력이 좋습니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 85.2,
+   "text": "음, 그래서 이제 투자를 한 30억 정도 받고 싶고요, 그 기업가치는 뭐 200억 정도로 생각합니다.",
+   "phase": "presentation"
+  },
+  {
+   "t": 89.9,
+   "text": "어, 투자금은 그냥 공장이랑 마케팅이랑 이런 데 쓸 거고요.",
+   "phase": "presentation"
+  },
+  {
+   "t": 92.7,
+   "text": "음, 아무튼 저희가 진짜 열심히 하겠습니다, 감사합니다.",
+   "phase": "presentation"
+  }
+ ],
+ "qa": [
+  {
+   "judge": {
+    "id": "judge-friendly-1",
+    "name": "이정민",
+    "temperament": "friendly"
+   },
+   "question": "파일럿 고객 재구매율이 83퍼센트로 꽤 높은데요, 고객들이 가장 만족한 부분은 무엇이었나요?",
+   "answer": "음, 그 뭐 고객분들이 다 좋아하셔서요. 재구매율이 거의 95퍼센트 정도 되고요, 아무튼 만족도가 진짜 높습니다.",
+   "askedAt": 4
+  },
+  {
+   "judge": {
+    "id": "judge-strict-1",
+    "name": "박준호",
+    "temperament": "strict"
+   },
+   "question": "발표에서는 세트당 원가가 118원이라고 하셨는데, 제출하신 사업계획서 원가 구조에는 142원으로 되어 있습니다. 어느 쪽이 맞는 숫자입니까?",
+   "answer": "어, 그건 뭐 회계 쪽에서 정리한 거라 저도 정확히는 잘… 어쨌든 저희 원가는 지금 98원 수준이라서 문제없습니다.",
+   "askedAt": 52
+  },
+  {
+   "judge": {
+    "id": "judge-aggressive-1",
+    "name": "최태성",
+    "temperament": "aggressive"
+   },
+   "question": "원가가 기존 포장재보다 높은데 어떻게 경쟁하나요?",
+   "answer": "그건 뭐, 친환경이니까 고객들이 비싸도 삽니다. 요즘 다들 ESG 하잖아요. 가격은 크게 중요하지 않습니다.",
+   "askedAt": 98
+  },
+  {
+   "judge": {
+    "id": "judge-strict-1",
+    "name": "박준호",
+    "temperament": "strict"
+   },
+   "question": "내년 매출을 32억 원으로 잡으셨는데 올해 예상 2억 7천만 원의 12배입니다. 1공장 생산능력이 월 25만 세트인데, 생산 측면에서 이게 가능한 숫자입니까?",
+   "answer": "네, 그건 걱정 안 하셔도 됩니다. 1공장으로 충분하고요, 모자라면 외주 돌리면 되니까 100억도 가능합니다.",
+   "askedAt": 131
+  }
+ ],
+ "createdAt": "2026-11-12T13:00:00.000Z"
+}

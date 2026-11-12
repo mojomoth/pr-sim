@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
+// PoC host for PR-SIM. cacheComponents is intentionally OFF to keep PoC
+// route handlers / fs reads simple. Each PoC lives in pocs/<name>/ and is
+// mounted at /<name> via thin route files in app/<name>/.
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  serverExternalPackages: ["pdfjs-dist", "unpdf", "puppeteer-core"],
   turbopack: {
     rules: {
       "*.css": {

@@ -1,0 +1,548 @@
+{
+  "tag": "two-strict",
+  "at": "2026-11-12T13:44:57.185Z",
+  "totalMs": 10894,
+  "firstDeltaMs": 2105,
+  "firstQuestionMs": 5955,
+  "runId": "r_mwdlnrvlhiokk",
+  "judges": [
+    {
+      "id": "judge-strict-1-0",
+      "name": "박준호",
+      "temperament": "strict"
+    },
+    {
+      "id": "judge-strict-1-1",
+      "name": "박준호",
+      "temperament": "strict"
+    },
+    {
+      "id": "judge-aggressive-1-2",
+      "name": "최태성",
+      "temperament": "aggressive"
+    }
+  ],
+  "provider": "openai:gpt-5.5 (claude 비활성: 사용 한도 초과)",
+  "timings": {
+    "context": 9,
+    "generate": 10869,
+    "total": 10878
+  },
+  "usage": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "inputTokens": 17526,
+      "cachedInputTokens": 1792,
+      "outputTokens": 392,
+      "ms": 5936,
+      "ttftMs": 2081
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "inputTokens": 17536,
+      "cachedInputTokens": 1792,
+      "outputTokens": 510,
+      "ms": 7176,
+      "ttftMs": 2885
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "inputTokens": 17526,
+      "cachedInputTokens": 16128,
+      "outputTokens": 840,
+      "ms": 10864,
+      "ttftMs": 7249
+    }
+  ],
+  "context": {
+    "id": "82f2cee907e7",
+    "chars": 25722,
+    "approxTokens": 15433,
+    "sections": [
+      {
+        "key": "situation",
+        "title": "상황",
+        "chars": 120,
+        "approxTokens": 72
+      },
+      {
+        "key": "transcript",
+        "title": "발표 음성 전사 (STT, 46문장, 동음이의 오류 가능)",
+        "chars": 2463,
+        "approxTokens": 1478
+      },
+      {
+        "key": "targets",
+        "title": "검토 포인트 후보 (자동 탐지 — 반드시 원문으로 확인 후 사용)",
+        "chars": 764,
+        "approxTokens": 458
+      },
+      {
+        "key": "presentation-wiki",
+        "title": "발표자료 위키 요약 (출처 p.N은 원문 쪽)",
+        "chars": 2992,
+        "approxTokens": 1795
+      },
+      {
+        "key": "proposal-wiki",
+        "title": "제안자료 위키 요약 (출처 p.N은 원문 쪽)",
+        "chars": 4854,
+        "approxTokens": 2912
+      },
+      {
+        "key": "raw",
+        "title": "원문 쪽 (evidence.quote는 여기 또는 전사에서만 그대로 인용)",
+        "chars": 14325,
+        "approxTokens": 8595
+      }
+    ],
+    "targets": [
+      {
+        "kind": "number-conflict",
+        "title": "수치 차이: SOM",
+        "detail": "발표자료 \"SOM\" 340억 원 (p.5) vs 제안자료 \"SOM\" 210억 원 (p.4,7,17,18,19,20,41,52,56)",
+        "severity": "medium",
+        "refs": [
+          {
+            "doc": "presentation",
+            "pages": [
+              5
+            ]
+          },
+          {
+            "doc": "proposal",
+            "pages": [
+              4,
+              7,
+              17,
+              18,
+              19,
+              20,
+              41,
+              52,
+              56
+            ]
+          }
+        ],
+        "id": "t1"
+      },
+      {
+        "kind": "number-conflict",
+        "title": "수치 차이: 매출총이익률",
+        "detail": "발표자료 \"매출총이익률\" 28% (p.6) vs 제안자료 \"웨이브셀 매출총이익률\" 약 14% (p.22,34,35,36,38,39)",
+        "severity": "medium",
+        "refs": [
+          {
+            "doc": "presentation",
+            "pages": [
+              6
+            ]
+          },
+          {
+            "doc": "proposal",
+            "pages": [
+              22,
+              34,
+              35,
+              36,
+              38,
+              39
+            ]
+          }
+        ],
+        "id": "t2"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "02:44 \"올해 1월 월 출고량이 6만 세트였는데, 9월에는 18만 세트로 아홉 달 만에 세 배가 됐습니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t3"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "02:51 \"현재 파일럿 고객은 12곳이고, 신선식품 브랜드가 7곳, 화장품이 3곳, 물류대행사가 두 곳입니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t4"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "03:11 \"작년 매출은 9천만 원이었고, 올해는 2억 7천만 원 정도를 예상합니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t5"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "03:17 \"내년에는 32억, 2028년에는 96억 원, 그리고 2029년에는 210억 원을 목표로 합니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t6"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "04:07 \"투자금의 45퍼센트는 2공장 설비에, 25퍼센트는 연구개발에, 20퍼센트는 영업과 마케팅에, 나머지 10퍼센트는 운영자금에 쓰겠습니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t7"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "04:17 \"투자 전 기업가치는 120억 원이고, 이번 투자로 18개월의 런웨이를 확보하게 됩니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t8"
+      }
+    ],
+    "rawPages": [
+      {
+        "doc": "presentation",
+        "page": 1,
+        "chars": 128,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 2,
+        "chars": 233,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 3,
+        "chars": 239,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 4,
+        "chars": 301,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 5,
+        "chars": 186,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 6,
+        "chars": 221,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 7,
+        "chars": 318,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 8,
+        "chars": 175,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 9,
+        "chars": 240,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 10,
+        "chars": 255,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 11,
+        "chars": 193,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 12,
+        "chars": 193,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "proposal",
+        "page": 4,
+        "chars": 1902,
+        "score": 39.6,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 5,
+        "chars": 1901,
+        "score": 52.2,
+        "reason": "전사 수치·키워드 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 9,
+        "chars": 1844,
+        "score": 42.4,
+        "reason": "전사 수치·키워드 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 43,
+        "chars": 1901,
+        "score": 38.2,
+        "reason": "전사 수치·키워드 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 51,
+        "chars": 1901,
+        "score": 40.2,
+        "reason": "전사 수치·키워드 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 52,
+        "chars": 1902,
+        "score": 44.2,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      }
+    ],
+    "queries": 16,
+    "lint": {
+      "used": false,
+      "cached": false,
+      "ms": 0,
+      "issues": 0
+    }
+  },
+  "main": [
+    "q_judge-strict-1-0_1",
+    "q_judge-strict-1-1_1",
+    "q_judge-aggressive-1-2_1"
+  ],
+  "reserve": [
+    "q_judge-strict-1-0_2",
+    "q_judge-strict-1-1_2",
+    "q_judge-aggressive-1-2_2"
+  ],
+  "questions": [
+    {
+      "id": "q_judge-strict-1-0_1",
+      "judgeId": "judge-strict-1-0",
+      "question": "시장 목표가 발표자료는 340억, 제안자료는 210억으로 다릅니다. 2029년에 실제 투자 기준으로 봐야 할 수치는 어느 쪽입니까?",
+      "intent": "발표자료와 제안자료의 SOM 수치 불일치를 확인하고 투자 판단 기준 수치를 확정하려는 질문입니다.",
+      "targetClaim": "2029년 목표 시장 점유 매출은 340억 원이다",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 5,
+          "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 4,
+          "quote": "회사는 2029년 SOM 210억 원을 목표로 하고 있으며",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "main",
+      "latencyMs": 5936
+    },
+    {
+      "id": "q_judge-strict-1-0_2",
+      "judgeId": "judge-strict-1-0",
+      "question": "파일럿 고객 12곳이라고 하셨는데, 유료 반복 구매 고객과 단순 테스트 고객을 나눠서 각각 몇 곳인지 말씀해 주십시오.",
+      "intent": "파일럿 고객 12곳의 질과 상업화 단계, 반복 매출 가능성을 확인하려는 질문입니다.",
+      "targetClaim": "현재 파일럿 고객은 12곳이다",
+      "targetId": "t4",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "현재 파일럿 고객은 12곳이고, 신선식품 브랜드가 7곳",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 4,
+          "quote": "2026년 9월 기준 리웨이브는 파일럿 고객 12곳을 확보하였다",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 5936
+    },
+    {
+      "id": "q_judge-strict-1-1_1",
+      "judgeId": "judge-strict-1-1",
+      "question": "원가와 매출총이익률이 발표자료는 118원·28%, 제안자료는 142원·14%입니다. 어느 쪽이 맞고 차이는 뭡니까?",
+      "intent": "자료 간 단위경제성 수치 불일치의 원인과 실제 투자 판단 기준 수치를 확인한다.",
+      "targetClaim": "세트당 원가 118원, 매출총이익률 28%",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "원가 / 세트 (2026 양산)\n118원\n매출총이익률\n28%",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 5,
+          "quote": "현재 양산 기준 원가 구조는 세트당 142원, 판매가 165원으로 매출총이익률은 약 14%이다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "main",
+      "latencyMs": 10864
+    },
+    {
+      "id": "q_judge-strict-1-1_2",
+      "judgeId": "judge-strict-1-1",
+      "question": "올해 매출 2억7천만 원 예상이라고 하셨는데, 작년 9천만 원 대비 세 배입니다. 남은 기간 달성 근거를 수치로 말씀해 주십시오.",
+      "intent": "2026년 매출 예상치의 달성 가능성과 남은 기간 매출 가정을 확인한다.",
+      "targetClaim": "작년 매출 0.9억 원, 올해 매출 2.7억 원 예상",
+      "targetId": "t5",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "작년 매출은 9천만 원이었고, 올해는 2억 7천만 원 정도를 예상합니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "0.9\n2025\n2.7\n2026E",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 10864
+    },
+    {
+      "id": "q_judge-aggressive-1-2_1",
+      "judgeId": "judge-aggressive-1-2",
+      "question": "올해 2억7천에서 3년 뒤 210억이면 거의 80배입니다. LOI 전환 실패하면 이 매출 계획은 무너지는 것 아닙니까?",
+      "intent": "2029년 매출 목표가 LOI 전환과 신규 고객 확보에 과도하게 의존하는지 확인한다.",
+      "targetClaim": "2029년 매출 210억 원 목표",
+      "targetId": "t6",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "올해는 2억 7천만 원 정도를 예상합니다.",
+          "verified": true
+        },
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "2029년에는 210억 원을 목표로 합니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "LOI 3건 본계약 전환\n2027년부터 월 신규 고객 8곳",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "main",
+      "latencyMs": 7176
+    },
+    {
+      "id": "q_judge-aggressive-1-2_2",
+      "judgeId": "judge-aggressive-1-2",
+      "question": "9월 출고 18만 세트면 1공장 한계에 가까워 보입니다. 2공장 지연 시 출고 성장세를 어떻게 유지합니까?",
+      "intent": "월 출고 3배 성장 주장 뒤의 생산능력 제약과 증설 지연 리스크를 검증한다.",
+      "targetClaim": "9개월 만에 월 출고 3배 성장",
+      "targetId": "t3",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "9월에는 18만 세트로 아홉 달 만에 세 배가 됐습니다.",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 43,
+          "quote": "현재 완도 1공장은 월 최대 25만 세트 생산능력을 보유하고 있고",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 43,
+          "quote": "증설 지연이 매출 성장의 직접적인 제약이 될 수 있다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 7176
+    }
+  ],
+  "errors": []
+}

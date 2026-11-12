@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PoC runtime data / logs
+/.data/
+/devlog/*.jsonl
+/.verify/

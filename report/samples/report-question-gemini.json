@@ -1,0 +1,1277 @@
+{
+ "meta": {
+  "key": "572bfcfe748a9571",
+  "version": 4,
+  "sessionId": "qs_mwdlwe06tr6dc",
+  "situation": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유치를 위한 벤처캐피털 투자심사위원회 피칭. 심사위원 3명 앞에서 친환경 패키징 사업(해조류 부산물 기반 생분해 완충재)을 5분 발표하고 3분 질의응답을 진행한다.",
+  "presentationMinutes": 5,
+  "qaMinutes": 3,
+  "judges": 3,
+  "questions": 4,
+  "docIds": {
+   "presentation": "b074e9bd3e49c31f",
+   "proposal": "cb3e5a08f4107921"
+  },
+  "provider": "gemini:gemini-3.6-flash ×4, gemini:gemini-3.5-flash-lite ×2, gemini:gemini-3.1-flash-lite ×2, gemini:gemini-3.5-flash ×1 (Claude 사용 한도 초과 · OpenAI 크레딧 소진 → 폴백)",
+  "createdAt": "2026-11-12T14:13:34.917Z",
+  "ms": 123949,
+  "timings": {
+   "metrics": 1,
+   "docs": 5,
+   "lint": 1,
+   "qa:1": 15435,
+   "doc:proposal": 24808,
+   "qa:0": 38074,
+   "overall": 85867
+  },
+  "usage": {
+   "calls": 9,
+   "inputTokens": 82446,
+   "outputTokens": 37179,
+   "byModel": {
+    "gemini:gemini-3.6-flash": 4,
+    "gemini:gemini-3.5-flash": 1,
+    "gemini:gemini-3.5-flash-lite": 2,
+    "gemini:gemini-3.1-flash-lite": 2
+   }
+  },
+  "warnings": [],
+  "complete": true,
+  "reusedSteps": [
+   "speech",
+   "qa:2",
+   "qa:3",
+   "doc:presentation",
+   "consistency"
+  ]
+ },
+ "speech": {
+  "metrics": {
+   "sentenceCount": 46,
+   "syllables": 1426,
+   "articulationSps": 5.5,
+   "spokenSeconds": 269.1,
+   "targetSeconds": 300,
+   "timeUsage": 0.897,
+   "timeStatus": "ok",
+   "syllablesPerMinute": 318,
+   "sentencesPerMinute": 10.3,
+   "rateStatus": "ok",
+   "rateTimeline": [
+    {
+     "minute": 1,
+     "syllables": 326
+    },
+    {
+     "minute": 2,
+     "syllables": 349
+    },
+    {
+     "minute": 3,
+     "syllables": 293
+    },
+    {
+     "minute": 4,
+     "syllables": 329
+    },
+    {
+     "minute": 5,
+     "syllables": 129
+    }
+   ],
+   "avgSentenceSyllables": 31,
+   "maxSentenceSyllables": 59,
+   "maxSentence": {
+    "index": 42,
+    "text": "투자금의 45퍼센트는 2공장 설비에, 25퍼센트는 연구개발에, 20퍼센트는 영업과 마케팅에, 나머지 10퍼센트는 운영자금에 쓰겠습니다."
+   },
+   "longSentences": 0,
+   "fillers": {
+    "total": 6,
+    "perMinute": 1.3,
+    "per100Syllables": 0.4,
+    "byWord": [
+     {
+      "word": "그러니까",
+      "kind": "habit",
+      "count": 2
+     },
+     {
+      "word": "음",
+      "kind": "hesitation",
+      "count": 2
+     },
+     {
+      "word": "어",
+      "kind": "hesitation",
+      "count": 1
+     },
+     {
+      "word": "이제",
+      "kind": "habit",
+      "count": 1
+     }
+    ],
+    "examples": [
+     {
+      "index": 2,
+      "t": 10.3,
+      "text": "음, 먼저 여러분 집에 택배 상자 하나 열어 보시면 안에 뭐가 들어 있는지 떠올려 보시면 좋겠습니다.",
+      "words": [
+       "음"
+      ]
+     },
+     {
+      "index": 8,
+      "t": 49.3,
+      "text": "웨이브셀은 미역과 다시마를 가공하고 남은 부산물, 그러니까 알긴산을 추출하고 버려지던 잔사로 만듭니다.",
+      "words": [
+       "그러니까"
+      ]
+     },
+     {
+      "index": 13,
+      "t": 77.5,
+      "text": "어, 그리고 중요한 건 원료입니다.",
+      "words": [
+       "어"
+      ]
+     },
+     {
+      "index": 23,
+      "t": 134.3,
+      "text": "그러니까 매출총이익률이 약 28퍼센트 정도 나오고요.",
+      "words": [
+       "그러니까"
+      ]
+     },
+     {
+      "index": 27,
+      "t": 160.6,
+      "text": "이제 트랙션을 말씀드리겠습니다.",
+      "words": [
+       "이제"
+      ]
+     },
+     {
+      "index": 32,
+      "t": 189.1,
+      "text": "음, 재무 계획입니다.",
+      "words": [
+       "음"
+      ]
+     }
+    ]
+   },
+   "repetition": [],
+   "pauses": {
+    "threshold": 3,
+    "count": 0,
+    "longest": 0,
+    "totalSeconds": 0,
+    "items": []
+   },
+   "deliveryScore": 100,
+   "deliveryPenalties": []
+  },
+  "analysis": {
+   "scores": {
+    "structure": 85,
+    "clarity": 84,
+    "persuasiveness": 68
+   },
+   "summary": "전반적으로 문제 정의부터 해결책, 시장, 트랙션 및 투자 요청까지 피칭의 논리적 흐름을 잘 갖추어 발표했어요. 다만 발표자료와 제안자료 간 원가 및 마진율 수치에 불일치가 존재하므로 심사위원 신뢰 확보를 위해 사전 수치 보정이 필요해요.",
+   "structureNote": "문제 제시부터 기술 해결책, 시장, BM, 트랙션, 팀, 투자 요청으로 연결되는 전형적인 IR 피칭 구조를 깔끔하게 준수했어요.",
+   "clarityNote": "전문 용어와 핵심 수치를 직관적으로 설명하였으며, 전달하고자 하는 메시지가 분명하게 전달되었어요.",
+   "persuasivenessNote": "재구매율 83% 및 LOI 24억 원 등 매력적인 트랙션을 잘 어필했으나, 제안자료와 발표자료 간 원가(142원 vs 118원) 및 SOM 수치 격차가 발생하여 재무 논리의 설득력이 다소 하락했어요.",
+   "strengths": [
+    "문장 [3]-[4]에서 택배 물량 51억 개와 완충재 폐기물 31만 톤 수치를 제시하며 문제의 심각성을 효과적으로 부각했어요 (p.2).",
+    "문장 [28]-[31]에서 월 출고량 3배 성장, 재구매율 83%, 연 환산 24억 원 LOI 등 강력한 실적 수치로 사업성을 잘 입증했어요 (p.8).",
+    "문장 [25]-[26]에서 스티로폼, 종이 허니콤, 버섯균사체 등 경쟁 대안 대비 가격과 리드타임 경쟁력을 명확히 비교했어요 (p.7)."
+   ],
+   "improvements": [
+    "제안자료(p.22: 원가 142원, 이익률 14%)와 발표자료(p.6: 원가 118원, 이익률 28%)의 수치가 불일치하므로 발표 전 마진 구조 수치를 일치시켜 보세요.",
+    "문장 [37]-[39]의 팀 소개 시 발표자 본인(CEO)의 대형 물류기업 8년 경력(p.10)과 영업총괄 이력을 함께 언급하여 실행력을 더 강조해 보세요.",
+    "문장 [32]-[35]에서 매출 목표만 언급하지 말고 발표자료 p.9에 명시된 연도별 영업이익 적자/흑자 전환 수치도 함께 전달해 보세요."
+   ],
+   "coverage": [
+    {
+     "page": 1,
+     "title": "표지",
+     "status": "covered",
+     "sentences": [
+      0,
+      1
+     ],
+     "note": "회사명과 핵심 카피 및 주제를 잘 소개했어요."
+    },
+    {
+     "page": 2,
+     "title": "문제",
+     "status": "covered",
+     "sentences": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "note": "택배 물량, 폐기물 수치와 과대포장 규제 및 기존 대안의 한계를 명확히 설명했어요."
+    },
+    {
+     "page": 3,
+     "title": "해결책",
+     "status": "covered",
+     "sentences": [
+      8,
+      10,
+      11,
+      12
+     ],
+     "note": "해조류 부산물 원료와 생분해성, 충격 흡수율, 리드타임을 잘 설명했어요."
+    },
+    {
+     "page": 4,
+     "title": "제품",
+     "status": "covered",
+     "sentences": [
+      9,
+      13,
+      14,
+      15
+     ],
+     "note": "5단계 제조 공정과 보유 특허 현황을 잘 제시했어요."
+    },
+    {
+     "page": 5,
+     "title": "시장 규모",
+     "status": "covered",
+     "sentences": [
+      16,
+      17,
+      18,
+      19
+     ],
+     "note": "TAM, SAM, SOM 목표 수치를 명확히 제시했어요."
+    },
+    {
+     "page": 6,
+     "title": "비즈니스 모델",
+     "status": "covered",
+     "sentences": [
+      20,
+      21,
+      22,
+      23,
+      24
+     ],
+     "note": "정기공급 모델과 세트당 단가, 원가, 이익률, 원가 절감 목표를 설명했어요."
+    },
+    {
+     "page": 7,
+     "title": "경쟁 분석",
+     "status": "covered",
+     "sentences": [
+      25,
+      26
+     ],
+     "note": "기존 스티로폼, 종이 허니콤, 버섯균사체 대비 가격 및 리드타임 차별성을 전달했어요."
+    },
+    {
+     "page": 8,
+     "title": "트랙션",
+     "status": "covered",
+     "sentences": [
+      27,
+      28,
+      29,
+      30,
+      31
+     ],
+     "note": "출고량 성장, 파일럿 고객, 재구매율, LOI 등 핵심 성과를 구체적으로 어필했어요."
+    },
+    {
+     "page": 9,
+     "title": "재무 계획",
+     "status": "partial",
+     "sentences": [
+      32,
+      33,
+      34,
+      35,
+      36
+     ],
+     "note": "연도별 매출 목표와 흑자 전환 시점은 설명했으나 영업이익 적자 수치 언급이 빠졌어요."
+    },
+    {
+     "page": 10,
+     "title": "팀",
+     "status": "partial",
+     "sentences": [
+      37,
+      38,
+      39
+     ],
+     "note": "CTO와 COO의 전문성은 강조했으나 CEO 본인 및 영업총괄의 경력 설명이 누락되었어요."
+    },
+    {
+     "page": 11,
+     "title": "로드맵",
+     "status": "partial",
+     "sentences": [
+      40
+     ],
+     "note": "2공장 가동 및 웨이브팩 출시 계획은 말했으나 내수 코팅 v2나 해외 수출 계획은 다루지 않았어요."
+    },
+    {
+     "page": 12,
+     "title": "투자 요청",
+     "status": "covered",
+     "sentences": [
+      41,
+      42,
+      43,
+      44,
+      45
+     ],
+     "note": "Pre-A 20억 원 투자 요청, 자금 사용처 비중, 기업가치와 런웨이를 잘 설명했어요."
+    }
+   ],
+   "coverageRate": 0.875,
+   "numberIssues": [
+    {
+     "claim": "발표자는 현재 원가가 세트당 118원이며 매출총이익률이 약 28퍼센트라고 설명했습니다.",
+     "docSays": "발표자료 p.6에는 원가 118원, 매출총이익률 28%로 기재되어 있으나, 제안자료 p.22 및 p.34에는 2026년 양산 원가 142원, 매출총이익률 약 14%로 다르게 기재되어 있습니다.",
+     "refs": [
+      {
+       "doc": "presentation",
+       "pages": [
+        6
+       ],
+       "quote": "118원",
+       "grounded": true
+      },
+      {
+       "doc": "proposal",
+       "pages": [
+        22,
+        34
+       ],
+       "quote": "142원",
+       "grounded": true
+      }
+     ],
+     "severity": "medium"
+    },
+    {
+     "claim": "발표자는 2029년까지 SAM의 5퍼센트인 약 340억 원을 SOM 목표로 설정했다고 말했습니다.",
+     "docSays": "발표자료 p.5에는 SOM 340억 원(5%)으로 표기되어 있으나, 제안자료 p.4, p.17, p.20에는 SOM 210억 원(약 3.1%)으로 표기되어 있습니다.",
+     "refs": [
+      {
+       "doc": "presentation",
+       "pages": [
+        5
+       ],
+       "quote": "340억 원",
+       "grounded": true
+      },
+      {
+       "doc": "proposal",
+       "pages": [
+        4,
+        17,
+        20
+       ],
+       "quote": "210억 원",
+       "grounded": true
+      }
+     ],
+     "severity": "medium"
+    }
+   ]
+  }
+ },
+ "qa": [
+  {
+   "index": 0,
+   "judge": {
+    "id": "judge-aggressive-1-2",
+    "name": "최태성",
+    "temperament": "aggressive"
+   },
+   "question": "원가가 발표자료엔 118원, 제안서엔 142원입니다. 솔직히 말해 마진 산정 기준이 흔들린 것 아닙니까?",
+   "answer": "아 그게… 기준이 좀 달라서요. 아마 초기 수치가 반영된 것 같고, 어쨌든 앞으로 원가는 계속 내려갈 겁니다.",
+   "scores": {
+    "relevance": 40,
+    "accuracy": 30,
+    "evidence": 20,
+    "completeness": 30,
+    "composure": 30
+   },
+   "score": 31,
+   "verdict": "evasive",
+   "feedback": "투자 심사에서 자료 간 수치 불일치는 신뢰도를 훼손하는 치명적인 결함이므로 반드시 사실관계를 명확히 밝히고 사과해야 합니다. 단순히 '초기 수치'라며 넘기지 말고, 실제 기준인 제안자료의 142원을 중심으로 설명했어야 합니다.",
+   "rationale": "발표자는 수치 불일치에 대해 구체적인 근거를 제시하지 못하고 '아마'라는 추측성 표현을 사용하여 심사위원의 질문을 회피했습니다. 자료 간 모순을 인지하지 못한 채 방어적인 태도를 보였으며, 마진 산정 기준에 대한 핵심적인 질문에 답변하지 못해 점수가 낮습니다.",
+   "contradictions": [
+    {
+     "claim": "원가 118원",
+     "docSays": "제안자료 p.3, 5, 27, 34, 36 등에서는 양산 원가를 142원으로 명시하고 있습니다.",
+     "refs": [
+      {
+       "doc": "presentation",
+       "pages": [
+        6
+       ],
+       "quote": "원가 / 세트 (2026 양산) 118원",
+       "grounded": true
+      },
+      {
+       "doc": "proposal",
+       "pages": [
+        3,
+        5,
+        36
+       ],
+       "quote": "웨이브셀의 현재 양산 기준 원가는 세트당 142원이다",
+       "grounded": true
+      }
+     ],
+     "severity": "high"
+    }
+   ],
+   "evidenceUsed": [],
+   "missing": [
+    "수치 불일치에 대한 명확한 사과 및 원인 규명",
+    "실제 적용되는 양산 원가(142원)에 대한 재확인",
+    "원가 변경에 따른 마진율 재산정 근거 언급"
+   ],
+   "improvedAnswer": "지적하신 대로 자료 간 수치 불일치가 있습니다. 제안자료(p.36)에 기재된 142원이 현재 양산 기준 원가이며, 발표자료의 118원은 검토 과정에서 발생한 오기입니다. 혼선을 드려 죄송합니다. 142원 기준으로 산정 시 매출총이익률은 약 14%가 맞으며, 2028년 완도 2공장 가동을 통해 목표 원가인 92원까지 낮추는 계획은 변함없이 유효합니다.",
+   "citations": [
+    {
+     "doc": "proposal",
+     "pages": [
+      36
+     ],
+     "quote": "월 25만 세트 기준 세트당 원가는 142원이고 매출총이익률은 약 14%이다.",
+     "grounded": true
+    },
+    {
+     "doc": "proposal",
+     "pages": [
+      20,
+      22,
+      27
+     ],
+     "quote": "2028년 목표 원가는 세트당 92원이다.",
+     "grounded": true
+    }
+   ],
+   "answerFillers": 3
+  },
+  {
+   "index": 1,
+   "judge": {
+    "id": "judge-aggressive-1-2",
+    "name": "최태성",
+    "temperament": "aggressive"
+   },
+   "question": "그럼 마진 산정은 118원 기준입니까, 142원 기준입니까? 두 수치가 왜 다른지도 분명히 말씀해 주세요.",
+   "answer": "정정드리겠습니다. 현재 양산 원가는 제안서의 142원이 맞습니다. 원료 18원, 전분 22원, 에너지 31원, 인건비 38원, 물류 19원, 감가상각 14원으로 구성되고, 매출총이익률은 약 14%입니다. 발표자료의 118원은 에너지와 인건비 효율화를 반영한 내부 목표치를 잘못 기재한 것입니다. 2027년 3분기 2공장 가동 후 자동화로 2028년 92원까지 낮추는 것이 계획입니다.",
+   "scores": {
+    "relevance": 95,
+    "accuracy": 95,
+    "evidence": 90,
+    "completeness": 90,
+    "composure": 90
+   },
+   "score": 93,
+   "verdict": "strong",
+   "feedback": "문서 간 원가 수치 불일치라는 치명적인 약점을 당당하고 정확하게 인정했어요. 세부 원가 항목과 오기 배경을 소명해 심사위원을 납득시켜 보세요.",
+   "rationale": "질문에서 요구한 118원과 142원의 차이 및 기준을 명확하게 답변하여 relevance와 completeness에서 높은 점수를 받았어요. 제안자료의 142원과 세부 원가 항목을 정확히 인용하며 accuracy와 evidence를 충족했어요. 방어적이거나 얼버무리지 않고 오기를 솔직하게 인정하여 composure 또한 우수했어요.",
+   "contradictions": [
+    {
+     "claim": "발표자료의 118원은 내부 목표치를 잘못 기재한 것이며 현재 양산 원가는 제안서의 142원이 맞습니다.",
+     "docSays": "발표자료에는 2026 양산 원가가 118원으로 기재되어 있고 제안자료에는 142원으로 기재되어 있습니다.",
+     "refs": [
+      {
+       "doc": "presentation",
+       "pages": [
+        6,
+        9
+       ],
+       "quote": "원가 / 세트 (2026 양산) 118원",
+       "grounded": true
+      },
+      {
+       "doc": "proposal",
+       "pages": [
+        9,
+        34
+       ],
+       "quote": "현재 양산 기준 원가는 세트당 142원이다",
+       "grounded": true
+      }
+     ],
+     "severity": "high"
+    }
+   ],
+   "evidenceUsed": [
+    "제안서 양산 원가 142원",
+    "원가 구성 항목 (원료 18원, 전분 22원, 에너지 31원, 인건비 38원, 물류 19원, 감가상각 14원)",
+    "매출총이익률 약 14%",
+    "발표자료 118원 오기 인정 및 2028년 92원 목표"
+   ],
+   "missing": [
+    "문서 간 수치 오류가 발생한 원인에 대한 내부 검수 프로세스 보완 언급"
+   ],
+   "improvedAnswer": "정정드리겠습니다. 현재 양산 원가는 제안서에 명시된 142원이 맞으며, 원료 18원, 전분 22원, 에너지 31원, 인건비 38원, 물류 19원, 감가상각 14원으로 구성되어 매출총이익률은 약 14%입니다. 발표자료의 118원은 내부 목표치를 잘못 기재한 오기입니다. 2027년 3분기 2공장 가동 후 자동화와 규모의 경제를 통해 2028년까지 92원으로 낮추겠습니다.",
+   "citations": [
+    {
+     "doc": "proposal",
+     "pages": [
+      34
+     ],
+     "quote": "원료 18원, 전분·첨가제 22원, 성형 에너지 31원, 직접 인건비 38원, 포장·출고 물류 19원, 설비 감가상각 14원",
+     "grounded": true
+    },
+    {
+     "doc": "presentation",
+     "pages": [
+      6
+     ],
+     "quote": "원가 / 세트 (2026 양산) 118원",
+     "grounded": true
+    },
+    {
+     "doc": "proposal",
+     "pages": [
+      55
+     ],
+     "quote": "2028년 완도 2공장 규모의 경제를 통해 세트당 92원까지 낮추는 목표를 제시했다",
+     "grounded": true
+    }
+   ],
+   "answerFillers": 0
+  },
+  {
+   "index": 2,
+   "judge": {
+    "id": "judge-strict-1-1",
+    "name": "박준호",
+    "temperament": "strict"
+   },
+   "question": "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+   "answer": "SOM은 제안서의 210억 원, SAM 6,800억 원의 약 3.1%가 최신 기준입니다. 발표자료의 5%, 340억 원은 초기 버전 수치로, 고객 확보 속도와 생산능력을 반영해 보수적으로 낮췄습니다. 덱도 210억 원으로 바로 수정하겠습니다.",
+   "scores": {
+    "relevance": 95,
+    "accuracy": 95,
+    "evidence": 92,
+    "completeness": 90,
+    "composure": 95
+   },
+   "score": 93,
+   "verdict": "strong",
+   "feedback": "자료 간 불일치 지적에 주저하지 않고 제안자료 기준 210억 원(SAM의 약 3.1%)이 최신 판단 기준임을 명확히 밝혔어요. 수치 수정의 구체적인 이유와 덱 수정 계획까지 차분하게 전달하여 신뢰감을 주었어요.",
+   "rationale": "관련성(relevance)과 침착성(composure) 측면에서 지적된 수치 불일치에 대해 정면으로 답변하고 차분하게 대응했습니다. 정확성(accuracy)과 근거 활용(evidence) 면에서도 SAM 6,800억 원 대비 3.1%(210억 원)라는 정확한 계산 수치와 제안자료(p.4, p.17) 기준을 명확히 설명했습니다. 발표자료 p.5(340억 원)와 p.9(210억 원) 사이의 내부 수치 불일치 원인을 보수적 조정 과정으로 설명하여 완결성(completeness) 높게 답변을 마무리했습니다.",
+   "contradictions": [],
+   "evidenceUsed": [
+    "제안자료 기준 2029년 SOM 210억 원",
+    "SAM 6,800억 원 대비 약 3.1%",
+    "발표자료 p.5의 SAM 5% (340억 원)"
+   ],
+   "missing": [
+    "발표자료 내 p.5(340억 원)와 p.9(210억 원) 간 수치 불일치가 남아있었던 부분에 대한 명시적 정정 언급"
+   ],
+   "improvedAnswer": "투자 판단 기준은 제안자료와 발표자료 9쪽에 명시된 2029년 매출 목표 210억 원입니다. 이는 SAM 6,800억 원의 약 3.1%에 해당하는 수치입니다. 발표자료 5쪽의 340억 원(5%)은 초기 추정치였으나, 고객 확보 속도와 완도 2공장 생산능력을 고려해 보수적으로 하향 조정했습니다. 5쪽 수치가 오기재된 점 정정하며 210억 원 기준으로 심사를 부탁드립니다.",
+   "citations": [
+    {
+     "doc": "proposal",
+     "pages": [
+      4,
+      5,
+      17,
+      41
+     ],
+     "quote": "SOM 210억 원",
+     "grounded": true
+    },
+    {
+     "doc": "presentation",
+     "pages": [
+      5
+     ],
+     "quote": "SAM 6,800억 원",
+     "grounded": true
+    },
+    {
+     "doc": "presentation",
+     "pages": [
+      9
+     ],
+     "quote": "2029E 210",
+     "grounded": true
+    }
+   ],
+   "answerFillers": 0
+  },
+  {
+   "index": 3,
+   "judge": {
+    "id": "judge-strict-1-1",
+    "name": "박준호",
+    "temperament": "strict"
+   },
+   "question": "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+   "answer": "음… 잘 모르겠습니다.",
+   "scores": {
+    "relevance": 10,
+    "accuracy": 30,
+    "evidence": 0,
+    "completeness": 0,
+    "composure": 30
+   },
+   "score": 13,
+   "verdict": "evasive",
+   "feedback": "발표자료 p.5(340억 원)와 제안자료 p.4(210억 원) 간의 목표 수치 불일치 질문에 모른다고 답하며 회피했어요. 실질적인 투자 판단 기준 수치인 210억 원을 명확히 제시하고 수치 불일치 경위를 설명해 보세요.",
+   "rationale": "질문이 발표자료와 제안자료 간 수치 불일치에 대한 기준을 요구했음에도 '잘 모르겠다'고 답하여 관련성(relevance), 완결성(completeness), 근거 활용(evidence) 항목에서 최하점을 받았습니다. 제안자료 p.4와 발표자료 p.9의 재무 계획 수치(210억 원) 및 발표자료 p.5의 SOM 수치(340억 원) 대조를 수행하지 못해 사실 정확성(accuracy)도 크게 감점되었습니다. 질문에 대해 당황하며 답변을 포기하여 태도(composure) 점수 역시 낮게 평가되었습니다.",
+   "contradictions": [
+    {
+     "claim": "발표자 답변에서 두 수치 중 어느 것이 기준인지 답변하지 못함",
+     "docSays": "발표자료 p.5에는 2029년 SOM이 340억 원으로 기재되어 있으나, 제안자료 p.4 및 발표자료 p.9의 재무 계획에는 2029년 매출 목표가 210억 원으로 명시됨.",
+     "refs": [
+      {
+       "doc": "presentation",
+       "pages": [
+        5
+       ],
+       "quote": "340억 원",
+       "grounded": true
+      },
+      {
+       "doc": "proposal",
+       "pages": [
+        4,
+        17
+       ],
+       "quote": "210억 원",
+       "grounded": true
+      }
+     ],
+     "severity": "high"
+    }
+   ],
+   "evidenceUsed": [],
+   "missing": [
+    "투자 판단의 실제 기준 수치가 제안자료 p.4 및 발표자료 p.9의 210억 원임을 명시",
+    "발표자료 p.5의 SOM 340억 원과 제안자료 간 표기 차이에 대한 해명 및 사과",
+    "2029년 목표 매출 210억 원의 재무적 타당성 간략 언급"
+   ],
+   "improvedAnswer": "죄송합니다. 실질적인 투자 판단의 기준은 제안자료 p.4와 발표자료 p.9 재무 계획에 반영된 2029년 매출 목표 210억 원입니다. 발표자료 p.5의 340억 원은 SAM 6,800억 원 대비 5% 점유를 가정한 이론적 SOM 산출치이며, 제안자료 혼선을 드린 점 정정합니다. 완도 2공장 가동을 통한 2029년 210억 원 매출 달성을 사업 계획의 기준 수치로 봐주시면 감사하겠습니다.",
+   "citations": [
+    {
+     "doc": "presentation",
+     "pages": [
+      5
+     ],
+     "quote": "340억 원",
+     "grounded": true
+    },
+    {
+     "doc": "presentation",
+     "pages": [
+      9
+     ],
+     "quote": "210",
+     "grounded": true
+    },
+    {
+     "doc": "proposal",
+     "pages": [
+      4,
+      17
+     ],
+     "quote": "210억 원",
+     "grounded": true
+    }
+   ],
+   "answerFillers": 1
+  }
+ ],
+ "materials": {
+  "docs": [
+   {
+    "role": "presentation",
+    "docId": "b074e9bd3e49c31f",
+    "filename": "presentation.pdf",
+    "pageCount": 12,
+    "scores": {
+     "structure": 82,
+     "logic": 58,
+     "evidence": 62,
+     "consistency": 50,
+     "clarity": 76
+    },
+    "score": 64,
+    "summary": "발표자료는 전체적인 흐름과 친환경 제품 특성이 잘 드러나 있지만, 상대 문서인 제안자료와 원가·마진·시장 규모 등 핵심 수치가 서로 다르고 생산능력 대비 매출 목표의 산술 정합성이 떨어져요. 수치 간 불일치를 바로잡고 CAPA 기반의 매출 추정 논리를 보완하면 심사위원의 신뢰를 훨씬 더 얻을 수 있어요.",
+    "strengths": [
+     "문제 정의부터 제품 특성, 트랙션, 재무 목표, 투자 요청까지 12장의 슬라이드에 핵심 내용을 체계적으로 배치했어요 (p.1-12).",
+     "기존 EPS 및 대안재 대비 생분해 기간(90일), 낙하충격 흡수율(92%), 리드타임(5일) 등 정량 지표를 비교 표로 명확하게 제시했어요 (p.3, 4, 7).",
+     "월 출고량 성장 추이, 12개 파일럿 고객, 재구매율 83% 등 초기 사업 성과를 정량 수치로 효과적으로 입증했어요 (p.8)."
+    ],
+    "issues": [
+     {
+      "severity": "high",
+      "category": "consistency",
+      "title": "양산 원가 및 매출총이익률 수치 불일치",
+      "detail": "발표자료 p.6에서는 2026년 양산 원가를 118원, 매출총이익률을 28%로 제시한 반면 제안자료 p.3, 22에서는 원가를 142원, 매출총이익률을 약 14%로 다르게 기재했어요. 이 불일치 때문에 재무 수익 구조 분석에 혼선이 생겨요.",
+      "refs": [
+       {
+        "doc": "presentation",
+        "pages": [
+         6
+        ],
+        "quote": "원가 / 세트 (2026 양산) 118원",
+        "grounded": true
+       },
+       {
+        "doc": "proposal",
+        "pages": [
+         3,
+         22
+        ],
+        "quote": "142원",
+        "grounded": true
+       }
+      ],
+      "fix": "2026년 양산 기준 세트당 원가와 매출총이익률을 발표자료와 제안자료 간에 동일한 값으로 수정하고 통일해 보세요."
+     },
+     {
+      "severity": "high",
+      "category": "consistency",
+      "title": "2029년 SOM 시장 규모 지표 불일치",
+      "detail": "발표자료 p.5에서는 2029년 SOM을 340억 원(SAM의 5%)으로 적었으나, 제안자료 p.4, 7, 20 등에서는 210억 원(SAM 대비 약 3.1%)으로 표기해 타겟 시장 크기가 문서마다 달라요.",
+      "refs": [
+       {
+        "doc": "presentation",
+        "pages": [
+         5
+        ],
+        "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+        "grounded": true
+       },
+       {
+        "doc": "proposal",
+        "pages": [
+         4,
+         7,
+         20
+        ],
+        "quote": "210억 원",
+        "grounded": true
+       }
+      ],
+      "fix": "2029년 목표 SOM 금액과 SAM 대비 점유율 가정을 제안자료와 일치하도록 하나의 수치로 정정해 보세요."
+     },
+     {
+      "severity": "high",
+      "category": "logic",
+      "title": "생산능력(CAPA) 대비 2028~2029년 매출 추정치의 산술적 불일치",
+      "detail": "발표자료 p.11에서 완도 2공장 가동 시 월 생산능력을 150만 세트로 제시했어요. 기본 판매가 165원(p.6)으로 단순 계산 시 연간 최대 매출은 약 29.7억 원 수준에 불과한데, p.9의 재무 계획에서는 2028E 매출 96억 원, 2029E 매출 210억 원을 제시하여 생산 타임라인과 매출 목표가 산술적으로 맞지 않아요.",
+      "refs": [
+       {
+        "doc": "presentation",
+        "pages": [
+         11
+        ],
+        "quote": "월 150만 세트",
+        "grounded": true
+       }
+      ],
+      "fix": "추가 공장 증설 일정이나 생산능력 확충 계획을 로드맵에 명시하거나, 2공장 CAPA 범위에 맞추어 2028~2029년 매출 추정액을 정정해 보세요."
+     },
+     {
+      "severity": "medium",
+      "category": "evidence",
+      "title": "매출 급성장 가정을 뒷받침하는 영업 퍼널 정량 근거 부족",
+      "detail": "발표자료 p.9에서 2027년부터 월 신규 고객 8곳 확보와 LOI 3건 본계약 전환을 제시했지만, 리드 유입량, 파일럿 전환율, 고객당 세부 주문량 산식이 생략되어 있어요.",
+      "refs": [
+       {
+        "doc": "presentation",
+        "pages": [
+         9
+        ],
+        "quote": "LOI 3건 본계약 전환",
+        "grounded": true
+       }
+      ],
+      "fix": "영업 퍼널(유입 리드 수, 계약 전환율, 고객당 평균 주문량) 정량 근거를 주석이나 부록으로 추가해 보세요."
+     }
+    ]
+   },
+   {
+    "role": "proposal",
+    "docId": "cb3e5a08f4107921",
+    "filename": "proposal.pdf",
+    "pageCount": 58,
+    "scores": {
+     "structure": 75,
+     "logic": 65,
+     "evidence": 65,
+     "consistency": 50,
+     "clarity": 70
+    },
+    "score": 65,
+    "summary": "전체적인 사업계획서의 구성은 체계적이나, 발표자료와 제안자료 간 핵심 수치에 큰 불일치가 보여요. 또한, 급격한 매출 성장을 뒷받침할 구체적인 정량적 근거와 전환 논리가 부족해 보완이 필요해요.",
+    "strengths": [
+     "완도 수산 부산물과 옥수수 전분을 활용한 친환경 생분해 완충재의 시장 차별성과 제품 성능 수치를 명확히 제시하고 있어요 (p.9).",
+     "파일럿 고객 12곳, 재구매율 83%, 월 출고 18만 세트 등 초기 트랙션을 구체적인 지표로 뒷받침하고 있어요 (p.18, p.24)."
+    ],
+    "issues": [
+     {
+      "severity": "high",
+      "category": "consistency",
+      "title": "2029년 SOM 목표 금액 불일치",
+      "detail": "제안자료에서는 2029년 SOM을 210억 원으로 제시한 반면, 발표자료에서는 340억 원으로 다르게 적혀 있어 투자 판단에 혼선을 줘요 (제안자료 p.4, 발표자료 p.5).",
+      "refs": [
+       {
+        "doc": "proposal",
+        "pages": [
+         4,
+         17
+        ],
+        "quote": "SOM 2029년 210억 원",
+        "grounded": true
+       },
+       {
+        "doc": "presentation",
+        "pages": [
+         5
+        ],
+        "quote": "SOM 340억 원",
+        "grounded": true
+       }
+      ],
+      "fix": "두 문서의 2029년 SOM 목표 금액을 210억 원 또는 340억 원 중 정확한 수치로 통일해 주세요."
+     },
+     {
+      "severity": "high",
+      "category": "consistency",
+      "title": "2026년 양산 기준 세트당 원가 불일치",
+      "detail": "제안자료는 2026년 양산 원가를 142원으로 제시했으나, 발표자료는 118원으로 표기하여 원가 및 마진 구조의 신뢰성을 떨어뜨려요 (제안자료 p.3, 발표자료 p.6).",
+      "refs": [
+       {
+        "doc": "proposal",
+        "pages": [
+         3,
+         9
+        ],
+        "quote": "양산 원가 142원",
+        "grounded": true
+       },
+       {
+        "doc": "presentation",
+        "pages": [
+         6
+        ],
+        "quote": "원가 / 세트 = 118원",
+        "grounded": true
+       }
+      ],
+      "fix": "제안자료와 발표자료의 2026년 양산 기준 세트당 원가를 동일한 수치로 맞춰 주세요."
+     },
+     {
+      "severity": "high",
+      "category": "consistency",
+      "title": "매출총이익률 수치 불일치",
+      "detail": "제안자료는 매출총이익률을 약 14%로 산정한 반면, 발표자료는 28%로 제시하여 판매가와 원가 간 산술 정합성이 어긋나요 (제안자료 p.22, 발표자료 p.6).",
+      "refs": [
+       {
+        "doc": "proposal",
+        "pages": [
+         22,
+         34
+        ],
+        "quote": "매출총이익률은 약 14% 수준",
+        "grounded": true
+       },
+       {
+        "doc": "presentation",
+        "pages": [
+         6
+        ],
+        "quote": "매출총이익률 = 28%",
+        "grounded": true
+       }
+      ],
+      "fix": "판매가와 원가를 바탕으로 실제 매출총이익률을 정확히 재산정하여 양쪽 문서에 동일하게 반영해 주세요."
+     },
+     {
+      "severity": "medium",
+      "category": "evidence",
+      "title": "2027년 매출 급증에 대한 정량적 근거 부족",
+      "detail": "2027년 매출이 32억 원으로 급증하는 근거로 LOI 3건 본계약 전환과 월 신규 고객 8곳 확보를 들고 있으나 전환율이나 CAC 같은 퍼널 정량 근거가 없어요 (제안자료 p.4, p.38).",
+      "refs": [
+       {
+        "doc": "proposal",
+        "pages": [
+         4,
+         38
+        ],
+        "quote": "2027E 매출은 32억 원",
+        "grounded": true
+       }
+      ],
+      "fix": "LOI의 계약 전환율과 신규 고객 획득에 필요한 마케팅 퍼널 산식을 제안자료에 구체적으로 추가해 주세요."
+     },
+     {
+      "severity": "medium",
+      "category": "logic",
+      "title": "단일 원료 조달원 의존 리스크 대비 미흡",
+      "detail": "완도 지역 수산업협동조합 1곳과의 5년 MOU에 전량 의존하고 있으나, 수급 변동이나 계약 불이행 시의 구체적인 백업 플랜이 부족해요 (제안자료 p.30, p.43).",
+      "refs": [
+       {
+        "doc": "proposal",
+        "pages": [
+         30,
+         43
+        ],
+        "quote": "완도 지역 수산업협동조합을 통해 산지 집하",
+        "grounded": true
+       }
+      ],
+      "fix": "대체 공급처 확보 계획이나 계절적 수급 변동에 대비한 구체적인 리스크 대응 방안을 보완해 주세요."
+     }
+    ]
+   }
+  ],
+  "consistency": [
+   {
+    "metric": "2029년 SOM (유기적 타겟 시장 규모)",
+    "presentation": {
+     "value": "340억 원",
+     "pages": [
+      5
+     ]
+    },
+    "proposal": {
+     "value": "210억 원",
+     "pages": [
+      4,
+      5,
+      7
+     ]
+    },
+    "status": "mismatch",
+    "note": "2029년 SOM 목표 수치가 문서 간 불일치하여 장기 매출 성장성 및 시장 점유율 가정이 흔들립니다."
+   },
+   {
+    "metric": "2026년 양산 기준 세트당 원가",
+    "presentation": {
+     "value": "118원",
+     "pages": [
+      6
+     ]
+    },
+    "proposal": {
+     "value": "142원",
+     "pages": [
+      3,
+      5,
+      9,
+      20
+     ]
+    },
+    "status": "mismatch",
+    "note": "초기 양산 원가 산출 기준이 달라 매출마진 산출 근거와 손익분기점 분석이 흔들립니다."
+   },
+   {
+    "metric": "매출총이익률 (2026년 양산 기준)",
+    "presentation": {
+     "value": "28%",
+     "pages": [
+      6
+     ]
+    },
+    "proposal": {
+     "value": "약 14%",
+     "pages": [
+      22,
+      34
+     ]
+    },
+    "status": "mismatch",
+    "note": "원가 불일치로 인해 매출총이익률 가정이 크게 차이나므로 초기 수익성 모델 평가가 흔들립니다."
+   },
+   {
+    "metric": "TAM (국내 보호 포장재 시장)",
+    "presentation": {
+     "value": "4.2조 원",
+     "pages": [
+      5
+     ]
+    },
+    "proposal": {
+     "value": "4.2조 원",
+     "pages": [
+      4,
+      17,
+      19,
+      20
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "SAM (친환경 완충재 수요)",
+    "presentation": {
+     "value": "6,800억 원",
+     "pages": [
+      5
+     ]
+    },
+    "proposal": {
+     "value": "6,800억 원",
+     "pages": [
+      4,
+      7,
+      17,
+      18
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "세트당 기본 판매가",
+    "presentation": {
+     "value": "165원",
+     "pages": [
+      6,
+      7
+     ]
+    },
+    "proposal": {
+     "value": "165원",
+     "pages": [
+      3,
+      5,
+      9
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "세트당 대량 판매가 (월 50만 세트 이상)",
+    "presentation": {
+     "value": "148원",
+     "pages": [
+      6
+     ]
+    },
+    "proposal": {
+     "value": "148원",
+     "pages": [
+      3,
+      5,
+      9,
+      18
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "2028년 목표 원가",
+    "presentation": {
+     "value": "92원",
+     "pages": [
+      6
+     ]
+    },
+    "proposal": {
+     "value": "92원",
+     "pages": [
+      9,
+      20,
+      22
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "파일럿 고객 수",
+    "presentation": {
+     "value": "12곳",
+     "pages": [
+      8
+     ]
+    },
+    "proposal": {
+     "value": "12곳",
+     "pages": [
+      4,
+      5,
+      9
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "고객 재구매율",
+    "presentation": {
+     "value": "83%",
+     "pages": [
+      8
+     ]
+    },
+    "proposal": {
+     "value": "83%",
+     "pages": [
+      4,
+      5
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "Pre-A 투자 요청 금액",
+    "presentation": {
+     "value": "20억 원",
+     "pages": [
+      11,
+      12
+     ]
+    },
+    "proposal": {
+     "value": "20억 원",
+     "pages": [
+      1,
+      5,
+      9
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "투자 전 기업가치 (Pre-money Valuation)",
+    "presentation": {
+     "value": "120억 원",
+     "pages": [
+      12
+     ]
+    },
+    "proposal": {
+     "value": "120억 원",
+     "pages": [
+      1,
+      5,
+      9,
+      51
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "2029E 매출 계획",
+    "presentation": {
+     "value": "210억 원",
+     "pages": [
+      9
+     ]
+    },
+    "proposal": {
+     "value": "210억 원",
+     "pages": [
+      4,
+      5
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "완도 2공장 월 생산능력 목표",
+    "presentation": {
+     "value": "150만 세트",
+     "pages": [
+      11
+     ]
+    },
+    "proposal": {
+     "value": "월 150만 세트",
+     "pages": [
+      16,
+      24,
+      28
+     ]
+    },
+    "status": "match",
+    "note": ""
+   },
+   {
+    "metric": "완도 1공장 생산능력",
+    "presentation": null,
+    "proposal": {
+     "value": "월 최대 25만 세트",
+     "pages": [
+      4,
+      5,
+      10,
+      16
+     ]
+    },
+    "status": "only-one",
+    "note": ""
+   }
+  ],
+  "score": 65
+ },
+ "overall": {
+  "total": 70,
+  "sub": {
+   "delivery": 88,
+   "logic": 72,
+   "response": 58,
+   "materials": 65
+  },
+  "weights": {
+   "delivery": 0.25,
+   "logic": 0.25,
+   "response": 0.3,
+   "materials": 0.2
+  },
+  "excluded": [],
+  "headline": "자료 내 핵심 수치를 명확히 통일하세요.",
+  "oneLiner": "문제 정의와 실적은 좋으나 수치 검토가 필요해요.",
+  "strengths": [
+   "p.2에서 택배 물량 51억 개와 완충재 폐기물 31만 톤을 언급해 문제의 시급함을 잘 보여주었어요.",
+   "p.8에 재구매율 83%, LOI 24억 원 등 구체적인 실적을 제시해 사업성을 잘 입증했어요.",
+   "p.7에서 경쟁 대안 대비 가격과 리드타임의 비교 우위를 명확하게 짚어주었어요."
+  ],
+  "priorities": [
+   {
+    "title": "핵심 데이터 불일치 수정",
+    "why": "발표자료 p.6(원가 118원)와 제안자료 p.22(142원)가 상이해 신뢰도가 훼손됩니다.",
+    "how": "모든 자료의 원가와 마진 기준을 제안서(142원)로 통일하고 최종 검토하세요."
+   },
+   {
+    "title": "질의응답 시 회피성 태도 개선",
+    "why": "Q1, Q4 질문에서 수치 오류를 회피하며 대응력 점수 58점에 그쳤습니다.",
+    "how": "자료 불일치 지점을 미리 인지하고, 오류를 즉시 인정하며 정확한 기준값을 답변하세요."
+   },
+   {
+    "title": "매출 목표 산출 근거 보완",
+    "why": "발표자료(340억)와 제안자료(210억) 간 SOM 목표치의 근거가 상이합니다.",
+    "how": "생산능력(CAPA) 기반의 매출 산출 논리를 명확히 세워 수치를 재산정하세요."
+   }
+  ]
+ }
+}

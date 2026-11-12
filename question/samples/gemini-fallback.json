@@ -1,0 +1,623 @@
+{
+  "tag": "gemini-fallback",
+  "at": "2026-11-12T14:10:39.525Z",
+  "totalMs": 4510,
+  "firstDeltaMs": 2048,
+  "firstQuestionMs": 4315,
+  "runId": "r_mwdmkyzfhe2n0",
+  "judges": [
+    {
+      "id": "judge-friendly-1-0",
+      "name": "이정민",
+      "temperament": "friendly"
+    },
+    {
+      "id": "judge-strict-1-1",
+      "name": "박준호",
+      "temperament": "strict"
+    },
+    {
+      "id": "judge-aggressive-1-2",
+      "name": "최태성",
+      "temperament": "aggressive"
+    }
+  ],
+  "provider": "gemini:gemini-3-flash-preview (비활성 claude: 사용 한도 초과(2026-12-01 재개), openai: 크레딧 소진(충전 필요))",
+  "timings": {
+    "context": 103,
+    "generate": 4331,
+    "total": 4435
+  },
+  "usage": [
+    {
+      "provider": "gemini",
+      "model": "gemini-3-flash-preview",
+      "inputTokens": 19021,
+      "cachedInputTokens": 0,
+      "outputTokens": 601,
+      "ms": 4164,
+      "ttftMs": 1782
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3-flash-preview",
+      "inputTokens": 19016,
+      "cachedInputTokens": 0,
+      "outputTokens": 538,
+      "ms": 4175,
+      "ttftMs": 2261
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3-flash-preview",
+      "inputTokens": 19022,
+      "cachedInputTokens": 0,
+      "outputTokens": 544,
+      "ms": 4327,
+      "ttftMs": 2153
+    }
+  ],
+  "context": {
+    "id": "aadced03b0ec",
+    "chars": 26809,
+    "approxTokens": 16085,
+    "sections": [
+      {
+        "key": "situation",
+        "title": "상황",
+        "chars": 120,
+        "approxTokens": 72
+      },
+      {
+        "key": "transcript",
+        "title": "발표 음성 전사 (STT, 46문장, 동음이의 오류 가능)",
+        "chars": 2463,
+        "approxTokens": 1478
+      },
+      {
+        "key": "targets",
+        "title": "검토 포인트 후보 (자동 탐지 — 반드시 원문으로 확인 후 사용)",
+        "chars": 1959,
+        "approxTokens": 1175
+      },
+      {
+        "key": "presentation-wiki",
+        "title": "발표자료 위키 요약 (출처 p.N은 원문 쪽)",
+        "chars": 2748,
+        "approxTokens": 1649
+      },
+      {
+        "key": "proposal-wiki",
+        "title": "제안자료 위키 요약 (출처 p.N은 원문 쪽)",
+        "chars": 4992,
+        "approxTokens": 2995
+      },
+      {
+        "key": "raw",
+        "title": "원문 쪽 (evidence.quote는 여기 또는 전사에서만 그대로 인용)",
+        "chars": 14323,
+        "approxTokens": 8594
+      }
+    ],
+    "targets": [
+      {
+        "kind": "mismatch",
+        "title": "자료 간 불일치",
+        "detail": "국내 보호 포장재 시장 SOM이 제안자료에서는 '2029년 210억 원'으로, 발표자료에서는 'SOM = 340억 원' 및 'SOM 점유율 = 5%'로 다릅니다. 같은 시장항목인데 수치가 달라 비교 문서 간 정합성이 깨집니다.",
+        "severity": "high",
+        "refs": [
+          {
+            "doc": "proposal",
+            "pages": [
+              4,
+              5,
+              7,
+              10,
+              17
+            ]
+          },
+          {
+            "doc": "presentation",
+            "pages": [
+              5,
+              9
+            ]
+          }
+        ],
+        "id": "t1"
+      },
+      {
+        "kind": "mismatch",
+        "title": "자료 간 불일치",
+        "detail": "웨이브셀의 2026년 양산 기준 원가가 제안자료에서는 '세트당 142원'인데, 발표자료에서는 '원가 / 세트 = 118원'으로 표기됩니다. 동일한 원가 기준처럼 서술되지만 값이 달라 재무·가격 산정의 기초가 불일치합니다.",
+        "severity": "high",
+        "refs": [
+          {
+            "doc": "proposal",
+            "pages": [
+              3,
+              5,
+              9,
+              20,
+              22
+            ]
+          },
+          {
+            "doc": "presentation",
+            "pages": [
+              6,
+              9
+            ]
+          }
+        ],
+        "id": "t2"
+      },
+      {
+        "kind": "gap",
+        "title": "근거 부족·검증 공백",
+        "detail": "2027년 '매출 32억 원', 2028년 '96억 원', 2029년 '210억 원' 성장 가정은 'LOI 3건 전량 본계약 전환'과 '2027년부터 월 신규 고객 8곳 확보'에 크게 의존하지만, 전환율·CAC·파이프라인 규모 같은 정량 근거가 보이지 않습니다. 월 50만 세트 이상 대량 계약가 '148원'과 평균 고객당 월 '1.5만 세트'만으로는 목표 매출을 뒷받침하는 고객 수/전환율 계산이 부족합니다.",
+        "severity": "high",
+        "refs": [
+          {
+            "doc": "proposal",
+            "pages": [
+              4,
+              18,
+              38,
+              43,
+              52
+            ]
+          }
+        ],
+        "id": "t3"
+      },
+      {
+        "kind": "mismatch",
+        "title": "자료 간 불일치",
+        "detail": "웨이브셀의 매출총이익률이 제안자료에서는 '약 14%'인데, 발표자료에서는 '매출총이익률 = 28%'로 적혀 있습니다. 같은 비즈니스 모델의 핵심 수익성 지표인데 수치가 달라 수익성 해석이 충돌합니다.",
+        "severity": "medium",
+        "refs": [
+          {
+            "doc": "proposal",
+            "pages": [
+              5,
+              22,
+              27,
+              34,
+              38
+            ]
+          },
+          {
+            "doc": "presentation",
+            "pages": [
+              6
+            ]
+          }
+        ],
+        "id": "t4"
+      },
+      {
+        "kind": "gap",
+        "title": "근거 부족·검증 공백",
+        "detail": "생산능력으로 매출 목표의 물리적 가능성을 직접 계산하면, 완도 1공장 '월 최대 25만 세트'만으로도 연간 약 '30억~49.5억 원' 수준(165원 기준 약 49.5억 원, 148원 기준 약 44.4억 원)이며, 2027년 3분기 이후 '월 150만 세트' 체계는 연간 약 '266.4억~297억 원'까지 가능합니다. 따라서 2028년 '96억 원'과 2029년 '210억 원'은 생산능력 측면에서 불가능하진 않지만, 실제로는 가동률·수요 확보·대량계약 비중이 얼마인지에 대한 연결 설명이 부족합니다. ⚠ 원문에 없는 수치 30억, 49.5억, 44.4억, 266.4억, 297억: 자동 점검(LLM)이 계산한 값이라 틀릴 수 있음. 인용·질문 전 원문 수치로 직접 다시 계산할 것.",
+        "unverifiedNumbers": [
+          "30억",
+          "49.5억",
+          "44.4억",
+          "266.4억",
+          "297억"
+        ],
+        "severity": "medium",
+        "refs": [
+          {
+            "doc": "proposal",
+            "pages": [
+              4,
+              5,
+              18,
+              35,
+              36
+            ]
+          }
+        ],
+        "id": "t5"
+      },
+      {
+        "kind": "gap",
+        "title": "근거 부족·검증 공백",
+        "detail": "원료를 '완도 지역 수산업협동조합 1곳'과의 5년 공급 MOU로 전량 조달한다고 제시하지만, 단일 공급처 의존 리스크에 대한 정량적 완충책(대체 조달원, 안전재고, 계약 해지·물량 미이행 시 대응)이 충분히 검증되지 않았습니다. '원료 수급 변동'을 주요 리스크로 적어두었지만, 왜 '낮음'으로 평가 가능한지의 근거가 약합니다.",
+        "severity": "medium",
+        "refs": [
+          {
+            "doc": "proposal",
+            "pages": [
+              30,
+              31,
+              32,
+              43,
+              44,
+              52
+            ]
+          }
+        ],
+        "id": "t6"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "02:44 \"올해 1월 월 출고량이 6만 세트였는데, 9월에는 18만 세트로 아홉 달 만에 세 배가 됐습니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t7"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "02:51 \"현재 파일럿 고객은 12곳이고, 신선식품 브랜드가 7곳, 화장품이 3곳, 물류대행사가 두 곳입니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t8"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "03:11 \"작년 매출은 9천만 원이었고, 올해는 2억 7천만 원 정도를 예상합니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t9"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "03:17 \"내년에는 32억, 2028년에는 96억 원, 그리고 2029년에는 210억 원을 목표로 합니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t10"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "04:07 \"투자금의 45퍼센트는 2공장 설비에, 25퍼센트는 연구개발에, 20퍼센트는 영업과 마케팅에, 나머지 10퍼센트는 운영자금에 쓰겠습니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t11"
+      },
+      {
+        "kind": "claim",
+        "title": "발표 주장",
+        "detail": "04:17 \"투자 전 기업가치는 120억 원이고, 이번 투자로 18개월의 런웨이를 확보하게 됩니다.\"",
+        "severity": "low",
+        "refs": [
+          {
+            "doc": "transcript",
+            "pages": []
+          }
+        ],
+        "id": "t12"
+      }
+    ],
+    "rawPages": [
+      {
+        "doc": "presentation",
+        "page": 1,
+        "chars": 128,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 2,
+        "chars": 233,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 3,
+        "chars": 239,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 4,
+        "chars": 301,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 5,
+        "chars": 186,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 6,
+        "chars": 221,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 7,
+        "chars": 318,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 8,
+        "chars": 175,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 9,
+        "chars": 240,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 10,
+        "chars": 255,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 11,
+        "chars": 193,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "presentation",
+        "page": 12,
+        "chars": 193,
+        "score": 0,
+        "reason": "문서 전체(소형)"
+      },
+      {
+        "doc": "proposal",
+        "page": 4,
+        "chars": 1901,
+        "score": 74.6,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 5,
+        "chars": 1901,
+        "score": 99.6,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 9,
+        "chars": 1844,
+        "score": 72,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 43,
+        "chars": 1901,
+        "score": 70.2,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 51,
+        "chars": 1901,
+        "score": 75.6,
+        "reason": "전사 수치·키워드 일치"
+      },
+      {
+        "doc": "proposal",
+        "page": 52,
+        "chars": 1901,
+        "score": 73,
+        "reason": "검토 포인트 인용 쪽 + 수치 일치"
+      }
+    ],
+    "queries": 16,
+    "lint": {
+      "used": true,
+      "cached": true,
+      "ms": 1,
+      "issues": 6
+    }
+  },
+  "main": [
+    "q_judge-friendly-1-0_1",
+    "q_judge-strict-1-1_1",
+    "q_judge-aggressive-1-2_1"
+  ],
+  "reserve": [
+    "q_judge-friendly-1-0_2",
+    "q_judge-strict-1-1_2",
+    "q_judge-aggressive-1-2_2"
+  ],
+  "questions": [
+    {
+      "id": "q_judge-friendly-1-0_1",
+      "judgeId": "judge-friendly-1-0",
+      "question": "내년부터 매달 신규 고객 8곳을 확보하겠다는 목표가 인상적인데요, 혹시 현재 협의 중인 파이프라인이나 본계약 전환을 이끌어낼 구체적인 실행 방안에 대해 조금 더 들려주실 수 있을까요?",
+      "intent": "폭발적인 매출 성장의 핵심 전제인 고객 확보 및 계약 전환의 실행 가능성을 확인하고 정량적 근거를 보완하려 함.",
+      "targetClaim": "2027년부터 월 신규 고객 8곳 확보 및 LOI 3건의 본계약 전환을 통한 매출 성장",
+      "targetId": "t3",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "이 계획은 LOI 3건의 본계약 전환과, 내년부터 매달 신규 고객 8곳 확보를 전제로 합니다.",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 5,
+          "quote": "LOI 3건 전량 본계약 전환과 2027년부터 월 신규 고객 8곳 확보를 전제로 하며",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "main",
+      "latencyMs": 4165
+    },
+    {
+      "id": "q_judge-friendly-1-0_2",
+      "judgeId": "judge-friendly-1-0",
+      "question": "완도 2공장이 가동되면 생산 능력이 비약적으로 커질 텐데, 2028년 이후 늘어난 물량을 소화하기 위해 목표하시는 핵심 고객군이나 가동률 로드맵이 궁금합니다.",
+      "intent": "대규모 증설 이후의 생산 가능량과 매출 목표 사이의 연결 고리를 확인하고 수요 확보 전략을 구체화하려 함.",
+      "targetClaim": "2027년 3분기 완도 2공장 가동 후 월 150만 세트 공급 체력 확보 및 매출 확대",
+      "targetId": "t5",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "2027 Q3 완도 2공장 가동 월 150만 세트",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 5,
+          "quote": "2027년 3분기 완도 2공장 가동 이후 월 150만 세트 생산 체계가 확보되면, 대형 고객 대응과 장기 공급계약 수주가 가능해집니다.",
+          "verified": false
+        }
+      ],
+      "difficulty": 2,
+      "kind": "reserve",
+      "latencyMs": 4165
+    },
+    {
+      "id": "q_judge-strict-1-1_1",
+      "judgeId": "judge-strict-1-1",
+      "question": "발표에서는 2029년 목표 시장 규모를 340억 원으로 정의하셨는데 제안서에는 210억 원으로 적혀 있습니다. 어느 수치가 실제 목표입니까?",
+      "intent": "발표자와 제출 자료 간의 시장 규모 산정 수치 불일치를 확인하여 사업 계획의 신뢰성을 검증함.",
+      "targetClaim": "2029년까지 시장의 5퍼센트, 약 340억 원을 목표로 하고 있습니다.",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "저희는 2029년까지 이 시장의 5퍼센트, 약 340억 원을 목표로 하고 있습니다.",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 4,
+          "quote": "회사는 2029년 SOM 210억 원을 목표로 하고 있으며, 이는 SAM의 약 3.1%에 해당한다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "main",
+      "latencyMs": 4175
+    },
+    {
+      "id": "q_judge-strict-1-1_2",
+      "judgeId": "judge-strict-1-1",
+      "question": "현재 매출총이익률을 28퍼센트라고 하셨는데 제안 자료의 14퍼센트와는 두 배 차이가 납니다. 마진율이 갑자기 상승한 근거가 무엇입니까?",
+      "intent": "수익성 핵심 지표인 매출총이익률의 자료 간 불일치를 지적하고 정확한 재무 데이터를 확인함.",
+      "targetClaim": "매출총이익률이 약 28퍼센트 정도 나오고요.",
+      "targetId": "t4",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "매출총이익률 28%",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 5,
+          "quote": "현재 양산 기준 원가 구조는 세트당 142원, 판매가 165원으로 매출총이익률은 약 14%이다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 4175
+    },
+    {
+      "id": "q_judge-aggressive-1-2_1",
+      "judgeId": "judge-aggressive-1-2",
+      "question": "발표에서는 올해 원가가 118원이라더니 제안서에는 142원으로 적혀 있습니다. 재무 계획의 기초인 원가조차 파악이 안 된 것 아닙니까?",
+      "intent": "발표 내용과 제안서 간의 심각한 수치 불일치를 지적하여 데이터의 신뢰성과 재무 계획의 타당성을 압박함.",
+      "targetClaim": "현재 원가는 세트당 118원입니다.",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "판매가는 세트당 165원이고, 현재 원가는 세트당 118원입니다.",
+          "verified": true
+        },
+        {
+          "doc": "proposal",
+          "page": 5,
+          "quote": "현재 양산 기준 원가 구조는 세트당 142원, 판매가 165원으로 매출총이익률은 약 14%이다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "main",
+      "latencyMs": 4327
+    },
+    {
+      "id": "q_judge-aggressive-1-2_2",
+      "judgeId": "judge-aggressive-1-2",
+      "question": "공급처가 수협 한 곳뿐인데 만약 수급에 차질이 생기면 생산이 중단되는 것 아닙니까? 대안도 없이 리스크가 낮다고 판단한 근거가 뭡니까?",
+      "intent": "단일 공급처에 의존하는 원료 조달 구조의 치명적인 리스크를 지적하고 이에 대한 실질적인 대비책 유무를 검증함.",
+      "targetClaim": "원료 공급 리스크는 수협 MOU로 안정적이므로 낮음으로 평가합니다.",
+      "targetId": "t6",
+      "evidence": [
+        {
+          "doc": "proposal",
+          "page": 43,
+          "quote": "특히 원료 공급 리스크는 수협 MOU로 안정적이므로 낮음으로 평가한다.",
+          "verified": true
+        },
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "공정은 부산물 수거, 세척과 건조, 배합, 저온 발포 성형, 검수와 출고, 이렇게 다섯 단계로 이루어집니다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 4328
+    }
+  ],
+  "errors": []
+}

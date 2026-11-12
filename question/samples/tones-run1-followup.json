@@ -1,0 +1,249 @@
+{
+  "at": "2026-11-12T13:51:28.175Z",
+  "runId": "r_mwdllyb454qlq",
+  "results": [
+    {
+      "label": "weak-answer",
+      "status": 200,
+      "ms": 3700,
+      "questionId": "q_judge-aggressive-1-2_1",
+      "question": "원가가 발표자료엔 118원, 제안서엔 142원입니다. 솔직히 말해 마진 산정 기준이 흔들린 것 아닙니까?",
+      "answer": "아 그게… 기준이 좀 달라서요. 아마 초기 수치가 반영된 것 같고, 어쨌든 앞으로 원가는 계속 내려갈 겁니다.",
+      "result": {
+        "decision": "followup",
+        "assessment": {
+          "score": 2,
+          "verdict": "부분",
+          "reason": "원가 기준이 다르다고만 했을 뿐, 118원과 142원 중 어떤 수치를 기준으로 마진을 산정하는지와 차이가 생긴 이유를 구체적으로 설명하지 못했습니다."
+        },
+        "remark": "그 답으론 기준이 안 보입니다.",
+        "followup": {
+          "id": "q_judge-aggressive-1-2_1_f1",
+          "judgeId": "judge-aggressive-1-2",
+          "question": "그럼 마진 산정은 118원 기준입니까, 142원 기준입니까? 두 수치가 왜 다른지도 분명히 말씀해 주세요.",
+          "intent": "동일한 2026년 양산 원가의 기준값과 문서 간 불일치 사유를 확인한다.",
+          "targetClaim": "2026년 양산 원가와 매출총이익률 산정 기준은 일관돼 있다.",
+          "targetId": "t2",
+          "evidence": [
+            {
+              "doc": "presentation",
+              "page": 6,
+              "quote": "원가 / 세트 (2026 양산)\n118원",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 5,
+              "quote": "현재 양산 기준 원가 구조는 세트당 142원",
+              "verified": true
+            },
+            {
+              "doc": "proposal",
+              "page": 5,
+              "quote": "매출총이익률은 약 14%이다.",
+              "verified": true
+            }
+          ],
+          "difficulty": 4,
+          "kind": "followup",
+          "parentId": "q_judge-aggressive-1-2_1",
+          "latencyMs": 3663
+        },
+        "usage": {
+          "provider": "openai",
+          "model": "gpt-5.4-mini",
+          "inputTokens": 18624,
+          "cachedInputTokens": 16384,
+          "outputTokens": 342,
+          "ms": 3642,
+          "ttftMs": 1518
+        },
+        "latencyMs": 3665
+      }
+    },
+    {
+      "label": "strong-answer-to-followup",
+      "status": 200,
+      "ms": 3056,
+      "questionId": "q_judge-aggressive-1-2_1_f1",
+      "question": "그럼 마진 산정은 118원 기준입니까, 142원 기준입니까? 두 수치가 왜 다른지도 분명히 말씀해 주세요.",
+      "answer": "정정드리겠습니다. 현재 양산 원가는 제안서의 142원이 맞습니다. 원료 18원, 전분 22원, 에너지 31원, 인건비 38원, 물류 19원, 감가상각 14원으로 구성되고, 매출총이익률은 약 14%입니다. 발표자료의 118원은 에너지와 인건비 효율화를 반영한 내부 목표치를 잘못 기재한 것입니다. 2027년 3분기 2공장 가동 후 자동화로 2028년 92원까지 낮추는 것이 계획입니다.",
+      "result": {
+        "decision": "next",
+        "assessment": {
+          "score": 5,
+          "verdict": "충분",
+          "reason": "현재 양산 원가가 제안서의 142원이라고 분명히 정정했고, 118원이 내부 목표치 오기재였다고 설명하며 마진 14%와 원가 절감 계획까지 제시해 질문에 답했습니다."
+        },
+        "remark": "알겠습니다.",
+        "followup": null,
+        "usage": {
+          "provider": "openai",
+          "model": "gpt-5.4-mini",
+          "inputTokens": 18811,
+          "cachedInputTokens": 18432,
+          "outputTokens": 232,
+          "ms": 3040,
+          "ttftMs": 1837
+        },
+        "latencyMs": 3045
+      }
+    },
+    {
+      "label": "strong-answer",
+      "status": 200,
+      "ms": 3402,
+      "questionId": "q_judge-strict-1-1_1",
+      "question": "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+      "answer": "SOM은 제안서의 210억 원, SAM 6,800억 원의 약 3.1%가 최신 기준입니다. 발표자료의 5%, 340억 원은 초기 버전 수치로, 고객 확보 속도와 생산능력을 반영해 보수적으로 낮췄습니다. 덱도 210억 원으로 바로 수정하겠습니다.",
+      "result": {
+        "decision": "next",
+        "assessment": {
+          "score": 4,
+          "verdict": "충분",
+          "reason": "두 수치의 차이를 최신 기준과 초기 버전으로 구분해 설명했고, 제안자료의 210억 원과 SAM 6,800억 원 대비 약 3.1%라는 기준도 자료와 일치합니다."
+        },
+        "remark": "알겠습니다.",
+        "followup": null,
+        "usage": {
+          "provider": "openai",
+          "model": "gpt-5.4-mini",
+          "inputTokens": 18643,
+          "cachedInputTokens": 16384,
+          "outputTokens": 221,
+          "ms": 3380,
+          "ttftMs": 2134
+        },
+        "latencyMs": 3387
+      }
+    },
+    {
+      "label": "low-time-forced-next",
+      "status": 200,
+      "ms": 4798,
+      "questionId": "q_judge-strict-1-1_1",
+      "question": "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+      "answer": "음… 잘 모르겠습니다.",
+      "result": {
+        "decision": "next",
+        "assessment": {
+          "score": 1,
+          "verdict": "회피",
+          "reason": "질문한 기준 수치를 제시하지 않고 모른다고만 답해 투자 판단 기준을 전혀 확인하지 못했습니다."
+        },
+        "remark": "그건 답이 안 됩니다.",
+        "followup": null,
+        "usage": {
+          "provider": "openai",
+          "model": "gpt-5.4-mini",
+          "inputTokens": 18705,
+          "cachedInputTokens": 18432,
+          "outputTokens": 145,
+          "ms": 4766,
+          "ttftMs": 4033
+        },
+        "latencyMs": 4772
+      }
+    }
+  ],
+  "tts": [
+    {
+      "questionId": "q_judge-aggressive-1-2_1",
+      "status": 200,
+      "ms": 2930,
+      "bytes": 542444,
+      "type": "audio/wav",
+      "voice": "ash",
+      "model": "gpt-4o-mini-tts",
+      "cache": "MISS",
+      "duration": "11.3",
+      "riff": "RIFF"
+    },
+    {
+      "questionId": "q_judge-strict-1-1_1",
+      "status": 200,
+      "ms": 2636,
+      "bytes": 472844,
+      "type": "audio/wav",
+      "voice": "onyx",
+      "model": "gpt-4o-mini-tts",
+      "cache": "MISS",
+      "duration": "9.85",
+      "riff": "RIFF"
+    }
+  ],
+  "qaLog": [
+    {
+      "judge": {
+        "id": "judge-aggressive-1-2",
+        "name": "최태성",
+        "temperament": "aggressive"
+      },
+      "question": "원가가 발표자료엔 118원, 제안서엔 142원입니다. 솔직히 말해 마진 산정 기준이 흔들린 것 아닙니까?",
+      "answer": "아 그게… 기준이 좀 달라서요. 아마 초기 수치가 반영된 것 같고, 어쨌든 앞으로 원가는 계속 내려갈 겁니다.",
+      "questionId": "q_judge-aggressive-1-2_1",
+      "followup": false,
+      "assessment": {
+        "score": 2,
+        "verdict": "부분",
+        "reason": "원가 기준이 다르다고만 했을 뿐, 118원과 142원 중 어떤 수치를 기준으로 마진을 산정하는지와 차이가 생긴 이유를 구체적으로 설명하지 못했습니다."
+      },
+      "decision": "followup",
+      "remark": "그 답으론 기준이 안 보입니다."
+    },
+    {
+      "judge": {
+        "id": "judge-aggressive-1-2",
+        "name": "최태성",
+        "temperament": "aggressive"
+      },
+      "question": "그럼 마진 산정은 118원 기준입니까, 142원 기준입니까? 두 수치가 왜 다른지도 분명히 말씀해 주세요.",
+      "answer": "정정드리겠습니다. 현재 양산 원가는 제안서의 142원이 맞습니다. 원료 18원, 전분 22원, 에너지 31원, 인건비 38원, 물류 19원, 감가상각 14원으로 구성되고, 매출총이익률은 약 14%입니다. 발표자료의 118원은 에너지와 인건비 효율화를 반영한 내부 목표치를 잘못 기재한 것입니다. 2027년 3분기 2공장 가동 후 자동화로 2028년 92원까지 낮추는 것이 계획입니다.",
+      "questionId": "q_judge-aggressive-1-2_1_f1",
+      "followup": true,
+      "assessment": {
+        "score": 5,
+        "verdict": "충분",
+        "reason": "현재 양산 원가가 제안서의 142원이라고 분명히 정정했고, 118원이 내부 목표치 오기재였다고 설명하며 마진 14%와 원가 절감 계획까지 제시해 질문에 답했습니다."
+      },
+      "decision": "next",
+      "remark": "알겠습니다."
+    },
+    {
+      "judge": {
+        "id": "judge-strict-1-1",
+        "name": "박준호",
+        "temperament": "strict"
+      },
+      "question": "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+      "answer": "SOM은 제안서의 210억 원, SAM 6,800억 원의 약 3.1%가 최신 기준입니다. 발표자료의 5%, 340억 원은 초기 버전 수치로, 고객 확보 속도와 생산능력을 반영해 보수적으로 낮췄습니다. 덱도 210억 원으로 바로 수정하겠습니다.",
+      "questionId": "q_judge-strict-1-1_1",
+      "followup": false,
+      "assessment": {
+        "score": 4,
+        "verdict": "충분",
+        "reason": "두 수치의 차이를 최신 기준과 초기 버전으로 구분해 설명했고, 제안자료의 210억 원과 SAM 6,800억 원 대비 약 3.1%라는 기준도 자료와 일치합니다."
+      },
+      "decision": "next",
+      "remark": "알겠습니다."
+    },
+    {
+      "judge": {
+        "id": "judge-strict-1-1",
+        "name": "박준호",
+        "temperament": "strict"
+      },
+      "question": "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+      "answer": "음… 잘 모르겠습니다.",
+      "questionId": "q_judge-strict-1-1_1",
+      "followup": false,
+      "assessment": {
+        "score": 1,
+        "verdict": "회피",
+        "reason": "질문한 기준 수치를 제시하지 않고 모른다고만 답해 투자 판단 기준을 전혀 확인하지 못했습니다."
+      },
+      "decision": "next",
+      "remark": "그건 답이 안 됩니다."
+    }
+  ]
+}

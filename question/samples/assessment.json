@@ -1,0 +1,172 @@
+{
+  "at": "2026-11-12T13:45:02.648Z",
+  "files": [
+    "question/samples/smoke.json",
+    "question/samples/tones-run1.json",
+    "question/samples/tones-run2.json",
+    "question/samples/vary-run3.json",
+    "question/samples/two-strict.json"
+  ],
+  "grounding": {
+    "total": 72,
+    "ok": 72,
+    "failures": []
+  },
+  "weakPoints": {
+    "unit-cost": [
+      "smoke/q_judge-strict-1-1_2",
+      "smoke/q_judge-aggressive-1-2_1",
+      "tones-run1/q_judge-strict-1-1_2",
+      "tones-run1/q_judge-aggressive-1-2_1",
+      "tones-run2/q_judge-strict-1-1_2",
+      "tones-run2/q_judge-aggressive-1-2_1",
+      "vary-run3/q_judge-aggressive-1-2_1",
+      "two-strict/q_judge-strict-1-1_1"
+    ],
+    "som": [
+      "smoke/q_judge-strict-1-1_1",
+      "tones-run1/q_judge-strict-1-1_1",
+      "tones-run2/q_judge-strict-1-1_1",
+      "vary-run3/q_judge-strict-1-1_1",
+      "two-strict/q_judge-strict-1-0_1"
+    ],
+    "growth-capacity": [
+      "smoke/q_judge-friendly-1-0_1",
+      "tones-run1/q_judge-friendly-1-0_1",
+      "tones-run2/q_judge-friendly-1-0_1"
+    ],
+    "single-supplier": [
+      "smoke/q_judge-aggressive-1-2_2",
+      "tones-run1/q_judge-aggressive-1-2_2",
+      "tones-run2/q_judge-aggressive-1-2_2"
+    ]
+  },
+  "tone": {
+    "friendly": {
+      "n": 8,
+      "avgDifficulty": 2.75,
+      "avgChars": 69.25,
+      "praiseRate": 0.88,
+      "pressureRate": 0,
+      "demandRate": 0.5,
+      "examples": [
+        "매출 성장 경로가 인상적이었습니다. 월 신규 고객 8곳 확보를 어떤 파이프라인과 전환율로 보시는지 조금 더 듣고 싶습니다.",
+        "2공장 증설 계획이 구체적이었습니다. 2028년과 2029년 매출에서 예상 가동률과 대량계약 비중은 어느 정도인가요?",
+        "매출 성장 로드맵이 인상적이었습니다. 월 신규 고객 8곳 확보를 어떤 파이프라인과 전환율로 달성하실 계획인지 조금 더 듣고 싶습니다.",
+        "2공장 증설 계획이 구체적이어서 좋았습니다. 2028년 매출 96억 원을 만들 때 예상 가동률과 대량계약 비중은 어느 정도로 보시나요?"
+      ]
+    },
+    "strict": {
+      "n": 12,
+      "avgDifficulty": 3.83,
+      "avgChars": 63.92,
+      "praiseRate": 0,
+      "pressureRate": 0,
+      "demandRate": 0.83,
+      "examples": [
+        "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 같은 SOM이면 어느 쪽이 맞습니까?",
+        "매출총이익률이 발표자료는 28%, 제안자료는 약 14%입니다. 계산 기준과 실제 투자 판단용 수치는 무엇입니까?",
+        "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+        "매출총이익률이 발표자료는 28%, 제안자료는 약 14%입니다. 같은 165원 판매가 기준이면 어느 수치가 맞습니까?"
+      ]
+    },
+    "aggressive": {
+      "n": 10,
+      "avgDifficulty": 4.5,
+      "avgChars": 58.5,
+      "praiseRate": 0,
+      "pressureRate": 0.8,
+      "demandRate": 0.2,
+      "examples": [
+        "원가가 발표자료는 118원, 사업계획서는 142원입니다. 솔직히 말해 마진을 부풀린 것 아닙니까?",
+        "원료 리스크를 낮다고 하셨는데 수협 한 곳에 의존하면, 물량 미이행 때 생산이 바로 멈추는 것 아닙니까?",
+        "원가가 발표자료엔 118원, 제안서엔 142원입니다. 솔직히 말해 마진 산정 기준이 흔들린 것 아닙니까?",
+        "원료 리스크를 낮다고 하셨는데, 수협 한 곳에 의존하면 미이행 때 생산이 바로 멈추는 것 아닙니까?"
+      ]
+    }
+  },
+  "blind": {
+    "model": "gpt-5.4-mini",
+    "n": 30,
+    "accuracy": 0.933,
+    "confusion": {
+      "strict→strict": 12,
+      "friendly→friendly": 7,
+      "aggressive→aggressive": 9,
+      "friendly→aggressive": 1,
+      "aggressive→friendly": 1
+    }
+  },
+  "overlap": [
+    {
+      "run": "smoke",
+      "maxCrossJudgeSimilarity": 0.23,
+      "pair": [
+        "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 같은 SOM이면 어느 쪽이 맞습니까?",
+        "원가가 발표자료는 118원, 사업계획서는 142원입니다. 솔직히 말해 마진을 부풀린 것 아닙니까?"
+      ],
+      "duplicateTargetIds": [],
+      "main": [
+        "q_judge-friendly-1-0_1",
+        "q_judge-strict-1-1_1",
+        "q_judge-aggressive-1-2_1"
+      ]
+    },
+    {
+      "run": "tones-run1",
+      "maxCrossJudgeSimilarity": 0.28,
+      "pair": [
+        "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 어느 쪽이 투자 판단 기준입니까?",
+        "원가가 발표자료엔 118원, 제안서엔 142원입니다. 솔직히 말해 마진 산정 기준이 흔들린 것 아닙니까?"
+      ],
+      "duplicateTargetIds": [],
+      "main": [
+        "q_judge-friendly-1-0_1",
+        "q_judge-strict-1-1_1",
+        "q_judge-aggressive-1-2_1"
+      ]
+    },
+    {
+      "run": "tones-run2",
+      "maxCrossJudgeSimilarity": 0.23,
+      "pair": [
+        "시장 목표가 발표자료는 2029년 340억, 제안자료는 210억입니다. 투자 판단 기준으로 어느 쪽이 맞습니까?",
+        "원가가 발표자료엔 118원, 사업계획서엔 142원입니다. 솔직히 말해 마진 계산의 기준 원가가 뭡니까?"
+      ],
+      "duplicateTargetIds": [],
+      "main": [
+        "q_judge-friendly-1-0_1",
+        "q_judge-strict-1-1_1",
+        "q_judge-aggressive-1-2_1"
+      ]
+    },
+    {
+      "run": "vary-run3",
+      "maxCrossJudgeSimilarity": 0.11,
+      "pair": [
+        "대량 단가 148원이 들어가면 발표하신 28퍼센트 매출총이익률은 평균 단가 기준입니까, 표준 단가 기준입니까?",
+        "발표의 118원은 사업계획서 142원보다 17% 낮습니다. 빠진 비용이 있다면 투자자용 숫자로 부적절한 것 아닙니까?"
+      ],
+      "duplicateTargetIds": [],
+      "main": [
+        "q_judge-friendly-1-0_1",
+        "q_judge-strict-1-1_1",
+        "q_judge-aggressive-1-2_1"
+      ]
+    },
+    {
+      "run": "two-strict",
+      "maxCrossJudgeSimilarity": 0.29,
+      "pair": [
+        "파일럿 고객 12곳이라고 하셨는데, 유료 반복 구매 고객과 단순 테스트 고객을 나눠서 각각 몇 곳인지 말씀해 주십시오.",
+        "올해 매출 2억7천만 원 예상이라고 하셨는데, 작년 9천만 원 대비 세 배입니다. 남은 기간 달성 근거를 수치로 말씀해 주십시오."
+      ],
+      "duplicateTargetIds": [],
+      "main": [
+        "q_judge-strict-1-0_1",
+        "q_judge-strict-1-1_1",
+        "q_judge-aggressive-1-2_1"
+      ]
+    }
+  ]
+}
