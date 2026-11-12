@@ -1,0 +1,60 @@
+1058:{"timestamp":"03:10:28.098","source":"Server","level":"WARN","message":"[tts] every voice model failed: \"gemini-3.8-flash-tts 429, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted\""}
+1059:{"timestamp":"03:13:18.775","source":"Server","level":"WARN","message":"[tts] every voice model failed: \"gemini-3.8-flash-tts cooldown, gemini-3.8-flash-lite-tts cooldown, gpt-4o-mini-tts cooldown\""}
+1060:{"timestamp":"03:31:08.200","source":"Server","level":"WARN","message":"[tts] every voice model failed: \"gemini-3.8-flash-tts 429, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted\""}
+1073:{"timestamp":"03:32:59.849","source":"Server","level":"WARN","message":"[tts] every voice model failed: \"gemini-3.8-flash-tts 429, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted\""}
+1075:{"timestamp":"03:33:47.015","source":"Server","level":"WARN","message":"[wiki/llm] openai skipped for 300 s (quota)"}
+1076:{"timestamp":"03:33:47.175","source":"Server","level":"WARN","message":"[wiki/llm] openai skipped for 300 s (quota)"}
+1077:{"timestamp":"03:33:47.440","source":"Server","level":"WARN","message":"[wiki/llm] claude skipped for 300 s (quota)"}
+1078:{"timestamp":"03:33:47.482","source":"Server","level":"WARN","message":"[wiki/llm] claude skipped for 300 s (quota)"}
+1080:{"timestamp":"03:34:05.235","source":"Server","level":"WARN","message":"[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 60 s (unavailable)"}
+1081:{"timestamp":"03:34:11.288","source":"Server","level":"WARN","message":"[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 60 s (unavailable)"}
+1082:{"timestamp":"03:36:18.603","source":"Server","level":"WARN","message":"[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 60 s (unavailable)"}
+1083:{"timestamp":"03:36:54.855","source":"Server","level":"WARN","message":"[question] openai skipped for 10 min: 크레딧 소진(충전 필요)"}
+1084:{"timestamp":"03:36:54.856","source":"Server","level":"WARN","message":"[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider"}
+1085:{"timestamp":"03:36:54.934","source":"Server","level":"WARN","message":"[question] openai skipped for 10 min: 크레딧 소진(충전 필요)"}
+1086:{"timestamp":"03:36:54.934","source":"Server","level":"WARN","message":"[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider"}
+1087:{"timestamp":"03:36:55.013","source":"Server","level":"WARN","message":"[question] openai skipped for 10 min: 크레딧 소진(충전 필요)"}
+1088:{"timestamp":"03:36:55.013","source":"Server","level":"WARN","message":"[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider"}
+1089:{"timestamp":"03:36:55.075","source":"Server","level":"WARN","message":"[question] gemini gemini-3.8-flash failed (429) → next model"}
+1090:{"timestamp":"03:36:55.075","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1091:{"timestamp":"03:36:55.177","source":"Server","level":"WARN","message":"[question] gemini gemini-3.8-flash failed (429) → next model"}
+1092:{"timestamp":"03:36:55.177","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1093:{"timestamp":"03:36:55.249","source":"Server","level":"WARN","message":"[question] gemini gemini-3.8-flash failed (429) → next model"}
+1094:{"timestamp":"03:36:55.250","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1095:{"timestamp":"03:36:55.343","source":"Server","level":"WARN","message":"[question] gemini gemini-3.7-flash failed (429) → next model"}
+1096:{"timestamp":"03:36:55.343","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1097:{"timestamp":"03:36:55.433","source":"Server","level":"WARN","message":"[question] gemini gemini-3.7-flash failed (429) → next model"}
+1098:{"timestamp":"03:36:55.434","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1099:{"timestamp":"03:36:55.530","source":"Server","level":"WARN","message":"[question] gemini gemini-3.7-flash failed (429) → next model"}
+1100:{"timestamp":"03:36:55.530","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1101:{"timestamp":"03:36:55.642","source":"Server","level":"WARN","message":"[question] gemini gemini-3-flash-preview failed (429) → next model"}
+1102:{"timestamp":"03:36:55.643","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1103:{"timestamp":"03:36:55.734","source":"Server","level":"WARN","message":"[question] gemini gemini-3-flash-preview failed (429) → next model"}
+1104:{"timestamp":"03:36:55.734","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1105:{"timestamp":"03:36:55.821","source":"Server","level":"WARN","message":"[question] gemini gemini-3-flash-preview failed (429) → next model"}
+1106:{"timestamp":"03:36:55.821","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1107:{"timestamp":"03:36:55.907","source":"Server","level":"WARN","message":"[question] gemini gemini-3.5-flash failed (429) → next model"}
+1108:{"timestamp":"03:36:55.907","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1109:{"timestamp":"03:36:55.990","source":"Server","level":"WARN","message":"[question] gemini gemini-3.5-flash failed (429) → next model"}
+1110:{"timestamp":"03:36:55.991","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1111:{"timestamp":"03:36:56.097","source":"Server","level":"WARN","message":"[question] gemini gemini-3.5-flash failed (429) → next model"}
+1112:{"timestamp":"03:36:56.097","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1113:{"timestamp":"03:36:56.187","source":"Server","level":"WARN","message":"[question] gemini gemini-3.6-flash failed (429) → next model"}
+1114:{"timestamp":"03:36:56.188","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1115:{"timestamp":"03:36:56.285","source":"Server","level":"WARN","message":"[question] gemini gemini-3.6-flash failed (429) → next model"}
+1116:{"timestamp":"03:36:56.285","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1117:{"timestamp":"03:36:56.382","source":"Server","level":"WARN","message":"[question] gemini gemini-3.6-flash failed (429) → next model"}
+1118:{"timestamp":"03:36:56.383","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 무료 한도 초과(429)) → next provider"}
+1119:{"timestamp":"03:37:02.431","source":"Server","level":"WARN","message":"[question] gemini gemini-3.5-flash-lite failed (503) → next model"}
+1120:{"timestamp":"03:37:02.432","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 과부하(503)) → next provider"}
+1121:{"timestamp":"03:37:17.437","source":"Server","level":"WARN","message":"[question] gemini gemini-3.1-flash-lite failed (first-token 15s) → next model"}
+1122:{"timestamp":"03:37:17.438","source":"Server","level":"WARN","message":"[question] gemini failed (other: gemini gemini-3.1-flash-lite timeout (first-token 15s)) → next provider"}
+1123:{"timestamp":"03:37:17.439","source":"Server","level":"WARN","message":"[question] 상철 generate failed: \"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (OpenAI 크레딧 소진(충전 필요) · Gemini gemini gemini-3.1-flash-lite timeout (first-token 15s) · Claude 사용 한도 초과(2026-12-01 재개))\""}
+1124:{"timestamp":"03:38:03.187","source":"Server","level":"WARN","message":"[judges] gemini-3.1-flash-image failed (429)"}
+1125:{"timestamp":"03:38:03.462","source":"Server","level":"WARN","message":"[judges] gemini-3-pro-image failed (429)"}
+1126:{"timestamp":"03:38:18.645","source":"Server","level":"WARN","message":"[tts] every voice model failed: \"gemini-3.8-flash-tts 429, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted\""}
+1127:{"timestamp":"03:38:32.127","source":"Server","level":"WARN","message":"[question] gemini gemini-3.5-flash-lite failed (503) → next model"}
+1128:{"timestamp":"03:38:32.127","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 과부하(503)) → next provider"}
+1129:{"timestamp":"03:38:33.940","source":"Server","level":"WARN","message":"[question] gemini gemini-3.1-flash-lite failed (503) → next model"}
+1130:{"timestamp":"03:38:33.940","source":"Server","level":"WARN","message":"[question] gemini failed (transient: 과부하(503)) → next provider"}
+1131:{"timestamp":"03:38:33.940","source":"Server","level":"WARN","message":"[question] attempt 1 failed: \"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (OpenAI 크레딧 소진(충전 필요) · Claude 사용 한도 초과(2026-12-01 재개) · Gemini 과부하(503))\""}

@@ -51,7 +51,7 @@ export type ApiErrorCode = "bad_request" | "forbidden" | "too_large" | "unsuppor
 
 /** Error body of every route. `message` is Korean and can be shown as is. */
 export interface ApiErrorBody {
-  error: { code: ApiErrorCode; message: string; retryAfterSec?: number };
+  error: { code: ApiErrorCode; message: string; retryAfterSec?: number; fallback?: "browser" };
 }
 
 /** Caps checked on both sides: the client before sending, the server again on every request. */

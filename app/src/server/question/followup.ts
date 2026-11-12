@@ -1,4 +1,5 @@
 import "server-only";
+import { isLiteFallback } from "../ai";
 import { clampDifficulty, cleanQuestion } from "./generate";
 import { groundEvidence } from "./ground";
 import { streamJson, withRetry } from "./llm";
@@ -92,5 +93,5 @@ JSON으로만 답하세요.`;
   }
   const remark = clampRemark(data.remark, judge.temperament);
 
-  return { decision, assessment, remark, followup, usage, latencyMs: Date.now() - t0, ...(guard ? { guard } : {}) };
+  return { decision, assessment, remark, followup, usage, degraded: isLiteFallback(usage.model), latencyMs: Date.now() - t0, ...(guard ? { guard } : {}) };
 }

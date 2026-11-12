@@ -30,14 +30,19 @@ export { waitText };
 
 export class ApiError extends Error {
   readonly retryable: boolean;
-  constructor(
-    public code: ClientErrorCode,
-    message?: string,
-    public retryAfterSec?: number,
-    public status?: number,
-  ) {
+  code: ClientErrorCode;
+  retryAfterSec?: number;
+  status?: number;
+  /** Server hint: do this on the device instead (e.g. /api/tts → speak with the browser voice). */
+  fallback?: "browser";
+  // Plain fields, not parameter properties, so unit tests can load this file with Node type-stripping.
+  constructor(code: ClientErrorCode, message?: string, retryAfterSec?: number, status?: number, fallback?: "browser") {
     super(message || (code === "rate_limited" && retryAfterSec ? `요청이 많아요. ${waitText(retryAfterSec)} 뒤 다시 시도해 주세요.` : DEFAULT_MESSAGE[code]));
     this.name = "ApiError";
+    this.code = code;
+    this.retryAfterSec = retryAfterSec;
+    this.status = status;
+    this.fallback = fallback;
     this.retryable = RETRYABLE.has(code);
   }
 }
@@ -55,7 +60,8 @@ async function errorFrom(res: Response): Promise<ApiError> {
   const retryAfterSec = body?.error?.retryAfterSec ?? (Number.isFinite(header) && header > 0 ? header : undefined);
   const code = body?.error?.code ?? STATUS_CODE[res.status] ?? "upstream";
   const message = body?.error?.message ? humanizeSeconds(body.error.message) : undefined;
-  return new ApiError(code, message, retryAfterSec, res.status);
+  const hint = (body?.error as { fallback?: unknown } | undefined)?.fallback ?? (body as { fallback?: unknown } | null)?.fallback;
+  return new ApiError(code, message, retryAfterSec, res.status, hint === "browser" ? "browser" : undefined);
 }
 
 function isAbort(e: unknown) {
@@ -161,10 +167,24 @@ export interface TtsResult {
   model: string;
   durationSec: number;
 }
+/**
+ * True when a fetchTts() failure should be voiced on the device instead (platform.audio.speak):
+ * the server's {fallback:"browser"} hint, provider quota/outage, network, timeout or any 5xx.
+ * False for aborts and request errors (400/403/413) that a browser voice wouldn't fix.
+ */
+export function ttsFallsBackToBrowser(e: unknown): boolean {
+  if (!(e instanceof ApiError)) return false;
+  return e.fallback === "browser" || e.retryable || (e.status ?? 0) >= 500;
+}
+
 export async function fetchTts(body: TtsRequest, signal?: AbortSignal): Promise<TtsResult> {
   const res = await post("/api/tts", body, withTimeout(signal, 70_000));
+  const blob = await res.blob().catch((e: unknown) => {
+    if (isAbort(e)) throw e;
+    throw new ApiError("network", "음성을 받는 중에 연결이 끊겼어요.");
+  });
   return {
-    blob: await res.blob(),
+    blob,
     provider: res.headers.get("x-provider") ?? "",
     voice: res.headers.get("x-voice") ?? "",
     model: res.headers.get("x-model") ?? "",

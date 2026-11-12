@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { cors, errorResponse, guard, NO_STORE, preflight, readJson } from "@/server/http";
+import { cors, errorResponse, guard, NO_STORE, preflight, readJson, toApiError } from "@/server/http";
 import { synthesizeSpeech } from "@/server/tts/speech";
 
 // runtime: default nodejs (the segment option is not allowed with cacheComponents)
@@ -16,6 +16,7 @@ const Body = z.object({
 
 // POST /api/tts { text, gender, age, temperament, provider? } → audio/wav
 // Headers: x-provider (gemini|openai), x-model, x-voice, x-duration (seconds).
+// Every provider failed → 503 { error: { code: "providers_unavailable", message, fallback: "browser" } }.
 export const OPTIONS = preflight;
 
 export const POST = cors(async (req: Request) => {
@@ -36,6 +37,9 @@ export const POST = cors(async (req: Request) => {
       },
     });
   } catch (e) {
-    return errorResponse(e, "tts");
+    // Contract: when no voice could be made (503/504/502), tell the client to read the line on the device.
+    const err = toApiError(e, "tts");
+    if (err.code === "providers_unavailable" || err.code === "timeout" || err.code === "upstream") err.fallback = "browser";
+    return errorResponse(err, "tts");
   }
 });

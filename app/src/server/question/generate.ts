@@ -1,4 +1,5 @@
 import "server-only";
+import { isLiteFallback } from "../ai";
 import { TEMPERAMENT_LABEL } from "../types";
 import { buildContext } from "./context";
 import { groundEvidence } from "./ground";
@@ -193,5 +194,5 @@ export async function generateQuestions(input: GenerateInput, opts: { onEvent?: 
   timings.total = Date.now() - t0;
 
   emit({ type: "stage", stage: "done", msg: `완료: 질문 ${questions.length}개 (본 ${ord.main.length} · 예비 ${ord.reserve.length}${ord.duplicates.length ? ` · 중복 이동 ${ord.duplicates.length}` : ""})`, ms: timings.total });
-  emit({ type: "done", questions, pack, lint, order: ord.order, main: ord.main, reserve: ord.reserve, timings, usage });
+  emit({ type: "done", questions, pack, lint, order: ord.order, main: ord.main, reserve: ord.reserve, timings, usage, degraded: usage.some((u) => isLiteFallback(u.model)) });
 }

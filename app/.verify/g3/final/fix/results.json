@@ -1,0 +1,101 @@
+[
+  {
+    "name": "A1 degraded note shown on the doc row",
+    "ok": true,
+    "detail": {
+      "degraded": "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.8-flash-lite)로 자료를 분석했어요. 질문과 리포트가 평소보다 덜 정확할 수 있어요."
+    }
+  },
+  {
+    "name": "A2 one aggregated face notice, no per-judge generic message",
+    "ok": true,
+    "detail": {
+      "outage": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "generic": 0
+    }
+  },
+  {
+    "name": "A3 faceless judges show real names (not 새 위원)",
+    "ok": true,
+    "detail": {
+      "names": [
+        "지훈",
+        "수진",
+        "현석"
+      ],
+      "initials": [
+        "지",
+        "수",
+        "현"
+      ]
+    }
+  },
+  {
+    "name": "A4 bottom faceless hint not duplicated while notice shown",
+    "ok": true,
+    "detail": {
+      "bottomDup": false
+    }
+  },
+  {
+    "name": "A5 reload keeps degraded note + names (StoredDoc.wikiDegraded persisted)",
+    "ok": true,
+    "detail": {
+      "names2": [
+        "지훈",
+        "수진",
+        "현석"
+      ],
+      "stored": [
+        {
+          "status": "setup",
+          "doc": {
+            "wikiDegraded": true,
+            "wikiModel": "gemini-3.8-flash-lite"
+          },
+          "judges": [
+            "지훈",
+            "수진",
+            "현석"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "A6 /present shows the same names as setup",
+    "ok": true,
+    "detail": {
+      "names": [
+        "지훈",
+        "수진",
+        "현석"
+      ],
+      "presentSnippet": "발표 중\n종료\n\n발표 남은 시간\n\n05:00\n\n3\n나\n12쪽 중 1쪽\n1 / 12\n내 발표 · 시작 전\n발표를 시작하면 말한 내용을 문장 단위로 받아 적어요.\n지\n지훈 · 친절함\n수\n수진 · 빡셈\n현\n현석 · 공격적\n마이크 켜짐\n카메라 켜짐\n발표 시작"
+    }
+  },
+  {
+    "name": "B1 single failure keeps its own row message, no aggregate",
+    "ok": true,
+    "detail": {
+      "names": [
+        "도윤",
+        "서연",
+        "지훈"
+      ]
+    }
+  },
+  {
+    "name": "B2 failed row still shows a real name",
+    "ok": true,
+    "detail": {
+      "names": [
+        "도윤",
+        "서연",
+        "지훈"
+      ]
+    }
+  }
+]

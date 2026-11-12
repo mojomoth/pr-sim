@@ -1,0 +1,11 @@
+GET / 200
+GET /setup 200
+POST /api/tts {text only, missing persona fields} 400 application/json 362B (schema probe)
+JSON data
+
+POST /api/wiki {} -> 400 {"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"doc","message":"Invalid input: expected object, received undefined"}]}}
+POST /api/tts (valid body) 503 application/json 173B 2.812351s
+served JS files=11 bytes=701724 key-value hits=0
+key names unchanged
+.env content unchanged
+deployment dpl_Hf85d6yTHqhSmeuKbLLaYBwk86z2 READY https://pr-ahu7cdka0-mojomoths-projects.vercel.app -> https://pr-sim-lake.vercel.app

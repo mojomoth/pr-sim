@@ -1,0 +1,11 @@
+HTTP/2 200 
+cache-control: no-store
+content-type: application/x-ndjson; charset=utf-8
+date: Thu, 12 Nov 2026 20:54:32 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-accel-buffering: no
+x-matched-path: /api/wiki
+x-vercel-cache: MISS
+x-vercel-id: icn1::icn1::vvb9h-1794516871735-e845cffb869e
+

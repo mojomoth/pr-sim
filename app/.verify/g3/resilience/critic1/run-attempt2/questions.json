@@ -1,0 +1,160 @@
+{
+  "items": [
+    {
+      "id": "q_j_a129e4c10069_1",
+      "judgeId": "j_a129e4c10069",
+      "question": "시장 규모 페이지에서는 2029년 매출 목표를 340억 원으로 보셨는데 재무 계획 페이지에는 210억 원으로 적혀 있습니다. 이 두 수치 사이에 어떤 차이가 있는지 조금 더 자세히 설명해 주실 수 있을까요?",
+      "intent": "발표자료 내 2029년 매출 목표 수치의 불일치에 대한 구체적인 산출 근거를 확인하려 합니다.",
+      "targetClaim": "2029년 매출 목표",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 5,
+          "quote": "2029년 340억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029년 매출 210억 원",
+          "verified": true
+        }
+      ],
+      "difficulty": 2,
+      "kind": "main",
+      "latencyMs": 23480
+    },
+    {
+      "id": "q_j_a129e4c10069_2",
+      "judgeId": "j_a129e4c10069",
+      "question": "파일럿 고객 분들이 웨이브셀을 다시 찾아주시는 이유가 무엇인지 실제 고객 피드백을 바탕으로 조금 더 자세히 듣고 싶습니다.",
+      "intent": "높은 재구매율을 이끌어낸 고객 가치와 제품의 핵심 경쟁력을 파악하려 합니다.",
+      "targetClaim": "재구매율 83% 달성",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 8,
+          "quote": "83% 재구매율",
+          "verified": true
+        }
+      ],
+      "difficulty": 1,
+      "kind": "reserve",
+      "latencyMs": 23480
+    },
+    {
+      "id": "q_j_fbbeca7c8ef3_1",
+      "judgeId": "j_fbbeca7c8ef3",
+      "question": "국내 택배 물량이 2024년 기준 연간 51억 개라고 하셨는데, 이 수치가 산출된 구체적인 통계적 근거가 무엇입니까?",
+      "intent": "발표자가 제시한 국내 연간 택배 물량 수치의 근거를 엄격하게 검증합니다.",
+      "targetClaim": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 2,
+          "quote": "51억 개\n국내 연간 택배 물량 (2024)",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 9654
+    },
+    {
+      "id": "q_j_fbbeca7c8ef3_2",
+      "judgeId": "j_fbbeca7c8ef3",
+      "question": "오염된 EPS와 에어캡의 재활용률이 사실상 0퍼센트라고 하셨는데, 이에 대한 객관적인 출처를 말씀해 주십시오.",
+      "intent": "완충재 폐기물의 재활용 불가 주장에 대한 사실관계를 확인합니다.",
+      "targetClaim": "오염된 스티로폼과 에어캡은 사실상 재활용이 안 된다는 점입니다.",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "문제는 이렇게 오염된 스티로폼과 에어캡은 사실상 재활용이 안 된다는 점입니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 2,
+          "quote": "≈0%\n오염된 EPS·에어캡 재활용률",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 9654
+    },
+    {
+      "id": "q_j_c4c487c29f84_1",
+      "judgeId": "j_c4c487c29f84",
+      "question": "시장 규모 페이지에서는 2029년 매출 목표를 340억 원이라고 해놓고 재무 계획에서는 210억 원이라고 적었는데, 도대체 어느 장단에 맞춰야 합니까?",
+      "intent": "발표 자료 내의 서로 다른 매출 목표 수치 불일치에 대한 해명을 요구함",
+      "targetClaim": "2029년 매출 목표",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 5,
+          "quote": "2029년 340억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029년 매출 210억 원",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "reserve",
+      "latencyMs": 10217
+    },
+    {
+      "id": "q_j_c4c487c29f84_2",
+      "judgeId": "j_c4c487c29f84",
+      "question": "오염된 스티로폼과 에어캡이 재활용되지 않는다는 점을 지적하셨는데, 그렇다면 기존 대기업들이 비용을 감수하고서라도 이 대체재로 전환할 명확한 유인이 있습니까?",
+      "intent": "기존 포장재 대비 전환 비용 및 고객 유인책의 실효성을 검증함",
+      "targetClaim": "오염된 스티로폼과 에어캡은 사실상 재활용이 안 된다는 점입니다",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "문제는 이렇게 오염된 스티로폼과 에어캡은 사실상 재활용이 안 된다는 점입니다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 10217
+    }
+  ],
+  "order": [
+    "q_j_a129e4c10069_1",
+    "q_j_fbbeca7c8ef3_1",
+    "q_j_a129e4c10069_2",
+    "q_j_fbbeca7c8ef3_2",
+    "q_j_c4c487c29f84_1",
+    "q_j_c4c487c29f84_2"
+  ],
+  "main": [
+    "q_j_a129e4c10069_1"
+  ],
+  "reserve": [
+    "q_j_fbbeca7c8ef3_1",
+    "q_j_a129e4c10069_2",
+    "q_j_fbbeca7c8ef3_2",
+    "q_j_c4c487c29f84_1",
+    "q_j_c4c487c29f84_2"
+  ]
+}

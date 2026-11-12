@@ -9,7 +9,7 @@ import { BottomBar, Button } from "@/components/Button";
 import { CameraView } from "@/components/CameraView";
 import { ConfirmDialog, PhaseEndDialog } from "@/components/Dialog";
 import { HeaderPill, StepHeader } from "@/components/Header";
-import { MediaToggle, Screen } from "@/components/Layout";
+import { Screen } from "@/components/Layout";
 import { Timer } from "@/components/Timer";
 import { Waveform } from "@/components/Waveform";
 import { getBlob, updateSession } from "@/features/session/db";
@@ -17,8 +17,8 @@ import type { SessionRecord, TranscriptSentence } from "@/features/session/types
 import { useCountdown, useSecondsOverride } from "@/features/session/useCountdown";
 import { SlideViewer } from "@/features/slide/SlideViewer";
 import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
-import { platform, useCamera } from "@/platform";
-import { cameraViewStatus, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeTile, useSessionFromQuery } from "./shared";
+import { platform, useCamera, type MediaStatus } from "@/platform";
+import { cameraViewStatus, DeviceToggle, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeTile, useSessionFromQuery } from "./shared";
 
 export function PresentScreen() {
   const s = useSessionFromQuery();
@@ -70,6 +70,11 @@ function Presentation({ rec }: { rec: SessionRecord }) {
   const [camOn, setCamOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
   const cam = useCamera(camOn && stage !== "ended");
+  // The mic opens only at 발표 시작; until then a blocked permission is read without prompting.
+  const [micBlocked, setMicBlocked] = useState(false);
+  useEffect(() => {
+    void platform.queryPermission("mic").then((p) => setMicBlocked(p === "denied"));
+  }, []);
 
   // Every sentence of this visit; the phase-ending save re-adds any whose own save failed.
   const said = useRef<TranscriptSentence[]>([]);
@@ -220,6 +225,7 @@ function Presentation({ rec }: { rec: SessionRecord }) {
                 : "대기 중";
 
   const judges = rec.judges.slice(0, 3);
+  const micProblem: MediaStatus | undefined = micStatusFromError(stt.error) ?? (micBlocked && !listening ? "denied" : undefined);
 
   return (
     <>
@@ -256,7 +262,8 @@ function Presentation({ rec }: { rec: SessionRecord }) {
               }}
             >
               <div className="pointer-events-none absolute bottom-2 right-2">
-                <CameraView stream={cam.stream} status={cameraViewStatus(cam.status)} variant="inset" />
+                {/* Not live: the status text fills the small tile, so the "나" badge would cover it. */}
+                <CameraView stream={cam.stream} status={cameraViewStatus(cam.status)} variant="inset" className={cam.status === "live" ? "" : "[&>span]:hidden"} />
               </div>
             </SlideViewer>
           )}
@@ -312,9 +319,9 @@ function Presentation({ rec }: { rec: SessionRecord }) {
 
       <BottomBar>
         <div className="flex items-center gap-2">
-          <MediaToggle kind="mic" on={micOn} onToggle={toggleMic} />
+          <DeviceToggle kind="mic" on={micOn} problem={micProblem} onToggle={toggleMic} />
           <span className="h-6 w-px bg-line" aria-hidden="true" />
-          <MediaToggle kind="camera" on={camOn} onToggle={() => setCamOn((v) => !v)} />
+          <DeviceToggle kind="camera" on={camOn} problem={cam.status === "live" ? undefined : cam.status} onToggle={() => setCamOn((v) => !v)} />
         </div>
         {stage === "ready" ? (
           <Button onClick={begin} arrow>

@@ -13,7 +13,7 @@ import { Mic, MicOff, Refresh } from "@/components/Icons";
 import { Screen } from "@/components/Layout";
 import { Timer } from "@/components/Timer";
 import { Waveform } from "@/components/Waveform";
-import { ApiError, fetchTts, postFollowup, streamQuestions, type TtsResult } from "@/features/session/api";
+import { ApiError, fetchTts, postFollowup, streamQuestions, ttsFallsBackToBrowser, type TtsResult } from "@/features/session/api";
 import { getSession, updateSession } from "@/features/session/db";
 import type { DocInput, GeneratedQuestion, QJudge, SessionRecord, StoredJudge, StoredQA, TranscriptSentence } from "@/features/session/types";
 import { useCountdown, useSecondsOverride } from "@/features/session/useCountdown";
@@ -37,10 +37,17 @@ export function QaScreen() {
 }
 
 type Stage = "preparing" | "prep-error" | "ready" | "asking" | "answering" | "judging" | "judge-error" | "save-error" | "ended";
-type Bundle = NonNullable<SessionRecord["questions"]>;
+/** `lite`: last-resort lite models that wrote these questions (kept with them so a resumed session still says so). */
+type Bundle = NonNullable<SessionRecord["questions"]> & { lite?: string[] };
 type Current = { q: GeneratedQuestion; original: GeneratedQuestion; remark?: string; n: number; of: number; judge: StoredQA["judge"] };
 type Unsaved = { entry: StoredQA; followup?: GeneratedQuestion };
 const SAVE_FAILED = "답변 기록을 저장하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.";
+const DEVICE_VOICE = "AI 음성을 쓸 수 없어서 기기 음성으로 질문을 읽어 드려요.";
+const liteModels = (models: string[]) => [...new Set(models.filter((m) => /lite/i.test(m)))];
+/** The degraded-quality note (UI must say when a last-resort lite model wrote what the judge says). */
+function liteText(lite: string[]) {
+  return lite.length ? `주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google ${lite.join(", ")})이 질문을 만들거나 답변을 살폈어요. 평소보다 질문이 단순할 수 있어요.` : null;
+}
 
 const STAGE_TEXT: Record<string, string> = {
   context: "발표 내용과 자료를 살펴보고 있어요.",
@@ -92,7 +99,10 @@ function QA({ rec }: { rec: SessionRecord }) {
   const [log, setLog] = useState<StoredQA[]>(rec.qa);
   const [speaking, setSpeaking] = useState(false);
   const [ttsError, setTtsError] = useState<string | null>(null);
+  /** /api/tts failed (outage, quota, network): the judge speaks with the device voice for the rest of the session. */
+  const [deviceVoice, setDeviceVoice] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [lite, setLite] = useState<string[]>(() => (rec.questions as Bundle | undefined)?.lite ?? []);
   const [error, setError] = useState<string | null>(null);
   const [micOn, setMicOn] = useState(true);
   const [confirm, setConfirm] = useState<null | "exit" | "back">(null);
@@ -128,6 +138,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     playback: null as Playback | null,
     tts: new Map<string, Promise<TtsResult>>(),
     ttsProvider: undefined as "openai" | undefined,
+    deviceVoice: false,
     followupAbort: null as AbortController | null,
     ended: false,
     micOn: true,
@@ -243,7 +254,8 @@ function QA({ rec }: { rec: SessionRecord }) {
           },
         },
       );
-      const bundle: Bundle = { pack: done.pack, lint: done.lint, items: done.questions, order: done.order, main: done.main, reserve: done.reserve };
+      const genLite = done.degraded ? liteModels(done.usage.map((u) => u.model)) : [];
+      const bundle: Bundle = { pack: done.pack, lint: done.lint, items: done.questions, order: done.order, main: done.main, reserve: done.reserve, ...(genLite.length ? { lite: genLite } : {}) };
       if (!done.main.length) {
         setPrep((p) => ({ ...p, bundle }));
         setError("질문을 만들지 못했어요. 다시 시도해 주세요.");
@@ -254,6 +266,7 @@ function QA({ rec }: { rec: SessionRecord }) {
       E.current.items = new Map(bundle.items.map((q) => [q.id, q]));
       await updateSession(id, { status: "qa", questions: bundle });
       setPrep((p) => ({ ...p, stage: "done", bundle: null, count: bundle.items.length }));
+      setLite(genLite);
       if (!E.current.ended) setStage("ready");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "질문을 만들지 못했어요. 다시 시도해 주세요.");
@@ -300,7 +313,7 @@ function QA({ rec }: { rec: SessionRecord }) {
     if (E.current.micOn && !E.current.paused) void sttStart(elapsed());
     const nextId = E.current.pending[0];
     const next = nextId ? E.current.items.get(nextId) : undefined;
-    if (next) tts(next).catch(() => {}); // prefetch the next question's voice while the presenter answers
+    if (next && !E.current.deviceVoice) tts(next).catch(() => {}); // prefetch the next question's voice while the presenter answers
   }, [elapsed, setStage, sttStart, tts]);
 
   const cancelSpeech = useCallback(() => {
@@ -317,20 +330,30 @@ function QA({ rec }: { rec: SessionRecord }) {
       E.current.playback?.stop();
       setTtsError(null);
       setSpeaking(true);
-      let clip: TtsResult;
-      try {
-        clip = await tts(q, prefix);
-      } catch (err) {
-        if (my !== E.current.speakSeq) return;
-        setSpeaking(false);
-        setTtsError(err instanceof ApiError ? err.message : "질문 음성을 만들지 못했어요. 질문을 읽고 답변해 주세요.");
-        listen();
-        return;
+      const j = judgeOf(q.judgeId);
+      let clip: TtsResult | null = null;
+      if (!E.current.deviceVoice) {
+        try {
+          clip = await tts(q, prefix);
+        } catch (err) {
+          if (my !== E.current.speakSeq) return;
+          if (!j || !platform.audio.canSpeak() || !ttsFallsBackToBrowser(err)) {
+            setSpeaking(false);
+            setTtsError(err instanceof ApiError ? err.message : "질문 음성을 만들지 못했어요. 질문을 읽고 답변해 주세요.");
+            listen();
+            return;
+          }
+          // Sticky like the OpenAI pin: one voice per judge, and no slow failing call before every question.
+          E.current.deviceVoice = true;
+          setDeviceVoice(true);
+        }
       }
       if (my !== E.current.speakSeq) return;
       try {
-        E.current.playback = platform.audio.play(clip.blob);
-        await E.current.playback.done;
+        const pb = clip ? platform.audio.play(clip.blob) : j ? platform.audio.speak(prefix ? `${prefix} ${q.question}` : q.question, j) : null;
+        if (!pb) throw new Error("심사위원 정보를 찾지 못했어요.");
+        E.current.playback = pb;
+        await pb.done;
       } catch (err) {
         if (my === E.current.speakSeq) setTtsError(`${(err as Error).message} ‘질문 다시 듣기’를 누르면 다시 들려 드려요.`);
       }
@@ -339,7 +362,7 @@ function QA({ rec }: { rec: SessionRecord }) {
       setSpeaking(false);
       listen();
     },
-    [tts, listen],
+    [judgeOf, tts, listen],
   );
 
   // Leaving the page (browser Back, logo link) mid-flow: a pending TTS fetch or judge decision must
@@ -511,6 +534,7 @@ function QA({ rec }: { rec: SessionRecord }) {
           ctrl.signal,
         );
         if (E.current.ended) return;
+        if (r.degraded) setLite((l) => liteModels([...l, r.usage.model]));
         E.current.entry = null;
         const followup = r.decision === "followup" && r.followup ? r.followup : undefined;
         await commit({ entry: { ...entry, assessment: r.assessment, decision: r.decision, remark: r.remark }, followup }, () => (followup ? ask(followup, c.original, r.remark) : nextQuestion()));
@@ -680,7 +704,7 @@ function QA({ rec }: { rec: SessionRecord }) {
         </div>
 
         {!live ? (
-          <Prep rec={rec} stage={stage} prep={prep} error={error} resumed={log.length > 0} />
+          <Prep rec={rec} stage={stage} prep={prep} error={error} resumed={log.length > 0} note={liteText(lite)} />
         ) : (
           <div className="mt-4 flex flex-col gap-3">
             {judge && current && (
@@ -696,13 +720,18 @@ function QA({ rec }: { rec: SessionRecord }) {
                 <span className="text-[18px] font-semibold leading-[27px]">{current.q.question}</span>
               </Bubble>
             )}
-            {(ttsError || stage === "answering") && current && (
+            {(ttsError || deviceVoice || stage === "answering") && current && (
               <div className="flex items-center justify-between gap-3 px-1">
-                <p className="min-w-0 text-[13px] leading-[18px] text-secondary">{ttsError ?? "질문을 다시 들을 수 있어요."}</p>
+                <p className="min-w-0 text-[13px] leading-[18px] text-secondary">{ttsError ?? (deviceVoice ? DEVICE_VOICE : "질문을 다시 들을 수 있어요.")}</p>
                 <button type="button" onClick={() => void replay()} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-surface px-4 text-[14px] font-semibold">
                   <Refresh size={16} /> 질문 다시 듣기
                 </button>
               </div>
+            )}
+            {liteText(lite) && (
+              <p className="px-1 text-[13px] leading-[18px] text-secondary" role="note">
+                {liteText(lite)}
+              </p>
             )}
             {stage !== "asking" && current && (
               <div ref={answerRef} className="scroll-mb-4">
@@ -818,7 +847,7 @@ function answerEntry(c: Current, answer: TranscriptSentence[], askedAt: number):
   };
 }
 
-function Prep({ rec, stage, prep, error, resumed }: { rec: SessionRecord; stage: Stage; prep: { stage: string; planned: number; got: Record<string, number>; failed: string[]; count: number }; error: string | null; resumed: boolean }) {
+function Prep({ rec, stage, prep, error, resumed, note }: { rec: SessionRecord; stage: Stage; prep: { stage: string; planned: number; got: Record<string, number>; failed: string[]; count: number }; error: string | null; resumed: boolean; note: string | null }) {
   const ready = stage === "ready";
   const pct = ready ? 100 : Math.min(95, (STAGE_PCT[prep.stage] ?? 8) + (prep.stage === "generate" && prep.planned ? (prep.count / prep.planned) * 55 : 0));
   return (
@@ -834,6 +863,11 @@ function Prep({ rec, stage, prep, error, resumed }: { rec: SessionRecord; stage:
               ? `심사위원 ${rec.judges.length}명이 질문을 준비했어요. 시작하면 첫 질문을 소리 내어 읽어 드려요.`
               : `${STAGE_TEXT[prep.stage] ?? STAGE_TEXT.context} 1분 정도 걸려요.`}
         </p>
+        {ready && note && (
+          <p className="text-[13px] leading-[18px] text-secondary" role="note">
+            {note}
+          </p>
+        )}
       </div>
       {stage !== "prep-error" && (
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-line" role="progressbar" aria-label="질문 준비 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}>

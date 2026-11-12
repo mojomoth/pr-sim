@@ -36,6 +36,8 @@ export class ApiError extends Error {
   code: ApiErrorCode;
   retryAfterSec?: number;
   issues?: { path: string; message: string }[];
+  /** Hint for the client to do the job on the device (/api/tts → speechSynthesis). */
+  fallback?: "browser";
   constructor(code: ApiErrorCode, message?: string, retryAfterSec?: number, issues?: { path: string; message: string }[]) {
     super(message ?? (code === "rate_limited" && retryAfterSec ? `요청이 많아요. ${waitText(retryAfterSec)} 뒤 다시 시도해 주세요.` : DEFAULT_MESSAGE[code]));
     this.name = "ApiError";
@@ -61,7 +63,7 @@ export function toApiError(e: unknown, tag: string): ApiError {
 export function errorResponse(e: unknown, tag: string): Response {
   const err = toApiError(e, tag);
   const body: ApiErrorBody & { error: { issues?: ApiError["issues"] } } = {
-    error: { code: err.code, message: err.message, ...(err.retryAfterSec ? { retryAfterSec: err.retryAfterSec } : {}), ...(err.issues ? { issues: err.issues } : {}) },
+    error: { code: err.code, message: err.message, ...(err.retryAfterSec ? { retryAfterSec: err.retryAfterSec } : {}), ...(err.issues ? { issues: err.issues } : {}), ...(err.fallback ? { fallback: err.fallback } : {}) },
   };
   const headers: Record<string, string> = { ...NO_STORE };
   if (err.retryAfterSec) headers["retry-after"] = String(err.retryAfterSec);

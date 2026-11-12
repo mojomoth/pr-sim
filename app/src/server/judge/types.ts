@@ -15,7 +15,7 @@ export interface JudgeOut extends JudgePersona {
   age: number;
   fullName: string; // e.g. "김준호"
   voiceHint: string; // e.g. "40대 남성, 차분하고 단호한 목소리"
-  image: { mime: "image/webp"; base64: string }; // 1024px, full color
+  image: { mime: string; base64: string }; // 1024px, full color: image/webp (gpt-image-2) or image/png|jpeg (Gemini fallback)
 }
 
 /** POST /api/judges NDJSON events. */

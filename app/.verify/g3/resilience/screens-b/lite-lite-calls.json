@@ -1,0 +1,6 @@
+[
+ "/api/questions",
+ "/api/tts",
+ "/api/stt/token",
+ "/api/questions/followup"
+]

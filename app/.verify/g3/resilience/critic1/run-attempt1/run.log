@@ -1,0 +1,22 @@
+[20:30:40] session s_mwe05rra6x21234c
+[20:30:41] PASS setup: 3 faces generated OR initials with a clear notice — {"faces":0,"faceNote":["얼굴 없음","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","얼굴 없음","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","얼굴 없음","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요."],"judgesRes":[{"t":1794515440663,"url":"/api/judges","status":200}]}
+[20:30:42] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[20:31:16] PASS setup: wiki built via fallback — {"secs":34,"state":"ready","pages":13,"wikiLines":["자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."]}
+[20:31:16] PASS setup: wiki has real page citations within 1..pageCount — {"n":79,"distinct":[1,2,3,4,5,6,7,8,9,10,11,12],"bad":[],"pageCount":12}
+[20:31:16] FAIL setup: wiki UI says degraded / which model — ["자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."]
+[20:31:19] PASS present: camera preview playing — [{"w":640,"playing":true}]
+[20:31:19] PASS present: slide advance
+[20:32:17] PASS present: time-up dialog at ~60s — {"timeUp":60.549}
+[20:32:18] PASS present: STT transcript saved — {"n":11,"sample":["안녕하세요?","저는 리웨이브 대표 김서연입니다.","오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠습니다."]}
+[20:32:32] PASS qa: questions generated — {"main":1,"reserve":5}
+[20:32:32] PASS qa: questions differ by persona (every judge has its own, no duplicates) — {"judges":[{"id":"j_5379f0e80824","name":"지훈","t":"friendly","img":false},{"id":"j_505e599833eb","name":"수진","t":"strict","img":false},{"id":"j_ffebdfeafe91","name":"현석","t":"aggressive","img":false}],"byJudge":{"j_5379f0e80824":["비즈니스 모델 페이지에서는 2026년 양산 원가를 118원으로 말씀하셨는데, 재무 계획 페이지에는 2028년 목표 원가가 9
+[20:32:32] FAIL qa: questions screen says degraded / which model — []
+[20:33:15] PASS qa: question spoken (server audio or speechSynthesis.speak called) — {"audio":1,"speech":[{"at":1794515555678,"text":"비즈니스 모델 페이지에서는 2026년 양산 원가를 118원으로 말씀하셨는데, 재무 계획 페이지에는 2028년 목표 원가가 92원으로 기재되어 있습니다. 이 원가 절감이 어떤 구체적인 공정 개선이나 효율화를 통해 가능할지 설명을 좀 더 듣고 싶습니다.","lang":"ko-KR","voice":"Eddy (한국어(대한민국))","rate":0.9100000262260437,"pitch":1.059999942779541,"volume":1}],"tt
+[20:33:15] PASS qa: honest device-voice note when /api/tts failed — {"noteSeen":"AI 음성을 쓸 수 없어서 기기 음성으로 질문을 읽어 드려요."}
+[20:33:16] PASS qa: answers collected — {"qa":1,"answered":1,"sample":[{"j":{"id":"j_5379f0e80824","name":"지훈","temperament":"friendly"},"q":"비즈니스 모델 페이지에서는 2026년 양산 원가를 118원으로 말씀하셨는데, 재무 계획 페이지에는 2028년","a":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서","ids":3}]}
+[20:33:16] FAIL result: report generated and stored — {"secs":0,"err":""}
+[20:33:17] FAIL result: actual provider shown — {"provLines":[]}
+[20:33:17] FAIL result: page citation opens the PDF page — null
+[20:33:18] FAIL result: utterance citation opens the transcript — null
+[20:33:19] FAIL run 2 finished without exceptions — "Cannot read properties of null (reading 'click')"
+[20:33:19] FAILED 7/20 → /Users/jyl/work/study/pr-sim/app/.verify/g3/resilience/critic1/run

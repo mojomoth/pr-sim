@@ -3,11 +3,12 @@ import Anthropic from "@anthropic-ai/sdk";
 import { ApiError as GeminiApiError, ThinkingLevel } from "@google/genai";
 import OpenAI from "openai";
 import { z } from "zod";
-import { claude, gemini, MODELS, openai } from "../ai";
+import { claude, gemini, LITE_FALLBACK, MODELS, openai } from "../ai";
 
 // Structured-JSON judgment calls for the report.
 //
-// Provider chain: OpenAI gpt-6-astra → gpt-6.1-sol → gpt-5.5 → Gemini → Claude.
+// Provider chain: OpenAI gpt-6-astra → gpt-6.1-sol → gpt-5.5 → Gemini flash → Claude → Gemini lite (last resort; the
+// result screen marks a report made with a "lite" model as lower quality via meta.provider / usage.byModel).
 // REPORT_LLM_PROVIDER = auto (default) | claude | openai | gemini restricts the chain.
 //
 // // Errors are classified so that quota/billing/auth failures are FINAL for that target (no retries, marked down for
@@ -16,7 +17,7 @@ import { claude, gemini, MODELS, openai } from "../ai";
 // callers get Korean text (LlmUnavailableError.message / koError()).
 
 const CLAUDE_MODEL = MODELS.claudeSmart; // claude-opus-5-5
-const GEMINI_MODELS = (process.env.REPORT_GEMINI_MODELS ?? `gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite`)
+const GEMINI_MODELS = (process.env.REPORT_GEMINI_MODELS ?? `gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash`)
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -46,6 +47,7 @@ function chain(only?: Provider): Target[] {
     { provider: "openai", model: "gpt-5.5", effort: "low" },
     ...GEMINI_MODELS.map((model) => ({ provider: "gemini" as const, model })),
     { provider: "claude", model: CLAUDE_MODEL },
+    ...LITE_FALLBACK.map((model) => ({ provider: "gemini" as const, model })),
   ];
   const w = only ?? wanted();
   return w === "auto" ? all : all.filter((t) => t.provider === w);

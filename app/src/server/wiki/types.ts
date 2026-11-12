@@ -44,7 +44,7 @@ export interface UsageStat {
 /** POST /api/wiki NDJSON events. */
 export type WikiEvent =
   | { type: "progress"; phase: "extracting" | "planning" | "merging" | "finalizing"; chunksDone: number; chunksTotal: number; roundsDone: number; roundsTotal: number; msg: string }
-  | { type: "done"; wiki: WikiPage[]; keyNumbers: KeyNumber[]; usage: Record<string, UsageStat>; ms: number };
+  | { type: "done"; wiki: WikiPage[]; keyNumbers: KeyNumber[]; usage: Record<string, UsageStat>; ms: number; degraded: boolean };
 
 export interface QueryOptions {
   maxContextChars?: number; // default 6000

@@ -1,0 +1,10 @@
+HTTP/2 503 
+cache-control: no-store
+content-type: application/json
+date: Thu, 12 Nov 2026 20:56:44 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-matched-path: /api/tts
+x-vercel-cache: MISS
+x-vercel-id: icn1::icn1::vvb9h-1794517001302-cb84c22c3587
+

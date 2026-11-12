@@ -1,0 +1,12 @@
+✔ chunked body over 4MB (no content-length) → 413 too_large (5.16825ms)
+✔ cross-site browser calls are refused on every route (30.715833ms)
+✔ /api/stt/token is strict: bare request and foreign Origin → 403 (3.649166ms)
+✔ /api/stt/token from our own page → short-lived token, no-store (880.90425ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1032.682125

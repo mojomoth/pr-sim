@@ -123,6 +123,11 @@ export async function synthesizeSpeech(
     }
   }
   console.warn("[tts] every voice model failed:", reasons.join(", "));
-  if (left() <= 3_000) throw new ApiError("timeout", "음성을 만드는 데 시간이 너무 오래 걸려요. 화면의 질문을 읽고 답변해 주세요.");
-  throw new ApiError("providers_unavailable", quota ? "오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요." : "지금은 질문 음성을 만들 수 없어요. 화면의 질문을 읽고 답변해 주세요.");
+  // fallback "browser": the client reads the line with speechSynthesis (device voice) instead
+  const err =
+    left() <= 3_000
+      ? new ApiError("timeout", "음성을 만드는 데 시간이 너무 오래 걸려요. 화면의 질문을 읽고 답변해 주세요.")
+      : new ApiError("providers_unavailable", quota ? "오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요." : "지금은 질문 음성을 만들 수 없어요. 화면의 질문을 읽고 답변해 주세요.");
+  err.fallback = "browser";
+  throw err;
 }

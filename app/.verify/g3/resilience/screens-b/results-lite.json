@@ -1,0 +1,64 @@
+[
+  {
+    "name": "lite: ready screen note shown",
+    "ok": true,
+    "detail": "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.5-flash-lite)이 질문을 만들거나 답변을 살폈어요. 평소보다 질문이 단순할 수 있어요."
+  },
+  {
+    "name": "lite: note survives reload (stored with questions)",
+    "ok": true
+  },
+  {
+    "name": "lite: questions.lite persisted",
+    "ok": true,
+    "detail": [
+      "gemini-3.5-flash-lite"
+    ]
+  },
+  {
+    "name": "lite: live note shown while a question is asked",
+    "ok": true
+  },
+  {
+    "name": "lite: follow-up asked",
+    "ok": true
+  },
+  {
+    "name": "lite: note shown with the follow-up",
+    "ok": true,
+    "detail": "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.5-flash-lite)이 질문을 만들거나 답변을 살폈어요. 평소보다 질문이 단순할 수 있어요."
+  },
+  {
+    "name": "primary: ready screen note absent",
+    "ok": true
+  },
+  {
+    "name": "primary: live note absent while a question is asked",
+    "ok": true
+  },
+  {
+    "name": "primary: follow-up asked",
+    "ok": true
+  },
+  {
+    "name": "primary: note absent with the follow-up",
+    "ok": true
+  },
+  {
+    "name": "followup-lite: ready screen note absent",
+    "ok": true
+  },
+  {
+    "name": "followup-lite: live note absent while a question is asked",
+    "ok": true
+  },
+  {
+    "name": "followup-lite: follow-up asked",
+    "ok": true
+  },
+  {
+    "name": "followup-lite: note shown with the follow-up",
+    "ok": true,
+    "detail": "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.5-flash-lite)이 질문을 만들거나 답변을 살폈어요. 평소보다 질문이 단순할 수 있어요."
+  }
+]

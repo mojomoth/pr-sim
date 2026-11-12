@@ -1,0 +1,40 @@
+[
+  {
+    "judge": {
+      "id": "j_5379f0e80824",
+      "name": "지훈",
+      "temperament": "friendly"
+    },
+    "question": "비즈니스 모델 페이지에서는 2026년 양산 원가를 118원으로 말씀하셨는데, 재무 계획 페이지에는 2028년 목표 원가가 92원으로 기재되어 있습니다. 이 원가 절감이 어떤 구체적인 공정 개선이나 효율화를 통해 가능할지 설명을 좀 더 듣고 싶습니다.",
+    "answer": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년",
+    "askedAt": 0,
+    "questionId": "q_j_5379f0e80824_1",
+    "followup": false,
+    "evidence": [
+      {
+        "doc": "presentation",
+        "page": 6,
+        "quote": "원가 / 세트 (2026 양산)\n118원",
+        "verified": true
+      },
+      {
+        "doc": "presentation",
+        "page": 9,
+        "quote": "원가 118원 → 92원 (2028)",
+        "verified": true
+      }
+    ],
+    "answerSentenceIds": [
+      "qmwe08u1n-1",
+      "qmwe08u1n-2",
+      "qmwe08u1n-3"
+    ],
+    "assessment": {
+      "score": 3,
+      "verdict": "부분",
+      "reason": "원료의 특성에 대해 일부 언급했으나 구체적인 2028년 92원 달성을 위한 공정 개선이나 효율화 방안에 대해서는 충분히 설명하지 못했습니다."
+    },
+    "decision": "next",
+    "remark": "네, 설명 잘 들었습니다."
+  }
+]

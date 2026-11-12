@@ -1,0 +1,1 @@
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"doc","message":"Invalid input: expected object, received undefined"}]}}

@@ -1,0 +1,139 @@
+ POST /api/judges 200 in 2ms (next.js: 0.4ms, application-code: 1.7ms)
+ POST /api/tts 400 in 2ms (next.js: 0.2ms, application-code: 1.9ms)
+ POST /api/judges 400 in 1.4ms (next.js: 0.2ms, application-code: 1.3ms)
+ POST /api/wiki 400 in 1.4ms (next.js: 0.2ms, application-code: 1.1ms)
+ POST /api/questions 400 in 3ms (next.js: 0.3ms, application-code: 2ms)
+ POST /api/questions/followup 400 in 1.9ms (next.js: 0.6ms, application-code: 1.3ms)
+ POST /api/report 400 in 1.6ms (next.js: 0.3ms, application-code: 1.3ms)
+ POST /api/tts 400 in 1.1ms (next.js: 0.2ms, application-code: 1.0ms)
+ POST /api/tts 400 in 1.2ms (next.js: 0.2ms, application-code: 1.1ms)
+ POST /api/wiki 400 in 1.7ms (next.js: 0.1ms, application-code: 1.6ms)
+ POST /api/wiki 422 in 1.0ms (next.js: 0.1ms, application-code: 0.9ms)
+ POST /api/tts 413 in 1.1ms (next.js: 0.2ms, application-code: 0.9ms)
+ POST /api/tts 413 in 3ms (next.js: 0.2ms, application-code: 2ms)
+ POST /api/tts 403 in 1.3ms (next.js: 0.2ms, application-code: 1.1ms)
+ POST /api/judges 403 in 1.3ms (next.js: 0.2ms, application-code: 1.1ms)
+ POST /api/wiki 403 in 1.1ms (next.js: 0.2ms, application-code: 1.0ms)
+ POST /api/questions 403 in 1.2ms (next.js: 0.2ms, application-code: 1.0ms)
+ POST /api/questions/followup 403 in 1.1ms (next.js: 0.2ms, application-code: 0.9ms)
+ POST /api/report 403 in 1.2ms (next.js: 0.2ms, application-code: 1.0ms)
+ POST /api/stt/token 403 in 1.5ms (next.js: 0.3ms, application-code: 1.2ms)
+ POST /api/stt/token 403 in 1.2ms (next.js: 0.2ms, application-code: 1.0ms)
+ POST /api/stt/token 403 in 0.8ms (next.js: 0.1ms, application-code: 0.6ms)
+ POST /api/stt/token 200 in 853ms (next.js: 0.1ms, application-code: 853ms)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+ POST /api/wiki 200 in 32.8s (next.js: 0.3ms, application-code: 32.8s)
+ POST /api/stt/token 200 in 297ms (next.js: 0.3ms, application-code: 297ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:239:10)
+[wiki/llm] openai skipped for 300 s (quota)
+[wiki/llm] claude skipped for 300 s (quota)
+[question] gemini gemini-3.5-flash-lite failed (503) → next model
+[question] gemini failed (transient: 과부하(503)) → next provider
+[question] gemini gemini-3.5-flash-lite failed (503) → next model
+[question] gemini failed (transient: 과부하(503)) → next provider
+ POST /api/questions 200 in 13.5s (next.js: 0.3ms, application-code: 13.5s)
+[tts] every voice model failed: gemini-3.8-flash-tts 429, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted
+ POST /api/tts 503 in 2.6s (next.js: 0.3ms, application-code: 2.6s)
+ POST /api/stt/token 200 in 311ms (next.js: 0.5ms, application-code: 310ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:239:10)
+ POST /api/questions/followup 200 in 1837ms (next.js: 0.7ms, application-code: 1836ms)
+[report/llm] openai:gpt-6-astra speech_analysis attempt 1 → quota: 429 You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+[report/llm] openai:gpt-6.1-sol speech_analysis attempt 1 → quota: 429 You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+[report/llm] openai:gpt-6.1-sol qa_evaluation attempt 1 → quota: 429 You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+[report/llm] openai:gpt-6.1-sol doc_evaluation attempt 1 → quota: 429 You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+ POST /api/report 200 in 2.7s (next.js: 0.7ms, application-code: 2.7s)
+[report] step speech failed: Request was aborted.
+[report] step qa:0 failed: Request was aborted.
+[report] step doc:presentation failed: Request was aborted.
+ POST /api/judges 200 in 2ms (next.js: 0.3ms, application-code: 1.9ms)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+ POST /api/wiki 200 in 2.4min (next.js: 0.3ms, application-code: 2.4min)
+ POST /api/stt/token 200 in 311ms (next.js: 0.3ms, application-code: 311ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:239:10)
+[question] openai skipped for 10 min: 크레딧 소진(충전 필요)
+[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider
+[question] openai skipped for 10 min: 크레딧 소진(충전 필요)
+[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider
+[question] openai skipped for 10 min: 크레딧 소진(충전 필요)
+[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.7-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.7-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3-flash-preview failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3-flash-preview failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.6-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.6-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.8-flash failed (first-token 15s) → next model
+[question] gemini failed (other: 응답 지연(gemini-3.8-flash, first-token 15s)) → next provider
+ POST /api/questions 200 in 28.8s (next.js: 0.3ms, application-code: 28.8s)
+[tts] every voice model failed: gemini-3.8-flash-tts 429, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted
+ POST /api/tts 503 in 2.3s (next.js: 0.3ms, application-code: 2.3s)
+ POST /api/stt/token 200 in 333ms (next.js: 0.4ms, application-code: 333ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:239:10)
+ POST /api/questions/followup 200 in 3.2s (next.js: 0.8ms, application-code: 3.2s)
+[report/llm] openai:gpt-5.5 speech_analysis attempt 1 → quota: 429 You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+[wiki/llm] openai skipped for 300 s (quota)
+[report/llm] gemini:gemini-3.8-flash speech_analysis attempt 1 → quota: {"error":{"code":429,"message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: ge
+[wiki/llm] claude skipped for 300 s (quota)
+[report/llm] gemini:gemini-3.7-flash speech_analysis attempt 1 → quota: {"error":{"code":429,"message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: ge
+[report/llm] gemini:gemini-3.6-flash speech_analysis attempt 1 → quota: {"error":{"code":429,"message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: ge
+[report/llm] gemini:gemini-3.5-flash speech_analysis attempt 1 → quota: {"error":{"code":429,"message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: ge
+[report/llm] claude:claude-opus-5-5 speech_analysis attempt 1 → quota: 400 {"type":"error","error":{"type":"invalid_request_error","message":"You have reached your specified API usage limits. You will regain access on 2026-12-01 at 00:00 UTC."},"request_id":"req_011CgygHjcrxTbNUN7wAgJr4"}
+[report/llm] gemini:gemini-3.5-flash-lite speech_analysis attempt 1 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite qa_evaluation attempt 1 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite qa_evaluation attempt 2 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite speech_analysis attempt 2 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite qa_evaluation attempt 3 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite speech_analysis attempt 3 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite overall attempt 1 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite overall attempt 2 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite overall attempt 3 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+ POST /api/report 200 in 45s (next.js: 0.8ms, application-code: 45s)
+[judges] gemini-3.1-flash-image failed (429)
+[judges] gemini-3.1-flash-image failed (429)
+[judges] gemini-3.1-flash-image failed (429)
+[judges] gemini-3-pro-image failed (429)
+[judges] gemini-3-pro-image failed (429)
+[judges] gemini-3-pro-image failed (429)
+ POST /api/judges 200 in 1119ms (next.js: 0.6ms, application-code: 1119ms)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)
+ POST /api/wiki 200 in 33.6s (next.js: 0.3ms, application-code: 33.6s)
+ POST /api/stt/token 200 in 292ms (next.js: 0.3ms, application-code: 292ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:239:10)
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash-lite failed (503) → next model
+[question] gemini failed (transient: 과부하(503)) → next provider
+[question] gemini gemini-3.5-flash-lite failed (503) → next model
+[question] gemini failed (transient: 과부하(503)) → next provider
+ POST /api/questions 200 in 15.5s (next.js: 0.4ms, application-code: 15.5s)
+[tts] every voice model failed: gemini-3.8-flash-tts cooldown, gemini-3.8-flash-lite-tts cooldown, gpt-4o-mini-tts cooldown
+ POST /api/tts 503 in 2ms (next.js: 0.3ms, application-code: 2ms)
+ POST /api/stt/token 200 in 831ms (next.js: 0.4ms, application-code: 831ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:239:10)
+ POST /api/questions/followup 200 in 2.7s (next.js: 0.7ms, application-code: 2.7s)
+[report/llm] gemini:gemini-3.5-flash-lite speech_analysis attempt 1 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+[report/llm] gemini:gemini-3.5-flash-lite qa_evaluation attempt 1 → transient: {"error":{"code":503,"message":"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","status":"UNAVAILABLE"}}
+ POST /api/report 200 in 19.0s (next.js: 0.6ms, application-code: 19.0s)

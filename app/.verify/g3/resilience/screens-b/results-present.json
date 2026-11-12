@@ -1,0 +1,77 @@
+[
+  {
+    "name": "present denied: camera toggle not '켜짐' before start",
+    "ok": true,
+    "detail": [
+      "마이크 권한 필요",
+      "카메라 권한 필요"
+    ]
+  },
+  {
+    "name": "present denied: mic toggle not '켜짐' before start",
+    "ok": true,
+    "detail": [
+      "마이크 권한 필요",
+      "카메라 권한 필요"
+    ]
+  },
+  {
+    "name": "present denied: self-view shows permission label, '나' badge hidden",
+    "ok": true,
+    "detail": {
+      "text": "카메라 권한 필요",
+      "badgeVisible": false
+    }
+  },
+  {
+    "name": "present denied: after 발표 시작 toggles still show real state",
+    "ok": true,
+    "detail": [
+      "마이크 권한 필요",
+      "카메라 권한 필요"
+    ]
+  },
+  {
+    "name": "present denied: permission notices shown",
+    "ok": true,
+    "detail": [
+      "카메라 권한 필요",
+      "카메라 권한이 필요해요",
+      "마이크 권한이 필요해요",
+      "마이크 권한 필요",
+      "카메라 권한 필요"
+    ]
+  },
+  {
+    "name": "present denied: camera switched off reads 카메라 꺼짐",
+    "ok": true,
+    "detail": [
+      "마이크 권한 필요",
+      "카메라 꺼짐"
+    ]
+  },
+  {
+    "name": "present granted: toggles read 켜짐",
+    "ok": true,
+    "detail": [
+      "마이크 켜짐",
+      "카메라 켜짐"
+    ]
+  },
+  {
+    "name": "present granted: '나' badge shown on live camera",
+    "ok": true,
+    "detail": {
+      "text": "나",
+      "badgeVisible": true
+    }
+  },
+  {
+    "name": "present granted: after start still 켜짐",
+    "ok": true,
+    "detail": [
+      "마이크 켜짐",
+      "카메라 켜짐"
+    ]
+  }
+]

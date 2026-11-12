@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { PermissionNotice } from "@/components/CameraView";
-import { Refresh } from "@/components/Icons";
+import { Mic, MicOff, Refresh, Video, VideoOff } from "@/components/Icons";
 import { JudgeAvatar, JudgeHero, JudgeTile, type JudgeView } from "@/components/JudgeCard";
 import { Screen } from "@/components/Layout";
 import { getSession, useBlobUrl } from "@/features/session/db";
@@ -118,7 +118,33 @@ export function MediaProblem({ device, status, message, onRetry }: { device: "ca
   );
 }
 
-/** The transcriber reports a denied microphone with the platform's message: map it back to a status. */
+const FAILURES = ["denied", "nodevice", "busy", "unsupported", "insecure"] as const;
+
+/** The transcriber reports a microphone failure with the platform's message: map it back to a status. */
 export function micStatusFromError(error: string | null): MediaStatus | undefined {
-  return error && error === mediaErrorText("mic", "denied") ? "denied" : undefined;
+  return error ? FAILURES.find((f) => error === mediaErrorText("mic", f)) : undefined;
+}
+
+const PROBLEM_TEXT: Partial<Record<MediaStatus, string>> = { pending: "연결 중", denied: "권한 필요", nodevice: "없음", busy: "사용 불가", unsupported: "사용 불가", insecure: "사용 불가" };
+
+/**
+ * Bottom-bar camera/mic switch that shows the device's real state: switched on but denied reads
+ * "카메라 권한 필요", not "카메라 켜짐". `problem` = the device status when it isn't working.
+ */
+export function DeviceToggle({ kind, on, problem, onToggle }: { kind: "mic" | "camera"; on: boolean; problem?: MediaStatus; onToggle: () => void }) {
+  const label = kind === "mic" ? "마이크" : "카메라";
+  const issue = on && problem ? PROBLEM_TEXT[problem] : undefined;
+  const working = on && !issue;
+  const Icon = kind === "mic" ? (working ? Mic : MicOff) : working ? Video : VideoOff;
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={on}
+      className={`inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full text-[15px] font-semibold transition-colors ${!on ? "bg-ink text-inverse" : issue && problem !== "pending" ? "bg-surface text-error" : "bg-surface text-ink"}`}
+    >
+      <Icon size={20} />
+      {label} {issue ?? (on ? "켜짐" : "꺼짐")}
+    </button>
+  );
 }

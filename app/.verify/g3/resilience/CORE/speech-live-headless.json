@@ -1,0 +1,110 @@
+{
+  "supported": true,
+  "koVoices": [],
+  "runs": [
+    {
+      "persona": {
+        "gender": "female",
+        "age": 34,
+        "temperament": "friendly"
+      },
+      "outcome": "resolved",
+      "ms": 5976
+    },
+    {
+      "persona": {
+        "gender": "male",
+        "age": 52,
+        "temperament": "strict"
+      },
+      "outcome": "resolved",
+      "ms": 8203
+    },
+    {
+      "persona": {
+        "gender": "male",
+        "age": 45,
+        "temperament": "aggressive"
+      },
+      "outcome": "resolved",
+      "ms": 7264
+    }
+  ],
+  "stop": {
+    "resolvedAfterMs": 0,
+    "speakingAfter": false
+  },
+  "engineLog": [
+    {
+      "at": 1571,
+      "text": "안녕하세요. 발표 잘 들었습니다. 매출 추정 근거를 설명해 주시겠어요?",
+      "lang": "ko-KR",
+      "voice": "유나",
+      "rate": 0.9399999976158142,
+      "pitch": 1.1100000143051147
+    },
+    {
+      "at": 1576,
+      "ev": "start",
+      "text": "안녕하세요. 발표 잘 들었습니다. 매"
+    },
+    {
+      "at": 7281,
+      "text": "안녕하세요. 발표 잘 들었습니다. 매출 추정 근거를 설명해 주시겠어요?",
+      "lang": "ko-KR",
+      "voice": "Eddy (한국어(대한민국))",
+      "rate": 0.9599999785423279,
+      "pitch": 0.949999988079071
+    },
+    {
+      "at": 7281,
+      "ev": "end",
+      "text": "안녕하세요. 발표 잘 들었습니다. 매"
+    },
+    {
+      "at": 7288,
+      "ev": "start",
+      "text": "안녕하세요. 발표 잘 들었습니다. 매"
+    },
+    {
+      "at": 15484,
+      "text": "안녕하세요. 발표 잘 들었습니다. 매출 추정 근거를 설명해 주시겠어요?",
+      "lang": "ko-KR",
+      "voice": "Eddy (한국어(대한민국))",
+      "rate": 1.100000023841858,
+      "pitch": 0.8600000143051147
+    },
+    {
+      "at": 15484,
+      "ev": "end",
+      "text": "안녕하세요. 발표 잘 들었습니다. 매"
+    },
+    {
+      "at": 15488,
+      "ev": "start",
+      "text": "안녕하세요. 발표 잘 들었습니다. 매"
+    },
+    {
+      "at": 22747,
+      "text": "이 문장은 길게 읽히는 도중에 멈춰야 합니다. 두 번째 문장도 있습니다. 세 번째 문장까지 있습니다.",
+      "lang": "ko-KR",
+      "voice": "Eddy (한국어(대한민국))",
+      "rate": 0.9599999785423279,
+      "pitch": 0.949999988079071
+    },
+    {
+      "at": 22747,
+      "ev": "end",
+      "text": "안녕하세요. 발표 잘 들었습니다. 매"
+    },
+    {
+      "at": 22750,
+      "ev": "start",
+      "text": "이 문장은 길게 읽히는 도중에 멈춰야"
+    }
+  ],
+  "headless": true,
+  "pageLogs": [
+    "[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+  ]
+}

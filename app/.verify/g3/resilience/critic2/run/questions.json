@@ -1,0 +1,166 @@
+{
+  "items": [
+    {
+      "id": "q_j_b10ba1f1a9c5_1",
+      "judgeId": "j_b10ba1f1a9c5",
+      "question": "재무 계획을 살펴보니 2026년 양산 기준 원가는 세트당 118원인데 2028년에는 92원으로 낮아진다고 하셨는데, 이 원가 절감이 어떤 공정 개선을 통해 이루어지는지 조금 더 자세히 설명해 주실 수 있나요?",
+      "intent": "원가 절감 계획의 구체적인 실행 근거와 연도별 원가 흐름의 정합성을 확인하고자 함",
+      "targetClaim": "2028년 원가 92원 달성",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "원가 / 세트 (2026 양산)\n118원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "원가 118원 → 92원 (2028)",
+          "verified": true
+        }
+      ],
+      "difficulty": 2,
+      "kind": "main",
+      "latencyMs": 4561
+    },
+    {
+      "id": "q_j_b10ba1f1a9c5_2",
+      "judgeId": "j_b10ba1f1a9c5",
+      "question": "파일럿 고객 열두 곳에서 높은 재구매율을 기록하고 계신데, 이 고객들이 웨이브셀을 꾸준히 찾게 되는 가장 큰 매력 포인트가 무엇인지 현장의 목소리를 들려주시면 좋겠습니다.",
+      "intent": "초기 트랙션과 고객 유지율의 핵심 동력을 파악하고자 함",
+      "targetClaim": "파일럿 고객 12곳, 재구매율 83%",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 8,
+          "quote": "12곳\n파일럿 고객\n83%\n재구매율",
+          "verified": true
+        }
+      ],
+      "difficulty": 1,
+      "kind": "reserve",
+      "latencyMs": 4561
+    },
+    {
+      "id": "q_j_e58d511b3c90_1",
+      "judgeId": "j_e58d511b3c90",
+      "question": "완도 2공장의 월 최대 생산량이 150만 세트인데, 2029년 매출 목표 210억 원을 달성하려면 단순 계산으로도 물리적 한계를 크게 웃도는데 그 실현 근거가 무엇입니까?",
+      "intent": "완도 2공장의 최대 생산량 대비 2029년 매출 목표의 물리적 실현 가능성 검증",
+      "targetClaim": "완도 2공장 월 150만 세트 생산으로 2029년 매출 210억 원 달성",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "완도 2공장 가동 월 150만 세트",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029E 210",
+          "verified": false
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 5650
+    },
+    {
+      "id": "q_j_e58d511b3c90_2",
+      "judgeId": "j_e58d511b3c90",
+      "question": "재무 계획상 2029년 매출 210억 원 달성을 위한 구체적인 판매량과 단가 산정 근거를 세부적으로 설명해 주십시오.",
+      "intent": "2029년 매출 목표 달성을 위한 세부 판매 계획 및 단가 가정 확인",
+      "targetClaim": "2029년 매출 210억 원 달성",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029년 매출 210억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "판매가 / 세트 165원",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 5651
+    },
+    {
+      "id": "q_j_1ff8310f3685_1",
+      "judgeId": "j_1ff8310f3685",
+      "question": "국내 연간 택배 물량이 51억 개에 달한다고 하셨는데, 이 수치가 정확히 어떤 기관의 2024년 공식 통계를 근거로 한 것인지 명확히 짚어주시죠.",
+      "intent": "발표자가 제시한 핵심 시장 기초 데이터의 출처와 신뢰성 검증",
+      "targetClaim": "국내 연간 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다",
+      "targetId": "t3",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 2,
+          "quote": "국내 연간 택배 물량 (2024)",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 4971
+    },
+    {
+      "id": "q_j_1ff8310f3685_2",
+      "judgeId": "j_1ff8310f3685",
+      "question": "경쟁사 대비 가격 경쟁력을 강조하셨지만, 기존 EPS나 에어캡과 비교하면 여전히 단가가 훨씬 높은데 실제 브랜드들이 이 비용을 감수하고 넘어올 현실적인 유인이 있습니까?",
+      "intent": "경쟁사 대비 높은 판매가의 실효성과 시장 진입 가능성 압박",
+      "targetClaim": "웨이브셀 기본 판매가 165원",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 7,
+          "quote": "EPS(스티로폼) 85원 우수 불가 가벼움 즉시",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 7,
+          "quote": "웨이브셀 165원 양호 (EPS 92%) 일반 토양 90일 보통 5일",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "reserve",
+      "latencyMs": 4971
+    }
+  ],
+  "order": [
+    "q_j_b10ba1f1a9c5_1",
+    "q_j_e58d511b3c90_1",
+    "q_j_1ff8310f3685_1",
+    "q_j_b10ba1f1a9c5_2",
+    "q_j_e58d511b3c90_2",
+    "q_j_1ff8310f3685_2"
+  ],
+  "main": [
+    "q_j_b10ba1f1a9c5_1"
+  ],
+  "reserve": [
+    "q_j_e58d511b3c90_1",
+    "q_j_1ff8310f3685_1",
+    "q_j_b10ba1f1a9c5_2",
+    "q_j_e58d511b3c90_2",
+    "q_j_1ff8310f3685_2"
+  ]
+}

@@ -47,3 +47,8 @@ append-only입니다. 새 항목은 맨 아래에 추가합니다. 최근 항목
 - 바뀐 파일: `index.md`(report.md 설명이 "파일 없음"으로 낡아 있던 것을 고침)
 - 근거: `docs/wiki/*.md` 상대 링크 확인
 - 내용: 깨진 상대 링크 0건, 목록에 빠진 페이지 0건입니다. api-contract.md의 오류 JSON(`{ error: { code, message } }`)은 배포 실측(`api-probes.json`)과 같습니다.
+
+## [2026-11-13] decision | 제공자 장애 대응과 최종 재배포
+- 바뀐 파일: `docs/dev-v1/report.md`(D15→D20, D21·D22, U11 해소, U17·U18)
+- 근거: `app/.verify/g3/resilience/**`, `app/.verify/g3/final/**`
+- 내용: OpenAI 크레딧 소진·Claude 한도·Gemini 한도가 겹친 상태에서도 연습이 끝까지 가도록 위키 Gemini lite 폴백, 얼굴 이니셜 대체, 기기 음성 TTS 폴백을 넣었습니다. 배포 URL 전체 흐름이 23/24로 통과했고, 남은 1건(위키 품질 저하 안내)은 고친 뒤 재배포했습니다.

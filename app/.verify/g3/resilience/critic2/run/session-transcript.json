@@ -1,0 +1,97 @@
+[
+  {
+    "id": "pmwe0tstq-1",
+    "t": 0.6,
+    "text": "안녕하세요?",
+    "phase": "presentation",
+    "slide": 1
+  },
+  {
+    "id": "pmwe0tstq-2",
+    "t": 2.1,
+    "text": "저는 리웨이브 대표 김서연입니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-3",
+    "t": 5.8,
+    "text": "오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠습니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-4",
+    "t": 11.4,
+    "text": "먼저 여러분 집에 택배 상자 하나 열어 보시면 안에 뭐가 들어 있는지 떠올려 보시면 좋겠습니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-5",
+    "t": 20.7,
+    "text": "대부분 스티로폼이나 에어캡 같은 완충재가 들어있죠.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-6",
+    "t": 25.7,
+    "text": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-7",
+    "t": 32.4,
+    "text": "그리고 여기서 나오는 완충재 폐기물은 연간 약 31만 톤으로 추정됩니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-8",
+    "t": 40.8,
+    "text": "문제는 이렇게 오염된 스티로폼과 에어캡은 사실상 재활용이 안 된다는 점입니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-9",
+    "t": 48.1,
+    "text": "게다가 과대포장 규제 계도 기간이 끝나면서 브랜드들은 지금 당장 대체제를 찾아야 하는 상황입니다.",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-10",
+    "t": 57.8,
+    "text": "안녕하세요?",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "pmwe0tstq-11",
+    "t": 58.7,
+    "text": "저는 리웨이브",
+    "phase": "presentation",
+    "slide": 2
+  },
+  {
+    "id": "qmwe0vwum-1",
+    "t": 26.6,
+    "text": "네.",
+    "phase": "qa"
+  },
+  {
+    "id": "qmwe0vwum-2",
+    "t": 27.3,
+    "text": "지금 원가가 스티로폼보다 높은 건 맞습니다.",
+    "phase": "qa"
+  },
+  {
+    "id": "qmwe0vwum-3",
+    "t": 30.4,
+    "text": "다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년",
+    "phase": "qa"
+  }
+]

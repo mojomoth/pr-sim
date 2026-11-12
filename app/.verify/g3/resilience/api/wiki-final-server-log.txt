@@ -1,0 +1,7 @@
+{"timestamp":"03:39:38.388","source":"Server","level":"WARN","message":"[wiki/llm] openai skipped for 300 s (quota)"}
+{"timestamp":"03:39:38.518","source":"Server","level":"WARN","message":"[wiki/llm] openai skipped for 300 s (quota)"}
+{"timestamp":"03:39:38.895","source":"Server","level":"WARN","message":"[wiki/llm] claude skipped for 300 s (quota)"}
+{"timestamp":"03:39:38.901","source":"Server","level":"WARN","message":"[wiki/llm] claude skipped for 300 s (quota)"}
+{"timestamp":"03:39:41.728","source":"Server","level":"WARN","message":"[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)"}
+{"timestamp":"03:40:29.147","source":"Server","level":"WARN","message":"[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)"}
+{"timestamp":"03:40:34.093","source":"Server","level":"WARN","message":"[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 10 s (unavailable)"}

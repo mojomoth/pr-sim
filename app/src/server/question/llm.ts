@@ -2,28 +2,32 @@ import "server-only";
 import { ThinkingLevel } from "@google/genai";
 import OpenAI from "openai";
 import { z } from "zod";
-import { claude, gemini, MODELS, openai } from "../ai";
+import { claude, gemini, isLiteFallback, LITE_FALLBACK, MODELS, openai, quotaAwareFetch } from "../ai";
 import { classify, downReason, isAbort, markDown, ProvidersUnavailableError, type ProviderName } from "./providers";
 import type { LlmUsage } from "./types";
 
-// Ordered per-role targets: OpenAI first, Gemini rotation, Claude last resort.
+// Ordered per-role targets: OpenAI first, Gemini flash rotation, Claude, then the Gemini lite models (last resort,
+// lower quality → the response's usage.model says so and routes flag it as `degraded`).
 type Role = "generate" | "followup";
 type Provider = ProviderName;
 type OpenAITarget = { provider: "openai"; model: string; effort: "none" | "low" };
 type Target = OpenAITarget | { provider: "gemini"; model: string } | { provider: "claude"; model: string; effort: "low" };
-const GEMINI_CHAIN = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3-flash-preview", "gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.1-flash-lite"];
+const GEMINI_CHAIN = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3-flash-preview", "gemini-3.5-flash", "gemini-3.6-flash"];
+const LITE_TARGETS: Target[] = LITE_FALLBACK.map((model) => ({ provider: "gemini", model }));
 const ROLE_TARGETS: Record<Role, Target[]> = {
   generate: [
     { provider: "openai", model: "gpt-6.1-terra", effort: "low" },
     { provider: "openai", model: "gpt-5.5", effort: "none" },
     ...GEMINI_CHAIN.map((model): Target => ({ provider: "gemini", model })),
     { provider: "claude", model: MODELS.claudeFast, effort: "low" },
+    ...LITE_TARGETS,
   ],
   followup: [
     { provider: "openai", model: "gpt-5.5", effort: "low" },
     { provider: "openai", model: "gpt-6.1-terra", effort: "low" },
     ...GEMINI_CHAIN.map((model): Target => ({ provider: "gemini", model })),
     { provider: "claude", model: MODELS.claudeFast, effort: "low" },
+    ...LITE_TARGETS,
   ],
 };
 const MAX_TOKENS = { generate: 6000, followup: 3000 };
@@ -88,6 +92,7 @@ export async function streamJson<T extends z.ZodType>(call: StreamJsonCall<T>): 
 const gCool = ((globalThis as unknown as { __questionGeminiCool?: Map<string, number> }).__questionGeminiCool ??= new Map());
 function retryDelayMs(e: unknown): number {
   const msg = String((e as Error)?.message ?? "");
+  if (/PerDay|per day/i.test(msg)) return 10 * 60_000; // daily free-tier quota: don't re-probe on every call
   const m = msg.match(/retry in ([\d.]+)s/i) ?? msg.match(/"retryDelay":\s*"(\d+)s"/);
   return Math.max(30_000, m ? Math.ceil(Number(m[1]) * 1000) : 60_000);
 }
@@ -140,12 +145,14 @@ async function geminiStream<T extends z.ZodType>(call: StreamJsonCall<T>, target
       };
     } catch (e) {
       if (call.signal?.aborted) throw e; // the caller gave up — not a model problem
-      last = timedOut ? new Error(`gemini ${model} timeout (${timedOut})`) : e;
+      last = timedOut ? new Error(`응답 지연(${model}, ${timedOut})`) : e;
       const st = (e as { status?: number }).status;
+      // the lite models are the last resort: an overload / slow answer is not cooled, so withRetry may try them once more
+      const lastResort = isLiteFallback(model);
       if (st === 429) gCool.set(model, Date.now() + retryDelayMs(e));
       else if (st === 404) gCool.set(model, Date.now() + 24 * 3600_000);
-      else if (st === 503) gCool.set(model, Date.now() + 30_000);
-      else if (timedOut) gCool.set(model, Date.now() + 60_000);
+      else if (st === 503 && !lastResort) gCool.set(model, Date.now() + 30_000);
+      else if (timedOut && !lastResort) gCool.set(model, Date.now() + 60_000);
       console.warn(`[question] gemini ${model} failed (${timedOut || st || (e as Error).message?.slice(0, 60)}) → next model`);
     } finally {
       clearTimeout(firstTimer);
@@ -157,7 +164,7 @@ async function geminiStream<T extends z.ZodType>(call: StreamJsonCall<T>, target
 }
 
 let _oa: OpenAI | undefined;
-const oa = () => (_oa ??= openai().withOptions({ maxRetries: 3, timeout: 120_000 }));
+const oa = () => (_oa ??= openai().withOptions({ maxRetries: 3, timeout: 120_000, fetch: quotaAwareFetch }));
 
 async function openaiStream<T extends z.ZodType>(call: StreamJsonCall<T>, spec: OpenAITarget): Promise<{ data: z.infer<T>; usage: LlmUsage }> {
   const t0 = Date.now();

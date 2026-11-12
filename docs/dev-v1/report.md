@@ -194,11 +194,15 @@
 | D12 | 화면 라우트는 경로 대신 쿼리 파라미터(`?s=`)로 세션을 받음 | 빌드 결과 화면 6개가 모두 정적(○) → Capacitor 정적 내보내기 후보(`deploy/10-build.log`) |
 | D13 | TTS 체인은 요청마다 한 번만 순회함. 모두 실패하면 503 `providers_unavailable`을 돌려주고, 화면은 질문을 글자로 보여 주며 Q&A를 이어 감 | Gemini 일일 한도·OpenAI 크레딧 소진 상태에서 Q&A가 끝까지 진행됨(`deployed/round1/qa-stdout.log`) |
 | D14 | 질문·리포트 체인 끝에 Gemini flash 계열을 추가: 리포트 `gpt-6-astra` → `gpt-6.1-sol` → `gpt-5.5` → Gemini(`REPORT_GEMINI_MODELS`) → Claude. 실제로 쓴 제공자와 폴백 사유를 결과 화면에 표시 | OpenAI 크레딧 소진 상태에서 리포트 55초 생성(5-4). D3·D6의 순서를 바꾸지 않고 확장 |
-| D15 | 위키는 OpenAI → Claude만 쓰고 Gemini 폴백을 두지 않음(`WIKI_LLM_PROVIDER`), 얼굴은 `gpt-image-2`만 씀. 실패하면 이름 첫 글자로 대체 | D4·D5(수치 정확도). 대신 U10의 영향이 큼 |
+| D15 | ~~위키는 OpenAI → Claude만 사용~~ → D20으로 대체 | U9·U10이 겹쳐 위키 경로가 끊겼기 때문 |
 | D16 | 앱 본문 상한 4MB(`content-length`와 chunked 모두), 플랫폼 상한 4.5MB 아래에서 JSON 413을 돌려줌 | 5-4 본문 상한 |
 | D17 | `ALLOWED_ORIGINS`(쉼표 목록, `scheme://host[:port]` 정확 일치): 비우면 같은 출처만 허용. 목록에 있는 출처는 CORS 헤더를 받고, STT 토큰도 fetch-metadata 없이 발급 | 네이티브 앱(`capacitor://localhost`) 대비. 설정 시 preflight 204·POST 200, 다른 출처 403(`api-p2/origin-allowlist.out.json`). 현재 Vercel에는 설정 안 함 |
 | D18 | 각 라우트는 `maxDuration`보다 먼저 스스로 끊음(위키·리포트 20초, 질문 10초, 꼬리질문 5초 전) | 플랫폼 강제 종료 대신 한국어 504를 보냄(`deployed/round1/fs-grep.txt`) |
 | D19 | Vercel 배포는 CLI로 `app/`에서 하고, Git 자동 배포는 끔 | 커밋·푸시는 오케스트레이터만 함. run.md의 "Root Directory = `app`"과 달리 프로젝트 설정은 비어 있고 `--cwd app`으로 같은 효과를 냄(충돌 기록) |
+
+| D20 | 위키·질문·꼬리질문·리포트 체인 끝에 Gemini lite(`gemini-3.5-flash-lite` → `gemini-3.1-flash-lite`)를 둠. 이 모델로 만든 위키는 `degraded`로 표시하고, 상황 설정 화면의 자료 행에 '경량 대체 모델로 분석했어요' 안내를 띄움 | 장애 중 12쪽 위키: 수치 인용 80/80이 해당 쪽에서 확인됨(`.verify/g3/resilience/critic2/`). 기본 순서는 그대로 OpenAI가 먼저 |
+| D21 | 얼굴은 `gpt-image-2` → Gemini 이미지(`gemini-3.1-flash-image` → `gemini-3-pro-image`) 순서로 시도하고, 모두 실패하면 이름 첫 글자로 표시. 같은 원인으로 여러 명이 실패하면 안내를 한 번만 띄움 | 쿼터 오류에서는 재시도를 반복하지 않음(`.verify/g3/final/`) |
+| D22 | TTS가 모두 실패하면 503 응답에 `fallback:"browser"`를 담음. 클라이언트는 기기 음성(`speechSynthesis`, 성향별 속도·높낮이)으로 읽고 '기기 음성으로 읽어 드려요'라고 알림. `platform.audio.speak` 뒤에 두어 Capacitor 네이티브 TTS로 바꿀 수 있음 | 배포 URL에서 질문 음성 재생 확인(`.verify/g3/resilience/deployed/`) |
 
 ## 7. 미해결 문제 (G3 배포 기준)
 
@@ -209,11 +213,13 @@
 | U4 | 58쪽 위키 시간(갱신) | 로컬 194초(12쪽 동시), 배포 미측정 | U9 해소 뒤 배포 URL에서 재측정 |
 | U9 | OpenAI `credit_balance_exhausted`(2026-11-13 04시 무렵부터, 로컬과 배포 모두) | 얼굴·위키 생성 불가, OpenAI TTS 폴백 불가, 질문·리포트는 Gemini로 내려감 | 크레딧 충전 후 `pnpm test:e2e`를 `BASE_URL=https://pr-sim-lake.vercel.app`으로 다시 실행 |
 | U10 | Claude API 2026-12-01까지 사용 불가 | U9와 겹치면 위키(D15)는 대체 경로가 없음 | 12-01 이후 재확인. 필요하면 위키에 Gemini 폴백 검토 |
-| U11 | 배포 URL 전체 흐름 BLOCKED(10/12) | G3 "배포 URL 재검증" 미완 | U9 해소 후 재실행 |
+| U11 | ~~배포 URL 전체 흐름 BLOCKED~~ → 해소: D20–D22 적용 후 배포 URL 전체 흐름 23/24 통과(장애 상황의 대체 경로) | 실제 얼굴 생성과 서버 음성은 아직 배포 URL에서 다시 확인하지 못함 | U9 해소 후 `BASE_URL=https://pr-sim-lake.vercel.app pnpm test:e2e` |
 | U12 | `ALLOWED_ORIGINS` 미설정 | 지금은 웹만 쓰므로 영향 없음 | 네이티브 빌드 때 Vercel 환경변수 등록 |
 | U13 | 시안과의 시각 차이 P2(타이머 크기·굵기, 진행 막대, 여백, 칩 모양, 데스크톱 프레임 안 사진 위치 등) | 기능 영향 없음 | `recheck1/visual/claude-*.md` 목록으로 후속 처리 |
 | U14 | hallmark sloplint 18 FAIL·2 REFLEX·1 WARN(색 리터럴, 자간 넓힌 머리글, 가운뎃점 메타 줄 등) | 디자인 토큰 일관성 | `visual/hallmark-sloplint.txt` 기준으로 정리 |
 | U15 | 미사용 export `PdfError` 1건 | 없음 | 다음 정리 때 제거 |
+| U17 | 400 응답의 `error.issues[].message`가 zod 기본 영어 문구 | 화면에는 한국어 상위 메시지만 표시 | 필요 시 zod 한국어 오류 맵 |
+| U18 | macOS Chrome에 표준 한국어 남성 음성이 없어 기기 음성 폴백은 남성 심사위원 음질이 떨어짐 | 장애 시에만 해당 | Capacitor 네이티브 TTS 또는 서버 TTS 복구 |
 | U16 | 배포 판정의 P2 3건이 항목별로 기록되지 않음 | 추적 불가 | 다음 배포 재검증에서 항목을 적음 |
 
 나머지 P2(위키 인용 쪽 경계 5/173, 인메모리 레이트리밋, STT 도메인 어휘 오인식)는 run.md의 P2 목록에서 관리합니다.

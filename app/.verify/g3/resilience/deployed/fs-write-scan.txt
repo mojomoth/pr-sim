@@ -1,0 +1,9 @@
+# FS-write scan of runtime server code (src/server, src/app/api, src/features, src/platform), excluding *.test.*
+pattern: node:fs|from "fs"|writeFile|appendFile|mkdir|createWriteStream|\.data/|tmpdir|os\.tmpdir
+src/features/slide/sync-pdfjs.mjs:7:import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+src/features/slide/sync-pdfjs.mjs:17:mkdirSync(dst, { recursive: true });
+src/features/slide/sync-pdfjs.mjs:21:writeFileSync(join(dst, "version.json"), JSON.stringify({ version }, null, 2) + "\n");
+---
+only hit expected: src/features/slide/sync-pdfjs.mjs (build-time pdf.js copy script, not imported at runtime):
+package.json:13:    "sync:pdfjs": "node src/features/slide/sync-pdfjs.mjs"   (manual dev script; not imported by any route)
+src/features/slide/pdf.ts mentions sync-pdfjs.mjs only in a comment (line 4) - no runtime import

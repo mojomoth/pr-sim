@@ -1,0 +1,264 @@
+{
+  "sid": "s_mwe09o0u553z5y0a",
+  "base": "http://localhost:3000",
+  "results": [
+    {
+      "name": "setup: 3 faces generated OR initials with a clear notice",
+      "ok": true,
+      "detail": {
+        "faces": 0,
+        "faceNote": [
+          "얼굴 없음",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "얼굴 없음",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "얼굴 없음",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요."
+        ],
+        "judgesRes": [
+          {
+            "t": 1794515622439,
+            "url": "/api/judges",
+            "status": 200
+          }
+        ]
+      }
+    },
+    {
+      "name": "setup: 1+1 min, 3 judges",
+      "ok": true,
+      "detail": "총 2분 · 심사위원 3명"
+    },
+    {
+      "name": "setup: wiki built via fallback",
+      "ok": true,
+      "detail": {
+        "secs": 144,
+        "state": "ready",
+        "pages": 13,
+        "wikiLines": [
+          "자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+        ]
+      }
+    },
+    {
+      "name": "setup: wiki has real page citations within 1..pageCount",
+      "ok": true,
+      "detail": {
+        "n": 58,
+        "distinct": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          12
+        ],
+        "bad": [],
+        "pageCount": 12
+      }
+    },
+    {
+      "name": "setup: wiki UI says degraded / which model",
+      "ok": false,
+      "detail": [
+        "자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.",
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+      ]
+    },
+    {
+      "name": "present: camera preview playing",
+      "ok": true,
+      "detail": [
+        {
+          "w": 640,
+          "playing": true
+        }
+      ]
+    },
+    {
+      "name": "present: slide advance",
+      "ok": true
+    },
+    {
+      "name": "present: time-up dialog at ~60s",
+      "ok": true,
+      "detail": {
+        "timeUp": 60.811
+      }
+    },
+    {
+      "name": "present: STT transcript saved",
+      "ok": true,
+      "detail": {
+        "n": 11,
+        "sample": [
+          "안녕하세요?",
+          "저는 리웨이브 대표 김서연입니다.",
+          "오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠습니다."
+        ]
+      }
+    },
+    {
+      "name": "qa: questions generated",
+      "ok": true,
+      "detail": {
+        "main": 1,
+        "reserve": 5
+      }
+    },
+    {
+      "name": "qa: questions differ by persona (every judge has its own, no duplicates)",
+      "ok": true,
+      "detail": {
+        "judges": [
+          {
+            "id": "j_a129e4c10069",
+            "name": "지훈",
+            "t": "friendly",
+            "img": false
+          },
+          {
+            "id": "j_fbbeca7c8ef3",
+            "name": "수진",
+            "t": "strict",
+            "img": false
+          },
+          {
+            "id": "j_c4c487c29f84",
+            "name": "현석",
+            "t": "aggressive",
+            "img": false
+          }
+        ],
+        "byJudge": {
+          "j_a129e4c10069": [
+            "시장 규모 페이지에서는 2029년 매출 목표를 340억 원으로 보셨는데 재무 계획 페이지에는 210억 원으로 적혀 있습니다. 이 두 수치 사이에 어떤 차이가 있는지 조금 더 자세히 설명해 주실 수 있을까요?",
+            "파일럿 고객 분들이 웨이브셀을 다시 찾아주시는 이유가 무엇인지 실제 고객 피드백을 바탕으로 조금 더 자세히 듣고 싶습니다."
+          ],
+          "j_fbbeca7c8ef3": [
+            "국내 택배 물량이 2024년 기준 연간 51억 개라고 하셨는데, 이 수치가 산출된 구체적인 통계적 근거가 무엇입니까?",
+            "오염된 EPS와 에어캡의 재활용률이 사실상 0퍼센트라고 하셨는데, 이에 대한 객관적인 출처를 말씀해 주십시오."
+          ],
+          "j_c4c487c29f84": [
+            "시장 규모 페이지에서는 2029년 매출 목표를 340억 원이라고 해놓고 재무 계획에서는 210억 원이라고 적었는데, 도대체 어느 장단에 맞춰야 합니까?",
+            "오염된 스티로폼과 에어캡이 재활용되지 않는다는 점을 지적하셨는데, 그렇다면 기존 대기업들이 비용을 감수하고서라도 이 대체재로 전환할 명확한 유인이 있습니까?"
+          ]
+        }
+      }
+    },
+    {
+      "name": "qa: questions screen says degraded / which model",
+      "ok": false,
+      "detail": []
+    },
+    {
+      "name": "qa: question spoken (server audio or speechSynthesis.speak called)",
+      "ok": true,
+      "detail": {
+        "audio": 1,
+        "speech": [
+          {
+            "at": 1794515863502,
+            "text": "시장 규모 페이지에서는 2029년 매출 목표를 340억 원으로 보셨는데 재무 계획 페이지에는 210억 원으로 적혀 있습니다. 이 두 수치 사이에 어떤 차이가 있는지 조금 더 자세히 설명해 주실 수 있을까요?",
+            "lang": "ko-KR",
+            "voice": "Eddy (한국어(대한민국))",
+            "rate": 0.9100000262260437,
+            "pitch": 1.059999942779541,
+            "volume": 1
+          }
+        ],
+        "tts": [
+          {
+            "t": 1794515863500,
+            "url": "/api/tts",
+            "status": 503
+          }
+        ]
+      }
+    },
+    {
+      "name": "qa: honest device-voice note when /api/tts failed",
+      "ok": true,
+      "detail": {
+        "noteSeen": "AI 음성을 쓸 수 없어서 기기 음성으로 질문을 읽어 드려요."
+      }
+    },
+    {
+      "name": "qa: answers collected",
+      "ok": true,
+      "detail": {
+        "qa": 1,
+        "answered": 1,
+        "sample": [
+          {
+            "j": {
+              "id": "j_a129e4c10069",
+              "name": "지훈",
+              "temperament": "friendly"
+            },
+            "q": "시장 규모 페이지에서는 2029년 매출 목표를 340억 원으로 보셨는데 재무 계획 페이지에는 210억 원으로",
+            "a": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서",
+            "ids": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "result: report generated and stored",
+      "ok": true,
+      "detail": {
+        "secs": 48,
+        "err": "종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표.\n\n이번 발표의 종합 점수\n\n50\n/ 100\n\n전달력은 좋으나 내용 보완이 필요해요.\n\n경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.5-flash-lite, gemini-3.1-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.\n\n발표력\n70\n논리성\n52\n대응력\n16\n자료 품질\n72\n발표 총평\n\n발표 도입부인 인사와 문제 제기는 명확했으나, 발표 시간 관리 실패로 해결책부터 투자 요청까지의 핵심 내용이 모두 누락되었습니다. 남은 덱의 내용을 포함하여 1분 내에 전체 흐름을 완결해 보세요.\n\n잘한 점\n2페이지에서 택배 상자 예"
+      }
+    },
+    {
+      "name": "result: actual provider shown",
+      "ok": true,
+      "detail": {
+        "provLines": [
+          "경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.5-flash-lite, gemini-3.1-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.",
+          "평가 모델 Google gemini-3.1-flash-lite ×3, Google gemini-3.5-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백) · 2026. 11. 13. 오전 5:39"
+        ],
+        "meta": "gemini:gemini-3.1-flash-lite ×3, gemini:gemini-3.5-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)",
+        "byModel": {
+          "gemini:gemini-3.5-flash-lite": 1,
+          "gemini:gemini-3.1-flash-lite": 3
+        }
+      }
+    },
+    {
+      "name": "result: page citation opens the PDF page",
+      "ok": false,
+      "detail": null
+    },
+    {
+      "name": "result: utterance citation opens the transcript",
+      "ok": false,
+      "detail": null
+    },
+    {
+      "name": "result: feedback tab shows the Q&A",
+      "ok": true
+    },
+    {
+      "name": "history: session listed after reload",
+      "ok": true
+    },
+    {
+      "name": "history: reopen shows the stored report (no new /api/report call)",
+      "ok": true
+    }
+  ]
+}

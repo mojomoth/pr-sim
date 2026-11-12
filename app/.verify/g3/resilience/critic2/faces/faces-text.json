@@ -1,0 +1,14 @@
+{
+  "text": "상황 설정\n\n01\n/ 03\n어떤 발표를\n준비하고 있나요?\n\n발표 환경을 내 상황에 맞춰 설정하세요.\n\n상황\n\n0 / 300\n\n발표 시간\n5분\n1분\n20분\n질의응답 시간\n3분\n1분\n15분\n발표 자료필수\n샘플 자료로 해보기\nPDF 업로드 (필수)\n제안 자료선택\n샘플 자료로 해보기\nPDF 업로드 (선택)\n심사위원 3\n추가\n새\n\n새 위원\n\n얼굴 없음\n\n친절함\n빡셈\n공격적\n\nAI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n\n다시 시도\n새\n\n새 위원\n\n얼굴 없음\n\n친절함\n빡셈\n공격적\n\nAI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n\n다시 시도\n새\n\n새 위원\n\n얼굴 없음\n\n친절함\n빡셈\n공격적\n\nAI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n\n다시 시도\n\n성향에 따라 질문하는 말투와 강도가 달라져요. 심사위원은 최대 3명까지 추가할 수 있어요.\n\n총 8분 · 심사위원 3명\n\n얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요.\n\n발표 시작하기\n\n발표 상황을 입력해 주세요.",
+  "net": [
+    {
+      "t": 1794516755033,
+      "url": "/api/judges",
+      "status": 200
+    }
+  ],
+  "logs": [
+    "[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+    "[log] [HMR] connected"
+  ]
+}

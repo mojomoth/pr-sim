@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { MODELS } from "@/server/ai";
 import { cors, errorResponse, guard, ndjson, preflight, readJson, toApiError } from "@/server/http";
 import { startPanel } from "@/server/judge/generate";
 import type { JudgeEvent } from "@/server/judge/types";
@@ -22,7 +21,7 @@ const Body = z.object({
 });
 
 // POST /api/judges { temperaments (1–3), avoid? } → application/x-ndjson, one line per event:
-//   {type:"judge", slot, judge: JudgeOut, model} · {type:"error", slot, code, message} · {type:"done", ms}
+//   {type:"judge", slot, judge: JudgeOut, model (the image model actually used: gpt-image-2 or a Gemini image model)} · {type:"error", slot, code, message} · {type:"done", ms}
 export const OPTIONS = preflight;
 
 export const POST = cors(async (req: Request) => {
@@ -40,7 +39,7 @@ export const POST = cors(async (req: Request) => {
     await Promise.all(
       jobs.map((p, slot) =>
         p.then(
-          (judge) => send({ type: "judge", slot, judge, model: MODELS.openaiImage }),
+          ({ judge, model }) => send({ type: "judge", slot, judge, model }),
           (e) => {
             const err = toApiError(e, "judges");
             send({ type: "error", slot, code: err.code, message: err.message });

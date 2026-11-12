@@ -1,0 +1,192 @@
+{
+  "results": [
+    {
+      "name": "perm: cloned session for /present",
+      "ok": true,
+      "detail": "s_mwe15nkc4s6u6q3bp"
+    },
+    {
+      "name": "perm: HTTPS secure context with getUserMedia",
+      "ok": true,
+      "detail": {
+        "isSecureContext": true,
+        "protocol": "https:",
+        "hasGUM": true
+      }
+    },
+    {
+      "name": "perm prompt: state was 'prompt' and the page requested the camera (permission prompt raised over HTTPS)",
+      "ok": true,
+      "detail": {
+        "before": {
+          "camera": "prompt",
+          "mic": "prompt"
+        },
+        "gum": [
+          {
+            "at": 1794517350103,
+            "video": true,
+            "audio": false,
+            "err": "NotAllowedError"
+          }
+        ],
+        "ui": [
+          "카메라 권한 필요",
+          "카메라 권한이 필요해요",
+          "브라우저나 기기 설정에서 카메라 접근을 허용한 뒤 다시 시도해 주세요.",
+          "마이크 켜짐",
+          "카메라 권한 필요"
+        ],
+        "after": {
+          "camera": "denied",
+          "mic": "prompt"
+        }
+      }
+    },
+    {
+      "name": "perm denied: clear permission notice before start",
+      "ok": true,
+      "detail": {
+        "perms": {
+          "camera": "denied",
+          "mic": "denied"
+        },
+        "ui": [
+          "카메라 권한 필요",
+          "카메라 권한이 필요해요",
+          "마이크 권한 필요",
+          "카메라 권한 필요"
+        ],
+        "gum": [
+          {
+            "at": 1794517354966,
+            "video": true,
+            "audio": false,
+            "err": "NotAllowedError"
+          }
+        ]
+      }
+    },
+    {
+      "name": "perm denied: after 발표 시작 the mic/camera denial is stated (not '켜짐')",
+      "ok": true,
+      "detail": [
+        "카메라 권한 필요",
+        "카메라 권한이 필요해요",
+        "브라우저나 기기 설정에서 카메라 접근을 허용한 뒤 다시 시도해 주세요.",
+        "마이크 권한이 필요해요",
+        "브라우저나 기기 설정에서 마이크 접근을 허용한 뒤 다시 시도해 주세요.",
+        "마이크 권한 필요",
+        "카메라 권한 필요"
+      ]
+    },
+    {
+      "name": "perm granted: camera preview live, toggles read 켜짐",
+      "ok": true,
+      "detail": {
+        "perms": {
+          "camera": "granted",
+          "mic": "granted"
+        },
+        "video": [
+          {
+            "w": 640,
+            "playing": true
+          }
+        ],
+        "ui": [
+          "마이크 켜짐",
+          "카메라 켜짐"
+        ]
+      }
+    },
+    {
+      "name": "desktop 1440×900 landing: iPhone mockup frame drawn, centered, fits height, no horizontal scroll",
+      "ok": true,
+      "detail": {
+        "bg": "url(\"https://pr-sim-lake.vercel.app/device/mockup-iphone.png\")",
+        "screen": {
+          "x": 540,
+          "y": 39,
+          "w": 361,
+          "h": 823
+        },
+        "device": {
+          "x": 524,
+          "y": 24,
+          "w": 392,
+          "h": 852
+        },
+        "docScrollW": 1440,
+        "png": "200 image/png"
+      }
+    },
+    {
+      "name": "desktop 1440×900 history: iPhone mockup frame drawn, centered, fits height, no horizontal scroll",
+      "ok": true,
+      "detail": {
+        "bg": "url(\"https://pr-sim-lake.vercel.app/device/mockup-iphone.png\")",
+        "screen": {
+          "x": 540,
+          "y": 39,
+          "w": 361,
+          "h": 823
+        },
+        "device": {
+          "x": 524,
+          "y": 24,
+          "w": 392,
+          "h": 852
+        },
+        "docScrollW": 1440,
+        "png": "200 image/png"
+      }
+    },
+    {
+      "name": "desktop 1440×900 result: iPhone mockup frame drawn, centered, fits height, no horizontal scroll",
+      "ok": true,
+      "detail": {
+        "bg": "url(\"https://pr-sim-lake.vercel.app/device/mockup-iphone.png\")",
+        "screen": {
+          "x": 540,
+          "y": 39,
+          "w": 361,
+          "h": 823
+        },
+        "device": {
+          "x": 524,
+          "y": 24,
+          "w": 392,
+          "h": 852
+        },
+        "docScrollW": 1440,
+        "png": "200 image/png"
+      }
+    },
+    {
+      "name": "desktop 1440×900 present: iPhone mockup frame drawn, centered, fits height, no horizontal scroll",
+      "ok": true,
+      "detail": {
+        "bg": "url(\"https://pr-sim-lake.vercel.app/device/mockup-iphone.png\")",
+        "screen": {
+          "x": 540,
+          "y": 39,
+          "w": 361,
+          "h": 823
+        },
+        "device": {
+          "x": 524,
+          "y": 24,
+          "w": 392,
+          "h": 852
+        },
+        "docScrollW": 1440,
+        "png": "200 image/png"
+      }
+    }
+  ],
+  "apiCalls": [],
+  "logs": [
+    "[warn] The resource https://pr-sim-lake.vercel.app/landing/hero-stage-mobile-v2.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+  ]
+}

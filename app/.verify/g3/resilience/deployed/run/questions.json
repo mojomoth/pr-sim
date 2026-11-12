@@ -1,0 +1,166 @@
+{
+  "items": [
+    {
+      "id": "q_j_4a47cb758c5d_1",
+      "judgeId": "j_4a47cb758c5d",
+      "question": "2029년 매출 210억 원 목표를 세우셨는데, 완도 2공장 가동을 통한 생산 능력과 비교했을 때 구체적으로 어떤 과정을 거쳐 이 목표를 달성할 수 있는지 조금 더 자세히 설명해 주시겠습니까?",
+      "intent": "2029년 매출 210억 원 달성을 위한 물리적 생산 능력과 매출 계획의 구체적 근거 확인",
+      "targetClaim": "2029년 매출 210억 원 달성 계획",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029년 매출 210억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "완도 2공장 가동 월 150만 세트",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "main",
+      "latencyMs": 7118
+    },
+    {
+      "id": "q_j_4a47cb758c5d_2",
+      "judgeId": "j_4a47cb758c5d",
+      "question": "파일럿 고객의 재구매율이 높게 나타난 이유와 이 고객들이 정기공급 계약으로 이어지게 된 핵심 요인이 무엇인지 설명해 주시면 감사하겠습니다.",
+      "intent": "높은 재구매율과 트랙션의 비결을 확인하여 고객 만족도와 제품 경쟁력 검증",
+      "targetClaim": "파일럿 고객 12곳과 재구매율 83%",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 8,
+          "quote": "파일럿 고객 12곳 83% 재구매율",
+          "verified": false
+        }
+      ],
+      "difficulty": 2,
+      "kind": "reserve",
+      "latencyMs": 7118
+    },
+    {
+      "id": "q_j_12d85e81247c_1",
+      "judgeId": "j_12d85e81247c",
+      "question": "국내 연간 택배 물량을 51억 개로 추산하셨는데, 정확히 어떤 기관의 2024년 통계 데이터를 근거로 산출된 수치인지 설명해 주십시오.",
+      "intent": "발표자가 제시한 핵심 시장 규모 수치의 객관적 출처와 신뢰도를 확인하려는 것",
+      "targetClaim": "국내 연간 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 2,
+          "quote": "국내 연간 택배 물량 (2024)",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 7538
+    },
+    {
+      "id": "q_j_12d85e81247c_2",
+      "judgeId": "j_12d85e81247c",
+      "question": "연간 완충재 폐기물 발생량이 31만 톤이라고 하셨는데, 이 추정치가 도출된 구체적인 산식이나 기준을 말씀해 주십시오.",
+      "intent": "완충재 폐기물 규모 추정치의 타당성과 근거를 검증하려는 것",
+      "targetClaim": "완충재 폐기물은 연간 약 31만 톤으로 추정됩니다",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "그리고 여기서 나오는 완충재 폐기물은 연간 약 31만 톤으로 추정됩니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 2,
+          "quote": "연간 완충재 폐기물 추정",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 7538
+    },
+    {
+      "id": "q_j_1637680556f2_1",
+      "judgeId": "j_1637680556f2",
+      "question": "2029년 매출 210억 원을 달성하시겠다고 했는데, 완도 2공장 최대 생산 능력이 월 150만 세트라면 물리적으로 가능한 수치인지 근거가 부족해 보이지 않습니까?",
+      "intent": "생산 능력 대비 과도한 2029년 매출 목표의 실현 가능성 검증",
+      "targetClaim": "2029년 매출 210억 원 달성",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029년 매출 210억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "완도 2공장 가동 월 150만 세트",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "reserve",
+      "latencyMs": 7237
+    },
+    {
+      "id": "q_j_1637680556f2_2",
+      "judgeId": "j_1637680556f2",
+      "question": "기존 에어캡이나 스티로폼 가격과 비교하면 여전히 비싼 편인데, 브랜드들이 과대포장 규제 때문에 이 비용을 온전히 감수할 것이라고 보십니까?",
+      "intent": "경쟁 대안 완충재 대비 가격 열세 상황에서 시장 침투 가능성 검증",
+      "targetClaim": "웨이브셀 세트당 가격 165원",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "판매가 / 세트 165원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 7,
+          "quote": "에어캡 60원 보통 불가 가벼움 즉시",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 7237
+    }
+  ],
+  "order": [
+    "q_j_4a47cb758c5d_1",
+    "q_j_12d85e81247c_1",
+    "q_j_4a47cb758c5d_2",
+    "q_j_12d85e81247c_2",
+    "q_j_1637680556f2_2",
+    "q_j_1637680556f2_1"
+  ],
+  "main": [
+    "q_j_4a47cb758c5d_1"
+  ],
+  "reserve": [
+    "q_j_12d85e81247c_1",
+    "q_j_4a47cb758c5d_2",
+    "q_j_12d85e81247c_2",
+    "q_j_1637680556f2_2",
+    "q_j_1637680556f2_1"
+  ]
+}

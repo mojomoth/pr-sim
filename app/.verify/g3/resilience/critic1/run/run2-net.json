@@ -1,0 +1,27 @@
+[
+  {
+    "t": 1794516104309,
+    "url": "/api/questions",
+    "status": 200
+  },
+  {
+    "t": 1794516120033,
+    "url": "/api/tts",
+    "status": 503
+  },
+  {
+    "t": 1794516146541,
+    "url": "/api/stt/token",
+    "status": 200
+  },
+  {
+    "t": 1794516159080,
+    "url": "/api/questions/followup",
+    "status": 200
+  },
+  {
+    "t": 1794516159615,
+    "url": "/api/report",
+    "status": 200
+  }
+]

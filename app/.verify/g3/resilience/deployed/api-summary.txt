@@ -1,0 +1,8 @@
+run1 POST /api/judges 200 1505ms degraded=undefined [{"type":"error","slot":0,"code":"providers_unavailable","message":"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."},{"type":"error","slot":1,"code":"providers_unavailable","message":"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."},{"type":"error","slot":2,"code":"providers_unavailable","message":"AI 모델을 지금 쓸 수 없어요. 잠시  
+run1 POST /api/wiki 200 34624ms degraded=true gemini:gemini-3.5-flash-lite x11 35245ms, gemini:gemini-3.1-flash-lite x5 22425ms 
+run1 POST /api/stt/token 200 1289ms degraded=undefined model=gemini-3.5-transcribe-live ok=true 
+run2 POST /api/questions 200 11585ms degraded=true gemini:gemini-3.5-flash-lite 
+run2 POST /api/tts 503 2112ms degraded=undefined {"error":{"code":"providers_unavailable","message":"오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요.","fallback":"browser"}}  
+run2 POST /api/stt/token 200 1112ms degraded=undefined model=gemini-3.5-transcribe-live ok=true 
+run2 POST /api/questions/followup 200 8051ms degraded=true gemini:gemini-3.5-flash-lite 
+run2 POST /api/report 200 44804ms degraded=undefined "gemini:gemini-3.5-flash-lite ×3, gemini:gemini-3.1-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)" {"gemini:gemini-3.1-flash-lite":1,"gemini:gemini-3.5-flash-lite":3} 

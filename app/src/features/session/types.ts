@@ -27,6 +27,9 @@ export interface StoredDoc {
   wiki?: WikiPage[];
   keyNumbers?: KeyNumber[];
   wikiBuiltAt?: string;
+  /** The wiki was written (in part) by a last-resort lite model (/api/wiki done.degraded); `wikiModel` names it. */
+  wikiDegraded?: boolean;
+  wikiModel?: string;
 }
 
 export interface StoredJudge extends JudgePersona {

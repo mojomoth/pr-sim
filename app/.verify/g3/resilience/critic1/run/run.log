@@ -1,0 +1,25 @@
+[20:40:03] session s_mwe0hu5d1b5d406q
+[20:40:06] PASS setup: 3 faces generated OR initials with a clear notice — {"faces":0,"faceNote":["얼굴 없음","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","얼굴 없음","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","얼굴 없음","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요."],"judgesRes":[{"t":1794516004554,"url":"/api/judges","status":200}]}
+[20:40:07] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[20:40:41] PASS setup: wiki built via fallback — {"secs":34,"state":"ready","pages":13,"wikiLines":["자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."]}
+[20:40:41] PASS setup: wiki has real page citations within 1..pageCount — {"n":61,"distinct":[1,2,3,4,5,6,7,8,9,10,11,12],"bad":[],"pageCount":12}
+[20:40:41] FAIL setup: wiki UI says degraded / which model — ["자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."]
+[20:40:44] PASS present: camera preview playing — [{"w":640,"playing":true}]
+[20:40:44] PASS present: slide advance
+[20:41:42] PASS present: time-up dialog at ~60s — {"timeUp":60.546}
+[20:41:43] PASS present: STT transcript saved — {"n":11,"sample":["안녕하세요?","저는 리웨이브 대표 김서연입니다.","오늘은 바다에서 온 완충제 웨이브셀에 대해 말씀드리겠습니다."]}
+[20:41:59] PASS qa: questions generated — {"main":1,"reserve":5}
+[20:41:59] PASS qa: questions differ by persona (every judge has its own, no duplicates) — {"judges":[{"id":"j_d46fda6ab25b","name":"지훈","t":"friendly","img":false},{"id":"j_02317ee2fb94","name":"수진","t":"strict","img":false},{"id":"j_f8a3c85efd3d","name":"현석","t":"aggressive","img":false}],"byJudge":{"j_d46fda6ab25b":["2029년 매출 목표 210억 원을 제시해주셨는데, 완도 2공장의 최대 생산 능력을 고려해 계산해보니 목표 달성을 위해서는 
+[20:41:59] FAIL qa: questions screen says degraded / which model — []
+[20:42:39] PASS qa: question spoken (server audio or speechSynthesis.speak called) — {"audio":1,"speech":[{"at":1794516120035,"text":"2029년 매출 목표 210억 원을 제시해주셨는데, 완도 2공장의 최대 생산 능력을 고려해 계산해보니 목표 달성을 위해서는 추가적인 생산 전략이 필요해 보입니다. 구체적으로 어떤 경로를 통해 이 매출 목표를 달성하실 계획인지 궁금합니다.","lang":"ko-KR","voice":"Eddy (한국어(대한민국))","rate":0.9100000262260437,"pitch":1.059999942779541,"volume":1}],"tts":[{"t
+[20:42:39] PASS qa: honest device-voice note when /api/tts failed — {"noteSeen":"AI 음성을 쓸 수 없어서 기기 음성으로 질문을 읽어 드려요."}
+[20:42:39] PASS qa: answers collected — {"qa":1,"answered":1,"sample":[{"j":{"id":"j_d46fda6ab25b","name":"지훈","temperament":"friendly"},"q":"2029년 매출 목표 210억 원을 제시해주셨는데, 완도 2공장의 최대 생산 능력을 고려해 계산해보니 목표 ","a":"네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서","ids":3}]}
+[20:43:00] PASS result: report generated and stored — {"secs":21,"err":"종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표.\n\n이번 발표의 종합 점수\n\n59\n/ 100\n\n시간 배분과 수치 보완이 필요해요.\n\n경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.5-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.\n\n발표력\n80\n논리성\n47\n대응력\n45\n자료 품질\n67\n발표 총평\n\n발표자료 p.1~2의
+[20:43:01] PASS result: actual provider shown — {"provLines":["경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.5-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.","평가 모델 Google gemini-3.5-flash-lite (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백) · 2026. 11. 13. 오전 5:42"],"meta":"gemini:gemini-3.5-flash-lite (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)","b
+[20:43:04] PASS result: feedback tab shows the Q&A
+[20:43:06] PASS result: page citation opens the PDF page — {"label":"발표 자료 9쪽 보기","opened":true,"content":"발표 자료 9쪽\n\npresentation.pdf\n\n인용 2027 Q3 완도 2공장 가동 월 150만 세트\n\n7\n11\n12쪽 중 9쪽\n9 / 12\n닫기","canvas":3}
+[20:43:08] PASS result: utterance citation opens the transcript — {"label":"질의응답 00:26 답변 원문 보기","opened":true,"content":"질의응답 중 말한 내용\n00:26\n네.\n00:28\n지금 원가가 스티로폼보다 높은 건 맞습니다.\n00:30\n다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3\n닫기","canvas":0}
+[20:43:12] PASS history: session listed after reload
+[20:43:15] PASS history: reopen shows the stored report (no new /api/report call)
+[20:43:15] profile kept /var/folders/fp/vcw3yg_53l3brz5p38gz72n40000gn/T/pr-sim-e2e-zlJL5g
+[20:43:15] FAILED 2/22 → /Users/jyl/work/study/pr-sim/app/.verify/g3/resilience/critic1/run

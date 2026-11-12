@@ -136,7 +136,16 @@ interface Slot {
   faceTemperament?: Temperament;
   pending?: boolean;
   error?: string;
+  /** Server error code of the failure (several rows failing with the same code get one shared notice). */
+  errorCode?: string;
 }
+
+/** The shared notice when every failed face has the same cause: only the image service is down. */
+const FACE_OUTAGE: Record<string, string> = {
+  rate_limited: "얼굴 사진 요청이 몰려서 지금은 사진을 만들 수 없어요.",
+  timeout: "얼굴 사진을 만드는 데 시간이 너무 오래 걸렸어요.",
+};
+const FACE_OUTAGE_DEFAULT = "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요.";
 
 const slotFrom = (j: StoredJudge): Slot => ({ key: j.id, temperament: j.temperament, judge: j, faceTemperament: j.temperament });
 
@@ -253,12 +262,17 @@ function SetupForm({ sid }: { sid: string }) {
     const avoid: RollAvoid | undefined = others.length
       ? { names: others.map((j) => j.name), surnames: others.map((j) => j.fullName.slice(0, 1)), genders: others.map((j) => j.gender), ages: others.map((j) => j.age) }
       : undefined;
-    commit((ss) => ss.map((s) => (keys.includes(s.key) ? { ...s, pending: true, error: undefined } : s)));
+    commit((ss) => ss.map((s) => (keys.includes(s.key) ? { ...s, pending: true, error: undefined, errorCode: undefined } : s)));
     const ctl = new AbortController();
     calls.current.set(ctl, keys);
     const settled = new Set<string>();
     const stores: Promise<void>[] = [];
-    const fail = (key: string, message: string) => commit((ss) => ss.map((s) => (s.key === key ? { ...s, pending: false, error: message } : s)));
+    // A row without a judge yet gets the named stand-in /present would use, so setup shows the same name and initial.
+    const fail = (key: string, message: string, code?: string) =>
+      commit((ss) => {
+        const taken = ss.flatMap((s) => (s.judge ? [s.judge] : []));
+        return ss.map((s) => (s.key === key ? { ...s, pending: false, error: message, errorCode: code, judge: s.judge ?? fallbackJudge(s.temperament, taken) } : s));
+      });
     try {
       await streamJudges(
         { temperaments, avoid },
@@ -269,7 +283,7 @@ function SetupForm({ sid }: { sid: string }) {
             const key = keys[e.slot];
             if (!key) return;
             settled.add(key);
-            if (e.type === "error") return fail(key, e.message);
+            if (e.type === "error") return fail(key, e.message, e.code);
             const j = e.judge;
             stores.push(
               storeJudgeImage(j.id, j.image).then(
@@ -283,6 +297,7 @@ function SetupForm({ sid }: { sid: string }) {
                             ...s,
                             pending: false,
                             error: undefined,
+                            errorCode: undefined,
                             faceTemperament: j.temperament,
                             judge: { id: j.id, name: j.name, fullName: j.fullName, gender: j.gender, age: j.age, voiceHint: j.voiceHint, temperament: s.temperament, ...blobKeys },
                           }
@@ -290,7 +305,7 @@ function SetupForm({ sid }: { sid: string }) {
                     ),
                   );
                 },
-                (err) => fail(key, errorText(err, "얼굴 사진을 저장하지 못했어요.")),
+                (err) => fail(key, errorText(err, "얼굴 사진을 저장하지 못했어요."), "store"),
               ),
             );
           },
@@ -300,7 +315,8 @@ function SetupForm({ sid }: { sid: string }) {
     } catch (e) {
       if ((e as { name?: string })?.name === "AbortError") return;
       const message = e instanceof ApiError ? e.message : "심사위원을 만들지 못했어요. 다시 시도해 주세요.";
-      for (const k of keys) if (!settled.has(k)) fail(k, message);
+      const code = e instanceof ApiError ? e.code : "network";
+      for (const k of keys) if (!settled.has(k)) fail(k, message, code);
     } finally {
       calls.current.delete(ctl);
     }
@@ -420,6 +436,14 @@ function SetupForm({ sid }: { sid: string }) {
   const { presentationMinutes, qaMinutes } = rec.setup;
   const generating = slots.some((s) => s.pending);
   const faceless = slots.some((s) => !s.pending && !s.judge?.imageKey);
+  // Two or more faces failed for the same reason → one notice instead of the same message on every row.
+  const failed = slots.filter((s) => s.error);
+  const outage = failed.length >= 2 && failed.every((s) => s.errorCode === failed[0].errorCode) ? (FACE_OUTAGE[failed[0].errorCode ?? ""] ?? FACE_OUTAGE_DEFAULT) : null;
+  const retryFailed = () =>
+    void generate(
+      failed.map((s) => s.key),
+      failed.map((s) => s.temperament),
+    );
   const missing = [
     !situation.trim() && "발표 상황을 입력해 주세요.",
     uploads > 0 && "자료를 읽고 있어요. 잠시만 기다려 주세요.",
@@ -522,11 +546,23 @@ function SetupForm({ sid }: { sid: string }) {
                 <Plus size={18} /> 추가
               </button>
             </div>
+            {outage && (
+              <div className="flex items-center gap-2 rounded-[16px] border border-line py-1.5 pl-4 pr-1.5" role="alert" data-testid="face-outage">
+                <Alert size={18} className="shrink-0 text-secondary" />
+                <p className="min-w-0 flex-1 break-keep text-[13px] leading-[18px]">
+                  {outage} 심사위원 {failed.length}명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요.
+                </p>
+                <button type="button" onClick={retryFailed} disabled={generating} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-surface px-3.5 text-[14px] font-semibold disabled:text-secondary">
+                  <Refresh size={16} /> 다시 시도
+                </button>
+              </div>
+            )}
             <ul className="flex flex-col gap-2.5" aria-label="심사위원 목록">
               {slots.map((s) => (
                 <JudgeSlotRow
                   key={s.key}
                   slot={s}
+                  hideError={!!outage}
                   onRemove={slots.length > 1 ? () => removeJudge(s.key) : undefined}
                   onPersona={(t) => setPersona(s.key, t)}
                   onGenerate={() => void generate([s.key], [s.temperament])}
@@ -549,7 +585,7 @@ function SetupForm({ sid }: { sid: string }) {
         <p className="text-center text-[14px] font-medium text-secondary tabular" aria-live="polite">
           총 {presentationMinutes + qaMinutes}분 · 심사위원 {slots.length}명
         </p>
-        {faceless && !generating && <p className="text-center text-[13px] leading-[18px] text-secondary">얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요.</p>}
+        {faceless && !generating && !outage && <p className="text-center text-[13px] leading-[18px] text-secondary">얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요.</p>}
         <Button onClick={start} disabled={!ready} arrow aria-describedby={missing.length ? hintId : undefined}>
           {starting ? "준비하는 중…" : "발표 시작하기"}
         </Button>
@@ -571,11 +607,24 @@ const ROW_CHIPS =
   "flex-nowrap! gap-1! [&>button]:relative [&>button]:h-8 [&>button]:px-2.5 [&>button]:text-[13px] [&>button]:before:absolute [&>button]:before:-inset-x-0.5 [&>button]:before:-inset-y-1.5 [&>button]:before:content-['']";
 
 /** One compact row like draft 02: face | name + age | persona chips | ✕. Retry / regenerate drop below only when needed. */
-function JudgeSlotRow({ slot, onRemove, onPersona, onGenerate }: { slot: Slot; onRemove?: () => void; onPersona: (t: Temperament) => void; onGenerate: () => void }) {
+function JudgeSlotRow({
+  slot,
+  hideError,
+  onRemove,
+  onPersona,
+  onGenerate,
+}: {
+  slot: Slot;
+  /** The section shows one shared notice for this failure instead. */
+  hideError?: boolean;
+  onRemove?: () => void;
+  onPersona: (t: Temperament) => void;
+  onGenerate: () => void;
+}) {
   const imageUrl = useBlobUrl(slot.judge?.thumbKey || undefined);
   const j = slot.judge;
   const name = j?.name ?? "새 위원";
-  const caption = slot.pending ? "만드는 중…" : j ? `${Math.floor(j.age / 10) * 10}대` : "얼굴 없음";
+  const caption = slot.pending ? "만드는 중…" : j ? `${Math.floor(j.age / 10) * 10}대` : "얼굴 사진 없음";
   const stale = !slot.pending && !slot.error && j && (!j.imageKey || slot.faceTemperament !== slot.temperament);
   return (
     <li className="ui-enter rounded-[20px] bg-surface py-2.5 pl-3 pr-1">
@@ -596,7 +645,7 @@ function JudgeSlotRow({ slot, onRemove, onPersona, onGenerate }: { slot: Slot; o
           <span className="w-2 shrink-0" aria-hidden="true" />
         )}
       </div>
-      {slot.error && (
+      {slot.error && !hideError && (
         <div className="mt-2 flex items-center gap-2 pl-[52px] pr-2" role="alert">
           <p className="min-w-0 flex-1 text-[13px] leading-[18px] text-error">{slot.error}</p>
           <button type="button" onClick={onGenerate} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-canvas px-3.5 text-[14px] font-semibold">
@@ -635,9 +684,19 @@ function WikiStatus({ sid, doc }: { sid: string; doc: StoredDoc }) {
     );
   if (doc.wikiState === "ready")
     return (
-      <p className="px-1 text-[13px] leading-[18px] text-secondary">
-        자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.{emptyNote && ` ${emptyNote}`}
-      </p>
+      <div className="flex flex-col gap-1.5 px-1">
+        <p className="text-[13px] leading-[18px] text-secondary">
+          자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.{emptyNote && ` ${emptyNote}`}
+        </p>
+        {doc.wikiDegraded && (
+          <p className="flex items-start gap-1.5 break-keep text-[13px] leading-[18px]" role="note" data-testid="wiki-degraded">
+            <Alert size={16} className="mt-px shrink-0 text-secondary" />
+            <span>
+              주력 AI 모델을 쓸 수 없어서 경량 대체 모델{doc.wikiModel ? `(Google ${doc.wikiModel})` : ""}로 자료를 분석했어요. 질문과 리포트가 평소보다 덜 정확할 수 있어요.
+            </span>
+          </p>
+        )}
+      </div>
     );
   const pct = progress && progress.total > 0 ? Math.round((progress.done / progress.total) * 100) : 0;
   return (

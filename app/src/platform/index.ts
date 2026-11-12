@@ -3,7 +3,8 @@
 // Capacitor build can provide another object with the same shape (no native project yet).
 import * as media from "./web/media";
 import { startMic, type MicHandle } from "./web/mic";
-import { playWav, stopAll, unlockAudio, type Playback } from "./web/playWav";
+import { playWav, stopAll as stopWav, unlockAudio, type Playback } from "./web/playWav";
+import { speak, speechSupported, stopSpeech, unlockSpeech, type SpeechVoice } from "./web/speech";
 import { storage } from "./web/storage";
 
 export interface Platform {
@@ -13,7 +14,16 @@ export interface Platform {
   startMic: (onFrame: (frame: Float32Array) => void) => Promise<MicHandle>;
   /** Current permission without prompting. */
   queryPermission: (device: media.MediaDevice) => Promise<PermissionState | "unknown">;
-  audio: { play: typeof playWav; stopAll: () => void; unlock: () => void };
+  audio: {
+    play: typeof playWav;
+    /** On-device voice (Web Speech today; a Capacitor TTS plugin later) for when /api/tts fails. Lower quality: say so in the UI. */
+    speak: typeof speak;
+    /** false = speak() will reject; show the question as text only. */
+    canSpeak: () => boolean;
+    /** Stops both play() and speak(). */
+    stopAll: () => void;
+    unlock: () => void;
+  };
   storage: typeof storage;
 }
 
@@ -21,7 +31,14 @@ export const platform: Platform = {
   useCamera: media.useCamera,
   startMic,
   queryPermission: media.queryPermission,
-  audio: { play: playWav, stopAll, unlock: unlockAudio },
+  audio: {
+    // One voice at a time across both paths.
+    play: (src, opts) => (stopSpeech(), playWav(src, opts)),
+    speak: (text, voice, opts) => (stopWav(), speak(text, voice, opts)),
+    canSpeak: speechSupported,
+    stopAll: () => (stopWav(), stopSpeech()),
+    unlock: () => (unlockAudio(), unlockSpeech()),
+  },
   storage,
 };
 
@@ -29,4 +46,4 @@ export const useCamera = platform.useCamera;
 export { MediaAccessError, mediaErrorText } from "./web/media";
 export { rms } from "./web/mic";
 export type { MediaStatus } from "./web/media";
-export type { MicHandle, Playback };
+export type { MicHandle, Playback, SpeechVoice };

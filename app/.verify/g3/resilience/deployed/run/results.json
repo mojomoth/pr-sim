@@ -1,0 +1,325 @@
+{
+  "sid": "s_mwe15nkc4s6u6q3b",
+  "base": "https://pr-sim-lake.vercel.app",
+  "results": [
+    {
+      "name": "setup: 3 faces generated OR initials with a clear notice",
+      "ok": true,
+      "detail": {
+        "faces": 0,
+        "faceNote": [
+          "얼굴 없음",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "얼굴 없음",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "얼굴 없음",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요."
+        ],
+        "judgesRes": [
+          {
+            "t": 1794517116280,
+            "url": "/api/judges",
+            "status": 200
+          }
+        ]
+      }
+    },
+    {
+      "name": "setup: 1+1 min, 3 judges",
+      "ok": true,
+      "detail": "총 2분 · 심사위원 3명"
+    },
+    {
+      "name": "setup: wiki built via fallback",
+      "ok": true,
+      "detail": {
+        "secs": 36,
+        "state": "ready",
+        "pages": 13,
+        "wikiLines": [
+          "자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+          "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+        ]
+      }
+    },
+    {
+      "name": "setup: wiki has real page citations within 1..pageCount",
+      "ok": true,
+      "detail": {
+        "n": 106,
+        "distinct": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "bad": [],
+        "pageCount": 12
+      }
+    },
+    {
+      "name": "setup: wiki UI says degraded / which model",
+      "ok": false,
+      "detail": [
+        "자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.",
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+      ]
+    },
+    {
+      "name": "present: camera preview playing",
+      "ok": true,
+      "detail": [
+        {
+          "w": 640,
+          "playing": true
+        }
+      ]
+    },
+    {
+      "name": "present: slide advance",
+      "ok": true
+    },
+    {
+      "name": "present: time-up dialog at ~60s",
+      "ok": true,
+      "detail": {
+        "timeUp": 60.292
+      }
+    },
+    {
+      "name": "present: STT transcript saved",
+      "ok": true,
+      "detail": {
+        "n": 10,
+        "sample": [
+          "안녕하세요.",
+          "저는 리웨이브 대표 김서연입니다.",
+          "오늘은 바다에서 온 완충제, 웨이브셀에 대해 말씀드리겠습니다."
+        ]
+      }
+    },
+    {
+      "name": "qa: questions generated",
+      "ok": true,
+      "detail": {
+        "main": 1,
+        "reserve": 5
+      }
+    },
+    {
+      "name": "qa: questions differ by persona (every judge has its own, no duplicates)",
+      "ok": true,
+      "detail": {
+        "judges": [
+          {
+            "id": "j_4a47cb758c5d",
+            "name": "지훈",
+            "t": "friendly",
+            "img": false
+          },
+          {
+            "id": "j_12d85e81247c",
+            "name": "수진",
+            "t": "strict",
+            "img": false
+          },
+          {
+            "id": "j_1637680556f2",
+            "name": "현석",
+            "t": "aggressive",
+            "img": false
+          }
+        ],
+        "byJudge": {
+          "j_4a47cb758c5d": [
+            "2029년 매출 210억 원 목표를 세우셨는데, 완도 2공장 가동을 통한 생산 능력과 비교했을 때 구체적으로 어떤 과정을 거쳐 이 목표를 달성할 수 있는지 조금 더 자세히 설명해 주시겠습니까?",
+            "파일럿 고객의 재구매율이 높게 나타난 이유와 이 고객들이 정기공급 계약으로 이어지게 된 핵심 요인이 무엇인지 설명해 주시면 감사하겠습니다."
+          ],
+          "j_12d85e81247c": [
+            "국내 연간 택배 물량을 51억 개로 추산하셨는데, 정확히 어떤 기관의 2024년 통계 데이터를 근거로 산출된 수치인지 설명해 주십시오.",
+            "연간 완충재 폐기물 발생량이 31만 톤이라고 하셨는데, 이 추정치가 도출된 구체적인 산식이나 기준을 말씀해 주십시오."
+          ],
+          "j_1637680556f2": [
+            "2029년 매출 210억 원을 달성하시겠다고 했는데, 완도 2공장 최대 생산 능력이 월 150만 세트라면 물리적으로 가능한 수치인지 근거가 부족해 보이지 않습니까?",
+            "기존 에어캡이나 스티로폼 가격과 비교하면 여전히 비싼 편인데, 브랜드들이 과대포장 규제 때문에 이 비용을 온전히 감수할 것이라고 보십니까?"
+          ]
+        }
+      }
+    },
+    {
+      "name": "qa: questions screen says degraded / which model",
+      "ok": true,
+      "detail": [
+        "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.5-flash-lite)이 질문을 만들거나 답변을 살폈어요. 평소보다 질문이 단순할 수 있어요."
+      ]
+    },
+    {
+      "name": "qa: question spoken (server audio or speechSynthesis.speak called)",
+      "ok": true,
+      "detail": {
+        "audio": 1,
+        "speech": [
+          {
+            "at": 1794517231323,
+            "text": "2029년 매출 210억 원 목표를 세우셨는데, 완도 2공장 가동을 통한 생산 능력과 비교했을 때 구체적으로 어떤 과정을 거쳐 이 목표를 달성할 수 있는지 조금 더 자세히 설명해 주시겠습니까?",
+            "lang": "ko-KR",
+            "voice": "Eddy (한국어(대한민국))",
+            "rate": 0.9100000262260437,
+            "pitch": 1.059999942779541,
+            "volume": 1,
+            "ua": true,
+            "started": 1794517231331,
+            "ended": 1794517251853
+          }
+        ],
+        "tts": [
+          {
+            "t": 1794517231321,
+            "url": "/api/tts",
+            "status": 503
+          }
+        ]
+      }
+    },
+    {
+      "name": "qa: first question voiced after the user's tap (no autoplay flag): audio played or an utterance started",
+      "ok": true,
+      "detail": {
+        "tapAt": 1794517229190,
+        "audio": [
+          {
+            "at": 1794517229203
+          }
+        ],
+        "speech": [
+          {
+            "at": 1794517229203,
+            "text": " ",
+            "lang": "",
+            "voice": null,
+            "rate": 1,
+            "pitch": 1,
+            "volume": 0,
+            "ua": true,
+            "started": 1794517229219,
+            "ended": 1794517229220
+          },
+          {
+            "at": 1794517231323,
+            "text": "2029년 매출 210억 원 목표를 세우셨는데, 완도 2공장 가동을 통한",
+            "lang": "ko-KR",
+            "voice": "Eddy (한국어(대한민국))",
+            "rate": 0.9100000262260437,
+            "pitch": 1.059999942779541,
+            "volume": 1,
+            "ua": true,
+            "started": 1794517231331,
+            "ended": 1794517251853
+          }
+        ]
+      }
+    },
+    {
+      "name": "qa: degraded-model note visible during Q&A",
+      "ok": true,
+      "detail": {
+        "liteSeen": "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.5-flash-lite)이 질문을 만들거나 답변을 살폈어요. 평소보다 질문이 단순할 수 있어요."
+      }
+    },
+    {
+      "name": "qa: honest device-voice note when /api/tts failed",
+      "ok": true,
+      "detail": {
+        "noteSeen": "AI 음성을 쓸 수 없어서 기기 음성으로 질문을 읽어 드려요."
+      }
+    },
+    {
+      "name": "qa: answers collected",
+      "ok": true,
+      "detail": {
+        "qa": 1,
+        "answered": 1,
+        "sample": [
+          {
+            "j": {
+              "id": "j_4a47cb758c5d",
+              "name": "지훈",
+              "temperament": "friendly"
+            },
+            "q": "2029년 매출 210억 원 목표를 세우셨는데, 완도 2공장 가동을 통한 생산 능력과 비교했을 때 구체적으로",
+            "a": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서",
+            "ids": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "result: report generated and stored",
+      "ok": true,
+      "detail": {
+        "secs": 45,
+        "err": "종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치 발표.\n\n이번 발표의 종합 점수\n\n61\n/ 100\n\n발표 시간이 부족해 아쉬웠어요.\n\n경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.1-flash-lite, gemini-3.5-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.\n\n발표력\n80\n논리성\n49\n대응력\n48\n자료 품질\n73\n발표 총평\n\n발표자가 도입부에서 중단되어 핵심 솔루션, 시장, 성과 및 투자 요청을 전혀 전달하지 못했습니다. 초반 문제 제기는 자료와 일치하여 적절했으나, 발표가 완결되지 못한 점이 치명적입니다.\n\n잘한 점\np.2의 국내 택배 물량 51억 개와 폐기물"
+      }
+    },
+    {
+      "name": "result: actual provider shown",
+      "ok": true,
+      "detail": {
+        "provLines": [
+          "경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.1-flash-lite, gemini-3.5-flash-lite)로 평가했어요. 점수가 실제보다 후하게 나올 수 있으니 참고용으로 봐 주세요.",
+          "평가 모델 Google gemini-3.5-flash-lite ×3, Google gemini-3.1-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백) · 2026. 11. 13. 오전 6:01"
+        ],
+        "meta": "gemini:gemini-3.5-flash-lite ×3, gemini:gemini-3.1-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)",
+        "byModel": {
+          "gemini:gemini-3.1-flash-lite": 1,
+          "gemini:gemini-3.5-flash-lite": 3
+        }
+      }
+    },
+    {
+      "name": "result: feedback tab shows the Q&A",
+      "ok": true
+    },
+    {
+      "name": "result: page citation opens the PDF page",
+      "ok": true,
+      "detail": {
+        "label": "발표 자료 9쪽 보기",
+        "opened": true,
+        "content": "발표 자료 9쪽\n\npresentation.pdf\n\n인용 2027 Q3 완도 2공장 가동 월 150만 세트\n\n7\n11\n12쪽 중 9쪽\n9 / 12\n닫기",
+        "canvas": 3
+      }
+    },
+    {
+      "name": "result: utterance citation opens the transcript",
+      "ok": true,
+      "detail": {
+        "label": "질의응답 00:23 답변 원문 보기",
+        "opened": true,
+        "content": "질의응답 중 말한 내용\n00:23\n네.\n00:25\n지금 원가가 스티로폼보다 높은 건 맞습니다.\n00:27\n다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분\n닫기",
+        "canvas": 0
+      }
+    },
+    {
+      "name": "history: session listed after reload",
+      "ok": true
+    },
+    {
+      "name": "history: reopen shows the stored report (no new /api/report call)",
+      "ok": true
+    }
+  ]
+}

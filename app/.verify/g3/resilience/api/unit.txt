@@ -1,0 +1,12 @@
+✔ pickVoice prefers a Korean voice of the judge's gender (1.407209ms)
+✔ prosody: friendly slower/warmer, aggressive faster/lower, unmatched male lower (0.277042ms)
+✔ chunks splits long text at sentence ends (0.194041ms)
+✔ ttsFallsBackToBrowser: hint, quota, network, 5xx yes; bad request / abort no (0.080666ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 100.132

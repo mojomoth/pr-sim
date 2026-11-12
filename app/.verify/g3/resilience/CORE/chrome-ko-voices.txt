@@ -1,0 +1,9 @@
+유나 | ko-KR | local=true | default=true
+Eddy (한국어(대한민국)) | ko-KR | local=true | default=false
+Flo (한국어(대한민국)) | ko-KR | local=true | default=false
+Grandma (한국어(대한민국)) | ko-KR | local=true | default=false
+Grandpa (한국어(대한민국)) | ko-KR | local=true | default=false
+Reed (한국어(대한민국)) | ko-KR | local=true | default=false
+Rocko (한국어(대한민국)) | ko-KR | local=true | default=false
+Sandy (한국어(대한민국)) | ko-KR | local=true | default=false
+Shelley (한국어(대한민국)) | ko-KR | local=true | default=false

@@ -1,0 +1,345 @@
+[
+  {
+    "run": 1,
+    "url": "/api/judges",
+    "method": "POST",
+    "start": "2026-11-12T20:58:34.779Z",
+    "ms": 1505,
+    "status": 200,
+    "info": {
+      "events": [
+        {
+          "type": "error",
+          "slot": 0,
+          "code": "providers_unavailable",
+          "message": "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+        },
+        {
+          "type": "error",
+          "slot": 1,
+          "code": "providers_unavailable",
+          "message": "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+        },
+        {
+          "type": "error",
+          "slot": 2,
+          "code": "providers_unavailable",
+          "message": "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요."
+        },
+        {
+          "type": "done",
+          "ms": 1145
+        }
+      ]
+    }
+  },
+  {
+    "run": 1,
+    "url": "/api/wiki",
+    "method": "POST",
+    "start": "2026-11-12T20:58:38.377Z",
+    "ms": 34624,
+    "status": 200,
+    "info": {
+      "last": "done",
+      "usage": {
+        "gemini:gemini-3.5-flash-lite": {
+          "calls": 11,
+          "inputTokens": 9955,
+          "outputTokens": 8198,
+          "ms": 35245
+        },
+        "gemini:gemini-3.1-flash-lite": {
+          "calls": 5,
+          "inputTokens": 5194,
+          "outputTokens": 6258,
+          "ms": 22425
+        }
+      },
+      "ms": 34440,
+      "degraded": true,
+      "pages": 13,
+      "errors": []
+    }
+  },
+  {
+    "run": 1,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "start": "2026-11-12T20:59:15.351Z",
+    "ms": 1289,
+    "status": 200,
+    "info": {
+      "model": "gemini-3.5-transcribe-live",
+      "ok": true
+    }
+  },
+  {
+    "run": 2,
+    "url": "/api/questions",
+    "method": "POST",
+    "start": "2026-11-12T21:00:17.424Z",
+    "ms": 11585,
+    "status": 200,
+    "info": {
+      "last": "done",
+      "usage": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "inputTokens": 5597,
+          "cachedInputTokens": 0,
+          "outputTokens": 428,
+          "ms": 4421,
+          "ttftMs": 3329
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "inputTokens": 5529,
+          "cachedInputTokens": 0,
+          "outputTokens": 451,
+          "ms": 4556,
+          "ttftMs": 3077
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "inputTokens": 5513,
+          "cachedInputTokens": 0,
+          "outputTokens": 481,
+          "ms": 4948,
+          "ttftMs": 3885
+        }
+      ],
+      "timings": {
+        "context": 3958,
+        "generate": 7541,
+        "total": 11517
+      },
+      "degraded": true,
+      "main": 1,
+      "errors": [],
+      "stages": [
+        "context",
+        "context",
+        "context",
+        "context",
+        "generate",
+        "done"
+      ]
+    }
+  },
+  {
+    "run": 2,
+    "url": "/api/tts",
+    "method": "POST",
+    "start": "2026-11-12T21:00:29.215Z",
+    "ms": 2112,
+    "status": 503,
+    "info": {
+      "body": "{\"error\":{\"code\":\"providers_unavailable\",\"message\":\"오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요.\",\"fallback\":\"browser\"}}"
+    }
+  },
+  {
+    "run": 2,
+    "url": "/api/stt/token",
+    "method": "POST",
+    "start": "2026-11-12T21:00:51.909Z",
+    "ms": 1112,
+    "status": 200,
+    "info": {
+      "model": "gemini-3.5-transcribe-live",
+      "ok": true
+    }
+  },
+  {
+    "run": 2,
+    "url": "/api/questions/followup",
+    "method": "POST",
+    "start": "2026-11-12T21:01:02.544Z",
+    "ms": 8051,
+    "status": 200,
+    "info": {
+      "decision": "next",
+      "usage": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "inputTokens": 6092,
+        "cachedInputTokens": 0,
+        "outputTokens": 104,
+        "ms": 4741,
+        "ttftMs": 4416
+      },
+      "degraded": true,
+      "latencyMs": 7891
+    }
+  },
+  {
+    "run": 2,
+    "url": "/api/report",
+    "method": "POST",
+    "start": "2026-11-12T21:01:11.290Z",
+    "ms": 44804,
+    "status": 200,
+    "info": {
+      "last": "done",
+      "provider": "gemini:gemini-3.5-flash-lite ×3, gemini:gemini-3.1-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)",
+      "usage": {
+        "calls": 4,
+        "inputTokens": 13352,
+        "outputTokens": 10533,
+        "byModel": {
+          "gemini:gemini-3.1-flash-lite": 1,
+          "gemini:gemini-3.5-flash-lite": 3
+        }
+      },
+      "errors": [],
+      "steps": [
+        {
+          "id": {
+            "id": "metrics",
+            "group": "speech",
+            "label": "발표 지표 계산 (말 속도·군말·침묵·시간)",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "metrics",
+            "group": "speech",
+            "label": "발표 지표 계산 (말 속도·군말·침묵·시간)",
+            "status": "done",
+            "ms": 13,
+            "detail": "250음절/분 · 군말 0회 · 전달 100점"
+          }
+        },
+        {
+          "id": {
+            "id": "docs",
+            "group": "prep",
+            "label": "자료 불러오기",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "docs",
+            "group": "prep",
+            "label": "자료 불러오기",
+            "status": "done",
+            "ms": 2,
+            "detail": "발표 자료 12쪽"
+          }
+        },
+        {
+          "id": {
+            "id": "lint",
+            "group": "materials",
+            "label": "자료 수치 점검",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "speech",
+            "group": "speech",
+            "label": "발표 내용 · 슬라이드별 설명 분석",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "qa:0",
+            "group": "qa",
+            "label": "질문 1 · 지훈",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "doc:presentation",
+            "group": "materials",
+            "label": "발표 자료 평가",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "doc:proposal",
+            "group": "materials",
+            "label": "제안 자료 평가",
+            "status": "skipped",
+            "detail": "자료 없음"
+          }
+        },
+        {
+          "id": {
+            "id": "consistency",
+            "group": "materials",
+            "label": "두 자료의 수치 비교",
+            "status": "skipped",
+            "detail": "자료 1개"
+          }
+        },
+        {
+          "id": {
+            "id": "lint",
+            "group": "materials",
+            "label": "자료 수치 점검",
+            "status": "done",
+            "ms": 4464,
+            "detail": "문서 간 불일치 0건"
+          }
+        },
+        {
+          "id": {
+            "id": "speech",
+            "group": "speech",
+            "label": "발표 내용 · 슬라이드별 설명 분석",
+            "status": "done",
+            "ms": 27376,
+            "detail": "구조 40점 · 설명한 슬라이드 8%"
+          }
+        },
+        {
+          "id": {
+            "id": "qa:0",
+            "group": "qa",
+            "label": "질문 1 · 지훈",
+            "status": "done",
+            "ms": 33756,
+            "detail": "48점 · 회피"
+          }
+        },
+        {
+          "id": {
+            "id": "doc:presentation",
+            "group": "materials",
+            "label": "발표 자료 평가",
+            "status": "done",
+            "ms": 36422,
+            "detail": "73점 · 이슈 3건"
+          }
+        },
+        {
+          "id": {
+            "id": "overall",
+            "group": "overall",
+            "label": "종합 점수와 총평",
+            "status": "running"
+          }
+        },
+        {
+          "id": {
+            "id": "overall",
+            "group": "overall",
+            "label": "종합 점수와 총평",
+            "status": "done",
+            "ms": 8121
+          }
+        }
+      ]
+    }
+  }
+]

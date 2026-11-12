@@ -1,0 +1,24 @@
+$ node --test tests/api/smoke.test.mjs
+✔ server is up (20.655958ms)
+✔ /api/tts: empty body → 400 bad_request (9.334334ms)
+✔ /api/judges: empty body → 400 bad_request (3.132625ms)
+✔ /api/wiki: empty body → 400 bad_request (2.62125ms)
+✔ /api/questions: empty body → 400 bad_request (4.881209ms)
+✔ /api/questions/followup: empty body → 400 bad_request (3.97025ms)
+✔ /api/report: empty body → 400 bad_request (4.195208ms)
+✔ /api/tts: malformed JSON and invalid fields → 400 (5.554209ms)
+✔ /api/wiki: bad doc → 400, scanned-looking doc → 422 (4.657542ms)
+✔ body over 4MB → 413 too_large (7.22025ms)
+✔ chunked body over 4MB (no content-length) → 413 too_large (6.852167ms)
+✔ cross-site browser calls are refused on every route (28.184584ms)
+✔ /api/stt/token is strict: bare request and foreign Origin → 403 (4.055583ms)
+✔ /api/stt/token from our own page → short-lived token, no-store (385.206708ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 532.833042
+EXIT 0

@@ -1,0 +1,383 @@
+{
+  "meta": {
+    "version": 4,
+    "sessionId": "s_mwe09o0u553z5y0a",
+    "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+    "presentationMinutes": 1,
+    "qaMinutes": 1,
+    "judges": 3,
+    "questions": 1,
+    "docIds": {
+      "presentation": "b074e9bd3e49c31f"
+    },
+    "provider": "gemini:gemini-3.1-flash-lite ×3, gemini:gemini-3.5-flash-lite ×1 (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)",
+    "createdAt": "2026-11-12T20:39:04.399Z",
+    "ms": 44838,
+    "timings": {
+      "metrics": 0,
+      "docs": 1,
+      "lint": 6250,
+      "doc:presentation": 16303,
+      "qa:0": 29710,
+      "speech": 32718,
+      "overall": 12117
+    },
+    "usage": {
+      "calls": 4,
+      "inputTokens": 11951,
+      "outputTokens": 11494,
+      "byModel": {
+        "gemini:gemini-3.5-flash-lite": 1,
+        "gemini:gemini-3.1-flash-lite": 3
+      }
+    },
+    "warnings": []
+  },
+  "speech": {
+    "metrics": {
+      "sentenceCount": 11,
+      "syllables": 248,
+      "articulationSps": 4.3,
+      "spokenSeconds": 59.8,
+      "targetSeconds": 60,
+      "timeUsage": 0.997,
+      "timeStatus": "ok",
+      "syllablesPerMinute": 249,
+      "sentencesPerMinute": 11,
+      "rateStatus": "ok",
+      "rateTimeline": [
+        {
+          "minute": 1,
+          "syllables": 248
+        }
+      ],
+      "avgSentenceSyllables": 22.5,
+      "maxSentenceSyllables": 41,
+      "maxSentence": {
+        "sentenceId": "pmwe0cst2-9",
+        "text": "게다가 과대포장 규제 계도 기간이 끝나면서 브랜드들은 지금 당장 대체제를 찾아야 하는 상황입니다."
+      },
+      "longSentences": 0,
+      "fillers": {
+        "total": 0,
+        "perMinute": 0,
+        "per100Syllables": 0,
+        "byWord": [],
+        "examples": []
+      },
+      "repetition": [],
+      "pauses": {
+        "threshold": 3,
+        "count": 0,
+        "longest": 0,
+        "totalSeconds": 0,
+        "items": []
+      },
+      "deliveryScore": 100,
+      "deliveryPenalties": []
+    },
+    "analysis": {
+      "scores": {
+        "structure": 40,
+        "clarity": 50,
+        "persuasiveness": 30
+      },
+      "summary": "발표 도입부인 인사와 문제 제기는 명확했으나, 발표 시간 관리 실패로 해결책부터 투자 요청까지의 핵심 내용이 모두 누락되었습니다. 남은 덱의 내용을 포함하여 1분 내에 전체 흐름을 완결해 보세요.",
+      "structureNote": "서론은 적절했으나 본론과 결론이 완전히 생략되었습니다. 투자 심사 발표는 구조적인 완성도가 중요하므로, 1분이라는 제한 시간 안에 해결책, 비즈니스 모델, 투자 요청이 포함되도록 발표 분량을 재조정해야 합니다.",
+      "clarityNote": "말씀하신 문제 제기 부분은 데이터와 함께 잘 전달되었으나, 정작 중요한 회사의 솔루션과 경쟁 우위가 언급되지 않아 정보 전달이 불완전합니다.",
+      "persuasivenessNote": "투자 심사 발표의 핵심인 '왜 우리인가'를 입증할 수 있는 트랙션, 팀, 성장 계획 등이 전혀 언급되지 않았습니다. 현재로서는 투자자가 회사의 잠재력을 판단할 근거가 없습니다.",
+      "strengths": [
+        "도입부에서 일상적인 택배 상자를 예시로 들어 청중의 공감을 유도한 점이 효과적입니다. [p.2]",
+        "국내 연간 택배 물량(51억 개)과 폐기물 발생량(31만 톤)이라는 구체적인 수치를 제시하여 문제의 심각성을 잘 드러냈습니다. [p.2]"
+      ],
+      "improvements": [
+        "1분 발표는 매우 짧으므로, 문제 제기에 시간을 과도하게 쓰지 말고 15초 이내로 줄여 보세요.",
+        "해결책(웨이브셀의 장점), 시장 규모, 비즈니스 모델(수익 구조), 투자 요청으로 이어지는 핵심 키워드를 반드시 언급해 보세요.",
+        "발표를 끝맺을 때 'Pre-A 20억 원 투자를 통해 시장 점유율을 확대하고자 합니다'와 같은 구체적인 투자 요청 멘트를 추가해 보세요."
+      ],
+      "coverage": [
+        {
+          "page": 1,
+          "title": "표지",
+          "status": "covered",
+          "note": "인사 및 회사 소개 완료.",
+          "sentenceIds": [
+            "pmwe0cst2-1",
+            "pmwe0cst2-2"
+          ]
+        },
+        {
+          "page": 2,
+          "title": "문제",
+          "status": "covered",
+          "note": "문제 정의와 근거 수치가 명확히 제시됨.",
+          "sentenceIds": [
+            "pmwe0cst2-4",
+            "pmwe0cst2-5",
+            "pmwe0cst2-6",
+            "pmwe0cst2-7",
+            "pmwe0cst2-8",
+            "pmwe0cst2-9"
+          ]
+        },
+        {
+          "page": 3,
+          "title": "해결책",
+          "status": "missing",
+          "note": "웨이브셀의 특징과 장점이 언급되지 않음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 4,
+          "title": "제품",
+          "status": "missing",
+          "note": "공정과 상세 사양에 대한 언급 없음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 5,
+          "title": "시장 규모",
+          "status": "missing",
+          "note": "시장 크기와 목표 점유율에 대한 언급 없음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 6,
+          "title": "비즈니스 모델",
+          "status": "missing",
+          "note": "수익 모델과 가격 정책에 대한 언급 없음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 7,
+          "title": "경쟁 분석",
+          "status": "missing",
+          "note": "경쟁사 대비 강점이 언급되지 않음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 8,
+          "title": "트랙션",
+          "status": "missing",
+          "note": "현재 실적과 고객 지표가 언급되지 않음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 9,
+          "title": "재무 계획",
+          "status": "missing",
+          "note": "성장 목표와 손익 분기점에 대한 언급 없음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 10,
+          "title": "팀",
+          "status": "missing",
+          "note": "팀 역량에 대한 소개가 없음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 11,
+          "title": "로드맵",
+          "status": "missing",
+          "note": "향후 계획이 언급되지 않음.",
+          "sentenceIds": []
+        },
+        {
+          "page": 12,
+          "title": "투자 요청",
+          "status": "missing",
+          "note": "투자금 규모와 용처에 대한 언급 없음.",
+          "sentenceIds": []
+        }
+      ],
+      "coverageRate": 0.167,
+      "numberIssues": []
+    }
+  },
+  "qa": [
+    {
+      "index": 0,
+      "judge": {
+        "id": "j_a129e4c10069",
+        "name": "지훈",
+        "temperament": "friendly"
+      },
+      "question": "시장 규모 페이지에서는 2029년 매출 목표를 340억 원으로 보셨는데 재무 계획 페이지에는 210억 원으로 적혀 있습니다. 이 두 수치 사이에 어떤 차이가 있는지 조금 더 자세히 설명해 주실 수 있을까요?",
+      "answer": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 네.",
+      "scores": {
+        "relevance": 0,
+        "accuracy": 50,
+        "evidence": 0,
+        "completeness": 0,
+        "composure": 30
+      },
+      "score": 16,
+      "verdict": "evasive",
+      "feedback": "질문의 핵심인 매출 목표 수치 차이를 설명하지 못하고 질문과 무관한 원가 이야기를 하셨습니다. 질문 내용을 정확히 인지하고 자료상의 수치 근거를 바탕으로 솔직하게 답변해 보세요.",
+      "rationale": "발표자는 재무 계획의 수치 불일치라는 구체적인 질문에 대해 전혀 동떨어진 원가 및 원재료 이야기를 하여 질문의 핵심을 비껴갔습니다. 이는 질문 관련성, 완결성, 근거 활용 측면에서 매우 미흡합니다. 자료 간 수치 불일치(p.5의 340억 vs p.9의 210억)에 대한 명확한 인지와 해명이 필요합니다.",
+      "contradictions": [
+        {
+          "claim": "질문 회피 및 관련 없는 답변",
+          "docSays": "발표자료 p.5: 2029년 매출 목표 340억 원, 발표자료 p.9: 2029년 매출 210억 원",
+          "refs": [
+            {
+              "doc": "presentation",
+              "pages": [
+                5,
+                9
+              ],
+              "quote": "340억 원 vs 210억 원",
+              "grounded": true
+            }
+          ],
+          "severity": "high"
+        }
+      ],
+      "evidenceUsed": [],
+      "missing": [
+        "질문에 대한 직접적인 답변",
+        "수치 차이에 대한 원인 설명(최대 잠재력 vs 실현 가능성)",
+        "자료 통합 관리 계획"
+      ],
+      "improvedAnswer": "질문에 감사드립니다. 5페이지의 340억 원은 시장 침투율 5%를 가정한 최대 잠재 시장 규모(SOM)이며, 9페이지의 210억 원은 완도 2공장 가동과 단계적 고객 확보를 고려한 실현 가능한 재무 목표치입니다. 혼선을 드려 죄송합니다. 향후 IR 자료에서는 현실적인 목표치인 210억 원을 기준으로 수치를 일원화하여 관리하겠습니다.",
+      "citations": [
+        {
+          "doc": "presentation",
+          "pages": [
+            5
+          ],
+          "quote": "340억 원",
+          "grounded": true
+        },
+        {
+          "doc": "presentation",
+          "pages": [
+            9
+          ],
+          "quote": "210억 원",
+          "grounded": true
+        }
+      ],
+      "answerFillers": 0
+    }
+  ],
+  "materials": {
+    "docs": [
+      {
+        "role": "presentation",
+        "docId": "b074e9bd3e49c31f",
+        "filename": "presentation.pdf",
+        "pageCount": 12,
+        "scores": {
+          "structure": 85,
+          "logic": 70,
+          "evidence": 75,
+          "consistency": 55,
+          "clarity": 75
+        },
+        "score": 72,
+        "summary": "본 피치덱은 친환경 완충재 시장의 문제와 제품 경쟁력을 명확히 제시하고 있으나, 2029년 매출 목표가 페이지별로 달라 일관성이 크게 저하됩니다. 핵심 지표 간 정합성을 검토하고 수정해 보세요.",
+        "strengths": [
+          "수산 부산물 활용 원가 구조와 5일의 빠른 리드타임 등 차별화된 제품 경쟁력을 수치로 명시했어요 (발표자료 p.3, 4).",
+          "9개월간 월 출고량 증가 추이와 83%의 재구매율 등 구체적인 트랙션 지표를 제시했어요 (발표자료 p.8)."
+        ],
+        "issues": [
+          {
+            "severity": "high",
+            "category": "consistency",
+            "title": "2029년 매출 목표 수치 불일치",
+            "detail": "시장 규모 페이지에서는 2029년 목표를 340억 원으로 기재한 반면, 재무 계획 페이지에서는 210억 원으로 서로 다르게 적혀 있어요 (발표자료 p.5, 9).",
+            "refs": [
+              {
+                "doc": "presentation",
+                "pages": [
+                  5,
+                  9
+                ],
+                "quote": "2029년 SAM의 5% 점유 340억 원",
+                "grounded": true
+              }
+            ],
+            "fix": "시장 점유율 산식을 재검토하여 p.5와 p.9의 2029년 매출 목표 금액을 일치시켜 보세요."
+          },
+          {
+            "severity": "medium",
+            "category": "evidence",
+            "title": "시장 규모(TAM/SAM) 산출 근거 미흡",
+            "detail": "국내 보호 포장재 시장 TAM 4.2조 원과 SAM 6,800억 원의 구체적인 산출 근거와 출처가 누락되어 있어요 (발표자료 p.5).",
+            "refs": [
+              {
+                "doc": "presentation",
+                "pages": [
+                  5
+                ],
+                "quote": "TAM 국내 보호 포장재(완충재) 시장 4.2조 원",
+                "grounded": true
+              }
+            ],
+            "fix": "시장 규모 산정 시 사용한 통계 출처와 계산 방식을 주석이나 본문에 추가해 보세요."
+          },
+          {
+            "severity": "medium",
+            "category": "logic",
+            "title": "LOI 연 환산 금액 산정 기준 모호",
+            "detail": "LOI 3건의 연 환산 금액이 24억 원이라고 적혀 있으나, 개별 계약의 규모나 산정 방식에 대한 설명이 없어요 (발표자료 p.8).",
+            "refs": [
+              {
+                "doc": "presentation",
+                "pages": [
+                  8
+                ],
+                "quote": "24억 LOI 3건 (연 환산)",
+                "grounded": true
+              }
+            ],
+            "fix": "LOI 3건의 계약 조건과 연간 환산 산식을 상세히 적어 보세요."
+          }
+        ]
+      }
+    ],
+    "consistency": [],
+    "score": 72
+  },
+  "overall": {
+    "total": 50,
+    "sub": {
+      "delivery": 70,
+      "logic": 52,
+      "response": 16,
+      "materials": 72
+    },
+    "weights": {
+      "delivery": 0.25,
+      "logic": 0.25,
+      "response": 0.3,
+      "materials": 0.2
+    },
+    "excluded": [],
+    "headline": "자료의 수치 일관성을 높여 보세요.",
+    "oneLiner": "전달력은 좋으나 내용 보완이 필요해요.",
+    "strengths": [
+      "2페이지에서 택배 상자 예시를 통해 문제 상황에 공감을 유도했어요.",
+      "2페이지에 연간 택배 물량(51억 개) 등 구체적인 수치를 활용했어요."
+    ],
+    "priorities": [
+      {
+        "title": "자료 간 매출 목표 수치를 일치시켜 보세요.",
+        "why": "5페이지와 9페이지의 2029년 매출 목표 수치가 각각 340억 원과 210억 원으로 서로 다릅니다.",
+        "how": "두 페이지의 산출 근거를 재검토하여 2029년 목표 매출 수치를 하나로 통일해 보세요."
+      },
+      {
+        "title": "질문의 핵심에 직접 답변해 보세요.",
+        "why": "매출 목표 수치 차이를 묻는 질문에 원가 이야기를 하며 답변을 회피했습니다.",
+        "how": "질문 의도를 정확히 인지하고 자료상의 수치를 바탕으로 질문에 솔직하게 답변해 보세요."
+      },
+      {
+        "title": "1분 내에 핵심 내용을 모두 담아 보세요.",
+        "why": "문제 제기에 시간을 과도하게 사용하여 해결책과 투자 요청 내용이 누락되었습니다.",
+        "how": "문제 제기를 15초 이내로 줄이고 비즈니스 모델과 투자 요청 멘트를 포함해 보세요."
+      }
+    ]
+  }
+}

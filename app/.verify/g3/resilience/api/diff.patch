@@ -1,0 +1,739 @@
+diff --git a/app/src/app/api/judges/route.ts b/app/src/app/api/judges/route.ts
+index 899da5e..6d28d4e 100644
+--- a/app/src/app/api/judges/route.ts
++++ b/app/src/app/api/judges/route.ts
+@@ -1,5 +1,4 @@
+ import { z } from "zod";
+-import { MODELS } from "@/server/ai";
+ import { cors, errorResponse, guard, ndjson, preflight, readJson, toApiError } from "@/server/http";
+ import { startPanel } from "@/server/judge/generate";
+ import type { JudgeEvent } from "@/server/judge/types";
+@@ -22,7 +21,7 @@ const Body = z.object({
+ });
+ 
+ // POST /api/judges { temperaments (1–3), avoid? } → application/x-ndjson, one line per event:
+-//   {type:"judge", slot, judge: JudgeOut, model} · {type:"error", slot, code, message} · {type:"done", ms}
++//   {type:"judge", slot, judge: JudgeOut, model (the image model actually used: gpt-image-2 or a Gemini image model)} · {type:"error", slot, code, message} · {type:"done", ms}
+ export const OPTIONS = preflight;
+ 
+ export const POST = cors(async (req: Request) => {
+@@ -40,7 +39,7 @@ export const POST = cors(async (req: Request) => {
+     await Promise.all(
+       jobs.map((p, slot) =>
+         p.then(
+-          (judge) => send({ type: "judge", slot, judge, model: MODELS.openaiImage }),
++          ({ judge, model }) => send({ type: "judge", slot, judge, model }),
+           (e) => {
+             const err = toApiError(e, "judges");
+             send({ type: "error", slot, code: err.code, message: err.message });
+diff --git a/app/src/app/api/wiki/route.ts b/app/src/app/api/wiki/route.ts
+index 57eeabf..fc88dda 100644
+--- a/app/src/app/api/wiki/route.ts
++++ b/app/src/app/api/wiki/route.ts
+@@ -1,4 +1,5 @@
+ import { z } from "zod";
++import { isLiteFallback } from "@/server/ai";
+ import { cors, errorResponse, guard, ndjson, preflight, readJson } from "@/server/http";
+ import { buildWiki } from "@/server/wiki/ingest";
+ import { checkDocLimits, DocIn } from "@/server/wiki/schema";
+@@ -12,7 +13,8 @@ const Body = z.object({ doc: DocIn.omit({ wiki: true, keyNumbers: true }) });
+ 
+ // POST /api/wiki { doc: DocInput (page texts, no wiki) } → application/x-ndjson:
+ //   {type:"progress", phase, chunksDone, chunksTotal, roundsDone, roundsTotal, msg} …
+-//   {type:"done", wiki: WikiPage[], keyNumbers, usage (by "provider:model"), ms} | {type:"error", code, message, retryable}
++//   {type:"done", wiki: WikiPage[], keyNumbers, usage (by "provider:model"), ms, degraded} | {type:"error", code, message, retryable}
++// degraded = some pages were written by a last-resort Gemini lite model (OpenAI/Claude unavailable) — show that in the UI.
+ // 413 over 120 pages / 150k chars, 422 when < 30 % of pages carry text. The build stops 20 s before maxDuration (504).
+ export const OPTIONS = preflight;
+ 
+@@ -30,6 +32,7 @@ export const POST = cors(async (req: Request) => {
+   return ndjson("wiki", async (send: (e: WikiEvent) => void) => {
+     const doc = wikiDocFrom(body.doc);
+     const { usage, ms } = await buildWiki(doc, { onProgress: send, signal });
+-    send({ type: "done", wiki: toWikiPages(doc), keyNumbers: doc.keyNumbers, usage, ms });
++    const degraded = Object.keys(usage).some((k) => isLiteFallback(k.split(":")[1] ?? ""));
++    send({ type: "done", wiki: toWikiPages(doc), keyNumbers: doc.keyNumbers, usage, ms, degraded });
+   });
+ });
+diff --git a/app/src/server/ai/index.ts b/app/src/server/ai/index.ts
+index 7f058ca..8ac113b 100644
+--- a/app/src/server/ai/index.ts
++++ b/app/src/server/ai/index.ts
+@@ -15,6 +15,23 @@ export const MODELS = {
+   claudeCheap: "claude-haiku-5-5",
+ } as const;
+ 
++/** Last-resort text models (Gemini free tier) at the end of every text chain. Answers from these are lower quality:
++ *  routes report them as `degraded` so the UI can say so. */
++export const LITE_FALLBACK = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite"] as const;
++export const isLiteFallback = (model: string) => (LITE_FALLBACK as readonly string[]).includes(model);
++
++/** OpenAI's SDK retries every 429 — including "no credits" (insufficient_quota / credit_balance_exhausted), which never
++ *  recovers. Mark those responses as non-retryable so the call fails in ~1 s instead of ~20 s. */
++export const quotaAwareFetch: typeof fetch = async (input, init) => {
++  const r = await fetch(input, init);
++  if (r.status !== 429) return r;
++  const text = await r.clone().text();
++  if (!/insufficient_quota|credit_balance|no credits|billing/i.test(text)) return r;
++  const headers = new Headers(r.headers);
++  headers.set("x-should-retry", "false");
++  return new Response(text, { status: r.status, statusText: r.statusText, headers });
++};
++
+ let _gemini: GoogleGenAI | undefined;
+ let _openai: OpenAI | undefined;
+ let _claude: Anthropic | undefined;
+diff --git a/app/src/server/http/index.ts b/app/src/server/http/index.ts
+index be99b0f..0587354 100644
+--- a/app/src/server/http/index.ts
++++ b/app/src/server/http/index.ts
+@@ -36,6 +36,8 @@ export class ApiError extends Error {
+   code: ApiErrorCode;
+   retryAfterSec?: number;
+   issues?: { path: string; message: string }[];
++  /** Hint for the client to do the job on the device (/api/tts → speechSynthesis). */
++  fallback?: "browser";
+   constructor(code: ApiErrorCode, message?: string, retryAfterSec?: number, issues?: { path: string; message: string }[]) {
+     super(message ?? (code === "rate_limited" && retryAfterSec ? `요청이 많아요. ${waitText(retryAfterSec)} 뒤 다시 시도해 주세요.` : DEFAULT_MESSAGE[code]));
+     this.name = "ApiError";
+@@ -61,7 +63,7 @@ export function toApiError(e: unknown, tag: string): ApiError {
+ export function errorResponse(e: unknown, tag: string): Response {
+   const err = toApiError(e, tag);
+   const body: ApiErrorBody & { error: { issues?: ApiError["issues"] } } = {
+-    error: { code: err.code, message: err.message, ...(err.retryAfterSec ? { retryAfterSec: err.retryAfterSec } : {}), ...(err.issues ? { issues: err.issues } : {}) },
++    error: { code: err.code, message: err.message, ...(err.retryAfterSec ? { retryAfterSec: err.retryAfterSec } : {}), ...(err.issues ? { issues: err.issues } : {}), ...(err.fallback ? { fallback: err.fallback } : {}) },
+   };
+   const headers: Record<string, string> = { ...NO_STORE };
+   if (err.retryAfterSec) headers["retry-after"] = String(err.retryAfterSec);
+diff --git a/app/src/server/judge/generate.ts b/app/src/server/judge/generate.ts
+index e151557..674d192 100644
+--- a/app/src/server/judge/generate.ts
++++ b/app/src/server/judge/generate.ts
+@@ -1,13 +1,21 @@
+ import "server-only";
++import { ApiError as GeminiApiError } from "@google/genai";
+ import OpenAI from "openai";
+-import { MODELS, openai } from "../ai";
++import { gemini, MODELS, openai, quotaAwareFetch } from "../ai";
+ import { ApiError } from "../http";
+ import type { Temperament } from "../types";
+ import { buildPrompt, rollTraits, voiceHint, type JudgeTraits } from "./traits";
+ import type { JudgeOut, RollAvoid } from "./types";
+ 
+ // Judge portrait = gpt-image-2, quality "low" (≈11 s, photoreal at card size), 1024² webp q85 (60–120 KB).
++// When OpenAI is out of credits / its key is refused, ONE Gemini image call per model (same prompt) is tried,
++// then the slot fails with OpenAI's error code and the client shows initials. Quota errors are never retried:
++// a target that answered with quota / auth is skipped for QUOTA_SKIP_MS by every later judge.
+ const IMAGE = { size: "1024x1024", quality: "low", format: "webp", compression: 85 } as const;
++const GEMINI_IMAGE = ["gemini-3.1-flash-image", "gemini-3-pro-image"] as const;
++const QUOTA_SKIP_MS = 10 * 60_000;
++const skipUntil = ((globalThis as unknown as { __judgeSkip?: Map<string, number> }).__judgeSkip ??= new Map());
++const skipped = (k: string) => (skipUntil.get(k) ?? 0) > Date.now();
+ 
+ function newJudgeId() {
+   const rand = crypto.getRandomValues(new Uint8Array(5));
+@@ -26,37 +34,70 @@ function toApi(e: unknown): unknown {
+   return e; // → upstream (logged) via toApiError
+ }
+ 
+-async function generateJudge(temperament: Temperament, traits: JudgeTraits, signal?: AbortSignal): Promise<JudgeOut> {
+-  let b64: string | undefined;
+-  try {
+-    const res = await openai().images.generate(
+-      {
+-        model: MODELS.openaiImage,
+-        prompt: buildPrompt(traits),
+-        n: 1,
+-        size: IMAGE.size,
+-        quality: IMAGE.quality,
+-        output_format: IMAGE.format,
+-        output_compression: IMAGE.compression,
+-        background: "opaque",
+-        moderation: "auto",
+-      },
+-      { timeout: 100_000, maxRetries: 1, signal },
+-    );
+-    b64 = res.data?.[0]?.b64_json;
+-  } catch (e) {
+-    throw toApi(e);
+-  }
++type Image = JudgeOut["image"] & { model: string };
++let _oa: OpenAI | undefined; // no SDK retry on "no credits" 429s
++
++async function openaiImage(prompt: string, signal?: AbortSignal): Promise<Image> {
++  const res = await (_oa ??= openai().withOptions({ fetch: quotaAwareFetch })).images.generate(
++    { model: MODELS.openaiImage, prompt, n: 1, size: IMAGE.size, quality: IMAGE.quality, output_format: IMAGE.format, output_compression: IMAGE.compression, background: "opaque", moderation: "auto" },
++    { timeout: 100_000, maxRetries: 1, signal },
++  );
++  const b64 = res.data?.[0]?.b64_json;
+   if (!b64) throw new Error("OpenAI returned no image data");
++  return { mime: "image/webp", base64: b64, model: MODELS.openaiImage };
++}
++
++/** One call per Gemini image model, no retries. null when none produced an image. */
++async function geminiImage(prompt: string, signal?: AbortSignal): Promise<Image | null> {
++  for (const model of GEMINI_IMAGE) {
++    if (skipped(model)) continue;
++    try {
++      const r = await gemini().models.generateContent({
++        model,
++        contents: [{ role: "user", parts: [{ text: prompt }] }],
++        config: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1", imageSize: "1K" }, abortSignal: signal, httpOptions: { timeout: 60_000 } },
++      });
++      const part = r.candidates?.[0]?.content?.parts?.find((p) => p.inlineData?.data);
++      if (part?.inlineData?.data) return { mime: part.inlineData.mimeType ?? "image/png", base64: part.inlineData.data, model };
++      console.warn(`[judges] ${model}: no image (${r.candidates?.[0]?.finishReason ?? "unknown"})`);
++    } catch (e) {
++      if (signal?.aborted) throw e;
++      const st = e instanceof GeminiApiError ? e.status : undefined;
++      if (st === 429 || st === 401 || st === 403 || st === 404) skipUntil.set(model, Date.now() + QUOTA_SKIP_MS);
++      console.warn(`[judges] ${model} failed (${st ?? (e as Error).message?.slice(0, 80)})`);
++    }
++  }
++  return null;
++}
++
++async function generateJudge(temperament: Temperament, traits: JudgeTraits, signal?: AbortSignal): Promise<{ judge: JudgeOut; model: string }> {
++  const prompt = buildPrompt(traits);
++  let image: Image | null = null;
++  let openaiErr: unknown = new ApiError("providers_unavailable");
++  if (!skipped("openai")) {
++    try {
++      image = await openaiImage(prompt, signal);
++    } catch (e) {
++      openaiErr = toApi(e);
++      if (!(openaiErr instanceof ApiError && openaiErr.code === "providers_unavailable")) throw openaiErr; // policy / rate / timeout: no fallback
++      skipUntil.set("openai", Date.now() + QUOTA_SKIP_MS);
++    }
++  }
++  image ??= await geminiImage(prompt, signal);
++  if (!image) throw openaiErr;
++  const { model, ...img } = image;
+   return {
+-    id: newJudgeId(),
+-    name: traits.givenName,
+-    fullName: traits.surname + traits.givenName,
+-    temperament,
+-    gender: traits.gender,
+-    age: traits.age,
+-    voiceHint: voiceHint(traits, temperament),
+-    image: { mime: "image/webp", base64: b64 },
++    model,
++    judge: {
++      id: newJudgeId(),
++      name: traits.givenName,
++      fullName: traits.surname + traits.givenName,
++      temperament,
++      gender: traits.gender,
++      age: traits.age,
++      voiceHint: voiceHint(traits, temperament),
++      image: img,
++    },
+   };
+ }
+ 
+@@ -64,7 +105,7 @@ async function generateJudge(temperament: Temperament, traits: JudgeTraits, sign
+  * Roll a balanced panel (distinct given names and surnames, mixed genders, spread ages — also against `avoid`,
+  * the judges already kept when replacing one) and generate all portraits in parallel. One promise per slot.
+  */
+-export function startPanel(temperaments: Temperament[], avoid: RollAvoid = {}, signal?: AbortSignal): Promise<JudgeOut>[] {
++export function startPanel(temperaments: Temperament[], avoid: RollAvoid = {}, signal?: AbortSignal): Promise<{ judge: JudgeOut; model: string }>[] {
+   const taken: Required<RollAvoid> = { names: [...(avoid.names ?? [])], surnames: [...(avoid.surnames ?? [])], genders: [...(avoid.genders ?? [])], ages: [...(avoid.ages ?? [])] };
+   const rolled = temperaments.map((t) => {
+     const tr = rollTraits(t, taken);
+diff --git a/app/src/server/judge/types.ts b/app/src/server/judge/types.ts
+index 3bf5701..6e6f73a 100644
+--- a/app/src/server/judge/types.ts
++++ b/app/src/server/judge/types.ts
+@@ -15,7 +15,7 @@ export interface JudgeOut extends JudgePersona {
+   age: number;
+   fullName: string; // e.g. "김준호"
+   voiceHint: string; // e.g. "40대 남성, 차분하고 단호한 목소리"
+-  image: { mime: "image/webp"; base64: string }; // 1024px, full color
++  image: { mime: string; base64: string }; // 1024px, full color: image/webp (gpt-image-2) or image/png|jpeg (Gemini fallback)
+ }
+ 
+ /** POST /api/judges NDJSON events. */
+diff --git a/app/src/server/question/followup.ts b/app/src/server/question/followup.ts
+index d9839a8..c151028 100644
+--- a/app/src/server/question/followup.ts
++++ b/app/src/server/question/followup.ts
+@@ -1,4 +1,5 @@
+ import "server-only";
++import { isLiteFallback } from "../ai";
+ import { clampDifficulty, cleanQuestion } from "./generate";
+ import { groundEvidence } from "./ground";
+ import { streamJson, withRetry } from "./llm";
+@@ -92,5 +93,5 @@ JSON으로만 답하세요.`;
+   }
+   const remark = clampRemark(data.remark, judge.temperament);
+ 
+-  return { decision, assessment, remark, followup, usage, latencyMs: Date.now() - t0, ...(guard ? { guard } : {}) };
++  return { decision, assessment, remark, followup, usage, degraded: isLiteFallback(usage.model), latencyMs: Date.now() - t0, ...(guard ? { guard } : {}) };
+ }
+diff --git a/app/src/server/question/generate.ts b/app/src/server/question/generate.ts
+index a115498..1687e21 100644
+--- a/app/src/server/question/generate.ts
++++ b/app/src/server/question/generate.ts
+@@ -1,4 +1,5 @@
+ import "server-only";
++import { isLiteFallback } from "../ai";
+ import { TEMPERAMENT_LABEL } from "../types";
+ import { buildContext } from "./context";
+ import { groundEvidence } from "./ground";
+@@ -193,5 +194,5 @@ export async function generateQuestions(input: GenerateInput, opts: { onEvent?:
+   timings.total = Date.now() - t0;
+ 
+   emit({ type: "stage", stage: "done", msg: `완료: 질문 ${questions.length}개 (본 ${ord.main.length} · 예비 ${ord.reserve.length}${ord.duplicates.length ? ` · 중복 이동 ${ord.duplicates.length}` : ""})`, ms: timings.total });
+-  emit({ type: "done", questions, pack, lint, order: ord.order, main: ord.main, reserve: ord.reserve, timings, usage });
++  emit({ type: "done", questions, pack, lint, order: ord.order, main: ord.main, reserve: ord.reserve, timings, usage, degraded: usage.some((u) => isLiteFallback(u.model)) });
+ }
+diff --git a/app/src/server/question/llm.ts b/app/src/server/question/llm.ts
+index 0716f1c..e385201 100644
+--- a/app/src/server/question/llm.ts
++++ b/app/src/server/question/llm.ts
+@@ -2,28 +2,32 @@ import "server-only";
+ import { ThinkingLevel } from "@google/genai";
+ import OpenAI from "openai";
+ import { z } from "zod";
+-import { claude, gemini, MODELS, openai } from "../ai";
++import { claude, gemini, isLiteFallback, LITE_FALLBACK, MODELS, openai, quotaAwareFetch } from "../ai";
+ import { classify, downReason, isAbort, markDown, ProvidersUnavailableError, type ProviderName } from "./providers";
+ import type { LlmUsage } from "./types";
+ 
+-// Ordered per-role targets: OpenAI first, Gemini rotation, Claude last resort.
++// Ordered per-role targets: OpenAI first, Gemini flash rotation, Claude, then the Gemini lite models (last resort,
++// lower quality → the response's usage.model says so and routes flag it as `degraded`).
+ type Role = "generate" | "followup";
+ type Provider = ProviderName;
+ type OpenAITarget = { provider: "openai"; model: string; effort: "none" | "low" };
+ type Target = OpenAITarget | { provider: "gemini"; model: string } | { provider: "claude"; model: string; effort: "low" };
+-const GEMINI_CHAIN = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3-flash-preview", "gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.1-flash-lite"];
++const GEMINI_CHAIN = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3-flash-preview", "gemini-3.5-flash", "gemini-3.6-flash"];
++const LITE_TARGETS: Target[] = LITE_FALLBACK.map((model) => ({ provider: "gemini", model }));
+ const ROLE_TARGETS: Record<Role, Target[]> = {
+   generate: [
+     { provider: "openai", model: "gpt-6.1-terra", effort: "low" },
+     { provider: "openai", model: "gpt-5.5", effort: "none" },
+     ...GEMINI_CHAIN.map((model): Target => ({ provider: "gemini", model })),
+     { provider: "claude", model: MODELS.claudeFast, effort: "low" },
++    ...LITE_TARGETS,
+   ],
+   followup: [
+     { provider: "openai", model: "gpt-5.5", effort: "low" },
+     { provider: "openai", model: "gpt-6.1-terra", effort: "low" },
+     ...GEMINI_CHAIN.map((model): Target => ({ provider: "gemini", model })),
+     { provider: "claude", model: MODELS.claudeFast, effort: "low" },
++    ...LITE_TARGETS,
+   ],
+ };
+ const MAX_TOKENS = { generate: 6000, followup: 3000 };
+@@ -88,6 +92,7 @@ export async function streamJson<T extends z.ZodType>(call: StreamJsonCall<T>):
+ const gCool = ((globalThis as unknown as { __questionGeminiCool?: Map<string, number> }).__questionGeminiCool ??= new Map());
+ function retryDelayMs(e: unknown): number {
+   const msg = String((e as Error)?.message ?? "");
++  if (/PerDay|per day/i.test(msg)) return 10 * 60_000; // daily free-tier quota: don't re-probe on every call
+   const m = msg.match(/retry in ([\d.]+)s/i) ?? msg.match(/"retryDelay":\s*"(\d+)s"/);
+   return Math.max(30_000, m ? Math.ceil(Number(m[1]) * 1000) : 60_000);
+ }
+@@ -140,12 +145,14 @@ async function geminiStream<T extends z.ZodType>(call: StreamJsonCall<T>, target
+       };
+     } catch (e) {
+       if (call.signal?.aborted) throw e; // the caller gave up — not a model problem
+-      last = timedOut ? new Error(`gemini ${model} timeout (${timedOut})`) : e;
++      last = timedOut ? new Error(`응답 지연(${model}, ${timedOut})`) : e;
+       const st = (e as { status?: number }).status;
++      // the lite models are the last resort: an overload / slow answer is not cooled, so withRetry may try them once more
++      const lastResort = isLiteFallback(model);
+       if (st === 429) gCool.set(model, Date.now() + retryDelayMs(e));
+       else if (st === 404) gCool.set(model, Date.now() + 24 * 3600_000);
+-      else if (st === 503) gCool.set(model, Date.now() + 30_000);
+-      else if (timedOut) gCool.set(model, Date.now() + 60_000);
++      else if (st === 503 && !lastResort) gCool.set(model, Date.now() + 30_000);
++      else if (timedOut && !lastResort) gCool.set(model, Date.now() + 60_000);
+       console.warn(`[question] gemini ${model} failed (${timedOut || st || (e as Error).message?.slice(0, 60)}) → next model`);
+     } finally {
+       clearTimeout(firstTimer);
+@@ -157,7 +164,7 @@ async function geminiStream<T extends z.ZodType>(call: StreamJsonCall<T>, target
+ }
+ 
+ let _oa: OpenAI | undefined;
+-const oa = () => (_oa ??= openai().withOptions({ maxRetries: 3, timeout: 120_000 }));
++const oa = () => (_oa ??= openai().withOptions({ maxRetries: 3, timeout: 120_000, fetch: quotaAwareFetch }));
+ 
+ async function openaiStream<T extends z.ZodType>(call: StreamJsonCall<T>, spec: OpenAITarget): Promise<{ data: z.infer<T>; usage: LlmUsage }> {
+   const t0 = Date.now();
+diff --git a/app/src/server/question/types.ts b/app/src/server/question/types.ts
+index df62d35..977c6e3 100644
+--- a/app/src/server/question/types.ts
++++ b/app/src/server/question/types.ts
+@@ -121,7 +121,7 @@ export type GenerateEvent =
+   | { type: "delta"; judgeId: string; index: number; text: string }
+   | { type: "question"; question: GeneratedQuestion }
+   | { type: "judge-done"; judgeId: string; usage: LlmUsage; count: number }
+-  | { type: "done"; questions: GeneratedQuestion[]; pack: ContextPack; lint: LintIssue[]; order: string[]; main: string[]; reserve: string[]; timings: Record<string, number>; usage: LlmUsage[] }
++  | { type: "done"; questions: GeneratedQuestion[]; pack: ContextPack; lint: LintIssue[]; order: string[]; main: string[]; reserve: string[]; timings: Record<string, number>; usage: LlmUsage[]; degraded: boolean }
+   | { type: "error"; message: string; judgeId?: string };
+ 
+ export interface AnswerAssessment {
+@@ -151,6 +151,8 @@ export interface FollowUpResult {
+   remark: string; // spoken short reaction in persona
+   followup: GeneratedQuestion | null;
+   usage: LlmUsage;
++  /** true when a last-resort Gemini lite model answered (lower quality; say so in the UI). */
++  degraded: boolean;
+   latencyMs: number;
+   /** Set when the server overrode the model's "followup" decision (and why). */
+   guard?: { kind: "cap" | "time" | "sufficient" | "duplicate" | "empty"; detail: string };
+diff --git a/app/src/server/report/llm.ts b/app/src/server/report/llm.ts
+index 6412333..183fc05 100644
+--- a/app/src/server/report/llm.ts
++++ b/app/src/server/report/llm.ts
+@@ -3,11 +3,12 @@ import Anthropic from "@anthropic-ai/sdk";
+ import { ApiError as GeminiApiError, ThinkingLevel } from "@google/genai";
+ import OpenAI from "openai";
+ import { z } from "zod";
+-import { claude, gemini, MODELS, openai } from "../ai";
++import { claude, gemini, LITE_FALLBACK, MODELS, openai } from "../ai";
+ 
+ // Structured-JSON judgment calls for the report.
+ //
+-// Provider chain: OpenAI gpt-6-astra → gpt-6.1-sol → gpt-5.5 → Gemini → Claude.
++// Provider chain: OpenAI gpt-6-astra → gpt-6.1-sol → gpt-5.5 → Gemini flash → Claude → Gemini lite (last resort; the
++// result screen marks a report made with a "lite" model as lower quality via meta.provider / usage.byModel).
+ // REPORT_LLM_PROVIDER = auto (default) | claude | openai | gemini restricts the chain.
+ //
+ // // Errors are classified so that quota/billing/auth failures are FINAL for that target (no retries, marked down for
+@@ -16,7 +17,7 @@ import { claude, gemini, MODELS, openai } from "../ai";
+ // callers get Korean text (LlmUnavailableError.message / koError()).
+ 
+ const CLAUDE_MODEL = MODELS.claudeSmart; // claude-opus-5-5
+-const GEMINI_MODELS = (process.env.REPORT_GEMINI_MODELS ?? `gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite`)
++const GEMINI_MODELS = (process.env.REPORT_GEMINI_MODELS ?? `gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash`)
+   .split(",")
+   .map((s) => s.trim())
+   .filter(Boolean);
+@@ -46,6 +47,7 @@ function chain(only?: Provider): Target[] {
+     { provider: "openai", model: "gpt-5.5", effort: "low" },
+     ...GEMINI_MODELS.map((model) => ({ provider: "gemini" as const, model })),
+     { provider: "claude", model: CLAUDE_MODEL },
++    ...LITE_FALLBACK.map((model) => ({ provider: "gemini" as const, model })),
+   ];
+   const w = only ?? wanted();
+   return w === "auto" ? all : all.filter((t) => t.provider === w);
+diff --git a/app/src/server/tts/speech.ts b/app/src/server/tts/speech.ts
+index 51c07ad..dddd5bf 100644
+--- a/app/src/server/tts/speech.ts
++++ b/app/src/server/tts/speech.ts
+@@ -123,6 +123,11 @@ export async function synthesizeSpeech(
+     }
+   }
+   console.warn("[tts] every voice model failed:", reasons.join(", "));
+-  if (left() <= 3_000) throw new ApiError("timeout", "음성을 만드는 데 시간이 너무 오래 걸려요. 화면의 질문을 읽고 답변해 주세요.");
+-  throw new ApiError("providers_unavailable", quota ? "오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요." : "지금은 질문 음성을 만들 수 없어요. 화면의 질문을 읽고 답변해 주세요.");
++  // fallback "browser": the client reads the line with speechSynthesis (device voice) instead
++  const err =
++    left() <= 3_000
++      ? new ApiError("timeout", "음성을 만드는 데 시간이 너무 오래 걸려요. 화면의 질문을 읽고 답변해 주세요.")
++      : new ApiError("providers_unavailable", quota ? "오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요." : "지금은 질문 음성을 만들 수 없어요. 화면의 질문을 읽고 답변해 주세요.");
++  err.fallback = "browser";
++  throw err;
+ }
+diff --git a/app/src/server/types.ts b/app/src/server/types.ts
+index ac6e0f9..123aea6 100644
+--- a/app/src/server/types.ts
++++ b/app/src/server/types.ts
+@@ -51,7 +51,7 @@ export type ApiErrorCode = "bad_request" | "forbidden" | "too_large" | "unsuppor
+ 
+ /** Error body of every route. `message` is Korean and can be shown as is. */
+ export interface ApiErrorBody {
+-  error: { code: ApiErrorCode; message: string; retryAfterSec?: number };
++  error: { code: ApiErrorCode; message: string; retryAfterSec?: number; fallback?: "browser" };
+ }
+ 
+ /** Caps checked on both sides: the client before sending, the server again on every request. */
+diff --git a/app/src/server/wiki/llm.ts b/app/src/server/wiki/llm.ts
+index cdb622d..7be8b88 100644
+--- a/app/src/server/wiki/llm.ts
++++ b/app/src/server/wiki/llm.ts
+@@ -1,14 +1,16 @@
+ import "server-only";
+ import Anthropic from "@anthropic-ai/sdk";
++import { ApiError as GeminiApiError, ThinkingLevel } from "@google/genai";
+ import OpenAI from "openai";
+ import { z } from "zod";
+-import { claude, MODELS, openai } from "@/server/ai";
++import { claude, gemini, LITE_FALLBACK, MODELS, openai, quotaAwareFetch } from "@/server/ai";
+ import { nextStep, type LlmErrorCode } from "./errors";
+ 
+ // Provider-agnostic structured-JSON LLM calls for the wiki.
+-// WIKI_LLM_PROVIDER = "auto" (default: OpenAI first, Claude when OpenAI's breaker is open) | "claude" | "openai".
+-// A provider that fails with quota / usage-limit / auth / connection errors trips a process-wide breaker
+-// (60 s for quota/auth, 30 s for connection) so later calls skip it instantly instead of retrying.
++// WIKI_LLM_PROVIDER = "auto" (default: OpenAI → Claude → Gemini lite models, last resort) | "claude" | "openai" | "gemini".
++// A target that fails with quota / usage-limit / auth / connection errors trips a process-wide breaker
++// (5 min for quota/auth, 30 s for connection) so later calls skip it instantly instead of retrying.
++// Gemini models each have their own free-tier bucket: a per-minute 429 cools that model for its retryDelay only.
+ 
+ type Tier = "extract" | "plan" | "write" | "overview" | "numbers" | "select" | "answer" | "lint";
+ type Effort = "none" | "low" | "medium";
+@@ -37,7 +39,7 @@ const TIERS: Record<Tier, TierSpec> = {
+ };
+ 
+ export interface CallUsage {
+-  provider: "openai" | "claude";
++  provider: Provider;
+   model: string;
+   tier: Tier;
+   inputTokens: number;
+@@ -45,7 +47,18 @@ export interface CallUsage {
+   ms: number;
+ }
+ 
+-type Provider = "openai" | "claude";
++type Provider = "openai" | "claude" | "gemini";
++/** One entry of the chain; breakers are keyed by `key` (provider for OpenAI/Claude, "gemini:<model>" per Gemini model). */
++interface Target {
++  p: Provider;
++  model?: string;
++  key: string;
++}
++const TARGETS: Target[] = [
++  { p: "openai", key: "openai" },
++  { p: "claude", key: "claude" },
++  ...LITE_FALLBACK.map((model): Target => ({ p: "gemini", model, key: `gemini:${model}` })),
++];
+ 
+ // ---- circuit breaker (process-wide, survives HMR via globalThis)
+ // Quota / usage-limit / auth errors are not per-request problems: retrying them only burns time (the reviewer
+@@ -56,24 +69,25 @@ interface Breaker {
+   code: LlmErrorCode;
+   label: string; // Korean, short
+ }
+-const g = globalThis as unknown as { __wikiBreakers?: Partial<Record<Provider, Breaker>> };
+-const breakers = (g.__wikiBreakers ??= {});
+-// 60 s: long enough that a burst of calls (parallel ingest chunks, a query's select+answer) all skip the dead
+-// provider, short enough that topping up credits is picked up within a minute without a server restart.
+-const BREAK_MS: Record<LlmErrorCode, number> = { quota: 60_000, auth: 60_000, network: 30_000, unavailable: 60_000, rate_limit: 0, timeout: 0, unknown: 0 };
+-const PROVIDER_NAME: Record<Provider, string> = { openai: "OpenAI", claude: "Claude" };
++const g = globalThis as unknown as { __wikiBreakers2?: Record<string, Breaker> };
++const breakers = (g.__wikiBreakers2 ??= {});
++// 5 min: a whole ingest (≈1–2 min) skips the dead provider instead of re-probing it with every parallel call;
++// a top-up is still picked up within minutes without a server restart (OpenAI stays first in the chain).
++const BREAK_MS: Record<LlmErrorCode, number> = { quota: 300_000, auth: 300_000, network: 30_000, unavailable: 60_000, rate_limit: 15_000, timeout: 0, unknown: 0 };
++const PROVIDER_NAME: Record<Provider, string> = { openai: "OpenAI", claude: "Claude", gemini: "Gemini" };
+ 
+-function openBreaker(p: Provider): Breaker | null {
+-  const b = breakers[p];
++function openBreaker(key: string): Breaker | null {
++  const b = breakers[key];
+   if (b && b.until > Date.now()) return b;
+-  if (b) delete breakers[p];
++  if (b) delete breakers[key];
+   return null;
+ }
+-function trip(p: Provider, code: LlmErrorCode) {
+-  const ms = BREAK_MS[code];
++function trip(t: Target, code: LlmErrorCode, ms = BREAK_MS[code]) {
+   if (!ms) return;
+-  const label = code === "quota" ? (p === "claude" ? "사용 한도 초과" : "크레딧 소진") : code === "auth" ? "API 키 거부" : "연결 실패";
+-  breakers[p] = { until: Date.now() + ms, code, label };
++  const label =
++    code === "quota" ? (t.p === "claude" ? "사용 한도 초과" : t.p === "gemini" ? "일일 한도 초과" : "크레딧 소진") : code === "auth" ? "API 키 거부" : code === "rate_limit" ? "분당 한도 초과" : code === "unavailable" ? "일시 사용 불가" : "연결 실패";
++  breakers[t.key] = { until: Date.now() + ms, code, label };
++  console.warn(`[wiki/llm] ${t.key} skipped for ${Math.round(ms / 1000)} s (${code})`);
+ }
+ 
+ /** Thrown when no provider can serve a call right now (quota / auth / connection). Never retried. */
+@@ -90,18 +104,40 @@ export class LlmUnavailableError extends Error {
+ 
+ function wantedProvider(): "auto" | Provider {
+   const v = (process.env.WIKI_LLM_PROVIDER ?? "auto").toLowerCase();
+-  return v === "claude" || v === "openai" ? v : "auto";
++  return v === "claude" || v === "openai" || v === "gemini" ? v : "auto";
+ }
+-
+-/** Providers to try, in order, skipping open breakers. */
+-function candidates(): Provider[] {
++function chain(): Target[] {
+   const w = wantedProvider();
+-  const order: Provider[] = w === "auto" ? ["openai", "claude"] : [w];
+-  return order.filter((p) => !openBreaker(p));
++  return w === "auto" ? TARGETS : TARGETS.filter((t) => t.p === w);
++}
++
++/** Targets to try, in order, skipping open breakers. */
++function candidates(): Target[] {
++  return chain().filter((t) => !openBreaker(t.key));
++}
++
++/** Breaker length for a Gemini model: per-minute limit = its retryDelay, overload 10 s, unknown model 1 h. */
++function geminiBreakMs(code: LlmErrorCode, e: unknown): number | undefined {
++  if (!(e instanceof GeminiApiError)) return undefined;
++  if (code === "rate_limit") return Math.max(5_000, geminiRetryMs(e.message) ?? 15_000);
++  if (code === "unavailable") return e.status === 404 ? 3_600_000 : 10_000;
++  return undefined;
+ }
+ 
+-/** Provider-level failure (quota / auth / connection) → breaker code; null for per-request errors. */
++function geminiRetryMs(msg: string): number | undefined {
++  const m = /"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"/.exec(msg) ?? /retry in (\d+(?:\.\d+)?)s/i.exec(msg);
++  return m ? Math.round(parseFloat(m[1]) * 1000) : undefined;
++}
++
++/** Target-level failure → breaker code (+ how long); null for per-request errors (schema, 400 …). */
+ function unavailableCode(p: Provider, e: unknown): LlmErrorCode | null {
++  if (p === "gemini") {
++    if (!(e instanceof GeminiApiError)) return null;
++    if (e.status === 429) return /PerDay|per day/i.test(e.message) || (geminiRetryMs(e.message) ?? 0) > 120_000 ? "quota" : "rate_limit";
++    if (e.status === 401 || e.status === 403) return "auth";
++    if (e.status === 404 || e.status >= 500) return "unavailable";
++    return null;
++  }
+   if (p === "claude") {
+     if (e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError) return "auth";
+     if ((e instanceof Anthropic.BadRequestError || e instanceof Anthropic.RateLimitError) && /usage limit|credit balance|billing/i.test(e.message)) return "quota";
+@@ -119,6 +155,7 @@ function isRetryable(e: unknown): boolean {
+   if (e instanceof LlmUnavailableError) return false;
+   if (e instanceof Error && (e.name === "AbortError" || e.name === "TimeoutError")) return false;
+   if (e instanceof OpenAI.APIUserAbortError || e instanceof Anthropic.APIUserAbortError) return false;
++  if (e instanceof GeminiApiError && [400, 401, 403, 404].includes(e.status)) return false;
+   if (e instanceof OpenAI.APIError || e instanceof Anthropic.APIError) {
+     const st = e.status ?? 0;
+     if (st === 400 || st === 401 || st === 403 || st === 404 || st === 422) return false;
+@@ -143,41 +180,47 @@ interface JsonCall<T extends z.ZodType> {
+ }
+ 
+ export async function llmJson<T extends z.ZodType>(call: JsonCall<T>): Promise<z.infer<T>> {
+-  call.signal?.throwIfAborted();
+-  const order = candidates();
+-  if (!order.length) throw noProviderError();
+-  for (const p of order) {
+-    try {
+-      return p === "claude" ? await claudeJson(call) : await openaiJson(call);
+-    } catch (e) {
+-      const code = unavailableCode(p, e);
+-      if (!code) throw e;
+-      trip(p, code); // → next provider in the auto chain, if any
++  for (let wait = 0; ; wait++) {
++    call.signal?.throwIfAborted();
++    for (const t of candidates()) {
++      try {
++        return t.p === "claude" ? await claudeJson(call) : t.p === "openai" ? await openaiJson(call) : await geminiJson(call, t.model!);
++      } catch (e) {
++        const code = unavailableCode(t.p, e);
++        if (!code) throw e;
++        trip(t, code, geminiBreakMs(code, e)); // → next target in the chain, if any
++      }
+     }
++    // Only short Gemini breakers left (per-minute limit / overload, they clear within seconds): wait for the first
++    // one once or twice. Quota / auth / connection breakers are never waited on.
++    const soon = chain()
++      .map((t) => (t.p === "gemini" ? openBreaker(t.key) : null))
++      .filter((b): b is Breaker => b?.code === "rate_limit" || b?.code === "unavailable")
++      .reduce((m, b) => Math.min(m, b.until - Date.now()), Infinity);
++    if (wait >= 2 || soon > 30_000) break;
++    await sleep(soon + 250, call.signal);
+   }
+   // every candidate failed at the provider level → one Korean error naming each
+   throw noProviderError();
+ }
+ 
++const sleep = (ms: number, signal?: AbortSignal) =>
++  new Promise<void>((res, rej) => {
++    const t = setTimeout(res, ms);
++    signal?.addEventListener("abort", () => (clearTimeout(t), rej(signal.reason)), { once: true });
++  });
++
+ function noProviderError(): LlmUnavailableError {
+-  const w = wantedProvider();
+-  const ps: Provider[] = w === "auto" ? ["openai", "claude"] : [w];
+-  const bs = ps.map((p) => [p, openBreaker(p)] as const);
+-  return new LlmUnavailableError(bs.find(([, b]) => b)?.[1]?.code ?? "unavailable", bs.map(([p, b]) => `${PROVIDER_NAME[p]} ${b?.label ?? "사용 불가"}`).join(", "));
++  const seen = new Map<string, Breaker | null>(); // one entry per provider (Gemini models collapse to "Gemini")
++  for (const t of chain()) {
++    const name = PROVIDER_NAME[t.p];
++    const b = openBreaker(t.key);
++    if (!seen.get(name)) seen.set(name, b);
++  }
++  const bs = [...seen];
++  return new LlmUnavailableError(bs.find(([, b]) => b)?.[1]?.code ?? "unavailable", bs.map(([n, b]) => `${n} ${b?.label ?? "사용 불가"}`).join(", "));
+ }
+ 
+-/** OpenAI's SDK retries every 429 (up to maxRetries with backoff) — including "insufficient_quota", which never
+- *  recovers. Mark those responses as non-retryable so the call fails in ~1 s instead of ~20 s. */
+-const quotaAwareFetch: typeof fetch = async (input, init) => {
+-  const r = await fetch(input, init);
+-  if (r.status !== 429) return r;
+-  const text = await r.clone().text();
+-  if (!/insufficient_quota|credit_balance|no credits|billing/i.test(text)) return r;
+-  const headers = new Headers(r.headers);
+-  headers.set("x-should-retry", "false");
+-  return new Response(text, { status: r.status, statusText: r.statusText, headers });
+-};
+-
+ let _oa: OpenAI | undefined;
+ function oa() {
+   // shared server AI client, but with more retries for bursty parallel ingest
+@@ -212,6 +255,48 @@ async function openaiJson<T extends z.ZodType>(call: JsonCall<T>): Promise<z.inf
+   return call.schema.parse(JSON.parse(r.output_text));
+ }
+ 
++// Free-tier Gemini allows only a few requests per minute: at most 3 in flight (ingest fans out 8–10 calls).
++const G_MAX = 3;
++let gActive = 0;
++const gQueue: (() => void)[] = [];
++
++async function geminiJson<T extends z.ZodType>(call: JsonCall<T>, model: string): Promise<z.infer<T>> {
++  const spec = TIERS[call.tier];
++  if (gActive >= G_MAX) await new Promise<void>((r) => gQueue.push(r));
++  gActive++;
++  try {
++    call.signal?.throwIfAborted();
++    const t0 = Date.now();
++    const r = await gemini().models.generateContent({
++      model,
++      contents: [{ role: "user", parts: [{ text: call.user }] }],
++      config: {
++        systemInstruction: call.system,
++        responseMimeType: "application/json",
++        responseJsonSchema: jsonSchemaOf(call.schema),
++        maxOutputTokens: spec.maxTokens + 8000,
++        thinkingConfig: { thinkingLevel: spec.openai.effort === "none" ? ThinkingLevel.MINIMAL : ThinkingLevel.LOW },
++        abortSignal: call.signal,
++        httpOptions: { timeout: 120_000 },
++      },
++    });
++    call.onUsage?.({
++      provider: "gemini",
++      model,
++      tier: call.tier,
++      inputTokens: r.usageMetadata?.promptTokenCount ?? 0,
++      outputTokens: (r.usageMetadata?.candidatesTokenCount ?? 0) + (r.usageMetadata?.thoughtsTokenCount ?? 0),
++      ms: Date.now() - t0,
++    });
++    const finish = r.candidates?.[0]?.finishReason;
++    if (finish && finish !== "STOP") throw new Error(`gemini finish ${finish}`);
++    return call.schema.parse(JSON.parse(r.text ?? ""));
++  } finally {
++    gActive--;
++    gQueue.shift()?.();
++  }
++}
++
+ async function claudeJson<T extends z.ZodType>(call: JsonCall<T>): Promise<z.infer<T>> {
+   const spec = TIERS[call.tier];
+   const t0 = Date.now();
+diff --git a/app/src/server/wiki/types.ts b/app/src/server/wiki/types.ts
+index 2c5c03d..3922ede 100644
+--- a/app/src/server/wiki/types.ts
++++ b/app/src/server/wiki/types.ts
+@@ -44,7 +44,7 @@ export interface UsageStat {
+ /** POST /api/wiki NDJSON events. */
+ export type WikiEvent =
+   | { type: "progress"; phase: "extracting" | "planning" | "merging" | "finalizing"; chunksDone: number; chunksTotal: number; roundsDone: number; roundsTotal: number; msg: string }
+-  | { type: "done"; wiki: WikiPage[]; keyNumbers: KeyNumber[]; usage: Record<string, UsageStat>; ms: number };
++  | { type: "done"; wiki: WikiPage[]; keyNumbers: KeyNumber[]; usage: Record<string, UsageStat>; ms: number; degraded: boolean };
+ 
+ export interface QueryOptions {
+   maxContextChars?: number; // default 6000

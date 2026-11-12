@@ -1,0 +1,38 @@
+$ node --import ./tests/ts-hooks.mjs --test "tests/unit/*.test.mts"
+✔ mmss rounds up and never goes negative (0.267667ms)
+✔ waitText gives readable retry hints (0.057709ms)
+✔ empty transcript scores 0 without throwing (0.629458ms)
+✔ a bogus timestamp cannot allocate a huge timeline (capped at 360 minutes) (1.609583ms)
+✔ timeline buckets by minute from the first sentence (0.335125ms)
+✔ Q&A sentences are never scored as the presentation (0.153ms)
+✔ score stays within 0..100 and long pauses are counted (5.431458ms)
+✔ countFillers counts hesitations and habit words only (0.062458ms)
+✔ limits: 30MB and the same page cap as the server (0.554792ms)
+✔ accepts a PDF by header, also with leading junk or a generic MIME type (0.513041ms)
+✔ rejects wrong type, empty, oversize and files without the %PDF- magic (6.355292ms)
+✔ pdf.js failures map to Korean messages (0.120958ms)
+✔ formatBytes and docId (4.292791ms)
+✔ DocIn accepts a well-formed doc and rejects bad ids, roles and empty pages (1.110333ms)
+✔ TranscriptIn caps t at 6 hours and needs text (0.2585ms)
+✔ checkDocLimits: 413 over the page/char caps, 422 for scanned PDFs (0.322083ms)
+✔ GenerateIn rejects missing docs, duplicate roles, too many or duplicate judges (0.772792ms)
+✔ FollowUpIn truncates long answers to 4000 chars instead of rejecting (7.270084ms)
+✔ ReportIn needs a session with at least one doc and a known provider (0.360333ms)
+✔ splits punctuated sentences and carries the unfinished tail (0.807083ms)
+✔ several sentences in one chunk come out separately (0.064292ms)
+✔ an unpunctuated tail with a final ending is complete when the chunk closed at a pause (0.086042ms)
+✔ a noun ending in 요 is not taken as the end of a sentence (0.039958ms)
+✔ flush emits the carry once, reset drops it (0.051792ms)
+✔ preview shows the carry + interim text without consuming it (0.103ms)
+✔ pickVoice prefers a Korean voice of the judge's gender (1.66375ms)
+✔ prosody: friendly slower/warmer, aggressive faster/lower, unmatched male lower (1.01625ms)
+✔ chunks splits long text at sentence ends (0.246459ms)
+✔ ttsFallsBackToBrowser: hint, quota, network, 5xx yes; bad request / abort no (0.095792ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.114584

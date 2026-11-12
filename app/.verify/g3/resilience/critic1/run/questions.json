@@ -1,0 +1,154 @@
+{
+  "items": [
+    {
+      "id": "q_j_d46fda6ab25b_1",
+      "judgeId": "j_d46fda6ab25b",
+      "question": "2029년 매출 목표 210억 원을 제시해주셨는데, 완도 2공장의 최대 생산 능력을 고려해 계산해보니 목표 달성을 위해서는 추가적인 생산 전략이 필요해 보입니다. 구체적으로 어떤 경로를 통해 이 매출 목표를 달성하실 계획인지 궁금합니다.",
+      "intent": "Verify feasibility of 2029 revenue projection relative to maximum production capacity.",
+      "targetClaim": "2029년 매출 210억 원 달성 목표",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029년 매출 210억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "완도 2공장 가동 · 월 150만 세트",
+          "verified": false
+        }
+      ],
+      "difficulty": 3,
+      "kind": "main",
+      "latencyMs": 11485
+    },
+    {
+      "id": "q_j_d46fda6ab25b_2",
+      "judgeId": "j_d46fda6ab25b",
+      "question": "2027년 4분기에 출시하실 웨이브팩에 대해 기대가 큽니다. 현재 주력하시는 웨이브셀과 비교했을 때, 콜드체인 시장에서 웨이브팩이 가지는 구체적인 경쟁력이나 사업적 차별점은 무엇인지 조금 더 설명해주시겠어요?",
+      "intent": "Understand the competitiveness and strategic value of the future product WavePack.",
+      "targetClaim": "웨이브팩을 통한 콜드체인 시장 진출",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "2027 Q4 · 웨이브팩 출시 · 콜드체인 단열재",
+          "verified": false
+        }
+      ],
+      "difficulty": 2,
+      "kind": "reserve",
+      "latencyMs": 11485
+    },
+    {
+      "id": "q_j_02317ee2fb94_1",
+      "judgeId": "j_02317ee2fb94",
+      "question": "발표자료 3, 4페이지에서는 제품의 생분해 성능을 '90일 내 90% 이상'이라고 명시했는데, 7페이지의 경쟁 분석 표에는 '90일'로만 적혀 있어 기준이 모호합니다. 기술적으로 어느 것이 정확한 데이터이며, 두 자료가 다르게 표기된 이유가 무엇입니까?",
+      "intent": "발표 자료 내 서로 다른 생분해 성능 표기의 일관성 확인",
+      "targetClaim": "일반 토양에서 90일 내 생분해 성능",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 3,
+          "quote": "90일\n일반 토양에서 90% 이상 생분해",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 7,
+          "quote": "일반 토양 90일",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 9309
+    },
+    {
+      "id": "q_j_02317ee2fb94_2",
+      "judgeId": "j_02317ee2fb94",
+      "question": "2028년까지 세트당 원가를 118원에서 92원으로 약 22%가량 절감하겠다는 목표를 제시하셨습니다. 생산 규모 확대 외에 원가를 이렇게 큰 폭으로 낮추기 위한 구체적인 공정 개선 방안이나 원가 구조 혁신 계획은 무엇입니까?",
+      "intent": "제시된 원가 절감 목표의 실행 가능성 검증",
+      "targetClaim": "2028년 세트당 원가 92원 달성",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "원가 / 세트 (2026 양산)\n118원\n2028 목표 원가\n92원",
+          "verified": false
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 9309
+    },
+    {
+      "id": "q_j_f8a3c85efd3d_1",
+      "judgeId": "j_f8a3c85efd3d",
+      "question": "국내 택배 물량이 연간 51억 개에 달한다고 하셨는데, 실제로 이 물량 전체가 완충재 수요로 이어지는지 근거가 부실하지 않습니까?",
+      "intent": "발표자가 언급한 국내 연간 택배 물량 수치의 타당성과 실제 완충재 시장 규모의 연관성을 검증합니다.",
+      "targetClaim": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+      "targetId": "t3",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 4350
+    },
+    {
+      "id": "q_j_f8a3c85efd3d_2",
+      "judgeId": "j_f8a3c85efd3d",
+      "question": "생산 능력이 월 150만 세트인데 2029년 매출 210억 원을 달성하는 게 물리적으로 가능한지 솔직히 납득이 안 갑니다.",
+      "intent": "생산 능력 대비 과도한 2029년 매출 목표의 실현 가능성을 압박합니다.",
+      "targetClaim": "2029년 매출 210억 원 달성 및 완도 2공장 월 150만 세트 생산",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "재무 계획 2028년 흑자 전환, 2029년 매출 210억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "2027 Q3 완도 2공장 가동 월 150만 세트",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "reserve",
+      "latencyMs": 4350
+    }
+  ],
+  "order": [
+    "q_j_d46fda6ab25b_1",
+    "q_j_02317ee2fb94_1",
+    "q_j_f8a3c85efd3d_1",
+    "q_j_d46fda6ab25b_2",
+    "q_j_02317ee2fb94_2",
+    "q_j_f8a3c85efd3d_2"
+  ],
+  "main": [
+    "q_j_d46fda6ab25b_1"
+  ],
+  "reserve": [
+    "q_j_02317ee2fb94_1",
+    "q_j_f8a3c85efd3d_1",
+    "q_j_d46fda6ab25b_2",
+    "q_j_02317ee2fb94_2",
+    "q_j_f8a3c85efd3d_2"
+  ]
+}

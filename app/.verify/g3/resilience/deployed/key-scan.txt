@@ -1,0 +1,11 @@
+base https://pr-sim-lake.vercel.app · 7 routes · 18 static assets · 955557 bytes scanned
+env entries with value length >= 12: 6
+JEV_KEY: value occurrences = 0; name occurrences = 0
+GOOGLE_API_KEY: value occurrences = 0; name occurrences = 0
+OPENAI_API_KEY: value occurrences = 0; name occurrences = 0
+CLAUDE_API_KEY: value occurrences = 0; name occurrences = 0
+VERCEL_API_KEY: value occurrences = 0; name occurrences = 0
+RENDER_API_KEY: value occurrences = 0; name occurrences = 0
+sk-proj-/sk-ant-/sk- style pattern matches: 0
+AIza google key pattern matches: 0
+TOTAL key value occurrences: 0

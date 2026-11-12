@@ -99,7 +99,7 @@ export async function buildWiki(sessionId: string, doc: StoredDoc): Promise<void
   jobs.set(key, { done: 0, total: 0 });
   notify();
   try {
-    await patchDoc(sessionId, doc.role, doc.docId, { wikiState: "building", wikiError: undefined });
+    await patchDoc(sessionId, doc.role, doc.docId, { wikiState: "building", wikiError: undefined, wikiDegraded: undefined, wikiModel: undefined });
     const done = await streamWiki(
       { role: doc.role, docId: doc.docId, filename: doc.filename, pageTexts: doc.pageTexts },
       {
@@ -111,7 +111,17 @@ export async function buildWiki(sessionId: string, doc: StoredDoc): Promise<void
         },
       },
     );
-    await patchDoc(sessionId, doc.role, doc.docId, { wikiState: "ready", wiki: done.wiki, keyNumbers: done.keyNumbers, wikiBuiltAt: new Date().toISOString() });
+    // degraded: a last-resort lite model wrote some pages; keep which one so the setup row can say so.
+    const models = [...new Set(Object.keys(done.usage ?? {}).map((k) => k.split(":").pop() ?? k))];
+    const lite = models.filter((m) => /lite/i.test(m));
+    await patchDoc(sessionId, doc.role, doc.docId, {
+      wikiState: "ready",
+      wiki: done.wiki,
+      keyNumbers: done.keyNumbers,
+      wikiBuiltAt: new Date().toISOString(),
+      wikiDegraded: done.degraded ? true : undefined,
+      wikiModel: done.degraded ? (lite.length ? lite : models).join(", ") || undefined : undefined,
+    });
   } catch (e) {
     const message = e instanceof ApiError ? e.message : "자료를 분석하지 못했어요. 다시 시도해 주세요.";
     await patchDoc(sessionId, doc.role, doc.docId, { wikiState: "error", wikiError: message }).catch(() => {});

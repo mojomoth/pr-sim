@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "version": 4,
+    "sessionId": "s_mwe0hu5d1b5d406q",
+    "situation": "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.",
+    "presentationMinutes": 1,
+    "qaMinutes": 1,
+    "judges": 3,
+    "questions": 1,
+    "docIds": {
+      "presentation": "b074e9bd3e49c31f"
+    },
+    "provider": "gemini:gemini-3.5-flash-lite (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)",
+    "createdAt": "2026-11-12T20:42:58.564Z",
+    "ms": 18952,
+    "timings": {
+      "metrics": 0,
+      "docs": 1,
+      "lint": 1971,
+      "speech": 14892,
+      "doc:presentation": 15539,
+      "qa:0": 15541,
+      "overall": 3409
+    },
+    "usage": {
+      "calls": 4,
+      "inputTokens": 12159,
+      "outputTokens": 11802,
+      "byModel": {
+        "gemini:gemini-3.5-flash-lite": 4
+      }
+    },
+    "warnings": []
+  },
+  "speech": {
+    "metrics": {
+      "sentenceCount": 11,
+      "syllables": 248,
+      "articulationSps": 4.5,
+      "spokenSeconds": 59.5,
+      "targetSeconds": 60,
+      "timeUsage": 0.992,
+      "timeStatus": "ok",
+      "syllablesPerMinute": 250,
+      "sentencesPerMinute": 11.1,
+      "rateStatus": "ok",
+      "rateTimeline": [
+        {
+          "minute": 1,
+          "syllables": 248
+        }
+      ],
+      "avgSentenceSyllables": 22.5,
+      "maxSentenceSyllables": 41,
+      "maxSentence": {
+        "sentenceId": "pmwe0inlf-9",
+        "text": "게다가 과대포장 규제 계도 기간이 끝나면서 브랜드들은 지금 당장 대체제를 찾아야 하는 상황입니다."
+      },
+      "longSentences": 0,
+      "fillers": {
+        "total": 0,
+        "perMinute": 0,
+        "per100Syllables": 0,
+        "byWord": [],
+        "examples": []
+      },
+      "repetition": [],
+      "pauses": {
+        "threshold": 3,
+        "count": 0,
+        "longest": 0,
+        "totalSeconds": 0,
+        "items": []
+      },
+      "deliveryScore": 100,
+      "deliveryPenalties": []
+    },
+    "analysis": {
+      "scores": {
+        "structure": 45,
+        "clarity": 65,
+        "persuasiveness": 55
+      },
+      "summary": "발표자료 p.1~2의 문제 제기까지는 정확히 전달했으나, 시간 배분 실패로 p.3 이후의 핵심 내용과 투자 요청이 모두 누락되었어요. 제한 시간 내 전체 덱을 완주할 수 있도록 속도와 분량을 조절해 보세요.",
+      "structureNote": "도입부와 문제 상황(p.1~2)은 짚었으나, 해결책·시장·트랙션·투자 요청 등 후속 슬라이드(p.3~12)가 전면 누락되어 구조적 완성도가 크게 미흡해요.",
+      "clarityNote": "초반 발화에서 택배 물량과 폐기물량 등 수치(p.2)를 명확하게 전달했으나, 막판에 발표가 끊기고 반복되면서(p.9~10) 전체적인 전달력이 흐려졌어요.",
+      "persuasivenessNote": "문제의 절실함은 잘 언급했으나, 웨이브셀의 차별적 해결책, 트랙션, 투자 유치 조건(p.3~12)이 빠져 있어 투자 심사위원을 설득하기에 역부족이에요.",
+      "strengths": [
+        "발표자료 p.2의 국내 연간 택배 물량(51억 개)과 완충재 폐기물량(31만 톤) 등의 수치를 정확하게 인용했어요.",
+        "일상적인 택배 경험을 환기하며 문제 제기 슬라이드(p.2)로 자연스럽게 진입했어요."
+      ],
+      "improvements": [
+        "1분 안에 모든 슬라이드를 다룰 수 있도록 핵심 메시지만 남기고 분량을 대폭 압축해 보세요.",
+        "발표 중반 이후 시간이 부족해지기 전에 주요 해결책과 투자 요청(p.12)으로 바로 넘어가는 실전 연습을 해 보세요."
+      ],
+      "coverage": [
+        {
+          "page": 1,
+          "title": "표지",
+          "status": "covered",
+          "note": "인사와 회사 소개를 진행했어요.",
+          "sentenceIds": [
+            "pmwe0inlf-1",
+            "pmwe0inlf-2",
+            "pmwe0inlf-3"
+          ]
+        },
+        {
+          "page": 2,
+          "title": "문제",
+          "status": "covered",
+          "note": "택배 물량과 폐기물 수치를 포함해 문제 상황을 설명했어요.",
+          "sentenceIds": [
+            "pmwe0inlf-4",
+            "pmwe0inlf-5",
+            "pmwe0inlf-6",
+            "pmwe0inlf-7",
+            "pmwe0inlf-8",
+            "pmwe0inlf-9"
+          ]
+        },
+        {
+          "page": 3,
+          "title": "해결책",
+          "status": "missing",
+          "note": "웨이브셀의 생분해 및 충격 흡수 성능에 대한 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 4,
+          "title": "제품",
+          "status": "missing",
+          "note": "생산 공정과 사양에 대한 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 5,
+          "title": "시장 규모",
+          "status": "missing",
+          "note": "TAM, SAM, SOM 시장 규모 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 6,
+          "title": "비즈니스 모델",
+          "status": "missing",
+          "note": "판매가와 원가 구조에 대한 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 7,
+          "title": "경쟁 분석",
+          "status": "missing",
+          "note": "타 대안과의 비교 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 8,
+          "title": "트랙션",
+          "status": "missing",
+          "note": "출고량과 재구매율 등 성과 지표 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 9,
+          "title": "재무 계획",
+          "status": "missing",
+          "note": "매출 및 흑자 전환 계획 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 10,
+          "title": "팀",
+          "status": "missing",
+          "note": "팀원 소개가 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 11,
+          "title": "로드맵",
+          "status": "missing",
+          "note": "향후 공장 가동 및 로드맵 설명이 누락되었어요.",
+          "sentenceIds": []
+        },
+        {
+          "page": 12,
+          "title": "투자 요청",
+          "status": "missing",
+          "note": "Pre-A 20억 원 투자 요청과 자금 용처 설명이 누락되었어요.",
+          "sentenceIds": []
+        }
+      ],
+      "coverageRate": 0.167,
+      "numberIssues": []
+    }
+  },
+  "qa": [
+    {
+      "index": 0,
+      "judge": {
+        "id": "j_d46fda6ab25b",
+        "name": "지훈",
+        "temperament": "friendly"
+      },
+      "question": "2029년 매출 목표 210억 원을 제시해주셨는데, 완도 2공장의 최대 생산 능력을 고려해 계산해보니 목표 달성을 위해서는 추가적인 생산 전략이 필요해 보입니다. 구체적으로 어떤 경로를 통해 이 매출 목표를 달성하실 계획인지 궁금합니다.",
+      "answer": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3",
+      "scores": {
+        "relevance": 30,
+        "accuracy": 75,
+        "evidence": 40,
+        "completeness": 30,
+        "composure": 50
+      },
+      "score": 45,
+      "verdict": "evasive",
+      "feedback": "매출 목표 달성 경로를 묻는 질문에 원가 관련 내용만 언급하고 답변이 중단되었어요. 2029년 매출 210억 원을 달성하기 위한 구체적인 생산 확장 전략을 자료를 바탕으로 설명해 보세요.",
+      "rationale": "질문에서 2029년 210억 원 매출 달성을 위한 추가 생산 경로를 물었으나, 원가에 대한 언급만 하고 답변이 끊겨 관련성과 완결성이 크게 떨어졌습니다(relevance 30, completeness 30). 발표자료의 완도 2공장 및 재무 계획 관련 근거를 전혀 활용하지 못했습니다(evidence 40). 스티로폼보다 원가가 높다는 사실 자체는 자료와 부합하여 사실 정확성은 유지했습니다(accuracy 75).",
+      "contradictions": [],
+      "evidenceUsed": [],
+      "missing": [
+        "2029년 210억 원 매출 달성을 위한 구체적인 생산 확충 계획",
+        "완도 2공장 이후 추가 생산 시설 확보 방안"
+      ],
+      "improvedAnswer": "네, 예리한 지적 감사합니다. 2029년 매출 210억 원 달성을 위해 2027년 Q3에 완도 2공장을 가동해 월 150만 세트 생산 기반을 갖추고, 이후 추가 증설을 통해 물량을 확보할 계획입니다.",
+      "citations": [
+        {
+          "doc": "presentation",
+          "pages": [
+            9,
+            11
+          ],
+          "quote": "2027 Q3 완도 2공장 가동 월 150만 세트",
+          "grounded": true
+        }
+      ],
+      "answerFillers": 0
+    }
+  ],
+  "materials": {
+    "docs": [
+      {
+        "role": "presentation",
+        "docId": "b074e9bd3e49c31f",
+        "filename": "presentation.pdf",
+        "pageCount": 12,
+        "scores": {
+          "structure": 85,
+          "logic": 50,
+          "evidence": 65,
+          "consistency": 70,
+          "clarity": 75
+        },
+        "score": 67,
+        "summary": "본 피치덱은 문제 정의부터 제품, 트랙션, 팀까지 논리적 흐름으로 구성되어 있으나, 2029년 매출 목표와 생산 캐파 간에 중대한 산술적 괴리가 있습니다. 실질적인 투자 유치를 위해 재무 추정의 근거를 철저히 재검토해 보세요.",
+        "strengths": [
+          "수산 부산물을 활용한 원가 구조와 5일의 국내 생산 리드타임 등 제품의 차별적 경쟁력이 명확하게 제시되어 있습니다.",
+          "12곳의 파일럿 고객 확보와 83%에 달하는 재구매율 등 초기 트랙션 수치가 구체적으로 드러나 있습니다."
+        ],
+        "issues": [
+          {
+            "severity": "high",
+            "category": "logic",
+            "title": "2029년 매출 목표와 생산 능력이 상호 모순됩니다",
+            "detail": "2029년 매출 목표가 210억 원으로 설정되어 있으나, 2027년 3분기 가동되는 완도 2공장의 생산 능력은 월 150만 세트(연간 약 1,800만 세트)이며 판매가 165원으로 단순 계산할 때 최대 연 매출은 약 30억 원에 불과합니다. 생산 캐파 대비 매출 목표에 대한 물리적 근거가 크게 부족합니다.",
+            "refs": [
+              {
+                "doc": "presentation",
+                "pages": [
+                  6,
+                  9,
+                  11
+                ],
+                "quote": "판매가 / 세트 165원 / 2029E 매출 210억 원 / 완도 2공장 월 150만 세트",
+                "grounded": true
+              }
+            ],
+            "fix": "추가 공장 증설 계획, 외주 생산 도입 또는 판매가 변동 등 매출 210억 원을 달성할 수 있는 구체적인 생산·판매 산식을 재작성해 보세요."
+          },
+          {
+            "severity": "medium",
+            "category": "clarity",
+            "title": "생분해 조건 및 기간 표현이 페이지별로 다릅니다",
+            "detail": "p.3과 p.4에서는 '일반 토양에서 90일 만에 90% 이상 생분해'로 구체적으로 기재된 반면, p.7 경쟁 분석표에서는 '90일 내 생분해'로 간략히 기재되어 있습니다.",
+            "refs": [
+              {
+                "doc": "presentation",
+                "pages": [
+                  3,
+                  4,
+                  7
+                ],
+                "quote": "일반 토양에서 90% 이상 생분해 / 일반 토양 90일",
+                "grounded": true
+              }
+            ],
+            "fix": "p.7 경쟁 분석 표에서도 생분해 조건과 비율을 '일반 토양 90일, 90% 이상'으로 일관되게 표기해 보세요."
+          },
+          {
+            "severity": "medium",
+            "category": "evidence",
+            "title": "시장 규모(TAM, SAM, SOM)의 산출 근거가 누락되어 있습니다",
+            "detail": "국내 보호 포장재 시장 TAM 4.2조 원, SAM 6,800억 원, SOM 340억 원이 제시되었으나, 해당 수치를 도출한 기준이나 출처가 명시되어 있지 않습니다.",
+            "refs": [
+              {
+                "doc": "presentation",
+                "pages": [
+                  5
+                ],
+                "quote": "TAM 4.2조 원 / SAM 6,800억 원 / SOM 340억",
+                "grounded": true
+              }
+            ],
+            "fix": "시장 규모 산정에 사용된 공인 통계 기관 출처나 산출 방식을 각주 형태로 추가해 보세요."
+          }
+        ]
+      }
+    ],
+    "consistency": [],
+    "score": 67
+  },
+  "overall": {
+    "total": 59,
+    "sub": {
+      "delivery": 80,
+      "logic": 47,
+      "response": 45,
+      "materials": 67
+    },
+    "weights": {
+      "delivery": 0.25,
+      "logic": 0.25,
+      "response": 0.3,
+      "materials": 0.2
+    },
+    "excluded": [],
+    "headline": "핵심만 남겨 완주해 보세요.",
+    "oneLiner": "시간 배분과 수치 보완이 필요해요.",
+    "strengths": [
+      "발표자료 p.2의 국내 연간 택배 물량 51억 개와 폐기물량 31만 톤 수치를 정확히 인용했어요.",
+      "일상적인 택배 경험을 환기하며 문제 제기 슬라이드 p.2로 자연스럽게 진입했어요."
+    ],
+    "priorities": [
+      {
+        "title": "생산 캐파와 매출 목표를 맞춰 보세요",
+        "why": "Q1에서 2029년 매출 210억 원 목표 대비 생산 능력의 산술적 괴리가 지적되었어요.",
+        "how": "완도 2공장의 최대 생산 능력을 반영한 구체적인 생산 확장 경로를 재무 추정에 반영해 보세요."
+      },
+      {
+        "title": "핵심 메시지만 남겨 분량을 압축해 보세요",
+        "why": "시간 배분 실패로 p.3 이후의 핵심 내용과 투자 요청이 모두 누락되었어요.",
+        "how": "1분 안에 모든 슬라이드를 다룰 수 있도록 텍스트를 줄이고 실전 리허설을 해 보세요."
+      },
+      {
+        "title": "시장 규모와 생분해 조건을 정리해 보세요",
+        "why": "자료 품질 검토 결과 TAM, SAM, SOM 산출 근거가 누락되고 생분해 표현이 페이지별로 달라요.",
+        "how": "슬라이드 간 수치와 용어를 일치시키고 근거를 보완해 보세요."
+      }
+    ]
+  }
+}

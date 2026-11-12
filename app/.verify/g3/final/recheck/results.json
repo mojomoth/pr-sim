@@ -1,0 +1,253 @@
+[
+  {
+    "name": "b1 all 3 faces failed → exactly one notice, no per-row generic message",
+    "ok": true,
+    "detail": {
+      "rows": [
+        {
+          "text": "지 지훈 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "지",
+          "label": "지훈"
+        },
+        {
+          "text": "수 수진 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "수",
+          "label": "수진"
+        },
+        {
+          "text": "현 현석 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "현",
+          "label": "현석"
+        }
+      ],
+      "outage": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "alerts": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "generic": 0,
+      "hint": false
+    }
+  },
+  {
+    "name": "b2 faceless judges show real names with matching initials",
+    "ok": true,
+    "detail": [
+      {
+        "text": "지 지훈 40대 친절함 빡셈 공격적",
+        "img": false,
+        "initial": "지",
+        "label": "지훈"
+      },
+      {
+        "text": "수 수진 40대 친절함 빡셈 공격적",
+        "img": false,
+        "initial": "수",
+        "label": "수진"
+      },
+      {
+        "text": "현 현석 40대 친절함 빡셈 공격적",
+        "img": false,
+        "initial": "현",
+        "label": "현석"
+      }
+    ]
+  },
+  {
+    "name": "a1 degraded=true → note shown on the setup doc row",
+    "ok": true,
+    "detail": {
+      "note": "주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.1-flash-lite)로 자료를 분석했어요. 질문과 리포트가 평소보다 덜 정확할 수 있어요.",
+      "onRow": "발표 자료필수 샘플_리웨이브_발표자료.pdf 12페이지 · 214KB 교체 자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요. 주력 AI 모델을 쓸 수 없어서 경량 대체 모델(Google gemini-3.1-flash-lite)로 자료를 분석했어요. 질문과 리포트가 평소보다 덜 정확할 수 있어요."
+    }
+  },
+  {
+    "name": "d1 setup ready 1+1 min, 3 judges",
+    "ok": true,
+    "detail": "총 2분 · 심사위원 3명"
+  },
+  {
+    "name": "d2 /present shows the same judge names",
+    "ok": true,
+    "detail": [
+      "지훈",
+      "수진",
+      "현석"
+    ]
+  },
+  {
+    "name": "d3 presentation runs to the time-up dialog",
+    "ok": true
+  },
+  {
+    "name": "d4 qa questions ready (stubbed)",
+    "ok": true
+  },
+  {
+    "name": "d5 qa ends (questions asked, answers submitted)",
+    "ok": true,
+    "detail": {
+      "clicks": 4,
+      "audioPlays": 4
+    }
+  },
+  {
+    "name": "d6 result renders the (stubbed) report",
+    "ok": true,
+    "detail": "종합 결과\n기록\n한 번 더,\n더 좋은 발표로.\n\n친환경 완충재 스타트업의 Pre-A 투자 유치\n\n이번 발표의 종합 점수\n\n89\n/ 100\n\n논리적이고 침착한 피칭이었어요.\n\n경량 모델이 채점한 결과예요. 주력 모델을 쓸 수 없어서 대체 모델(gemini-3.5-flash-lite, gemini-3.1-flash-lite)로 평가했어요. 점수가 실제보다 후하"
+  },
+  {
+    "name": "d7 history lists the session",
+    "ok": true,
+    "detail": "s_mwe1oxly3w43535g"
+  },
+  {
+    "name": "d8 reopen from history uses stored report",
+    "ok": true,
+    "detail": {
+      "before": 1
+    }
+  },
+  {
+    "name": "a2 degraded=false → no degraded note",
+    "ok": true,
+    "detail": {
+      "note": null
+    }
+  },
+  {
+    "name": "S2 faces OK → no outage notice, photos shown",
+    "ok": true,
+    "detail": {
+      "rows": [
+        {
+          "text": "도윤 40대 친절함 빡셈 공격적",
+          "img": true,
+          "initial": null,
+          "label": null
+        },
+        {
+          "text": "서연 50대 친절함 빡셈 공격적",
+          "img": true,
+          "initial": null,
+          "label": null
+        },
+        {
+          "text": "민재 30대 친절함 빡셈 공격적",
+          "img": true,
+          "initial": null,
+          "label": null
+        }
+      ],
+      "outage": [],
+      "alerts": [],
+      "generic": 0,
+      "hint": false
+    }
+  },
+  {
+    "name": "b S3-judges-http503: one notice, real names",
+    "ok": true,
+    "detail": {
+      "rows": [
+        {
+          "text": "지 지훈 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "지",
+          "label": "지훈"
+        },
+        {
+          "text": "수 수진 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "수",
+          "label": "수진"
+        },
+        {
+          "text": "현 현석 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "현",
+          "label": "현석"
+        }
+      ],
+      "outage": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "alerts": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "generic": 0,
+      "hint": false
+    }
+  },
+  {
+    "name": "b S4-two-same-code: one notice, real names",
+    "ok": true,
+    "detail": {
+      "rows": [
+        {
+          "text": "도윤 40대 친절함 빡셈 공격적",
+          "img": true,
+          "initial": null,
+          "label": null
+        },
+        {
+          "text": "지 지훈 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "지",
+          "label": "지훈"
+        },
+        {
+          "text": "수 수진 40대 친절함 빡셈 공격적",
+          "img": false,
+          "initial": "수",
+          "label": "수진"
+        }
+      ],
+      "outage": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 2명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "alerts": [
+        "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 2명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요. 다시 시도"
+      ],
+      "generic": 0,
+      "hint": false
+    }
+  },
+  {
+    "name": "b S5-two-diff-codes (observe): notices/alerts",
+    "ok": true,
+    "detail": {
+      "rows": [
+        {
+          "text": "도윤 40대 친절함 빡셈 공격적",
+          "img": true,
+          "initial": null,
+          "label": null
+        },
+        {
+          "text": "지 지훈 40대 친절함 빡셈 공격적 AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도",
+          "img": false,
+          "initial": "지",
+          "label": "지훈"
+        },
+        {
+          "text": "수 수진 40대 친절함 빡셈 공격적 요청이 많아요. 잠시 뒤 다시 시도해 주세요. 다시 시도",
+          "img": false,
+          "initial": "수",
+          "label": "수진"
+        }
+      ],
+      "outage": [],
+      "alerts": [
+        "AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. 다시 시도",
+        "요청이 많아요. 잠시 뒤 다시 시도해 주세요. 다시 시도"
+      ],
+      "generic": 1,
+      "hint": true
+    }
+  }
+]

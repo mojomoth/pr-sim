@@ -1,0 +1,12 @@
+{
+ "docRefs": 6,
+ "outOfRange": 0,
+ "grounded": 6,
+ "quotePrefixOnCitedPage": 4,
+ "sentenceRefs": 10,
+ "danglingSentenceIds": [],
+ "provider": "gemini:gemini-3.5-flash-lite (OpenAI 크레딧 소진 · Claude 사용 한도 초과 → 폴백)",
+ "byModel": {
+  "gemini:gemini-3.5-flash-lite": 4
+ }
+}

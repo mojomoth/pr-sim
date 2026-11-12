@@ -1,0 +1,178 @@
+{
+  "items": [
+    {
+      "id": "q_j_5379f0e80824_1",
+      "judgeId": "j_5379f0e80824",
+      "question": "비즈니스 모델 페이지에서는 2026년 양산 원가를 118원으로 말씀하셨는데, 재무 계획 페이지에는 2028년 목표 원가가 92원으로 기재되어 있습니다. 이 원가 절감이 어떤 구체적인 공정 개선이나 효율화를 통해 가능할지 설명을 좀 더 듣고 싶습니다.",
+      "intent": "비즈니스 모델과 재무 계획 간의 원가 데이터 불일치 및 원가 절감 근거 확인",
+      "targetClaim": "2028년 원가 92원 달성 가능성",
+      "targetId": "t1",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 6,
+          "quote": "원가 / 세트 (2026 양산)\n118원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "원가 118원 → 92원 (2028)",
+          "verified": true
+        }
+      ],
+      "difficulty": 2,
+      "kind": "main",
+      "latencyMs": 6246
+    },
+    {
+      "id": "q_j_5379f0e80824_2",
+      "judgeId": "j_5379f0e80824",
+      "question": "발표 초반에 국내 연간 택배 물량을 51억 개로 언급해주셨는데, 이 수치는 시장의 잠재력을 파악하는 중요한 지표라고 생각합니다. 해당 데이터의 구체적인 출처나 산출 근거를 확인해 주실 수 있을까요?",
+      "intent": "발표 데이터(51억 개)의 신뢰성 및 근거 확인",
+      "targetClaim": "국내 연간 택배 물량 51억 개",
+      "targetId": "t4",
+      "evidence": [
+        {
+          "doc": "transcript",
+          "page": null,
+          "quote": "국내 택배 물량은 2024년 기준으로 연간 약 51억 개에 달합니다.",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 2,
+          "quote": "51억 개\n국내 연간 택배 물량 (2024)",
+          "verified": true
+        }
+      ],
+      "difficulty": 1,
+      "kind": "reserve",
+      "latencyMs": 6246
+    },
+    {
+      "id": "q_j_505e599833eb_1",
+      "judgeId": "j_505e599833eb",
+      "question": "2029년 매출 목표 210억 원과 SAM 340억 원을 달성하기 위한 구체적인 전환율이나 고객 확보 근거가 제시되지 않았는데 산출 근거를 말씀해 주십시오.",
+      "intent": "매출 목표와 SOM 산출의 정량적 근거 및 전환율 검증",
+      "targetClaim": "2029년 매출 목표 210억 원 및 SOM 340억 원 달성",
+      "targetId": "t2",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 5,
+          "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029E 210",
+          "verified": false
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 4336
+    },
+    {
+      "id": "q_j_505e599833eb_2",
+      "judgeId": "j_505e599833eb",
+      "question": "재무 계획상 2028년에 영업이익이 흑자로 전환된다고 하셨는데 월 신규 고객 8곳 유치와 원가 절감 외에 추가적인 이익 개선 근거가 무엇입니까.",
+      "intent": "2028년 흑자 전환의 실현 가능성 및 비용 구조 검증",
+      "targetClaim": "2028년 흑자 전환 및 원가 92원 달성",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2028E 96",
+          "verified": false
+        },
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "2028 일본 수출 파일럿 · 흑자 전환",
+          "verified": true
+        }
+      ],
+      "difficulty": 3,
+      "kind": "reserve",
+      "latencyMs": 4337
+    },
+    {
+      "id": "q_j_ffebdfeafe91_1",
+      "judgeId": "j_ffebdfeafe91",
+      "question": "완도 2공장 생산량이 월 150만 세트인데, 연간으로 환산하면 1,800만 세트입니다. 여기에 판매가 165원을 곱하면 최대 매출은 30억 원 수준인데, 2029년 매출 210억 원과 SOM 340억 원이라는 목표가 물리적으로 어떻게 달성 가능한지 설명해주시죠.",
+      "intent": "발표자가 제시한 생산 능력 대비 매출 목표가 터무니없이 높다는 점을 지적하여 생산 계획의 비현실성을 공격하기 위함.",
+      "targetClaim": "2029년 매출 210억 원 및 SOM 340억 원 달성 가능성",
+      "targetId": "t3",
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 11,
+          "quote": "2027 Q3 완도 2공장 가동 월 150만 세트",
+          "verified": true
+        },
+        {
+          "doc": "presentation",
+          "page": 9,
+          "quote": "2029E 210",
+          "verified": false
+        },
+        {
+          "doc": "presentation",
+          "page": 5,
+          "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+          "verified": true
+        }
+      ],
+      "difficulty": 5,
+      "kind": "reserve",
+      "latencyMs": 8003
+    },
+    {
+      "id": "q_j_ffebdfeafe91_2",
+      "judgeId": "j_ffebdfeafe91",
+      "question": "EPS 대비 가격 경쟁력이 있다고 하셨는데, 실제 가격은 165원으로 85원인 EPS의 두 배에 가깝습니다. 단순히 친환경이라는 명분만으로 시장 점유율 5%를 가져오겠다는 건 시장의 냉정한 가격 저항을 간과한 것 아닙니까?",
+      "intent": "단순 가격 비교에서 나타나는 불리한 수치를 언급하며, 가격 경쟁력에 대한 발표자의 논리가 취약함을 지적하기 위함.",
+      "targetClaim": "웨이브셀의 뛰어난 가격 경쟁력",
+      "targetId": null,
+      "evidence": [
+        {
+          "doc": "presentation",
+          "page": 7,
+          "quote": "EPS(스티로폼) 85원 우수 불가 가벼움 즉시... 웨이브셀 165원 양호 (EPS 92%)",
+          "verified": false
+        },
+        {
+          "doc": "presentation",
+          "page": 5,
+          "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+          "verified": true
+        }
+      ],
+      "difficulty": 4,
+      "kind": "reserve",
+      "latencyMs": 8003
+    }
+  ],
+  "order": [
+    "q_j_5379f0e80824_1",
+    "q_j_505e599833eb_1",
+    "q_j_5379f0e80824_2",
+    "q_j_505e599833eb_2",
+    "q_j_ffebdfeafe91_2",
+    "q_j_ffebdfeafe91_1"
+  ],
+  "main": [
+    "q_j_5379f0e80824_1"
+  ],
+  "reserve": [
+    "q_j_505e599833eb_1",
+    "q_j_5379f0e80824_2",
+    "q_j_505e599833eb_2",
+    "q_j_ffebdfeafe91_2",
+    "q_j_ffebdfeafe91_1"
+  ]
+}

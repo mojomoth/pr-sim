@@ -121,7 +121,7 @@ export type GenerateEvent =
   | { type: "delta"; judgeId: string; index: number; text: string }
   | { type: "question"; question: GeneratedQuestion }
   | { type: "judge-done"; judgeId: string; usage: LlmUsage; count: number }
-  | { type: "done"; questions: GeneratedQuestion[]; pack: ContextPack; lint: LintIssue[]; order: string[]; main: string[]; reserve: string[]; timings: Record<string, number>; usage: LlmUsage[] }
+  | { type: "done"; questions: GeneratedQuestion[]; pack: ContextPack; lint: LintIssue[]; order: string[]; main: string[]; reserve: string[]; timings: Record<string, number>; usage: LlmUsage[]; degraded: boolean }
   | { type: "error"; message: string; judgeId?: string };
 
 export interface AnswerAssessment {
@@ -151,6 +151,8 @@ export interface FollowUpResult {
   remark: string; // spoken short reaction in persona
   followup: GeneratedQuestion | null;
   usage: LlmUsage;
+  /** true when a last-resort Gemini lite model answered (lower quality; say so in the UI). */
+  degraded: boolean;
   latencyMs: number;
   /** Set when the server overrode the model's "followup" decision (and why). */
   guard?: { kind: "cap" | "time" | "sufficient" | "duplicate" | "empty"; detail: string };
