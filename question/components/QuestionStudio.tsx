@@ -5,7 +5,7 @@ import { TEMPERAMENT_LABEL, type TranscriptSentence } from "@/lib/types";
 import { useSentenceTranscriber } from "@/stt-tts/client/useSentenceTranscriber";
 import { playWav, stopAll, type Playback } from "@/stt-tts/client/playWav";
 import type { AnswerAssessment, ContextPack, GeneratedQuestion, GenerateEvent, LlmUsage, QJudge, TranscriptSource } from "../lib/types";
-import { getSetup, ingestFixtures, judgeTts, listRunsApi, loadRunApi, postFollowup, saveSessionApi, streamGenerate, type RunSummary, type SetupData } from "./api";
+import { getSetup, ingestFixtures, judgeTts, listRunsApi, loadRunApi, newAttemptId, postFollowup, saveSessionApi, streamGenerate, streamRetry, type RunSummary, type SetupData } from "./api";
 import { ContextInspector } from "./ContextInspector";
 import { JudgeEditor } from "./JudgeEditor";
 import { EvidenceList, QuestionBubble } from "./QuestionBubble";
@@ -194,6 +194,67 @@ export function QuestionStudio() {
     }
   };
 
+  // Regenerate only the judges that got no questions (provider 429/503 on one of the parallel calls),
+  // reusing the run's stored context. Merges into the same run.
+  const [retrying, setRetrying] = useState(false);
+  const retryFailed = async (ids: string[]) => {
+    if (!done || !ids.length) return;
+    abortRef.current?.abort();
+    const ac = new AbortController();
+    abortRef.current = ac;
+    setRetrying(true);
+    const names = new Set(ids.map((id) => judgeById(id)?.name ?? id));
+    setGenErrors((x) => x.filter((m) => ![...names].some((n) => m.startsWith(`${n} `))));
+    t0Ref.current = performance.now();
+    const at = () => Math.round(performance.now() - t0Ref.current);
+    try {
+      await streamRetry(
+        { runId: done.runId, judgeIds: ids },
+        (e) => {
+          switch (e.type) {
+            case "stage":
+              setStages((s) => [...s, { msg: e.msg, at: at(), ms: e.ms }]);
+              break;
+            case "plan":
+              setPlan(e);
+              break;
+            case "delta":
+              setPartials((p) => {
+                const arr = [...(p[e.judgeId] ?? [])];
+                arr[e.index] = e.text;
+                return { ...p, [e.judgeId]: arr };
+              });
+              break;
+            case "question":
+              setQuestions((q) => ({ ...q, [e.question.id]: e.question }));
+              break;
+            case "judge-done":
+              setJudgeUsage((u) => ({ ...u, [e.judgeId]: e.usage }));
+              break;
+            case "error":
+              setGenErrors((x) => [...x, e.message]);
+              break;
+            case "done":
+              setDone(e);
+              setQuestions((q) => {
+                const n = { ...q };
+                for (const id of e.reserve) if (n[id]) n[id] = { ...n[id], kind: "reserve" };
+                for (const id of e.main) if (n[id]) n[id] = { ...n[id], kind: "main" };
+                return n;
+              });
+              void refreshRuns();
+              break;
+          }
+        },
+        ac.signal,
+      );
+    } catch (e) {
+      if ((e as Error).name !== "AbortError") setGenErrors((x) => [...x, e instanceof Error ? e.message : String(e)]);
+    } finally {
+      setRetrying(false);
+    }
+  };
+
   // ---------------- Q&A ----------------
   const [queue, setQueue] = useState<string[]>([]);
   const [cursor, setCursor] = useState(0);
@@ -204,7 +265,7 @@ export function QuestionStudio() {
   const [answer, setAnswer] = useState("");
   const [answerBase, setAnswerBase] = useState("");
   const [pending, setPending] = useState(false);
-  const [lastResult, setLastResult] = useState<{ assessment: AnswerAssessment; remark: string; decision: string; ms: number } | null>(null);
+  const [lastResult, setLastResult] = useState<{ assessment: AnswerAssessment; remark: string; decision: string; ms: number; guard?: string } | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [ttsInfo, setTtsInfo] = useState<{ ms: number; cached: boolean; voice: string; model: string; provider: string; durationSec: number } | null>(null);
   const [ttsErr, setTtsErr] = useState<string | null>(null);
@@ -213,11 +274,17 @@ export function QuestionStudio() {
   const [saved, setSaved] = useState<{ id: string; file: string } | null>(null);
   const [saving, setSaving] = useState(false);
   const askedAtRef = useRef(0);
+  const [micAt, setMicAt] = useState<number | null>(null);
+  // one id per Q&A session: the server scopes the judge's thread, follow-up cap and log to it
+  const attemptRef = useRef("");
+  const [attemptId, setAttemptId] = useState("");
   const playRef = useRef<Playback | null>(null);
   const ansSentRef = useRef<string[]>([]);
   const ansT = useSentenceTranscriber({ phase: "qa", onSentence: (s) => ansSentRef.current.push(s.text) });
 
   function resetQa() {
+    attemptRef.current = "";
+    setAttemptId("");
     setQueue([]);
     setCursor(0);
     setCurrent(null);
@@ -300,6 +367,9 @@ export function QuestionStudio() {
     if (!done) return;
     const q = questions[done.main[0]];
     if (!q) return;
+    const aid = newAttemptId();
+    attemptRef.current = aid;
+    setAttemptId(aid);
     setQueue(done.main);
     setCursor(0);
     setLog([]);
@@ -340,6 +410,7 @@ export function QuestionStudio() {
       return;
     }
     micOnRef.current = true; // before anything async: a TTS clip landing now must not play into the mic
+    setMicAt(Date.now());
     cancelSpeech();
     setAnswerBase(answer.trim());
     ansSentRef.current = [];
@@ -347,6 +418,8 @@ export function QuestionStudio() {
     await ansT.start();
   };
   const micOn = ansT.status === "listening" || ansT.status === "connecting";
+  // "no speech yet" feedback: mic open for a while but nothing recognized (wrong input device, muted, VAD silent)
+  const micSilentSec = micOn && micAt != null && !ansT.sentences.length && !ansT.partial ? Math.floor((now - micAt) / 1000) : 0;
   useEffect(() => {
     // keep the ref in sync when the transcriber stops on its own (error / disconnect)
     if (ansT.status === "idle" || ansT.status === "error") micOnRef.current = false;
@@ -361,12 +434,20 @@ export function QuestionStudio() {
       micOnRef.current = false;
       text = [answerBase, ...ansSentRef.current].filter(Boolean).join(" ").trim();
       setAnswer(text);
+      if (!text) {
+        setQaErr("음성이 인식되지 않았습니다. 다시 마이크로 말하거나 답변을 입력한 뒤 ‘답변 완료’를 누르세요.");
+        return;
+      }
     }
     cancelSpeech();
     setPending(true);
     setQaErr(null);
     try {
-      const r = await postFollowup({ runId: done.runId, judgeId: current.judgeId, questionId: current.id, answer: text, remainingSec: Math.max(0, remainingSec) });
+      if (!attemptRef.current) {
+        attemptRef.current = newAttemptId();
+        setAttemptId(attemptRef.current);
+      }
+      const r = await postFollowup({ runId: done.runId, attemptId: attemptRef.current, judgeId: current.judgeId, questionId: current.id, answer: text, remainingSec: Math.max(0, remainingSec) });
       const entry: LogEntry = {
         questionId: current.id,
         judgeId: current.judgeId,
@@ -380,7 +461,7 @@ export function QuestionStudio() {
         latencyMs: r.clientMs,
       };
       setLog((l) => [...l, entry]);
-      setLastResult({ assessment: r.assessment, remark: r.remark, decision: r.decision, ms: r.clientMs });
+      setLastResult({ assessment: r.assessment, remark: r.remark, decision: r.decision, ms: r.clientMs, guard: r.guard?.detail });
       if (r.decision === "followup" && r.followup) {
         setQuestions((q) => ({ ...q, [r.followup!.id]: r.followup! }));
         ask(r.followup, r.remark);
@@ -413,6 +494,7 @@ export function QuestionStudio() {
     try {
       const r = await saveSessionApi({
         runId: done.runId,
+        ...(attemptRef.current ? { attemptId: attemptRef.current } : {}),
         qa: log.map((x) => ({ questionId: x.questionId, judgeId: x.judgeId, question: x.question, answer: x.answer, askedAt: x.askedAt, followup: x.followup, assessment: x.assessment, decision: x.decision, remark: x.remark })),
       });
       setSaved({ id: r.id, file: r.file });
@@ -466,7 +548,8 @@ export function QuestionStudio() {
       const { text, ...meta } = run.pack;
       setPack({ ...meta, preview: text });
       setRunJudges(run.input.judges);
-      setQuestions(Object.fromEntries(run.questions.map((q) => [q.id, q])));
+      // old runs may still carry follow-ups/QA from earlier sessions — a replay always starts a clean Q&A session
+      setQuestions(Object.fromEntries(run.questions.filter((q) => q.kind !== "followup").map((q) => [q.id, q])));
       setPartials({});
       setGenErrors([]);
       setFirstMarks({});
@@ -494,7 +577,9 @@ export function QuestionStudio() {
   };
   const replayLatest = async () => {
     const r = runs ?? (await refreshRuns());
-    if (r[0]) await replay(r[0].id);
+    // prefer the newest COMPLETE run (every judge has questions) over a newer partial one
+    const pick = r.find((x) => x.complete) ?? r[0];
+    if (pick) await replay(pick.id);
     else setReplayMsg("저장된 실행이 없습니다");
   };
 
@@ -506,7 +591,8 @@ export function QuestionStudio() {
   const orderIds = done?.order ?? Object.keys(questions);
   const genMs = done?.timings.total;
   const currentJudge = current ? judgeById(current.judgeId) : undefined;
-  const busy = phase === "generating";
+  const busy = phase === "generating" || retrying;
+  const failedJudges = done && phase === "ready" ? runJudges.filter((j) => !Object.values(questions).some((q) => q.judgeId === j.id && q.kind !== "followup")) : [];
 
   return (
     <main className="mx-auto w-full max-w-[1120px] px-6 pb-24 max-[360px]:px-5">
@@ -701,6 +787,7 @@ export function QuestionStudio() {
                     <option key={r.id} value={r.id}>
                       {new Date(r.createdAt).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })} · {r.judges.map((j) => TEMPERAMENT_LABEL[j.temperament as keyof typeof TEMPERAMENT_LABEL] ?? j.temperament).join("/")} · 질문 {r.questions}
                       {r.provider ? ` · ${r.provider.split(":")[0]}` : ""}
+                      {r.complete ? "" : ` · 일부 실패(${r.failedJudges.join(", ")})`}
                     </option>
                   ))}
                 </select>
@@ -729,7 +816,7 @@ export function QuestionStudio() {
             </Card>
           ) : null}
 
-          {genErrors.length ? (
+          {genErrors.length || failedJudges.length ? (
             <Card className="border border-error bg-canvas" data-testid="gen-errors">
               <div className="space-y-1">
                 {genErrors.map((e, i) => (
@@ -738,6 +825,16 @@ export function QuestionStudio() {
                   </p>
                 ))}
               </div>
+              {failedJudges.length ? (
+                <div className="mt-3 space-y-2">
+                  <p className="text-sm text-secondary">
+                    {failedJudges.map((j) => j.name).join(", ")} 심사위원의 질문이 없어 질의응답이 {runJudges.length - failedJudges.length}명으로 진행됩니다.
+                  </p>
+                  <Button size="sm" onClick={() => void retryFailed(failedJudges.map((j) => j.id))} disabled={retrying} data-testid="retry-failed">
+                    {retrying ? "다시 생성 중…" : `실패한 심사위원 다시 생성 (${failedJudges.length}명)`}
+                  </Button>
+                </div>
+              ) : null}
               {!done && phase !== "generating" ? (
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <Button size="sm" variant="secondary" onClick={() => void replayLatest()} data-testid="replay-latest">
@@ -819,6 +916,11 @@ export function QuestionStudio() {
                 />
               </div>
               {ansT.error ? <p className="text-sm text-error">{ansT.error}</p> : null}
+              {micSilentSec >= 6 ? (
+                <p className="text-sm text-error" data-testid="mic-silent" aria-live="polite">
+                  {micSilentSec}초째 인식된 음성이 없습니다 (입력 레벨 {Math.round(ansT.level * 100)}%). 마이크 입력 장치·음소거를 확인하거나 답변을 입력하세요.
+                </p>
+              ) : null}
               {qaErr ? <p className="text-sm text-error">{qaErr}</p> : null}
               <div className="flex items-center gap-3 rounded-[28px] bg-surface p-3">
                 <button type="button" onClick={() => void toggleMic()} aria-label={micOn ? "마이크 끄기" : "마이크로 답변"} className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-xl ${micOn ? "bg-ink text-inverse" : "bg-card"}`}>
@@ -846,6 +948,7 @@ export function QuestionStudio() {
               {lastResult ? (
                 <p className="text-sm text-secondary" data-testid="last-assessment">
                   직전 답변 평가: <b className="text-ink">{lastResult.assessment.verdict}</b> {lastResult.assessment.score}/5 · {lastResult.decision === "followup" ? "꼬리질문" : "다음 질문"} · {ms(lastResult.ms)} — {lastResult.assessment.reason}
+                  {lastResult.guard ? <span className="block text-xs">서버 판단 보정: {lastResult.guard}</span> : null}
                 </p>
               ) : null}
             </section>
@@ -943,6 +1046,7 @@ export function QuestionStudio() {
               >
                 질의응답 기록
               </SectionTitle>
+              {attemptId ? <p className="-mt-2 mb-3 text-xs text-secondary">질의응답 세션 <code>{attemptId}</code> · 꼬리질문·평가 맥락은 이 세션 안에서만 이어집니다</p> : null}
               {saved ? (
                 <p className="mb-3 text-sm" data-testid="saved">
                   저장됨: <code className="text-xs">{saved.file}</code> ·{" "}

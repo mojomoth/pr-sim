@@ -1,4 +1,5 @@
 import "server-only";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, readdir, rename, writeFile, appendFile, stat } from "node:fs/promises";
 import path from "node:path";
@@ -11,7 +12,9 @@ import type { DocMeta, KeyNumber, LintReport, PageType, WikiDocSummary, WikiPage
 //   .data/wiki/<docId>/state/    machine state: status.json, notes.json, plan.json, keynumbers.json, lint*.json
 
 export const ROOT = path.join(process.cwd(), ".data", "wiki");
-export const RESERVED = new Set(["index", "log", "schema", "overview", "주요-수치"]);
+export const RESERVED = new Set(["index", "log", "log-queries", "schema", "overview", "주요-수치"]);
+/** Meta files in wiki/ that are not content pages. */
+export const META_SLUGS = ["index", "log", "log-queries", "SCHEMA"];
 
 const DOC_ID_RE = /^[a-f0-9]{16}$/;
 export function isDocId(s: string): boolean {
@@ -22,10 +25,26 @@ export function docIdOf(buf: Buffer): { docId: string; sha256: string } {
   return { docId: sha256.slice(0, 16), sha256 };
 }
 
+// ---- staging (reingest of a ready wiki)
+// A rebuild writes into wiki.next/ + state.next/ and is swapped in only on success, so the live wiki stays
+// readable/queryable during the rebuild and survives a failed one. The pipeline code calls the same store helpers;
+// inside runStaged(docId, fn) wikiDir/stateDir of THAT doc resolve to the staging dirs (AsyncLocalStorage, so
+// concurrent queries in other async contexts keep reading the live dirs). status.json is never staged.
+const gs = globalThis as unknown as { __wikiStaging?: AsyncLocalStorage<{ docId: string }> };
+const staging = (gs.__wikiStaging ??= new AsyncLocalStorage<{ docId: string }>());
+export const STAGE = ".next";
+export const PREV = ".prev";
+const staged = (docId: string) => staging.getStore()?.docId === docId;
+export function runStaged<T>(docId: string, fn: () => Promise<T>): Promise<T> {
+  return staging.run({ docId }, fn);
+}
+
 export const docDir = (docId: string) => path.join(ROOT, docId);
 export const rawDir = (docId: string) => path.join(ROOT, docId, "raw");
-export const wikiDir = (docId: string) => path.join(ROOT, docId, "wiki");
-export const stateDir = (docId: string) => path.join(ROOT, docId, "state");
+export const liveWikiDir = (docId: string) => path.join(ROOT, docId, "wiki");
+export const liveStateDir = (docId: string) => path.join(ROOT, docId, "state");
+export const wikiDir = (docId: string) => liveWikiDir(docId) + (staged(docId) ? STAGE : "");
+export const stateDir = (docId: string) => liveStateDir(docId) + (staged(docId) ? STAGE : "");
 
 function assertDoc(docId: string) {
   if (!isDocId(docId)) throw new Error(`invalid docId: ${docId}`);
@@ -53,8 +72,8 @@ async function readJson<T>(file: string): Promise<T | null> {
 }
 
 export const readMeta = (docId: string) => (isDocId(docId) ? readJson<DocMeta>(path.join(rawDir(docId), "meta.json")) : Promise.resolve(null));
-export const readStatusFile = (docId: string) => (isDocId(docId) ? readJson<WikiStatus>(path.join(stateDir(docId), "status.json")) : Promise.resolve(null));
-export const writeStatusFile = (s: WikiStatus) => writeAtomic(path.join(stateDir(s.docId), "status.json"), JSON.stringify(s, null, 1));
+export const readStatusFile = (docId: string) => (isDocId(docId) ? readJson<WikiStatus>(path.join(liveStateDir(docId), "status.json")) : Promise.resolve(null));
+export const writeStatusFile = (s: WikiStatus, dir = liveStateDir(s.docId)) => writeAtomic(path.join(dir, "status.json"), JSON.stringify(s, null, 1));
 export const readState = <T>(docId: string, name: string) => readJson<T>(path.join(stateDir(docId), name));
 export const writeState = (docId: string, name: string, v: unknown) => writeAtomic(path.join(stateDir(docId), name), JSON.stringify(v, null, 1));
 export const readKeyNumbers = async (docId: string) => (await readState<KeyNumber[]>(docId, "keynumbers.json")) ?? [];
@@ -104,8 +123,13 @@ export async function writePage(docId: string, slug: string, md: string) {
   await writeAtomic(f, md);
 }
 
-export async function appendLog(docId: string, entry: string) {
-  await appendFile(path.join(wikiDir(docId), "log.md"), entry.endsWith("\n") ? entry : entry + "\n");
+export async function appendLog(docId: string, entry: string, file: "log" | "log-queries" = "log") {
+  const f = path.join(wikiDir(docId), `${file}.md`);
+  const line = entry.endsWith("\n") ? entry : entry + "\n";
+  if (file === "log-queries" && !(await fileMtime(f))) {
+    await appendFile(f, `---\ntitle: "질의 기록"\ntype: "meta"\n---\n# 질의 기록\n\n> queryWiki 호출 기록(캐시 적중 제외). 답변이 생성·저장된 질의만 [[log]]에도 남는다.\n\n`);
+  }
+  await appendFile(f, line);
 }
 
 export async function listSlugs(docId: string): Promise<string[]> {
@@ -140,7 +164,7 @@ export async function listPages(docId: string, opts: { includeMeta?: boolean } =
   const slugs = await listSlugs(docId);
   const infos = await Promise.all(
     slugs
-      .filter((s) => opts.includeMeta || !["index", "log", "SCHEMA"].includes(s))
+      .filter((s) => opts.includeMeta || !META_SLUGS.includes(s))
       .map(async (s) => {
         const md = await readPage(docId, s);
         return md == null ? null : pageInfoOf(s, md);
@@ -173,6 +197,8 @@ export async function listDocSummaries(): Promise<WikiDocSummary[]> {
         wikiPages: st?.wikiPages ?? 0,
         createdAt: meta?.createdAt ?? st?.startedAt ?? new Date(0).toISOString(),
         error: st?.state === "error" ? st.error : undefined,
+        rebuilding: st?.rebuild ? true : undefined,
+        lastReingestError: st?.lastReingestError,
       };
     }),
   );

@@ -143,6 +143,12 @@ export interface FollowUpInput {
   /** Earlier turns in this thread (original question + follow-ups with answers). */
   thread?: { question: string; answer: string }[];
   remainingSec?: number;
+  /**
+   * Q&A session ("attempt") this answer belongs to. The thread, the follow-up count and the follow-up
+   * questions are scoped to it, so replaying a saved run starts clean. Omit on the first call → the
+   * server creates one and returns it; pass it back on every later call of the same Q&A session.
+   */
+  attemptId?: string;
 }
 
 export interface FollowUpResult {
@@ -152,6 +158,22 @@ export interface FollowUpResult {
   followup: GeneratedQuestion | null;
   usage: LlmUsage;
   latencyMs: number;
+  attemptId: string;
+  /** Set when the server overrode the model's "followup" decision (and why). */
+  guard?: { kind: "cap" | "time" | "sufficient" | "duplicate" | "empty"; detail: string };
+}
+
+export type QALogEntry = QAItem & { questionId: string; followup?: boolean; assessment?: AnswerAssessment; decision?: "followup" | "next"; remark?: string };
+
+/** One Q&A session on a run (a fresh one per "질의응답 시작", also when replaying a saved run). */
+export interface QAAttempt {
+  id: string; // a_<...>
+  runId: string;
+  createdAt: string;
+  updatedAt: string;
+  /** Follow-up questions generated during THIS session only. */
+  followups: GeneratedQuestion[];
+  qa: QALogEntry[];
 }
 
 /** Stored run: inputs + context + generated questions + QA log. */
@@ -166,7 +188,10 @@ export interface QuestionRun {
   reserve: string[];
   usage: LlmUsage[];
   timings: Record<string, number>;
-  qa: (QAItem & { questionId: string; followup?: boolean; assessment?: AnswerAssessment; decision?: "followup" | "next"; remark?: string })[];
+  /** Legacy (runs before attempts existed). New runs keep this empty: Q&A lives in QAAttempt files. */
+  qa: QALogEntry[];
+  /** Judges whose generation failed and were regenerated later (retryJudges). */
+  retried?: { at: string; judgeIds: string[] }[];
 }
 
 export const TEMPERAMENT_DESC: Record<Temperament, string> = {

@@ -235,7 +235,7 @@ export function ReportStudio() {
 
   const wide = view === "detail";
   return (
-    <main className={`mx-auto w-full ${wide ? "max-w-[880px]" : "max-w-[560px]"} px-[var(--gutter)] pb-16`}>
+    <main className={`mx-auto w-full min-w-0 break-keep break-words ${wide ? "max-w-[880px]" : "max-w-[560px]"} px-[var(--gutter)] pb-16`}>
       <div className="flex h-14 items-center">
         <Link href="/" aria-label="PoC 허브" className="flex items-center gap-2 py-2">
           {/* eslint-disable-next-line @next/next/no-img-element -- tiny static logo */}

@@ -1,0 +1,197 @@
+{
+  "at": "2026-11-12T15:19:08.081Z",
+  "runId": "r_mwdn00iwkin6b",
+  "legacyQaInRun": 5,
+  "legacyFollowupsInRun": 2,
+  "steps": [
+    {
+      "pass": true,
+      "msg": "judge judge-friendly-1 answering q_judge-strict-1_1 → 400 이 질문(q_judge-strict-1_1)은 다른 심사위원의 질문입니다 (judgeId 불일치)"
+    },
+    {
+      "label": "A1 evasive",
+      "status": 200,
+      "ms": 4799,
+      "result": {
+        "decision": "followup",
+        "assessment": {
+          "score": 1,
+          "verdict": "회피",
+          "reason": "기업의 핵심 시장 목표치에 대한 중대한 자료 불일치를 인지하지 못하고 답변을 회피했습니다."
+        },
+        "remark": "알겠습니다.",
+        "followup": {
+          "id": "q_judge-strict-1_1_f1",
+          "judgeId": "judge-strict-1",
+          "question": "발표하신 340억 원과 제안서에 기재된 210억 원 중 어느 것이 정확한 근거를 바탕으로 산출된 목표인지 다시 말씀해 주십시오. 두 자료의 산출 근거가 어떻게 다른지 설명하십시오.",
+          "intent": "두 자료의 SOM 수치 불일치에 대한 명확한 해명과 산출 근거의 정합성 확인",
+          "targetClaim": "2029년 목표 SOM 산출 근거 확인",
+          "targetId": "t1",
+          "evidence": [
+            {
+              "doc": "proposal",
+              "page": 4,
+              "quote": "회사는 2029년 SOM 210억 원을 목표로 하고 있으며",
+              "verified": true
+            },
+            {
+              "doc": "presentation",
+              "page": 5,
+              "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+              "verified": true
+            }
+          ],
+          "difficulty": 4,
+          "kind": "followup",
+          "parentId": "q_judge-strict-1_1",
+          "latencyMs": 4789
+        },
+        "usage": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "inputTokens": 19446,
+          "cachedInputTokens": 15851,
+          "outputTokens": 351,
+          "ms": 3097,
+          "ttftMs": 2145
+        },
+        "latencyMs": 4794,
+        "attemptId": "a_mwdp14kczuxcu"
+      }
+    },
+    {
+      "pass": true,
+      "msg": "server created attempt a_mwdp14kczuxcu"
+    },
+    {
+      "pass": true,
+      "msg": "fresh session: evasive answer → follow-up q_judge-strict-1_1_f1 (cap not pre-used by old sessions)"
+    },
+    {
+      "pass": true,
+      "msg": "assessment does not refer to answers from other sessions: \"기업의 핵심 시장 목표치에 대한 중대한 자료 불일치를 인지하지 못하고 답변을 회피했습니다.\""
+    },
+    {
+      "pass": true,
+      "msg": "remark ≤ 40자 (6)"
+    },
+    {
+      "label": "A2 strong",
+      "status": 200,
+      "ms": 4649,
+      "result": {
+        "decision": "next",
+        "assessment": {
+          "score": 4,
+          "verdict": "충분",
+          "reason": "발표자가 자료 간 수치 불일치를 인정하고 제안서의 210억 원이 최종 수치임을 명확히 소명했으므로 의문이 해소되었습니다."
+        },
+        "remark": "기본적인 수치 관리부터 철저히 하십시오. 다음으로 넘어가겠습니다.",
+        "followup": null,
+        "usage": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "inputTokens": 19594,
+          "cachedInputTokens": 15855,
+          "outputTokens": 118,
+          "ms": 4633,
+          "ttftMs": 4631
+        },
+        "latencyMs": 4638,
+        "attemptId": "a_mwdp14kczuxcu"
+      }
+    },
+    {
+      "pass": true,
+      "msg": "follow-up question found inside session A"
+    },
+    {
+      "pass": true,
+      "msg": "verdict/decision consistent: 충분 → next"
+    },
+    {
+      "label": "B1 evasive (new session)",
+      "status": 200,
+      "ms": 5153,
+      "result": {
+        "decision": "followup",
+        "assessment": {
+          "score": 1,
+          "verdict": "회피",
+          "reason": "핵심 사업 목표인 SOM 수치의 불일치에 대해 모르겠다고 답하며 답변을 회피했습니다."
+        },
+        "remark": "숫자 하나 제대로 확인하지 않고 피칭하는 겁니까.",
+        "followup": {
+          "id": "q_judge-strict-1_1_f1",
+          "judgeId": "judge-strict-1",
+          "question": "투자심사위원회 자리에서 핵심 지표를 모르신다는 건가요? 제안서와 발표자료 중 경영진이 확정한 최종 목표치는 정확히 얼마입니까?",
+          "intent": "불일치하는 두 수치 중 어느 것이 회사의 공식적인 2029년 매출 목표인지 확인",
+          "targetClaim": "2029년 SOM 340억 원(발표) / 210억 원(제안)",
+          "targetId": "t1",
+          "evidence": [
+            {
+              "doc": "proposal",
+              "page": 4,
+              "quote": "회사는 2029년 SOM 210억 원을 목표로 하고 있으며",
+              "verified": true
+            },
+            {
+              "doc": "presentation",
+              "page": 5,
+              "quote": "SOM 2029년 SAM의 5% 점유 340억 원",
+              "verified": true
+            }
+          ],
+          "difficulty": 3,
+          "kind": "followup",
+          "parentId": "q_judge-strict-1_1",
+          "latencyMs": 5141
+        },
+        "usage": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "inputTokens": 19446,
+          "cachedInputTokens": 15851,
+          "outputTokens": 332,
+          "ms": 5130,
+          "ttftMs": 4320
+        },
+        "latencyMs": 5144,
+        "attemptId": "a_mwdp1buptest"
+      }
+    },
+    {
+      "pass": true,
+      "msg": "client-chosen attempt id kept (a_mwdp1buptest)"
+    },
+    {
+      "pass": true,
+      "msg": "session B follow-up numbering restarts at _f1 (q_judge-strict-1_1_f1)"
+    },
+    {
+      "pass": true,
+      "msg": "session A's follow-up is not visible from another session → 404"
+    },
+    {
+      "pass": true,
+      "msg": "attempt logs: A=2, B=1"
+    },
+    {
+      "pass": true,
+      "msg": "run file unchanged (md5 1ee26c51)"
+    },
+    {
+      "pass": true,
+      "msg": "session saved from attempt B: qs_mwdp1fx2jnpxz qa=1"
+    },
+    {
+      "pass": true,
+      "msg": "session meta.attemptId = a_mwdp1buptest"
+    },
+    {
+      "pass": true,
+      "msg": "run file still unchanged after session save"
+    }
+  ],
+  "fail": 0
+}

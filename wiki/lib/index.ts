@@ -4,18 +4,20 @@ import { listDocSummaries, listPages, readKeyNumbers, readMeta, readPage, readRa
 import { isRunning } from "./ingest";
 import type { DocMeta, KeyNumber, WikiDocSummary, WikiPageInfo } from "./types";
 
-export { ingestPdf, startIngest, reingest, reverifyKeyNumbers, repairWiki, getWikiStatus, waitForWiki } from "./ingest";
+export { ingestPdf, startIngest, reingest, deleteDoc, reverifyKeyNumbers, repairWiki, getWikiStatus, waitForWiki } from "./ingest";
 export { queryWiki, saveAnswer } from "./query";
-export { LlmUnavailableError, llmAvailable } from "./llm";
+export { LlmUnavailableError, llmAvailable, probeLlm } from "./llm";
 export { friendlyLlmError } from "./errors";
 export { lintWiki } from "./lint";
 export type * from "./types";
 
 export async function listDocs(): Promise<WikiDocSummary[]> {
   // same stale-job rule as getWikiStatus: "in progress" on disk but no job in this process → interrupted
-  return (await listDocSummaries()).map((d) =>
-    d.state !== "ready" && d.state !== "error" && !isRunning(d.docId) ? { ...d, state: "error" as const, error: "중단됨 (서버 재시작 등)" } : d,
-  );
+  return (await listDocSummaries()).map((d) => {
+    if (d.state !== "ready" && d.state !== "error" && !isRunning(d.docId)) return { ...d, state: "error" as const, error: "중단됨 (서버 재시작 등)" };
+    if (d.rebuilding && !isRunning(d.docId)) return { ...d, rebuilding: undefined, lastReingestError: "다시 만들기가 중단됐습니다 (서버 재시작 등). 지금 위키는 그대로입니다." };
+    return d;
+  });
 }
 export function getDocMeta(docId: string): Promise<DocMeta | null> {
   return readMeta(docId);

@@ -182,6 +182,19 @@ export function llmAvailable(): boolean {
   return candidates().length > 0;
 }
 
+/** Preflight before an expensive multi-call job (reingest): throws LlmUnavailableError when no provider can serve
+ *  a call. Breakers only open after a failed call, so when none is open this makes one tiny call (smallest tier)
+ *  to find out; provider-level failures trip the breakers and surface as LlmUnavailableError. Per-request
+ *  failures (timeout, schema) are not treated as "unavailable". */
+export async function probeLlm(timeoutMs = 20_000): Promise<void> {
+  if (!candidates().length) throw noProviderError();
+  try {
+    await llmJson({ tier: "select", name: "probe", system: "Reply with JSON only.", user: '{"ok": true} 를 그대로 돌려줘.', schema: z.object({ ok: z.boolean() }), signal: AbortSignal.timeout(timeoutMs) });
+  } catch (e) {
+    if (e instanceof LlmUnavailableError) throw e;
+  }
+}
+
 /** OpenAI's SDK retries every 429 (up to maxRetries with backoff) — including "insufficient_quota", which never
  *  recovers. Mark those responses as non-retryable so the call fails in ~1 s instead of ~20 s. */
 const quotaAwareFetch: typeof fetch = async (input, init) => {

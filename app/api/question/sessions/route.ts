@@ -7,7 +7,7 @@ export async function GET() {
   return Response.json({ sessions: await listSessions() }, { headers: { "cache-control": "no-store" } });
 }
 
-// POST /api/question/sessions {runId, qa[]} → saves SessionRecord to .data/question/sessions/<id>.json
+// POST /api/question/sessions {runId, attemptId?, qa[]} → saves SessionRecord to .data/question/sessions/<id>.json
 export async function POST(req: Request) {
   const parsed = SaveSessionIn.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: "입력 오류", issues: parsed.error.issues }, { status: 400 });
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     return { ...x, judge: { id: x.judgeId, name: j?.name ?? x.judgeId, temperament: j?.temperament ?? ("strict" as const) } };
   });
   try {
-    const r = await saveSession(parsed.data.runId, qa);
+    const r = await saveSession(parsed.data.runId, qa, parsed.data.attemptId);
     return Response.json({ id: r.id, file: r.file, qa: r.record.qa.length });
   } catch (e) {
     return Response.json({ error: e instanceof Error ? e.message : String(e) }, { status: 500 });

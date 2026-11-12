@@ -1,16 +1,19 @@
 import "server-only";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { friendlyLlmError } from "./errors";
 import { LlmUnavailableError, llmJson, withRetry } from "./llm";
 import { approxTokens, buildFrontmatter, extractCitations, normalizeSlug, parseFrontmatter } from "./markdown";
 import { AnswerSchema, SelectSchema, answerPrompt, selectPrompt } from "./prompts";
-import { rebuildIndex } from "./ingest";
+import { isRunning, rebuildIndex } from "./ingest";
 import { appendLog, fileMtime, listPages, readAllRawPages, readKeyNumbers, readMeta, readPage, readStatusFile, wikiDir, writePage } from "./store";
 import type { KeyNumber, QueryOptions, QueryResult, WikiPageInfo } from "./types";
 
 // QUERY (Karpathy): read index.md → pick relevant pages → (one link hop) → compact cited context → optional answer.
 
 const cache = new Map<string, QueryResult>();
+// queries already written to log.md in this process, per doc (repeats only go to log-queries.md)
+const loggedAnswers = new Set<string>();
 
 function stamp() {
   const d = new Date();
@@ -298,12 +301,25 @@ export async function queryWiki(docId: string, query: string, opts: QueryOptions
   };
 
   // 5) file good answers back into the wiki (Karpathy: explorations compound)
-  if (opts.save && answer) res.savedAs = (await saveAnswer(docId, { query, answer, pages: included })).savedAs;
+  if (opts.save && answer) {
+    try {
+      res.savedAs = (await saveAnswer(docId, { query, answer, pages: included })).savedAs;
+    } catch (e) {
+      res.saveError = friendlyLlmError(e);
+    }
+  }
 
-  await appendLog(
-    docId,
-    `## [${stamp()}] query | "${query.replace(/\n/g, " ").slice(0, 80)}" | ${selector}: ${included.join(", ")} | ${context.length}자${answer ? ` | 답변 인용 p.${citations.join(",") || "-"}` : ""}${answerError ? " | 답변 실패" : ""}${selectError ? " | 선택기 폴백" : ""}${res.savedAs ? ` | 저장 [[${res.savedAs}]]` : ""}\n`,
-  ).catch(() => {});
+  // Every (non-cached) query goes to log-queries.md; log.md — the wiki's history — only gets queries that produced
+  // an answer (first time in this process) or were filed as a page. Context-only calls from question/report used to
+  // be ~90% of log.md.
+  const entry = `## [${stamp()}] query | "${query.replace(/\n/g, " ").slice(0, 80)}" | ${selector}: ${included.join(", ")} | ${context.length}자${answer ? ` | 답변 인용 p.${citations.join(",") || "-"}` : ""}${answerError ? " | 답변 실패" : ""}${selectError ? " | 선택기 폴백" : ""}${res.savedAs ? ` | 저장 [[${res.savedAs}]]` : ""}\n`;
+  await appendLog(docId, entry, "log-queries").catch(() => {});
+  const lk = `${docId}\u0000${query}`;
+  if (res.savedAs || (answer && !loggedAnswers.has(lk))) {
+    if (loggedAnswers.size > 2000) loggedAnswers.clear();
+    loggedAnswers.add(lk);
+    await appendLog(docId, entry).catch(() => {});
+  }
 
   if (cache.size > 200) cache.delete(cache.keys().next().value!);
   // degraded results (fallback selector / failed answer) are not cached, so they recover once the provider does
@@ -334,14 +350,21 @@ function keyNumbersBlock(rows: KeyNumber[], q: Set<string>, room: number): strin
 
 /** File an answer the user already reviewed into the wiki as an analysis page (no new LLM call). */
 export async function saveAnswer(docId: string, a: { query: string; answer: string; pages?: string[] }): Promise<{ savedAs: string }> {
-  const meta = await readMeta(docId);
-  if (!meta) throw new Error(`unknown docId ${docId}`);
+  const [meta, st] = await Promise.all([readMeta(docId), readStatusFile(docId)]);
+  if (!meta || !st) throw new Error(`unknown docId ${docId}`);
+  if (st.state !== "ready") throw new Error(`위키가 아직 준비되지 않았습니다 (${st.state}). 위키가 준비된 뒤에 저장할 수 있습니다`);
+  // a rebuild swaps in a fresh wiki; a page filed into the current one now would be dropped by that swap
+  if (isRunning(docId)) throw new Error("위키를 다시 만드는 중이라 저장할 수 없습니다. 끝난 뒤 다시 시도하세요");
   const query = a.query.trim().slice(0, 1000);
   const answer = a.answer.trim().slice(0, 20000);
   if (!query || !answer) throw new Error("query/answer is empty");
   const known = new Set((await listPages(docId)).map((p) => p.slug));
   const pages = (a.pages ?? []).map(normalizeSlug).filter((s) => known.has(s));
-  const slug = normalizeSlug(`질의-${query.replace(/[?？!.,]/g, "").split(/\s+/).slice(0, 5).join("-")}`);
+  // first words for readability + a short hash of the full query: different questions that share their first
+  // five words no longer overwrite each other; the same question re-filed updates its own page
+  const hash = createHash("sha1").update(query.normalize("NFC")).digest("hex").slice(0, 6);
+  const head = normalizeSlug(`질의-${query.replace(/[?？!.,]/g, "").split(/\s+/).slice(0, 5).join("-")}`).slice(0, 52).replace(/-$/, "");
+  const slug = `${head}-${hash}`;
   const body = `# 질의: ${query}\n\n> ${answer.split("\n")[0].slice(0, 120)}\n\n## 답변\n${answer}\n${pages.length ? `\n## 근거 페이지\n${pages.map((s) => `- [[${s}]]`).join("\n")}\n` : ""}`;
   const cites = extractCitations(answer).filter((p) => p <= meta.pageCount);
   await writePage(

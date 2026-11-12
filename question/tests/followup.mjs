@@ -15,14 +15,16 @@ const STRONG_COST =
 const STRONG_SOM =
   "SOM은 제안서의 210억 원, SAM 6,800억 원의 약 3.1%가 최신 기준입니다. 발표자료의 5%, 340억 원은 초기 버전 수치로, 고객 확보 속도와 생산능력을 반영해 보수적으로 낮췄습니다. 덱도 210억 원으로 바로 수정하겠습니다.";
 
+let attemptId; // one Q&A session for the whole script (server creates it on the first call)
 async function follow(q, answer, label, extra = {}) {
   const t0 = Date.now();
   const r = await fetch(`${BASE}/api/question/followup`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ runId: sample.runId, judgeId: q.judgeId, questionId: q.id, answer, remainingSec: 150, ...extra }),
+    body: JSON.stringify({ runId: sample.runId, judgeId: q.judgeId, questionId: q.id, answer, remainingSec: 150, ...(attemptId ? { attemptId } : {}), ...extra }),
   });
   const j = await r.json();
+  attemptId ??= j.attemptId;
   const ms = Date.now() - t0;
   console.log(`\n[${label}] ${r.status} ${ms}ms  Q(${q.id}): ${q.question}\n  A: ${answer.slice(0, 80)}…\n  → ${j.decision} | ${j.assessment?.verdict} ${j.assessment?.score}/5 — ${j.assessment?.reason}\n  remark: ${j.remark}${j.followup ? `\n  follow-up: ${j.followup.question}\n  ev: ${j.followup.evidence.map((e) => `${e.verified ? "✓" : "✗"}${e.doc}${e.page ? "p" + e.page : ""}`).join(" ")}` : ""}${j.error ? `\n  ERROR ${j.error}` : ""}`);
   return { label, status: r.status, ms, questionId: q.id, question: q.question, answer, result: j };
@@ -50,6 +52,6 @@ for (const q of [costQ, somQ]) {
   tts.push({ questionId: q.id, ...info });
 }
 
-const run = await (await fetch(`${BASE}/api/question/runs/${sample.runId}`)).json();
-writeFileSync(sample.tag ? `question/samples/${sample.tag}-followup.json` : "question/samples/followup.json", JSON.stringify({ at: new Date().toISOString(), runId: sample.runId, results, tts, qaLog: run.qa }, null, 2));
-console.log(`\nqa log entries: ${run.qa.length}`);
+const run = await (await fetch(`${BASE}/api/question/runs/${sample.runId}?attempt=${attemptId}`)).json();
+writeFileSync(sample.tag ? `question/samples/${sample.tag}-followup.json` : "question/samples/followup.json", JSON.stringify({ at: new Date().toISOString(), runId: sample.runId, attemptId, results, tts, qaLog: run.attempt?.qa ?? [] }, null, 2));
+console.log(`\nqa log entries (attempt ${attemptId}): ${run.attempt?.qa.length ?? 0}`);

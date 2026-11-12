@@ -50,13 +50,14 @@
    "calls": 9,
    "inputTokens": 87186,
    "outputTokens": 21389
-  }
+  },
+  "speechNumberIssuesDocsDisagree": 0
  },
  "sample": {
-  "total": 70,
+  "total": 71,
   "sub": {
    "delivery": 88,
-   "logic": 69,
+   "logic": 73,
    "response": 62,
    "materials": 59
   },
@@ -87,7 +88,7 @@
    "proposal": 60
   },
   "mismatch": 4,
-  "speechNumberIssues": 2,
+  "speechNumberIssues": 0,
   "coverage": 0.708,
   "metrics": {
    "spm": 318,
@@ -103,13 +104,14 @@
    "calls": 9,
    "inputTokens": 86076,
    "outputTokens": 20251
-  }
+  },
+  "speechNumberIssuesDocsDisagree": 2
  },
  "good": {
-  "total": 77,
+  "total": 78,
   "sub": {
    "delivery": 88,
-   "logic": 69,
+   "logic": 73,
    "response": 87,
    "materials": 58
   },
@@ -140,7 +142,7 @@
    "proposal": 59
   },
   "mismatch": 4,
-  "speechNumberIssues": 2,
+  "speechNumberIssues": 0,
   "coverage": 0.708,
   "metrics": {
    "spm": 301,
@@ -156,6 +158,8 @@
    "calls": 9,
    "inputTokens": 87647,
    "outputTokens": 19542
-  }
- }
+  },
+  "speechNumberIssuesDocsDisagree": 2
+ },
+ "numberPolicy": "v1 (2026-11-12 fix round 2): figures matching a cited page of one document = 자료 간 불일치, severity low, no logic penalty. Recomputed deterministically from cached gpt-5.5 judgments (no new LLM call)."
 }

@@ -29,7 +29,7 @@ export interface Docs {
   warnings: string[];
 }
 
-async function loadDoc(role: DocRole, docId: string): Promise<DocCtx | null> {
+export async function loadDoc(role: DocRole, docId: string): Promise<DocCtx | null> {
   const st = await getWikiStatus(docId);
   if (!st) return null;
   if (st.state !== "ready") await waitForWiki(docId);
@@ -37,6 +37,15 @@ async function loadDoc(role: DocRole, docId: string): Promise<DocCtx | null> {
   if (!meta) return null;
   const raw = await Promise.all(Array.from({ length: meta.pageCount }, (_, i) => readRawPage(docId, i + 1).then((t) => t ?? "")));
   return { role, docId, meta, raw, keyNumbers: await getKeyNumbers(docId) };
+}
+
+/** Docs for an existing report (meta.docIds) — used to migrate cached reports without the session. */
+export async function loadDocsById(ids: { presentation?: string; proposal?: string }): Promise<Docs> {
+  const out: Docs = { warnings: [] };
+  const [a, b] = await Promise.all([ids.presentation ? loadDoc("presentation", ids.presentation) : null, ids.proposal ? loadDoc("proposal", ids.proposal) : null]);
+  if (a) out.presentation = a;
+  if (b) out.proposal = b;
+  return out;
 }
 
 /** Resolve the session's documents; if docIds are missing, ingest the fixture PDFs via the wiki lib (instant when already ingested). */
@@ -141,7 +150,7 @@ export function figures(s: string): string[] {
   return [...out];
 }
 
-function normRaw(t: string) {
+export function normRaw(t: string) {
   return t.replace(/(\d),(\d)/g, "$1$2").replace(/\s+/g, "").replace(/퍼센트/g, "%");
 }
 

@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated artifacts (verification dumps, vendored pdf.js bundles, runtime data).
+    ".verify/**",
+    ".data/**",
+    "public/**/pdfjs/**",
+    "public/**/*.min.mjs",
   ]),
 ]);
 

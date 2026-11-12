@@ -15,6 +15,7 @@ export async function launch({ mobile = false, fakeAudioWav, headless = true } =
     "--autoplay-policy=no-user-gesture-required",
     "--no-first-run",
     "--no-default-browser-check",
+    "--disable-features=AudioServiceSandbox",
   ];
   if (fakeAudioWav) args.push(`--use-file-for-fake-audio-capture=${fakeAudioWav}`);
   const browser = await puppeteer.launch({ executablePath: CHROME, headless, args });

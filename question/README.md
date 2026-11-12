@@ -54,10 +54,15 @@ generateQuestions()
   질문 → POST /api/question/tts(심사위원 음성: 성별·나이·성향) → 재생 → 답변(입력 또는 마이크 Live STT)
      음성 재생은 "티켓"으로 관리: 다음 질문·건너뛰기·답변 제출·마이크 켜기·멈춤이 티켓을 무효화하므로, 늦게 도착한
      이전 질문의 음성은 버려지고 마이크가 켜져 있는 동안에는 어떤 음성도 재생하지 않음
-  → followUp(): 같은 컨텍스트 + 대화 스레드 + 남은 시간 + 꼬리질문 한도(친절함 1, 빡셈·공격적 2)
-     → {assessment{score, verdict 충분/부분/회피/부정확, reason}, decision followup|next, remark, followup?}
+  → followUp(): 같은 컨텍스트 + 대화 스레드 + 남은 시간 + 꼬리질문 한도(친절함 1, 빡셈·공격적 2) + 이후 예정 질문 목록
+     → {assessment{score, verdict 충분/부분/회피/부정확, reason}, decision followup|next, remark, followup?, attemptId, guard?}
      꼬리질문이면 같은 심사위원이 "remark + 꼬리질문"을 한 번의 음성으로 말함. next면 다음 질문으로 넘어감
-  → 세션 저장: SessionRecord(lib/types) + meta(질문·근거·평가)를 .data/question/sessions/
+     · 질의응답 세션(QAAttempt, a_…): "질의응답 시작"마다 새 id. 스레드·꼬리질문 횟수·꼬리질문·QA 로그는 이 세션 안에서만 이어지고
+       .data/question/attempts/<runId>/<aid>.json에 저장. 저장된 run JSON은 생성 뒤 바뀌지 않음(재생해도 이전 세션이 섞이지 않음)
+     · 서버 가드(lib/guards.ts): 한도·시간 부족 → next / verdict "충분" → next / 꼬리질문이 아직 안 한 예정 질문과 겹치면
+       (질문 유사도 > 0.45, targetClaim 유사도 > 0.6, 이 주제에 없던 수치 2개 이상이 예정 질문과 일치) → next.
+       remark는 40자 안의 문장 단위로 자르고, 첫 문장부터 길면 성향 기본 반응("알겠습니다." 등)으로 바꿈. judgeId가 질문 주인과 다르면 400
+  → 세션 저장: SessionRecord(lib/types) + meta(질문·근거·평가·attemptId)를 .data/question/sessions/
 ```
 
 ### 성향 페르소나 (`lib/personas.ts`)
@@ -98,12 +103,13 @@ generateQuestions()
 | GET | `/api/question/setup` | 샘플 입력(상황·전사 46문장·심사위원 3명), 대본 전사 54문장, 위키 문서 목록, 생성된 심사위원 얼굴(judge PoC), 기본 docId. 기본 문서쌍의 lint도 백그라운드에서 미리 실행 |
 | POST | `/api/question/setup` | `{action:"ingest-fixtures"}`: 픽스처 PDF 2개를 `ingestPdf`로 인제스트(해시로 재사용하면 즉시 끝남) |
 | POST | `/api/question/generate` | `GenerateInput` → `application/x-ndjson` 스트림(`GenerateEvent`) |
-| POST | `/api/question/followup` | `{runId, judgeId, questionId, answer, remainingSec?, thread?}` → `FollowUpResult` |
+| POST | `/api/question/retry` | `{runId, judgeIds?}` → NDJSON(`GenerateEvent`). 생성이 실패한 심사위원(기본: 질문 0개인 심사위원)만 저장된 컨텍스트로 다시 만들어 같은 run에 합치고 라운드로빈 순서를 다시 짬 |
+| POST | `/api/question/followup` | `{runId, judgeId, questionId, answer, remainingSec?, attemptId?, thread?}` → `FollowUpResult`(+`attemptId`, `guard?`). attemptId가 없으면 새 세션을 만들어 돌려줌 → 다음 호출부터 그대로 넘김. judgeId가 질문 주인과 다르면 400 |
 | POST | `/api/question/tts` | `{text, gender, age, temperament}` → `audio/wav` + `x-provider`, `x-voice`, `x-model`, `x-cache`, `x-duration`, `x-ms` |
-| GET/POST | `/api/question/sessions` | 목록 / `{runId, qa[]}` 저장 → `{id, file}` (qa가 비어 있으면 서버의 run.qa 사용) |
+| GET/POST | `/api/question/sessions` | 목록 / `{runId, attemptId?, qa[]}` 저장 → `{id, file}` (qa가 비어 있으면 그 attempt의 로그 사용). run은 수정하지 않음 |
 | GET | `/api/question/sessions/{id}` | `{record: SessionRecord, meta}` |
-| GET | `/api/question/runs` | 저장된 실행 요약 목록(최신순 30개): "저장된 실행 불러오기"용 |
-| GET | `/api/question/runs/{id}` | `QuestionRun`(ContextPack, 질문, QA 로그) |
+| GET | `/api/question/runs` | 저장된 실행 요약 목록(최신순 30개): "저장된 실행 불러오기"용. `complete`, `failedJudges`, `attempts` 포함 |
+| GET | `/api/question/runs/{id}[?attempt=a_…]` | `QuestionRun`(ContextPack, 질문) [+ `attempt`: 그 질의응답 세션의 꼬리질문·QA 로그] |
 
 입력은 모두 zod로 검증함(400 + issues). 키는 서버에서만 씀(`lib/ai.ts`).
 
@@ -116,8 +122,11 @@ import type { GenerateInput, QuestionRun, GeneratedQuestion, ContextPack, Follow
 
 const pack = await buildContext(input);                                  // ContextPack (text + 인스펙터 메타)
 const run  = await generateQuestions(input, { onEvent: (e) => send(e), signal, pack? });  // QuestionRun (.data/question/runs)
-const fu   = await followUp({ runId, judgeId, questionId, answer, remainingSec });       // FollowUpResult, run.qa에 추가
-const { id, record } = await saveSession(runId, qaLog?);                  // SessionRecord → .data/question/sessions/<id>.json
+const fu   = await followUp({ runId, attemptId, judgeId, questionId, answer, remainingSec }); // FollowUpResult(+attemptId), attempt 파일에 추가
+const fixed = await retryJudges(runId, judgeIds?, { onEvent });           // 실패한 심사위원만 다시 생성(같은 run)
+const att  = await loadAttempt(runId, attemptId);                         // QAAttempt {followups, qa}
+const { id, record } = await saveSession(runId, qaLog?, attemptId?);      // SessionRecord → .data/question/sessions/<id>.json
+clampRemark(text, temperament); duplicateOfPending(followup, topicText, pending); // 순수 가드(lib/guards.ts, 클라이언트에서도 사용 가능)
 const runs = await listRuns();                                            // RunSummary[] (재생/디버그용)
 // 오류 처리: ProvidersUnavailableError(모든 LLM 실패), friendlyError(e) → UI에 그대로 보여 줄 짧은 한국어 문장
 ```
@@ -145,6 +154,10 @@ const runs = await listRuns();                                            // Run
 11. 시간을 1분으로 줄여 다시 해 봅니다. 남은 시간이 45초보다 적으면 꼬리질문 없이 다음으로 넘어가고, 시간이 끝나면 종료되는지 봅니다. "예비 질문 더 받기"도 눌러 봅니다.
 12. **세션 저장** 후 "JSON 보기"를 엽니다. SessionRecord(심사위원·전사·qa)가 맞는지 봅니다. "다시 생성"(이전 질문과 다른 각도)을 눌러 질문이 바뀌는지도 확인합니다.
 13. 설정 카드 아래 **저장된 실행 불러오기**를 열어 이전 실행을 고릅니다. AI 호출 없이 질문·근거·인스펙터가 채워지고 질의응답을 시작할 수 있어야 합니다. 생성이 실패했을 때는 빨간 오류 카드(한국어, 카드 밖으로 넘치지 않음)의 "최근 저장된 실행 불러오기" 버튼도 같은 일을 합니다.
+14. **같은 저장된 실행을 두 번 불러와** 각각 질의응답을 시작하고 첫 질문에 회피성 답변을 넣어 봅니다. 두 번 모두 꼬리질문이 나와야 하고, 평가 이유에 이전 세션의 답변 이야기("앞선 답변을 번복…")가 나오면 안 됩니다. 질의응답 기록 위에 세션 id(`a_…`)가 매번 다르게 보입니다.
+15. 생성 중 일부 심사위원이 실패하면(또는 목록에서 "일부 실패" 표시된 실행을 불러오면) 오류 카드에 **실패한 심사위원 다시 생성 (N명)** 버튼이 보이는지, 누르면 그 심사위원 질문만 추가되고 오류 카드가 사라지는지 봅니다. "최근 저장된 실행 불러오기"는 일부 실패한 실행보다 완전한 실행을 고릅니다.
+16. 마이크를 켜고 아무 말도 하지 않습니다. 6초 뒤 "N초째 인식된 음성이 없습니다(입력 레벨 …%)" 안내가 나오고, 그대로 답변 완료를 누르면 빈 답변이 제출되지 않고 안내가 떠야 합니다.
+17. 근거 있는 답변 뒤에 같은 심사위원이 **이미 예정된 다른 주제**(예: 마진 14% vs 28%)로 넘어가는 꼬리질문을 하지 않는지 봅니다. 서버가 막았다면 평가 줄 아래에 "서버 판단 보정: …"이 보입니다.
 
 ## 6. 검증 결과 (2026-11-12, 실호출)
 
@@ -187,18 +200,40 @@ const runs = await listRuns();                                            // Run
 - 모바일 심사위원 카드에서 칩이 줄바꿈되던 문제. 3열 성향 칩으로 고침
 - 얼굴 썸네일(256px)이 큰 카드에서 흐리던 문제. `?size=card`(512px)를 씀
 
+### 6-2. 리뷰 수정 2차 검증 (2026-11-13, fix:question)
+
+| 리뷰 이슈 | 고친 내용 | 검증 (명령 → 결과) |
+|---|---|---|
+| [major] 저장된 실행을 재생하면 이전 세션의 QA가 섞여 꼬리질문이 틀림 | **질의응답 세션(QAAttempt)** 도입. "질의응답 시작"마다 클라이언트가 `a_…` id를 만들고 모든 followup 호출에 보냄(없으면 서버가 만들어 돌려줌). 스레드·꼬리질문 횟수·꼬리질문 질문·QA 로그를 `.data/question/attempts/<runId>/<aid>.json`에만 씀. **run JSON은 생성 뒤 수정하지 않음**(followUp·saveSession 모두). 예전 run에 남은 꼬리질문/QA는 서버·UI가 무시 | `node question/tests/attempts.mjs r_mwdn00iwkin6b`(예전 세션 QA 5건·꼬리질문 2개가 남은 리뷰 재현 run, 실호출 gemini-3.1-flash-lite) → **15/15 PASS**: 리뷰 재현 요청(회피 답변, remainingSec 170)이 고치기 전 `next`("앞선 질문에서 인정한 오류를 번복…") → **`followup` q_…_1_f1, 4.8초**, 평가 이유에 다른 세션 언급 없음 / 새 세션 B도 `_f1`부터 다시 시작 / 세션 A의 꼬리질문은 다른 세션에서 404 / attempt 로그 A=2, B=1 / run 파일 md5 그대로(`1ee26c51`) / attempt B로 세션 저장 → qa=1, meta.attemptId=B. 결과: `question/samples/attempts.json` |
+| [minor] '충분' 평가인데 꼬리질문, 예정 질문과 같은 주제 반복 | `lib/guards.ts`: verdict "충분" → next. `duplicateOfPending()`: 아직 안 한 본/예비 질문과 겹치면(질문 bigram 유사도 > 0.45, targetClaim > 0.6, 이 주제에 없던 수치 2개 이상이 예정 질문에 있음) next. 프롬프트에도 "이후 예정된 질문 주제" 목록과 "충분이면 next" 규칙을 넣음. 막은 경우 `guard{kind, detail}`을 응답에 넣고 UI에 "서버 판단 보정"으로 표시 | `pnpm exec jiti question/tests/guards.ts` → **7/7 PASS**: 리뷰 사례(q_…_1_f2 "매출총이익률 14% vs 28%")가 q_judge-strict-1_2의 중복으로 잡힘, 같은 주제(210억/340억) 꼬리질문은 안 잡힘. 실호출: 강한 정정 답변 → `충분 4/5 → next`(attempts.mjs A2) |
+| [minor] judgeId가 질문 주인인지 확인 안 함 | `asked.judgeId !== judge.id`면 `FollowUpInputError` → **400** | 리뷰 재현 curl(`judge-friendly-1` + `q_judge-strict-1_2`) → 고치기 전 200 → **400 "이 질문(q_judge-strict-1_2)은 다른 심사위원의 질문입니다"** |
+| [minor] 일부 심사위원 실패 시 재시도 불가, '최근 실행'이 부분 실행을 고름 | `retryJudges()` + `POST /api/question/retry`: 질문이 없는 심사위원만 저장된 ContextPack으로 다시 생성(다른 심사위원 질문은 avoid로 넘겨 중복 방지)하고 같은 run에 합친 뒤 라운드로빈 재정렬. UI 오류 카드에 **"실패한 심사위원 다시 생성 (N명)"**(재생으로 불러온 부분 실행에도 표시). `listRuns`에 `complete/failedJudges`, 목록에 "일부 실패(이름)" 표시, `replayLatest`는 완전한 실행 우선 | 부분 실행 복사본 `r_retry96774`(박준호 실패) → `curl -N POST /api/question/retry` → **5.4초**, 박준호 질문 2개 추가, order가 친절함→빡셈→공격적 라운드로빈으로 재정렬, `complete:true`. 브라우저 `node question/tests/fixes-r2.mjs retry r_retryui6823`(2명 실패) → 버튼 표시 ✓(`.verify/question/fixes-r2/retry/01-partial.png`). 이 시점엔 Gemini 일일 한도 소진으로 재시도도 실패 → 오류 카드에 사유와 버튼이 그대로 남음(실패 경로 확인, 콘솔 오류 0, 넘침 0) |
+| [minor] 재생 흐름에서 마이크 답변이 전사되지 않고 안내도 없음 | 마이크가 켜진 뒤 6초 동안 인식된 글자가 없으면 **"N초째 인식된 음성이 없습니다 (입력 레벨 x%)"** 안내. 마이크로 답한 결과가 비어 있으면 제출하지 않고 "음성이 인식되지 않았습니다…" 표시(빈 답변이 LLM으로 가지 않음) | `node question/tests/fixes-r2.mjs silent r_mwdmstbff2lhs`(무음 WAV 가짜 마이크) → 안내 표시, 빈 답변 제출 차단, followup 요청 0건, 콘솔 오류 0 (`.verify/question/fixes-r2/silent/01-mic-silent.png`, `02-empty-blocked.png`). **원인 조사**: 리뷰 스크립트(`review-r2-mic.mjs`)를 다시 돌리면 getUserMedia 스트림 RMS가 계속 `0.0000`. 앱 코드가 없는 빈 페이지(/devlog)에서 같은 가짜 WAV(16k·24k 둘 다, 파일 자체 RMS 1519)로 재도 `0.0000` → **현재 헤드리스 Chrome의 가짜 오디오 캡처가 무음을 내는 하네스 문제**이고 재생 흐름과는 무관 |
+| [minor] remark 40자 규칙 미적용 | `clampRemark()`: 40자 안에서 문장 단위로 자르고, 첫 문장부터 넘으면 성향 기본 반응으로 바꿈 | guards.ts 테스트: 리뷰 사례(49자) → "정확한 근거 없이 답변하시면 곤란합니다."(22자). 실호출 remark 6~36자 |
+
+브라우저 E2E (Gemini가 잠깐 돌아온 00:29 이후, 실호출):
+- `node question/tests/fixes-r2.mjs replay r_mwdn4vohkd6v2`(리뷰가 '회피 1/5 · 다음 질문'을 본 run을 데스크톱에서 **두 번 불러와** 각각 "기준이 좀 달라서요…") → 세션 1 `a_mwdpe474y0a77o`: **회피 1/5 · 꼬리질문**(4.6초), 세션 2 `a_mwdpea5qnft8jv`: **회피 1/5 · 꼬리질문**(3.9초), run 응답 동일(변경 없음), 넘침 0. 콘솔 오류 3건은 모두 `/api/question/tts` 503(Gemini TTS 일일 한도·OpenAI 크레딧 소진). 화면은 "텍스트로 진행" 안내로 계속 진행됨. 스크린샷 `.verify/question/fixes-r2/replay/01-evasive-session1.png`, `02-evasive-session2.png`
+- `node question/tests/fixes-r2.mjs retry r_retryui6823`(모바일, 2명 실패한 부분 실행) → 버튼 클릭 → **7.3초** 만에 이정민·최태성 질문이 추가되어 3명 모두 질문 있음, run `complete:true`(질문 6개), 오류 카드 사라짐, 콘솔 오류 0, 넘침 0. 스크린샷 `.verify/question/fixes-r2/retry/01-partial.png`, `02-retried.png`, `02-retried-full.png`
+- 먼저 돌린 retry(한도 소진 중)는 재시도도 실패해 오류 카드와 버튼이 그대로 남는 실패 경로를 보여 줌
+타입/린트: `pnpm exec tsc --noEmit | grep question` 0건, `pnpm exec eslint question app/question app/api/question` 0건. 세션 스키마 `check-session.mjs` 10/10 통과.
+
 ## 7. 알려진 한계
 
 - **Claude 경로 실호출 미검증**(키 한도, 12/1 복구). 오늘 질문은 모두 gpt-5.5 / gpt-5.4-mini로 만듦. 복구되면 `QUESTION_LLM_PROVIDER=claude`로 회귀 테스트하고 Sonnet/Opus 품질·지연을 비교해야 함.
-- **오늘(11-12) 실제로 쓸 수 있는 건 Gemini 무료 등급뿐**: Claude 한도(12/1 복구), OpenAI 크레딧 소진. Gemini 무료 등급은 분당·일일 한도가 작고 다른 PoC와 같은 키를 쓰므로, 연속 생성 시 429/503이 섞임. 실제로 `gemini-fallback-2` 실행은 모델 대부분이 429/503이라 52초가 걸렸고 심사위원 1명이 실패함(나머지 2명은 성공). 안정적인 HIL에는 OpenAI 충전이 필요함.
+- **11-13 00시 기준 Gemini 무료 등급도 일일 한도 소진**: gemini-3.8/3.7/3.6/3.5-flash 모두 `GenerateRequestsPerDayPerProjectPerModel-FreeTier` 429(재개까지 약 16.5시간), 3.1-flash-lite는 503(수요 과다). 이 상태에서는 생성·꼬리질문·TTS가 모두 실패하고, 화면은 오류 카드 + 저장된 실행 재생 + 건너뛰기로만 진행됨.
+- **11-12 기준 실제로 쓸 수 있던 건 Gemini 무료 등급뿐**: Claude 한도(12/1 복구), OpenAI 크레딧 소진. Gemini 무료 등급은 분당·일일 한도가 작고 다른 PoC와 같은 키를 쓰므로, 연속 생성 시 429/503이 섞임. 실제로 `gemini-fallback-2` 실행은 모델 대부분이 429/503이라 52초가 걸렸고 심사위원 1명이 실패함(나머지 2명은 성공). 안정적인 HIL에는 OpenAI 충전이 필요함.
 - Gemini 폴백의 질문 품질은 gpt-5.5 기준 assess(블라인드 분류 93%)로 다시 재지 않음(블라인드 분류 스크립트가 OpenAI를 씀). 눈으로 본 결과 성향 차이·근거·약점 탐지(원가·SOM·마진·단일 공급처)는 유지됨.
 - Gemini 직접 TTS 재시도는 stt-tts의 메모리 쿨다운을 우회함. stt-tts 쪽에서 쿨다운을 실제 응답으로 다시 확인하게 하면 이 우회는 지울 수 있음(devlog note 참고).
-- 저장된 실행 불러오기는 생성 결과만 재생함. 꼬리질문은 여전히 LLM이 필요(모두 막히면 "건너뛰기"로 진행).
+- 저장된 실행 불러오기는 생성 결과만 재생함. 꼬리질문은 여전히 LLM이 필요(모두 막히면 "건너뛰기"로 진행). 재생할 때마다 새 질의응답 세션(attempt)이 만들어지므로 이전 세션과 섞이지 않음.
+- 2차 리뷰 이전에 만든 run JSON(`r_mwdn00iwkin6b` 등)에는 예전 세션의 `qa`·꼬리질문이 그대로 남아 있음. 서버와 UI는 이것을 무시함(꼬리질문은 attempt에서만 찾음). report PoC는 sessions/만 읽으므로 영향 없음.
+- 꼬리질문 중복 가드는 어휘 휴리스틱(bigram 유사도·수치 토큰)이라, 같은 주제를 전혀 다른 말과 수치 없이 다시 묻는 경우는 못 잡을 수 있음. 프롬프트에도 "예정 질문 주제" 목록을 넣어 1차로 막음.
+- "실패한 심사위원 다시 생성"은 run을 제자리에서 고침(그 run의 다른 심사위원 질문 id는 그대로). 테스트용으로 부분 실패 run을 복사한 `r_retry96774`, `r_retryui6823`가 목록에 보임.
+- 마이크 무응답 안내는 "인식된 글자가 없음"만 봄. 리뷰어의 재생 흐름 + 가짜 마이크에서 Gemini Live가 아무 이벤트도 보내지 않던 현상의 원인은 확정하지 못함(아래 6-2 참고).
 - 같은 입력이면 질문이 거의 같게 나옴(결정적 컨텍스트, 낮은 다양성). "다시 생성"은 `avoidQuestions`로 각도를 바꿈. 무작위 배정이나 seed는 아직 없음.
 - 주장 추출과 원문 쪽 선택은 어휘 규칙 기반(숫자·키워드)이라 숫자가 적은 발표(비전·정성 위주)에서는 주장 선택이 약할 수 있음. lint 캐시는 위키를 다시 인제스트해도 무효화되지 않음(PoC).
 - 원문 쪽은 PDF 텍스트 레이어에 의존하므로 인용에 줄바꿈이 섞임(UI에서 공백으로 표시). 표·차트 이미지 안의 숫자는 인용할 수 없음.
 - 꼬리질문 판단은 LLM 판단이라 "부분/회피" 경계가 실행마다 조금씩 다름. 답변 평가에는 발표자가 자료에 없는 새 사실을 말했는지도 반영됨("원문 근거 부족").
-- 실행 상태(run JSON)는 단일 프로세스·파일 기반임. 같은 run에 꼬리질문을 동시에 요청하면 마지막 쓰기가 이김.
+- 질의응답 세션 상태(attempt JSON)는 단일 프로세스·파일 기반임. 같은 attempt에 꼬리질문을 동시에 요청하면 마지막 쓰기가 이김(UI는 답변 검토 중 버튼을 막음).
 - 마이크로 발표 녹음(설정의 "마이크로 발표")은 stt-tts Live 세션 한도(10~15분 재연결)를 그대로 따름. 30분 발표는 시험하지 않음.
 
 ## 8. 다음 단계

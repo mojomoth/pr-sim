@@ -77,6 +77,7 @@ export const FollowUpIn = z.object({
   answer: z.string().max(4000),
   thread: z.array(z.object({ question: z.string().max(1000), answer: z.string().max(4000) })).max(6).optional(),
   remainingSec: z.number().optional(),
+  attemptId: z.string().regex(/^a_[a-z0-9]{4,40}$/).optional(),
 });
 
 export const TtsIn = z.object({
@@ -88,6 +89,7 @@ export const TtsIn = z.object({
 
 export const SaveSessionIn = z.object({
   runId: z.string().regex(/^r_[a-z0-9]+$/),
+  attemptId: z.string().regex(/^a_[a-z0-9]{4,40}$/).optional(),
   qa: z
     .array(
       z.object({
@@ -103,4 +105,9 @@ export const SaveSessionIn = z.object({
       }),
     )
     .max(60),
+});
+
+export const RetryIn = z.object({
+  runId: z.string().regex(/^r_[a-z0-9]+$/),
+  judgeIds: z.array(z.string().min(1).max(64)).min(1).max(3).optional(),
 });

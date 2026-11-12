@@ -30,7 +30,7 @@ export function Inline({ text, h }: { text: string; h: MdHandlers }): ReactNode 
     if (p.startsWith("[[") && p.endsWith("]]")) {
       const [target, label] = p.slice(2, -2).split("|");
       const slug = normalize(target.split("#")[0]);
-      const exists = !h.knownSlugs || h.knownSlugs.has(slug) || slug === "index" || slug === "log" || slug === "schema";
+      const exists = !h.knownSlugs || h.knownSlugs.has(slug) || slug === "index" || slug === "log" || slug === "log-queries" || slug === "schema";
       return (
         <button
           key={i}

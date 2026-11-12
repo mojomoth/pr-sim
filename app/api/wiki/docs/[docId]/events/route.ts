@@ -1,10 +1,12 @@
 import { getWikiStatus } from "@/wiki/lib";
-import { docParam } from "@/wiki/lib/http";
+import { docParam, jsonError } from "@/wiki/lib/http";
 
-// GET /api/wiki/docs/{docId}/events → text/event-stream; `data: WikiStatus` whenever it changes, closes on ready/error.
+// GET /api/wiki/docs/{docId}/events → text/event-stream; `data: WikiStatus` whenever it changes, closes on ready/error
+// (for a rebuild of a ready wiki: when `status.rebuild` is gone). 404 for an unknown docId.
 export async function GET(req: Request, { params }: { params: Promise<{ docId: string }> }) {
   const docId = await docParam(params);
   if (docId instanceof Response) return docId;
+  if (!(await getWikiStatus(docId))) return jsonError(404, "unknown docId");
   const enc = new TextEncoder();
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -23,7 +25,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ docId: s
       const deadline = Date.now() + 15 * 60_000;
       while (!closed && Date.now() < deadline) {
         const st = await getWikiStatus(docId);
-        const key = st ? `${st.updatedAt}|${st.state}` : "none";
+        const key = st ? `${st.updatedAt}|${st.state}|${st.rebuild?.updatedAt ?? ""}` : "none";
         if (key !== last) {
           last = key;
           try {
@@ -32,7 +34,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ docId: s
             break;
           }
         }
-        if (!st || st.state === "ready" || st.state === "error") break;
+        if (!st || (st.state === "ready" && !st.rebuild) || st.state === "error") break;
         await new Promise((r) => setTimeout(r, 500));
       }
       close();

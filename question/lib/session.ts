@@ -4,8 +4,8 @@ import type { QAItem, SessionRecord, TranscriptSentence } from "@/lib/types";
 import { ingestPdf, listDocs } from "@/wiki/lib";
 import { listJudges, toPersona } from "@/judge/lib";
 import { cachedLint } from "./context";
-import { loadRun, newId, saveRun, saveSessionFiles } from "./store";
-import type { QJudge, QuestionRun } from "./types";
+import { loadAttempt, loadRun, newId, saveSessionFiles } from "./store";
+import type { QJudge } from "./types";
 
 // Inputs for the PoC UI/tests: fixture transcript/judges, fixture PDFs ingested into the wiki (reused by
 // content hash → instant when already ingested), generated judge faces, and SessionRecord persistence.
@@ -67,11 +67,19 @@ export function warmLint(d: { presentationDocId?: string; proposalDocId?: string
   cachedLint(main, d.proposalDocId && d.presentationDocId ? d.presentationDocId : undefined).catch(() => {});
 }
 
-/** Build + persist a SessionRecord (lib/types contract) from a run and the client's QA log. */
-export async function saveSession(runId: string, qa: (QAItem & { questionId: string; judgeId?: string })[] | null): Promise<{ id: string; file: string; record: SessionRecord }> {
+/**
+ * Build + persist a SessionRecord (lib/types contract) from a run and ONE Q&A session's log: the client's
+ * qa[] if given, else the attempt's log on the server (else the legacy run.qa). The run is not modified.
+ */
+export async function saveSession(
+  runId: string,
+  qa: (QAItem & { questionId: string; judgeId?: string })[] | null,
+  attemptId?: string,
+): Promise<{ id: string; file: string; record: SessionRecord }> {
   const run = await loadRun(runId);
   if (!run) throw new Error("run not found");
-  const log = qa && qa.length ? qa : run.qa;
+  const attempt = attemptId ? await loadAttempt(runId, attemptId) : null;
+  const log = qa && qa.length ? qa : (attempt?.qa ?? run.qa);
   const id = newId("qs");
   const record: SessionRecord = {
     id,
@@ -85,11 +93,8 @@ export async function saveSession(runId: string, qa: (QAItem & { questionId: str
     qa: log.map((x) => ({ judge: { id: x.judge.id, name: x.judge.name, temperament: x.judge.temperament }, question: x.question, answer: x.answer, ...(x.askedAt != null ? { askedAt: x.askedAt } : {}) })),
     createdAt: new Date().toISOString(),
   };
-  const meta = { runId: run.id, contextPackId: run.pack.id, questions: run.questions, order: run.order, qaDetails: log, usage: run.usage, timings: run.timings, targets: run.pack.targets };
+  const questions = [...run.questions.filter((q) => q.kind !== "followup"), ...(attempt?.followups ?? [])];
+  const meta = { runId: run.id, attemptId: attempt?.id ?? null, contextPackId: run.pack.id, questions, order: run.order, qaDetails: log, usage: run.usage, timings: run.timings, targets: run.pack.targets };
   const { file } = await saveSessionFiles(record, meta);
-  if (qa && qa.length) {
-    const r: QuestionRun = { ...run, qa: qa as QuestionRun["qa"] };
-    await saveRun(r);
-  }
   return { id, file, record };
 }

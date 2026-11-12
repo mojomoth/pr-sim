@@ -27,7 +27,7 @@ export async function docParam(params: Promise<{ docId: string }>): Promise<stri
 export function errorStatus(e: unknown): number {
   const m = e instanceof Error ? e.message : "";
   if (/unknown docId|원본 PDF가 저장되지/.test(m)) return 404;
-  if (/not ready/.test(m)) return 409;
+  if (/not ready|만드는 중이라|준비된 뒤에/.test(m)) return 409;
   if (/empty|invalid|PDF 파일이 아닙니다|FormData|Unexpected end of JSON|query\/answer/i.test(m)) return 400;
   if (e instanceof Error && e.name === "LlmUnavailableError") return 503;
   return 500;

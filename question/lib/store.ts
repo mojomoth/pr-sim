@@ -2,19 +2,22 @@ import "server-only";
 import { mkdir, readdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { SessionRecord } from "@/lib/types";
-import type { QuestionRun } from "./types";
+import type { QAAttempt, QuestionRun } from "./types";
 
 // .data/question/
 //   runs/<runId>.json          QuestionRun (input + context pack + questions + QA log)
+//   attempts/<runId>/<aid>.json QAAttempt (one Q&A session on a run: its follow-ups + QA log; the run stays untouched)
 //   sessions/<id>.json         SessionRecord (lib/types contract — what the report PoC loads)
 //   sessions/<id>.meta.json    extra details (questions, evidence, assessments) for the same session
 //   lint/<a>-vs-<b>.json       cached wiki lint reports (cross-doc mismatches/gaps)
 export const DATA_DIR = path.join(process.cwd(), ".data", "question");
 const RUNS = path.join(DATA_DIR, "runs");
 const SESSIONS = path.join(DATA_DIR, "sessions");
+const ATTEMPTS = path.join(DATA_DIR, "attempts");
 export const LINT_DIR = path.join(DATA_DIR, "lint");
 
 export const isRunId = (id: string) => /^r_[a-z0-9]+$/.test(id);
+export const isAttemptId = (id: string) => /^a_[a-z0-9]{4,40}$/.test(id);
 export const isSessionId = (id: string) => /^qs_[a-z0-9]+$/.test(id);
 export const newId = (prefix: string) => `${prefix}_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 
@@ -34,6 +37,17 @@ export async function readJson<T>(file: string): Promise<T | null> {
 
 export const saveRun = (run: QuestionRun) => writeJson(path.join(RUNS, `${run.id}.json`), run);
 export const loadRun = (id: string) => (isRunId(id) ? readJson<QuestionRun>(path.join(RUNS, `${id}.json`)) : Promise.resolve(null));
+
+export const saveAttempt = (a: QAAttempt) => writeJson(path.join(ATTEMPTS, a.runId, `${a.id}.json`), a);
+export const loadAttempt = (runId: string, id: string) =>
+  isRunId(runId) && isAttemptId(id) ? readJson<QAAttempt>(path.join(ATTEMPTS, runId, `${id}.json`)) : Promise.resolve(null);
+export async function countAttempts(runId: string): Promise<number> {
+  try {
+    return (await readdir(path.join(ATTEMPTS, runId))).filter((n) => n.endsWith(".json")).length;
+  } catch {
+    return 0;
+  }
+}
 
 export async function saveSessionFiles(rec: SessionRecord, meta: unknown): Promise<{ file: string }> {
   const file = path.join(SESSIONS, `${rec.id}.json`);
@@ -73,6 +87,11 @@ export interface RunSummary {
   questions: number;
   provider?: string;
   qa: number;
+  /** Q&A sessions run on it so far. */
+  attempts: number;
+  /** Judges that ended with no questions (generation failed for them). */
+  failedJudges: string[];
+  complete: boolean;
 }
 
 /** Saved generation runs, newest first (for the "저장된 실행 불러오기" replay mode). */
@@ -88,6 +107,7 @@ export async function listRuns(limit = 30): Promise<RunSummary[]> {
       const r = await readJson<QuestionRun>(path.join(RUNS, n));
       if (!r?.questions?.length) return null;
       const u = r.usage?.[0];
+      const failedJudges = r.input.judges.filter((j) => !r.questions.some((q) => q.judgeId === j.id && q.kind !== "followup")).map((j) => j.name);
       return {
         id: r.id,
         createdAt: r.createdAt,
@@ -96,6 +116,9 @@ export async function listRuns(limit = 30): Promise<RunSummary[]> {
         questions: r.questions.filter((q) => q.kind !== "followup").length,
         provider: u ? `${u.provider}:${u.model}` : undefined,
         qa: r.qa?.length ?? 0,
+        attempts: await countAttempts(r.id),
+        failedJudges,
+        complete: failedJudges.length === 0,
       };
     }),
   );

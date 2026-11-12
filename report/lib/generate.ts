@@ -7,7 +7,10 @@ import type { SessionRecord, Temperament } from "@/lib/types";
 import { listWikiPages } from "@/wiki/lib";
 import {
   cachedLint,
+  figures,
   groundRef,
+  loadDocsById,
+  normRaw,
   findPages,
   isSmall,
   keyNumbersText,
@@ -63,12 +66,68 @@ export function isCompleteReport(r: Report): boolean {
 
 export async function readCachedReport(key: string): Promise<Report | null> {
   if (!/^[0-9a-f]{16}$/.test(key)) return null;
+  const file = path.join(REPORTS_DIR, `${key}.json`);
   try {
-    const r = JSON.parse(await readFile(path.join(REPORTS_DIR, `${key}.json`), "utf8")) as Report;
-    return isCompleteReport(r) ? dedupeReportRefs(r) : null;
+    const r = JSON.parse(await readFile(file, "utf8")) as Report;
+    if (!isCompleteReport(r)) return null;
+    if (r.meta.numberPolicy !== NUMBER_POLICY) {
+      await migrateNumberPolicy(r);
+      await writeFile(`${file}.tmp`, JSON.stringify(r, null, 1));
+      await rename(`${file}.tmp`, file);
+    }
+    return dedupeReportRefs(r);
   } catch {
     return null;
   }
+}
+
+// ───────────────────────── presenter-fault policy for speech number issues ─────────────────────────
+
+const NUMBER_POLICY = 1;
+
+/** Figures the presenter asserted in a claim (sentence markers "[22]~[23]" and bare years removed — years are context). */
+function claimFigures(claim: string): string[] {
+  return figures(claim.replace(/\[\d+\](?:\s*[~–-]\s*\[\d+\])?/g, " ")).filter((f) => !/^(19|20)\d{2}(년)?$/.test(f));
+}
+
+/**
+ * Deterministic policy (code, not LLM): a figure the presenter said is a presenter error only if NO document backs it.
+ * If every figure in the claim is printed on the pages this issue cites for one document, the presenter quoted that
+ * document faithfully and the documents disagree with each other → matchesDoc=<doc>, severity "low" (no logic penalty).
+ * The deck↔proposal mismatch itself is scored in 자료 품질 (consistency table + doc evaluations), so it is not
+ * double-counted against the speaker. Only the cited (re-grounded) pages are searched, so a wrong number that happens
+ * to appear somewhere else in a 57-page proposal is not excused.
+ */
+export function applyNumberPolicy(docs: Pick<Docs, "presentation" | "proposal">, issues: Contradiction[]): Contradiction[] {
+  return issues.map((c) => {
+    const figs = claimFigures(c.claim);
+    const base = { ...c };
+    delete base.matchesDoc;
+    if (!figs.length) return base;
+    for (const role of ["presentation", "proposal"] as DocRole[]) {
+      const doc = docs[role];
+      const pages = [...new Set(c.refs.filter((r) => r.doc === role).flatMap((r) => r.pages))];
+      if (!doc || !pages.length) continue;
+      const text = pages.map((p) => normRaw(doc.raw[p - 1] ?? "")).join("\n");
+      if (figs.every((f) => text.includes(f))) return { ...base, matchesDoc: role, severity: "low" as const };
+    }
+    return base;
+  });
+}
+
+/** Re-apply the policy to an older cached report and recompute sub-scores/total with the same code as generation. */
+async function migrateNumberPolicy(r: Report): Promise<void> {
+  const a = r.speech.analysis;
+  if (a?.numberIssues.length) {
+    const docs = await loadDocsById(r.meta.docIds);
+    a.numberIssues = applyNumberPolicy(docs, a.numberIssues);
+    const sub = subScores(r.speech.metrics, a, r.qa, r.materials.docs);
+    const before = r.overall.total;
+    r.overall.sub = sub;
+    r.overall.total = weightedTotal(sub);
+    if (r.overall.total !== before) r.meta.warnings = [...r.meta.warnings, `수치 감점 정책 갱신(자료 중 한쪽과 일치하는 수치는 감점 없음)으로 총점 ${before}→${r.overall.total} 재계산`];
+  }
+  r.meta.numberPolicy = NUMBER_POLICY;
 }
 
 /** Raised when at least one evaluated section failed. Nothing is cached; finished sections are kept in memory and
@@ -324,6 +383,7 @@ async function run(session: SessionRecord, key: string, job: Job): Promise<Repor
         usage,
         warnings,
         complete: true,
+        numberPolicy: NUMBER_POLICY,
         reusedSteps: reused.length ? reused : undefined,
       },
       speech: { metrics, analysis: speech },
@@ -484,7 +544,7 @@ async function runSpeech(session: SessionRecord, docs: Docs, usage: Usage): Prom
     improvements: r.improvements,
     coverage,
     coverageRate: Math.round(coverageRate * 1000) / 1000,
-    numberIssues: groundContradictions(docs, r.numberIssues),
+    numberIssues: applyNumberPolicy(docs, groundContradictions(docs, r.numberIssues)),
   };
 }
 

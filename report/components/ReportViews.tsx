@@ -5,6 +5,29 @@ import { Arrow, Card, CheckIcon, fmtSec, H2, Label, Meter, Pill, RefChips, Score
 
 export type DetailTab = "qa" | "speech" | "materials";
 
+/** LLM text often joins page lists without spaces ("p.3·p.5·p.9·…"); add a zero-width break opportunity after each
+ *  separator so such runs wrap at a separator instead of mid-token (the main container also sets overflow-wrap). */
+export const soft = (s: string) => s.replace(/([·,/])(?=\S)/g, "$1\u200b");
+
+/** Lite fallback models judged at least one section → scores can be inflated (see README 알려진 한계). */
+export function liteModels(report: Report): string[] {
+  const used = Object.keys(report.meta.usage.byModel ?? {});
+  const lite = used.filter((k) => /lite/i.test(k)).map((k) => k.replace(/^\w+:/, ""));
+  if (lite.length) return [...new Set(lite)];
+  return /lite/i.test(report.meta.provider) ? [...new Set(report.meta.provider.match(/[\w.-]*lite[\w.-]*/gi) ?? [])] : [];
+}
+
+export function LiteNotice({ report }: { report: Report }) {
+  const lite = liteModels(report);
+  if (!lite.length) return null;
+  return (
+    <p className="rounded-[16px] border border-ink px-4 py-3 text-[14px] leading-[21px]" data-testid="lite-notice">
+      <span className="font-semibold">경량 폴백 모델이 채점한 리포트예요.</span> 주력 모델(Claude·GPT)이 사용 한도에 걸려 {lite.join(" · ")}로 판정했어요. 같은 답변도 점수가
+      10–25점 후하게 나오거나 누락을 놓칠 수 있으니 참고용으로만 보세요.
+    </p>
+  );
+}
+
 const shortSituation = (s: string) => {
   const m = /(?:친환경|[가-힣]+)\s*[^.。]{0,18}(사업|제안|피칭|발표)/.exec(s);
   return m ? m[0] : s.slice(0, 24);
@@ -18,7 +41,7 @@ export function ResultView({ report, onDetail }: { report: Report; onDetail: (ta
   return (
     <div className="flex flex-col gap-4">
       <div className="pb-4 pt-2 text-center">
-        <h2 className="mx-auto max-w-[15ch] text-balance text-[32px] font-bold leading-10 tracking-[-1px] sm:text-[40px] sm:leading-[48px]" data-testid="headline">
+        <h2 className="mx-auto max-w-[15ch] text-balance break-keep text-[32px] font-bold leading-10 tracking-[-1px] sm:text-[40px] sm:leading-[48px]" data-testid="headline">
           {o.headline}
         </h2>
         <p className="mt-2 text-[16px] leading-6 text-secondary">{shortSituation(report.meta.situation)}</p>
@@ -40,6 +63,8 @@ export function ResultView({ report, onDetail }: { report: Report; onDetail: (ta
           </p>
         )}
       </Card>
+
+      <LiteNotice report={report} />
 
       <div className={`grid gap-3 ${subs.length === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3"}`}>
         {subs.map((k) => (
@@ -147,6 +172,7 @@ export function DetailView({ report, tab, onTab, qaIndex, onQa }: { report: Repo
           </button>
         ))}
       </div>
+      <LiteNotice report={report} />
       {tab === "qa" && <QAPanel report={report} index={qaIndex} onIndex={onQa} />}
       {tab === "speech" && <SpeechPanel report={report} />}
       {tab === "materials" && <MaterialsPanel report={report} />}
@@ -239,11 +265,11 @@ function QAPanel({ report, index, onIndex }: { report: Report; index: number; on
           <p className="text-[15px] font-bold">자료와 다른 점 {q.contradictions.length}</p>
           {q.contradictions.map((c, k) => (
             <div key={k} className="flex flex-col gap-1.5">
-              <p className="text-[15px] leading-[22px]">
-                <span className="font-semibold">말한 내용</span> {c.claim}
+              <p className="text-[15px] leading-[22px] [overflow-wrap:anywhere]">
+                <span className="font-semibold">말한 내용</span> {soft(c.claim)}
               </p>
-              <p className="text-[15px] leading-[22px] text-secondary">
-                <span className="font-semibold text-ink">자료</span> {c.docSays}
+              <p className="text-[15px] leading-[22px] text-secondary [overflow-wrap:anywhere]">
+                <span className="font-semibold text-ink">자료</span> {soft(c.docSays)}
               </p>
               <RefChips refs={c.refs} docIds={docIds} />
             </div>
@@ -461,14 +487,20 @@ function SpeechPanel({ report }: { report: Report }) {
 
           {a.numberIssues.length > 0 && (
             <div className="flex flex-col gap-3 rounded-[20px] border border-ink p-4" data-testid="number-issues">
-              <p className="text-[15px] font-bold">발표 중 수치가 자료와 달라요 {a.numberIssues.length}</p>
+              <p className="text-[15px] font-bold">발표 중 수치가 자료와 달라요 {a.numberIssues.filter((c) => !c.matchesDoc).length}</p>
+              {a.numberIssues.some((c) => c.matchesDoc) && (
+                <p className="-mt-2 text-[13px] leading-5 text-secondary">
+                  ‘자료끼리 달라요’는 발표자가 자료 중 한쪽의 수치를 그대로 말한 경우예요. 발표 감점은 없고, 자료 품질의 수치 대조에서 다뤄요.
+                </p>
+              )}
               {a.numberIssues.map((c, k) => (
-                <div key={k} className="flex flex-col gap-1.5">
-                  <p className="text-[15px] leading-[22px]">
-                    <span className="font-semibold">말한 내용</span> {c.claim} <span className="text-[12px] text-secondary">({SEVERITY_KO[c.severity]})</span>
+                <div key={k} className="flex flex-col gap-1.5" data-matches-doc={c.matchesDoc ? c.matchesDoc : undefined}>
+                  <p className="text-[15px] leading-[22px] [overflow-wrap:anywhere]">
+                    <span className="font-semibold">말한 내용</span> {soft(c.claim)}{" "}
+                    <span className="text-[12px] text-secondary">({c.matchesDoc ? `자료끼리 달라요 · ${DOC_LABEL[c.matchesDoc]} 수치와 일치 · 감점 없음` : SEVERITY_KO[c.severity]})</span>
                   </p>
-                  <p className="text-[15px] leading-[22px] text-secondary">
-                    <span className="font-semibold text-ink">자료</span> {c.docSays}
+                  <p className="text-[15px] leading-[22px] text-secondary [overflow-wrap:anywhere]">
+                    <span className="font-semibold text-ink">자료</span> {soft(c.docSays)}
                   </p>
                   <RefChips refs={c.refs} docIds={report.meta.docIds} />
                 </div>

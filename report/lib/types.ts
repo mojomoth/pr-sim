@@ -87,6 +87,10 @@ export interface Contradiction {
   docSays: string; // what the documents say
   refs: DocRef[];
   severity: "high" | "medium" | "low";
+  /** speech numberIssues only: every figure the presenter said is printed on a cited page of this document — the
+   *  documents disagree with each other, the presenter did not invent a number. Set in code (applyNumberPolicy);
+   *  severity is forced to "low" (no logic penalty); the deck↔proposal mismatch is scored under 자료 품질 instead. */
+  matchesDoc?: DocRole;
 }
 
 // ───────────────────────── 1b. LLM speech analysis ─────────────────────────
@@ -224,6 +228,9 @@ export interface ReportMeta {
   complete?: boolean;
   /** steps whose result was reused from an earlier failed attempt of the same session content */
   reusedSteps?: string[];
+  /** 1 = speech numberIssues follow the presenter-fault policy (applyNumberPolicy) and sub/total were computed with it.
+   *  Older cached reports are migrated on read (deterministic, no LLM call) and rewritten. */
+  numberPolicy?: number;
 }
 
 export interface Report {

@@ -68,6 +68,7 @@ export function WikiStudio() {
   const [kind, setKind] = useState<DocKind | "auto">("auto");
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [docErr, setDocErr] = useState<string | null>(null); // reingest/delete errors, shown on the doc's card
   const [listOpen, setListOpen] = useState(true);
   const [rebuildTick, setRebuildTick] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -79,6 +80,7 @@ export function WikiStudio() {
   // switching docs: drop the previous doc's page/raw view right away (not in an effect → no cascading render)
   const selectDoc = (id: string) => {
     if (id !== docId) {
+      setDocErr(null);
       setPageMd(null);
       setPageErr(null);
       setRaw(null);
@@ -138,13 +140,13 @@ export function WikiStudio() {
       .then((d) => {
         if (!alive) return;
         const st = applyDoc(d);
-        if (!alive || st.state === "ready" || st.state === "error") return;
+        if (!alive || (st.state === "ready" && !st.rebuild) || st.state === "error") return;
         es = new EventSource(`/api/wiki/docs/${docId}/events`);
         es.onmessage = (ev) => {
           const s = JSON.parse(ev.data) as WikiStatus | null;
           if (!s || !alive) return;
           setStatus(s);
-          if (s.state === "ready" || s.state === "error") {
+          if ((s.state === "ready" && !s.rebuild) || s.state === "error") {
             es?.close();
             void loadDoc(docId);
             void refreshDocs();
@@ -345,7 +347,7 @@ export function WikiStudio() {
                         </span>
                       </span>
                       <span className={`shrink-0 rounded-full px-2 py-0.5 text-[12px] font-medium ${d.docId === docId ? "bg-canvas text-ink" : d.state === "error" ? "bg-canvas text-error" : "bg-canvas text-ink"}`}>
-                        {STATE_LABEL[d.state]}
+                        {d.rebuilding ? "재생성 중" : STATE_LABEL[d.state]}
                       </span>
                     </button>
                   </li>
@@ -359,15 +361,40 @@ export function WikiStudio() {
             <Progress
               status={status}
               onRebuild={async () => {
-                if (!docId || !confirm("이 문서의 위키를 원본 PDF에서 처음부터 다시 만들까요? (LLM 호출 비용 발생)")) return;
+                const msg =
+                  status.state === "ready"
+                    ? "이 문서의 위키를 원본 PDF에서 처음부터 다시 만들까요?\n\n새 위키가 다 만들어질 때까지 지금 위키는 그대로 보이고 질의·점검에도 계속 쓰입니다. 다시 만들기가 실패하면 지금 위키를 그대로 유지합니다. (LLM 호출 비용 발생)"
+                    : "원본 PDF에서 위키 만들기를 다시 시도할까요? (LLM 호출 비용 발생)";
+                if (!docId || !confirm(msg)) return;
+                setDocErr(null);
                 try {
                   await j(`/api/wiki/docs/${docId}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "reingest" }) });
                   setRebuildTick((n) => n + 1);
                   void refreshDocs();
                 } catch (e) {
-                  setErr(friendlyLlmError(e));
+                  setDocErr(friendlyLlmError(e));
+                  reveal("progress");
                 }
               }}
+              onDelete={async () => {
+                if (!docId || !confirm(`‘${status.filename}’ 문서와 위키(원본 PDF·페이지·점검 결과·기록)를 삭제할까요? 되돌릴 수 없습니다.`)) return;
+                setDocErr(null);
+                try {
+                  await j(`/api/wiki/docs/${docId}`, { method: "DELETE" });
+                  const list = await j<WikiDocSummary[]>("/api/wiki/docs");
+                  setDocs(list);
+                  setStatus(null);
+                  setMeta(null);
+                  setPages([]);
+                  setSlug("overview");
+                  const next = list.find((x) => x.state === "ready")?.docId ?? list[0]?.docId ?? null;
+                  if (next) selectDoc(next);
+                  else setDocId(null);
+                } catch (e) {
+                  setDocErr(friendlyLlmError(e));
+                }
+              }}
+              error={docErr}
             />
             </div>
           )}
@@ -487,7 +514,10 @@ function Skeleton() {
   );
 }
 
-function Progress({ status: s, onRebuild }: { status: WikiStatus; onRebuild: () => void }) {
+function Progress({ status: cur, onRebuild, onDelete, error }: { status: WikiStatus; onRebuild: () => void; onDelete: () => void; error: string | null }) {
+  // while a ready wiki is rebuilt, the card follows the NEW build; the current wiki stays usable
+  const s = cur.rebuild ?? cur;
+  const rebuilding = !!cur.rebuild;
   const [now, setNow] = useState(() => Date.now());
   const live = s.state !== "ready" && s.state !== "error";
   useEffect(() => {
@@ -501,7 +531,7 @@ function Progress({ status: s, onRebuild }: { status: WikiStatus; onRebuild: () 
   return (
     <div className="rounded-[28px] border border-line p-5" aria-live="polite">
       <div className="flex items-baseline justify-between">
-        <h3 className="text-[17px] font-semibold">인제스트</h3>
+        <h3 className="text-[17px] font-semibold">{rebuilding ? "위키 다시 만드는 중" : "인제스트"}</h3>
         <span className={`text-[13px] font-medium tabular ${s.state === "error" ? "text-error" : "text-secondary"}`}>
           {STATE_LABEL[s.state]} · {sec(elapsed)}
         </span>
@@ -535,10 +565,32 @@ function Progress({ status: s, onRebuild }: { status: WikiStatus; onRebuild: () 
         </dd>
       </dl>
       {s.provider && <p className="mt-2 truncate text-[11px] text-secondary">provider: {s.provider}</p>}
+      {rebuilding && (
+        <p className="mt-3 rounded-[16px] bg-surface px-4 py-3 text-[13px] leading-[19px] text-secondary">
+          새 위키가 다 만들어질 때까지 지금 위키를 그대로 보고 질의할 수 있습니다. 실패하면 지금 위키가 유지됩니다.
+        </p>
+      )}
+      {!rebuilding && cur.lastReingestError && (
+        <p role="status" className="mt-3 rounded-[16px] bg-surface px-4 py-3 text-[13px] leading-[19px]">
+          <span className="font-semibold text-error">마지막 다시 만들기 실패</span>
+          {cur.lastReingestAt && <span className="tabular text-secondary"> · {new Date(cur.lastReingestAt).toLocaleString("ko-KR", { hour12: false })}</span>}
+          <span className="mt-1 block text-secondary">{friendlyLlmError(cur.lastReingestError)} 지금 보이는 위키는 이전 버전 그대로입니다.</span>
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="mt-3 rounded-[16px] bg-surface px-4 py-3 text-[13px] leading-[19px] text-error">
+          {error}
+        </p>
+      )}
       {!live && (
-        <button onClick={onRebuild} className="mt-3 h-11 w-full rounded-[16px] bg-surface text-[14px] font-semibold">
-          {s.state === "error" ? "다시 시도" : "위키 다시 만들기"}
-        </button>
+        <div className="mt-3 flex gap-2">
+          <button onClick={onRebuild} className="h-11 flex-1 rounded-[16px] bg-surface text-[14px] font-semibold">
+            {s.state === "error" ? "다시 시도" : "위키 다시 만들기"}
+          </button>
+          <button onClick={onDelete} aria-label="이 문서 삭제" className="h-11 rounded-[16px] bg-surface px-4 text-[14px] font-semibold text-error">
+            삭제
+          </button>
+        </div>
       )}
       <ul className="mt-3 max-h-48 space-y-1 overflow-y-auto border-t border-line pt-3 text-[12px] leading-[17px]">
         {[...s.events].reverse().slice(0, 12).map((e, i) => (

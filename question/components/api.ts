@@ -30,7 +30,16 @@ export async function ingestFixtures(): Promise<{ presentationDocId: string; pro
 
 /** POST generate and dispatch each NDJSON event. Resolves when the stream ends. */
 export async function streamGenerate(input: GenerateInput, onEvent: (e: GenerateEvent) => void, signal?: AbortSignal) {
-  const r = await fetch("/api/question/generate", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(input), signal });
+  return streamNdjson("/api/question/generate", input, onEvent, signal);
+}
+
+/** Regenerate the failed judges of a run into the same run (same NDJSON events as generate). */
+export async function streamRetry(body: { runId: string; judgeIds?: string[] }, onEvent: (e: GenerateEvent) => void, signal?: AbortSignal) {
+  return streamNdjson("/api/question/retry", body, onEvent, signal);
+}
+
+async function streamNdjson(url: string, body: unknown, onEvent: (e: GenerateEvent) => void, signal?: AbortSignal) {
+  const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body), signal });
   if (!r.ok || !r.body) {
     const j = await r.json().catch(() => ({}));
     throw new Error(j.error ?? `질문 생성 요청 실패 (${r.status})`);
@@ -51,7 +60,10 @@ export async function streamGenerate(input: GenerateInput, onEvent: (e: Generate
   }
 }
 
-export async function postFollowup(body: { runId: string; judgeId: string; questionId: string; answer: string; remainingSec?: number }): Promise<FollowUpResult & { clientMs: number }> {
+/** A fresh Q&A-session id (scopes the server-side thread / follow-up count / log). */
+export const newAttemptId = () => `a_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+
+export async function postFollowup(body: { runId: string; attemptId: string; judgeId: string; questionId: string; answer: string; remainingSec?: number }): Promise<FollowUpResult & { clientMs: number }> {
   const t0 = performance.now();
   const r = await fetch("/api/question/followup", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
   const j = await r.json();
@@ -98,7 +110,7 @@ export function judgeTts(text: string, j: Pick<QJudge, "gender" | "age" | "tempe
   return p;
 }
 
-export async function saveSessionApi(body: { runId: string; qa: unknown[] }): Promise<{ id: string; file: string; qa: number }> {
+export async function saveSessionApi(body: { runId: string; attemptId?: string; qa: unknown[] }): Promise<{ id: string; file: string; qa: number }> {
   const r = await fetch("/api/question/sessions", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
   const j = await r.json();
   if (!r.ok) throw new Error(j.error ?? "세션 저장 실패");
@@ -113,6 +125,9 @@ export interface RunSummary {
   questions: number;
   provider?: string;
   qa: number;
+  attempts: number;
+  failedJudges: string[];
+  complete: boolean;
 }
 export async function listRunsApi(): Promise<RunSummary[]> {
   const r = await fetch("/api/question/runs", { cache: "no-store" });

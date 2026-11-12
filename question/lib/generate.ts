@@ -6,7 +6,7 @@ import { partialQuestions, providerLabel, streamJson, withRetry } from "./llm";
 import { friendlyError } from "./providers";
 import { PERSONAS, personaSystem, SHARED_RULES } from "./personas";
 import { QuestionsOut, type QuestionOutT } from "./schema";
-import { newId, saveRun } from "./store";
+import { loadRun, newId, saveRun } from "./store";
 import { similarity } from "./text";
 import type { ContextPack, FocusTarget, GeneratedQuestion, GenerateEvent, GenerateInput, LlmUsage, QJudge, QuestionRun } from "./types";
 
@@ -108,6 +108,46 @@ export function orderQuestions(judges: QJudge[], byJudge: Map<string, GeneratedQ
   return { order: all.map((q) => q.id), main: all.slice(0, planned).map((q) => q.id), reserve: all.slice(planned).map((q) => q.id), duplicates: dup.map((q) => q.id) };
 }
 
+/** One judge's questions (streams delta/question/judge-done or error events). Never throws. */
+async function generateForJudge(
+  j: QJudge,
+  c: { judges: QJudge[]; assignment: Map<string, FocusTarget[]>; perJudge: number; pack: ContextPack; input: GenerateInput; emit: (e: GenerateEvent) => void; signal?: AbortSignal },
+): Promise<{ questions: GeneratedQuestion[]; usage?: LlmUsage; error?: string }> {
+  const sent: string[] = [];
+  try {
+    const tj = Date.now();
+    const { data, usage: u } = await withRetry(() =>
+      streamJson({
+        role: "generate",
+        name: "judge_questions",
+        shared: `${SHARED_RULES}\n\n${c.pack.text}`,
+        persona: personaSystem(j.temperament, j),
+        user: judgeUser(j, c.judges, c.assignment.get(j.id) ?? [], c.assignment, c.perJudge, c.input.situation, c.input.avoidQuestions),
+        schema: QuestionsOut,
+        signal: c.signal,
+        onText: (acc) => {
+          partialQuestions(acc).forEach((text, i) => {
+            if (text && text !== sent[i]) {
+              sent[i] = text;
+              c.emit({ type: "delta", judgeId: j.id, index: i, text });
+            }
+          });
+        },
+      }),
+    );
+    const qs = data.questions.slice(0, c.perJudge).map((q, i) => toQuestion(q, j, i, "main", Date.now() - tj));
+    const grounded = await Promise.all(qs.map(async (q) => ({ ...q, evidence: await groundEvidence(q.evidence, { ...c.input, transcript: c.input.transcript }) })));
+    for (const q of grounded) c.emit({ type: "question", question: q });
+    c.emit({ type: "judge-done", judgeId: j.id, usage: u, count: grounded.length });
+    return { questions: grounded, usage: u };
+  } catch (e) {
+    const why = friendlyError(e, "오류");
+    console.warn(`[question] ${j.name} generate failed:`, e instanceof Error ? e.message.slice(0, 300) : e);
+    c.emit({ type: "error", judgeId: j.id, message: `${j.name} 질문 생성 실패: ${why}` });
+    return { questions: [], error: why };
+  }
+}
+
 export interface GenerateOptions {
   onEvent?: (e: GenerateEvent) => void;
   signal?: AbortSignal;
@@ -141,44 +181,12 @@ export async function generateQuestions(input: GenerateInput, opts: GenerateOpti
   const usage: LlmUsage[] = [];
   const byJudge = new Map<string, GeneratedQuestion[]>();
   const failures: string[] = [];
-  const shared = `${SHARED_RULES}\n\n${pack.text}`;
   await Promise.all(
     judges.map(async (j) => {
-      const sent: string[] = [];
-      try {
-        const tj = Date.now();
-        const { data, usage: u } = await withRetry(() =>
-          streamJson({
-            role: "generate",
-            name: "judge_questions",
-            shared,
-            persona: personaSystem(j.temperament, j),
-            user: judgeUser(j, judges, assignment.get(j.id)!, assignment, perJudge, input.situation, input.avoidQuestions),
-            schema: QuestionsOut,
-            signal: opts.signal,
-            onText: (acc) => {
-              partialQuestions(acc).forEach((text, i) => {
-                if (text && text !== sent[i]) {
-                  sent[i] = text;
-                  emit({ type: "delta", judgeId: j.id, index: i, text });
-                }
-              });
-            },
-          }),
-        );
-        usage.push(u);
-        const qs = data.questions.slice(0, perJudge).map((q, i) => toQuestion(q, j, i, "main", Date.now() - tj));
-        const grounded = await Promise.all(qs.map(async (q) => ({ ...q, evidence: await groundEvidence(q.evidence, { ...input, transcript: input.transcript }) })));
-        byJudge.set(j.id, grounded);
-        for (const q of grounded) emit({ type: "question", question: q });
-        emit({ type: "judge-done", judgeId: j.id, usage: u, count: grounded.length });
-      } catch (e) {
-        byJudge.set(j.id, []);
-        const why = friendlyError(e, "오류");
-        failures.push(why);
-        console.warn(`[question] ${j.name} generate failed:`, e instanceof Error ? e.message.slice(0, 300) : e);
-        emit({ type: "error", judgeId: j.id, message: `${j.name} 질문 생성 실패: ${why}` });
-      }
+      const r = await generateForJudge(j, { judges, assignment, perJudge, pack, input, emit, signal: opts.signal });
+      byJudge.set(j.id, r.questions);
+      if (r.usage) usage.push(r.usage);
+      if (r.error) failures.push(r.error);
     }),
   );
   timings.generate = Date.now() - tGen;
@@ -204,5 +212,65 @@ export async function generateQuestions(input: GenerateInput, opts: GenerateOpti
   await saveRun(run);
   emit({ type: "stage", stage: "done", msg: `완료: 질문 ${questions.length}개 (본 ${ord.main.length} · 예비 ${ord.reserve.length}${ord.duplicates.length ? ` · 중복 이동 ${ord.duplicates.length}` : ""})`, ms: timings.total });
   emit({ type: "done", runId, order: ord.order, main: ord.main, reserve: ord.reserve, timings, usage });
+  return run;
+}
+
+/**
+ * Regenerate questions for judges whose generation failed in a run (default: every judge with no
+ * questions), reusing the run's stored context pack (no wiki/lint calls). Merges into the SAME run and
+ * re-plans the round-robin order; questions that already exist keep their ids. Streams the same events.
+ */
+export async function retryJudges(runId: string, judgeIds: string[] | undefined, opts: Omit<GenerateOptions, "pack"> = {}): Promise<QuestionRun> {
+  const emit = opts.onEvent ?? (() => {});
+  const run = await loadRun(runId);
+  if (!run) throw new Error("run not found");
+  const t0 = Date.now();
+  const judges = run.input.judges;
+  const hasQs = (id: string) => run.questions.some((q) => q.judgeId === id && q.kind !== "followup");
+  const targets = judges.filter((j) => (judgeIds ? judgeIds.includes(j.id) : !hasQs(j.id)));
+  if (!targets.length) throw new Error("다시 생성할 심사위원이 없습니다 (모두 질문이 있습니다)");
+
+  const { text: _omit, ...packMeta } = run.pack;
+  void _omit;
+  emit({ type: "context", pack: { ...packMeta, preview: run.pack.text } });
+  const planned = plannedQuestionCount(run.input.qaMinutes, run.input.questionCount);
+  const perJudge = Math.min(4, Math.ceil(planned / judges.length) + 1);
+  const assignment = assignTargets(judges, run.pack.targets, perJudge);
+  emit({ type: "plan", runId, plannedCount: planned, perJudge, assignments: judges.map((j) => ({ judgeId: j.id, targetIds: assignment.get(j.id)!.map((t) => t.id) })), provider: providerLabel("generate") });
+  emit({ type: "stage", stage: "generate", msg: `실패한 심사위원 ${targets.map((j) => j.name).join(", ")} 다시 생성 (저장된 컨텍스트 재사용)` });
+  // existing questions first, so the client shows the full panel again
+  for (const q of run.questions) if (q.kind !== "followup" && !targets.some((j) => j.id === q.judgeId)) emit({ type: "question", question: q });
+
+  // other judges' existing questions are off-limits for the regenerated ones
+  const avoid = [...(run.input.avoidQuestions ?? []), ...run.questions.filter((q) => q.kind !== "followup" && !targets.some((j) => j.id === q.judgeId)).map((q) => q.question)];
+  const input = { ...run.input, avoidQuestions: avoid };
+  const usage: LlmUsage[] = [];
+  const fresh = new Map<string, GeneratedQuestion[]>();
+  const failures: string[] = [];
+  await Promise.all(
+    targets.map(async (j) => {
+      const r = await generateForJudge(j, { judges, assignment, perJudge, pack: run.pack, input, emit, signal: opts.signal });
+      fresh.set(j.id, r.questions);
+      if (r.usage) usage.push(r.usage);
+      if (r.error) failures.push(r.error);
+    }),
+  );
+  const got = [...fresh.values()].reduce((n, q) => n + q.length, 0);
+  if (!got) throw new Error(`다시 생성도 실패했습니다. ${failures[0] ?? ""}`.trim());
+
+  const byJudge = new Map<string, GeneratedQuestion[]>(
+    judges.map((j) => [j.id, fresh.get(j.id)?.length ? fresh.get(j.id)! : run.questions.filter((q) => q.judgeId === j.id && q.kind !== "followup")]),
+  );
+  const ord = orderQuestions(judges, byJudge, planned);
+  run.questions = judges.flatMap((j) => byJudge.get(j.id) ?? []).map((q) => ({ ...q, kind: ord.main.includes(q.id) ? ("main" as const) : ("reserve" as const) }));
+  run.order = ord.order;
+  run.main = ord.main;
+  run.reserve = ord.reserve;
+  run.usage = [...run.usage, ...usage];
+  run.timings = { ...run.timings, retry: Date.now() - t0 };
+  run.retried = [...(run.retried ?? []), { at: new Date().toISOString(), judgeIds: targets.filter((j) => fresh.get(j.id)?.length).map((j) => j.id) }];
+  await saveRun(run);
+  emit({ type: "stage", stage: "done", msg: `다시 생성 완료: 질문 ${run.questions.length}개 (본 ${ord.main.length} · 예비 ${ord.reserve.length})`, ms: Date.now() - t0 });
+  emit({ type: "done", runId, order: ord.order, main: ord.main, reserve: ord.reserve, timings: run.timings, usage: run.usage });
   return run;
 }

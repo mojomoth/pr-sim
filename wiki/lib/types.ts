@@ -54,6 +54,12 @@ export interface WikiStatus {
   startedAt: string;
   updatedAt: string;
   finishedAt?: string;
+  /** Set while "위키 다시 만들기" runs on a ready wiki: progress of the new build (built in staging dirs).
+   *  The live wiki keeps state "ready" and stays readable/queryable until the new one is swapped in. */
+  rebuild?: WikiStatus;
+  /** Set (in Korean) when the last reingest of this ready wiki failed; the previous wiki was kept as is. */
+  lastReingestError?: string;
+  lastReingestAt?: string;
 }
 
 export interface WikiDocSummary {
@@ -67,6 +73,10 @@ export interface WikiDocSummary {
   createdAt: string;
   /** Set when state is "error" (e.g. "Invalid PDF structure"), also for docs that failed before meta.json existed. */
   error?: string;
+  /** A reingest is building a new wiki in the background (the current one stays ready). */
+  rebuilding?: boolean;
+  /** Last reingest failed; the previous wiki was kept. */
+  lastReingestError?: string;
 }
 
 export interface WikiPageInfo {
@@ -111,6 +121,8 @@ export interface QueryResult {
   selector: "llm" | "lexical";
   mode: "wiki" | "raw+wiki"; // raw+wiki = small doc: whole source text + a small key-numbers block (no wiki pages)
   savedAs?: string;
+  /** Set (in Korean) when `save` was requested but filing the answer failed (e.g. a rebuild is running). */
+  saveError?: string;
   timings: { selectMs: number; answerMs?: number; totalMs: number };
 }
 

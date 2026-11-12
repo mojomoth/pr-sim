@@ -1,9 +1,9 @@
 import "server-only";
-import { readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { extractText, getDocumentProxy } from "unpdf";
-import { friendlyLlmError } from "./errors";
-import { llmJson, pool, providerNote, withRetry, type CallUsage } from "./llm";
+import { friendlyLlmError, nextStep } from "./errors";
+import { LlmUnavailableError, llmJson, pool, probeLlm, providerNote, withRetry, type CallUsage } from "./llm";
 import { buildFrontmatter, compactPages, extractCitations, normalizeSlug, parseFrontmatter } from "./markdown";
 import { verifyKeyNumbers } from "./numbers-verify";
 import { checkableFigures, normRaw, pageSummary, regroundCitations } from "./reground";
@@ -25,9 +25,15 @@ import {
 } from "./prompts";
 import {
   RESERVED,
+  PREV,
+  STAGE,
   appendLog,
+  docDir,
   docIdOf,
   ensureDirs,
+  isDocId,
+  liveStateDir,
+  liveWikiDir,
   listPages,
   rawDir,
   readAllRawPages,
@@ -35,6 +41,7 @@ import {
   readMeta,
   readPage,
   readStatusFile,
+  runStaged,
   stateDir,
   wikiDir,
   writeAtomic,
@@ -69,6 +76,10 @@ export function isRunning(docId: string): boolean {
 export async function startIngest(buf: Buffer, filename: string, opts: IngestOptions = {}): Promise<{ docId: string; reused: boolean }> {
   if (!buf.length || buf.subarray(0, 5).toString("latin1") !== "%PDF-") throw new Error("PDF 파일이 아닙니다");
   const { docId, sha256 } = docIdOf(buf);
+  return startJob(docId, sha256, buf, filename, opts);
+}
+
+async function startJob(docId: string, sha256: string, buf: Buffer, filename: string, opts: IngestOptions): Promise<{ docId: string; reused: boolean }> {
   const existing = jobs.get(docId);
   if (existing) {
     if (opts.onProgress) existing.listeners.add(opts.onProgress);
@@ -78,23 +89,61 @@ export async function startIngest(buf: Buffer, filename: string, opts: IngestOpt
   if (st?.state === "ready" && !opts.force) return { docId, reused: true };
   const listeners = new Set<Listener>(opts.onProgress ? [opts.onProgress] : []);
   const job: Job = { listeners, promise: Promise.resolve() };
-  job.promise = runIngest(docId, sha256, buf, safeName(filename), opts.kind, listeners)
+  jobs.set(docId, job);
+  // resolve once the initial status is on disk, so a client that reloads right after the 202 already sees the job
+  // (state "queued", or a ready status with `rebuild` for a reingest of a ready wiki)
+  let started!: () => void;
+  const initialSaved = new Promise<void>((r) => (started = r));
+  job.promise = runIngest(docId, sha256, buf, safeName(filename), opts.kind, listeners, started)
     .catch(() => {
       /* error already recorded in status.json */
     })
-    .finally(() => jobs.delete(docId));
-  jobs.set(docId, job);
+    .finally(() => {
+      started();
+      jobs.delete(docId);
+    });
+  await initialSaved;
   return { docId, reused: false };
 }
 
-/** Rebuild a wiki from its stored immutable source (raw/source.pdf). */
-export async function reingest(docId: string): Promise<{ docId: string; reused: boolean }> {
+/** Rebuild a wiki from its stored immutable source (raw/source.pdf).
+ *  A READY wiki is rebuilt in staging dirs and swapped in only on success — until then (and after a failure) the
+ *  current wiki stays readable/queryable and status.json stays "ready" (progress in `status.rebuild`, a failure in
+ *  `status.lastReingestError`). A doc in error state is rebuilt in place, as before.
+ *  Preflight: throws LlmUnavailableError (HTTP 503) when no AI provider can be called, so nothing is started. */
+export async function reingest(docId: string, opts: { preflight?: boolean } = {}): Promise<{ docId: string; reused: boolean }> {
   // meta.json is missing when the first attempt failed during text extraction → fall back to status.json
   const [meta, st] = await Promise.all([readMeta(docId), readStatusFile(docId)]);
   if (!meta && !st) throw new Error(`unknown docId ${docId}`);
+  if (jobs.has(docId)) return { docId, reused: true };
   const buf = await readFile(path.join(rawDir(docId), "source.pdf")).catch(() => null);
   if (!buf) throw new Error("원본 PDF가 저장되지 않았습니다(이전 버전에서 실패한 문서). 파일을 다시 올려 주세요");
-  return startIngest(buf, meta?.filename ?? st!.filename, { kind: meta?.kind, force: true });
+  if (opts.preflight !== false) {
+    try {
+      await probeLlm();
+    } catch (e) {
+      if (!(e instanceof LlmUnavailableError)) throw e;
+      const keep = st?.state === "ready" ? " 지금 위키는 그대로 유지됩니다." : "";
+      const err = new LlmUnavailableError(e.code, e.detail);
+      err.message = `지금은 사용할 수 있는 AI 제공자가 없어 위키를 다시 만들 수 없습니다 (${e.detail}).${keep} ${nextStep(e.code)}`;
+      throw err;
+    }
+  }
+  // the job keeps THIS docId (not the hash of the bytes) so a copied/renamed doc dir never rebuilds another doc
+  return startJob(docId, meta?.sha256 ?? docIdOf(buf).sha256, buf, meta?.filename ?? st!.filename, { kind: meta?.kind, force: true });
+}
+
+/** Delete a document (raw source, wiki, state). Refused while its ingest/rebuild job runs. */
+export async function deleteDoc(docId: string): Promise<{ docId: string; deleted: true }> {
+  if (!isDocId(docId)) throw new Error(`invalid docId: ${docId}`);
+  const [meta, st] = await Promise.all([readMeta(docId), readStatusFile(docId)]);
+  if (!meta && !st) throw new Error(`unknown docId ${docId}`);
+  if (jobs.has(docId)) throw new Error("위키를 만드는 중이라 삭제할 수 없습니다. 끝난 뒤 다시 시도하세요");
+  // rename first so a concurrent reader never sees a half-deleted dir, then remove
+  const trash = `${docDir(docId)}.deleting-${Date.now()}`;
+  await rename(docDir(docId), trash);
+  await rm(trash, { recursive: true, force: true });
+  return { docId, deleted: true };
 }
 
 /** Ingest and wait until the wiki is ready. Throws if ingestion failed. */
@@ -105,7 +154,8 @@ export async function ingestPdf(buf: Buffer, filename: string, opts: IngestOptio
 }
 
 export async function waitForWiki(docId: string): Promise<WikiStatus> {
-  await jobs.get(docId)?.promise;
+  // a rebuild of a ready wiki does not block readers: the live wiki is ready the whole time
+  if ((await readStatusFile(docId))?.state !== "ready") await jobs.get(docId)?.promise;
   const st = await readStatusFile(docId);
   if (!st) throw new Error(`unknown docId ${docId}`);
   if (st.state === "error") throw new Error(`wiki ingest failed: ${st.error}`);
@@ -120,6 +170,10 @@ export async function getWikiStatus(docId: string): Promise<WikiStatus | null> {
   const st = { ...raw, provider: tidyProvider(raw.provider) };
   if (st.state !== "ready" && st.state !== "error" && !jobs.has(docId)) {
     return { ...st, state: "error", error: "중단됨 (서버 재시작 등) — 같은 PDF를 다시 올리면 처음부터 다시 만듭니다" };
+  }
+  if (st.rebuild && !jobs.has(docId)) {
+    const { rebuild, ...rest } = st;
+    return { ...rest, lastReingestError: "다시 만들기가 중단됐습니다 (서버 재시작 등). 지금 위키는 그대로입니다.", lastReingestAt: rebuild.updatedAt };
   }
   return st;
 }
@@ -146,19 +200,26 @@ function nowStamp(d = new Date()) {
 
 class Tracker {
   s: WikiStatus;
+  /** How a snapshot is written (default: live status.json; a rebuild nests it under the live ready status). */
+  persist: (snap: WikiStatus) => Promise<void> = (snap) => writeStatusFile(snap);
   private chain = Promise.resolve();
   private phaseStart = Date.now();
   constructor(
     init: WikiStatus,
-    private listeners: Set<Listener>,
+    readonly listeners: Set<Listener>,
   ) {
     this.s = init;
   }
   save() {
     this.s.updatedAt = new Date().toISOString();
     const snap = JSON.parse(JSON.stringify(this.s)) as WikiStatus;
-    this.chain = this.chain.then(() => writeStatusFile(snap)).catch(() => {});
+    this.chain = this.chain.then(() => this.persist(snap)).catch(() => {});
     return this.chain;
+  }
+  /** Wait for queued writes, then stop writing (the caller writes the final status itself). */
+  async close() {
+    this.persist = async () => {};
+    await this.chain;
   }
   phase(state: WikiState, msg: string) {
     const prev = this.s.state;
@@ -239,9 +300,12 @@ async function guessKind(buf: Buffer, pageCount: number): Promise<DocKind> {
 
 type Fact = { claim: string; pages: number[] };
 
-async function runIngest(docId: string, sha256: string, buf: Buffer, filename: string, kindOpt: DocKind | undefined, listeners: Set<Listener>) {
+async function runIngest(docId: string, sha256: string, buf: Buffer, filename: string, kindOpt: DocKind | undefined, listeners: Set<Listener>, started: () => void) {
   const t0 = Date.now();
-  await ensureDirs(docId);
+  const prev = await readStatusFile(docId);
+  // a READY wiki with pages is rebuilt in staging and swapped in only on success; anything else is built in place
+  const rebuild = prev?.state === "ready" && (await listPages(docId)).length > 0;
+  if (!rebuild) await ensureDirs(docId);
   const tr = new Tracker(
     {
       docId,
@@ -265,22 +329,124 @@ async function runIngest(docId: string, sha256: string, buf: Buffer, filename: s
     },
     listeners,
   );
+  if (rebuild) return runRebuild(docId, sha256, buf, filename, kindOpt, tr, prev!, t0, started);
   await tr.save(); // status exists (queued) before anything is cleared → no 404 window for pollers
+  started();
 
   try {
-    // fresh rebuild: clear the LLM-maintained layer + derived state (raw/ stays immutable)
+    // first ingest / retry of a failed doc: clear the LLM-maintained layer + derived state (raw/ stays immutable)
     await rm(wikiDir(docId), { recursive: true, force: true });
     for (const f of await readdir(stateDir(docId))) if (f !== "status.json") await rm(path.join(stateDir(docId), f), { force: true });
     await ensureDirs(docId);
+    await buildWiki(docId, sha256, buf, filename, kindOpt, tr, t0, false);
+    tr.phase("ready", `완료: 위키 ${tr.s.wikiPages}페이지 · ${(tr.s.timings.total! / 1000).toFixed(1)}초`);
+    await tr.save();
+  } catch (e) {
+    tr.s.error = friendlyLlmError(e);
+    tr.s.timings.total = Date.now() - t0;
+    tr.phase("error", `실패: ${tr.s.error}`);
+    await appendLog(docId, `## [${nowStamp()}] ingest | 실패 | ${tr.s.error}\n`).catch(() => {});
+    await tr.save();
+    throw e;
+  }
+}
+
+const rmStaging = (docId: string) =>
+  Promise.all([liveWikiDir(docId), liveStateDir(docId)].flatMap((d) => [rm(d + STAGE, { recursive: true, force: true }), rm(d + PREV, { recursive: true, force: true })]));
+
+/** Reingest of a ready wiki: build into wiki.next/ + state.next/, swap in on success, keep the old wiki on failure. */
+async function runRebuild(docId: string, sha256: string, buf: Buffer, filename: string, kindOpt: DocKind | undefined, tr: Tracker, prev: WikiStatus, t0: number, started: () => void) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { rebuild: _stale, ...base } = prev;
+  // the live status stays "ready" (queries, lint, question/report keep working); the new build's progress is nested
+  tr.persist = (snap) => writeStatusFile({ ...base, rebuild: snap });
+  tr.s.kind = kindOpt ?? prev.kind;
+  tr.s.pageCount = prev.pageCount;
+  await rmStaging(docId);
+  await tr.save();
+  started();
+  try {
+    const built = await runStaged(docId, async () => {
+      await ensureDirs(docId); // → wiki.next/, state.next/
+      return buildWiki(docId, sha256, buf, filename, kindOpt, tr, t0, true);
+    });
+    await commitRebuild(docId, tr, built);
+  } catch (e) {
+    const msg = friendlyLlmError(e);
+    await tr.close();
+    await rmStaging(docId);
+    const cur: WikiStatus = (await readStatusFile(docId)) ?? base;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { rebuild: _r, ...live } = cur;
+    const now = new Date().toISOString();
+    await writeStatusFile({ ...live, state: "ready", lastReingestError: msg, lastReingestAt: now, updatedAt: now });
+    await appendLog(docId, `## [${nowStamp()}] ingest | 다시 만들기 실패 — 기존 위키 유지 | ${msg}\n`).catch(() => {});
+    const ev: IngestEvent = { ts: now, phase: "error", msg: `다시 만들기 실패(기존 위키 유지): ${msg}` };
+    for (const l of tr.listeners) {
+      try {
+        l(ev, { ...tr.s, state: "error", error: msg });
+      } catch {
+        /* listener errors are not ours */
+      }
+    }
+    throw e;
+  }
+}
+
+/** Swap the staged build in: raw text + meta (atomic per file), merged log, final status, then dir renames. */
+async function commitRebuild(docId: string, tr: Tracker, built: { texts: string[]; meta: DocMeta }) {
+  const pad = (n: number) => String(n).padStart(3, "0");
+  // same source bytes → normally identical text; written atomically because readers use raw/ during the rebuild
+  for (const [i, t] of built.texts.entries()) await writeAtomic(path.join(rawDir(docId), "pages", `${pad(i + 1)}.txt`), t);
+  await writeAtomic(path.join(rawDir(docId), "meta.json"), JSON.stringify(built.meta, null, 1));
+  const W = liveWikiDir(docId);
+  const S = liveStateDir(docId);
+  // log.md is append-only history: keep the old entries, then this build's; carry the query sidecar over
+  const [oldLog, newLog] = await Promise.all([readFile(path.join(W, "log.md"), "utf8").catch(() => ""), readFile(path.join(W + STAGE, "log.md"), "utf8").catch(() => "")]);
+  const at = newLog.indexOf("\n## [");
+  if (oldLog && at >= 0) await writeAtomic(path.join(W + STAGE, "log.md"), oldLog.trimEnd() + "\n" + newLog.slice(at));
+  await copyFile(path.join(W, "log-queries.md"), path.join(W + STAGE, "log-queries.md")).catch(() => {});
+  tr.phase("ready", `완료: 위키 ${tr.s.wikiPages}페이지 · ${((tr.s.timings.total ?? 0) / 1000).toFixed(1)}초 (다시 만들기 — 새 위키로 교체)`);
+  await tr.close();
+  await writeStatusFile({ ...tr.s, state: "ready", updatedAt: new Date().toISOString() }, S + STAGE);
+  await swapIn(W);
+  try {
+    await swapIn(S);
+  } catch (e) {
+    // put the old wiki back so wiki/ and state/ stay consistent
+    await rename(W, W + STAGE).catch(() => {});
+    await rename(W + PREV, W).catch(() => {});
+    throw e;
+  }
+  await Promise.all([rm(W + PREV, { recursive: true, force: true }), rm(S + PREV, { recursive: true, force: true })]);
+}
+
+/** live → live.prev, live.next → live (each rename is atomic; the gap between them is microseconds). */
+async function swapIn(live: string) {
+  await rm(live + PREV, { recursive: true, force: true });
+  await mkdir(live, { recursive: true });
+  await rename(live, live + PREV);
+  try {
+    await rename(live + STAGE, live);
+  } catch (e) {
+    await rename(live + PREV, live).catch(() => {});
+    throw e;
+  }
+}
+
+/** The ingest pipeline (RAW → EXTRACT → PLAN → MERGE → FINALIZE). With `staged`, wiki/state writes go to the staging
+ *  dirs (via runStaged) and raw/ is left untouched: its text + meta are returned for commitRebuild. */
+async function buildWiki(docId: string, sha256: string, buf: Buffer, filename: string, kindOpt: DocKind | undefined, tr: Tracker, t0: number, staged: boolean) {
+  {
     // ---- RAW: immutable source layer
     tr.phase("extracting", "PDF 텍스트 추출 중");
     const tx = Date.now();
     // store the immutable source first so a failed extraction can still be retried from the UI
-    await writeFile(path.join(rawDir(docId), "source.pdf"), buf);
+    if (!staged) await writeFile(path.join(rawDir(docId), "source.pdf"), buf);
     const { totalPages, text } = await extractText(new Uint8Array(buf), { mergePages: false });
     const texts = text.map(cleanText);
     const kind = kindOpt ?? (await guessKind(buf, totalPages));
-    await Promise.all(texts.map((t, i) => writeRawPage(docId, i + 1, t)));
+    if (!staged) await Promise.all(texts.map((t, i) => writeRawPage(docId, i + 1, t)));
     const meta: DocMeta = {
       docId,
       filename,
@@ -292,7 +458,7 @@ async function runIngest(docId: string, sha256: string, buf: Buffer, filename: s
       bytes: buf.length,
       createdAt: (await readMeta(docId))?.createdAt ?? new Date().toISOString(),
     };
-    await writeAtomic(path.join(rawDir(docId), "meta.json"), JSON.stringify(meta, null, 1));
+    if (!staged) await writeAtomic(path.join(rawDir(docId), "meta.json"), JSON.stringify(meta, null, 1));
     tr.s.kind = kind;
     tr.s.pageCount = totalPages;
     tr.s.timings.extract = Date.now() - tx;
@@ -301,9 +467,9 @@ async function runIngest(docId: string, sha256: string, buf: Buffer, filename: s
     await writePage(docId, "SCHEMA", schemaDoc(kind, filename));
     await writeAtomic(
       path.join(wikiDir(docId), "log.md"),
-      `---\ntitle: "작업 기록"\ntype: "meta"\n---\n# log — ${filename}\n\n> 추가만 하는 작업 기록. \`grep "^## \\[" log.md\` 로 훑을 수 있다.\n\n`,
+      `---\ntitle: "작업 기록"\ntype: "meta"\n---\n# log — ${filename}\n\n> 추가만 하는 작업 기록. \`grep "^## \\[" log.md\` 로 훑을 수 있다.\n\n> 질의(query) 호출 전체 기록은 [[log-queries]]에 있다. 여기에는 답변이 생성·저장된 질의만 남긴다.\n\n`,
     );
-    await appendLog(docId, `## [${nowStamp()}] ingest | 시작 | ${filename} · ${totalPages}쪽 · ${meta.chars.toLocaleString()}자 · kind=${kind}${meta.emptyPages.length ? ` · 빈 쪽 ${compactPages(meta.emptyPages)}` : ""}\n`);
+    await appendLog(docId, `## [${nowStamp()}] ingest | ${staged ? "다시 만들기 시작(스테이징)" : "시작"} | ${filename} · ${totalPages}쪽 · ${meta.chars.toLocaleString()}자 · kind=${kind}${meta.emptyPages.length ? ` · 빈 쪽 ${compactPages(meta.emptyPages)}` : ""}\n`);
 
     // ---- 1) EXTRACT: per-chunk notes, parallel
     const chunks = makeChunks(texts);
@@ -478,15 +644,7 @@ async function runIngest(docId: string, sha256: string, buf: Buffer, filename: s
     tr.s.finishedAt = new Date().toISOString();
     const tokens = Object.values(tr.s.usage).reduce((a, u) => [a[0] + u.inputTokens, a[1] + u.outputTokens], [0, 0]);
     await appendLog(docId, `## [${nowStamp()}] ingest | 완료 | ${(tr.s.timings.total / 1000).toFixed(1)}초 · 입력 ${tokens[0].toLocaleString()} / 출력 ${tokens[1].toLocaleString()} 토큰 · ${tr.s.provider}\n`);
-    tr.phase("ready", `완료: 위키 ${pages.length}페이지 · ${(tr.s.timings.total / 1000).toFixed(1)}초`);
-    await tr.save();
-  } catch (e) {
-    tr.s.error = friendlyLlmError(e);
-    tr.s.timings.total = Date.now() - t0;
-    tr.phase("error", `실패: ${tr.s.error}`);
-    await appendLog(docId, `## [${nowStamp()}] ingest | 실패 | ${tr.s.error}\n`).catch(() => {});
-    await tr.save();
-    throw e;
+    return { texts, meta };
   }
 }
 
@@ -572,6 +730,7 @@ export async function reverifyKeyNumbers(docId: string) {
   const [meta, st] = await Promise.all([readMeta(docId), readStatusFile(docId)]);
   if (!meta || !st) throw new Error(`unknown docId ${docId}`);
   if (st.state !== "ready") throw new Error(`wiki not ready (${st.state})`);
+  if (jobs.has(docId)) throw new Error("위키를 다시 만드는 중이라 지금은 실행할 수 없습니다. 끝난 뒤 다시 시도하세요");
   const [rows, raw] = await Promise.all([readKeyNumbers(docId), readAllRawPages(docId, meta.pageCount)]);
   const { rows: out, stats } = verifyKeyNumbers(rows, raw);
   await writeState(docId, "keynumbers.json", out);
@@ -609,6 +768,7 @@ export async function repairWiki(docId: string) {
   const [meta, st] = await Promise.all([readMeta(docId), readStatusFile(docId)]);
   if (!meta || !st) throw new Error(`unknown docId ${docId}`);
   if (st.state !== "ready") throw new Error(`wiki not ready (${st.state})`);
+  if (jobs.has(docId)) throw new Error("위키를 다시 만드는 중이라 지금은 실행할 수 없습니다. 끝난 뒤 다시 시도하세요");
   const raw = await readAllRawPages(docId, meta.pageCount);
   const rg = await regroundPages(docId, raw);
   const kn = await reverifyKeyNumbers(docId); // also rebuilds index.md
