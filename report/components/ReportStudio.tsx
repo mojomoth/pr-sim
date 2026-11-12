@@ -7,6 +7,7 @@ import { Arrow, Card, CheckIcon, Chevron, H2, Label, Pill, Spinner } from "./par
 import { DetailView, ResultView, type DetailTab, qaHeadline } from "./ReportViews";
 
 type View = "pick" | "progress" | "result" | "detail";
+type HealthTarget = { target: string; model: string; down: boolean; reason?: string };
 
 const GROUPS: { id: StepInfo["group"]; label: string }[] = [
   { id: "prep", label: "준비" },
@@ -36,6 +37,11 @@ export function ReportStudio() {
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteMsg, setPasteMsg] = useState<string | null>(null);
   const [pasteNote, setPasteNote] = useState<string | null>(null);
+  const [health, setHealth] = useState<HealthTarget[] | null>(null);
+  // one id per generate() run: going back (or starting another run) bumps it, so a stale stream can never
+  // switch the screen or set an error later. The server keeps computing (and caches) — only this view stops listening.
+  const runId = useRef(0);
+  const abortRef = useRef<AbortController | null>(null);
 
   const loadSessions = useCallback(async () => {
     const r = await fetch("/api/report/sessions", { cache: "no-store" });
@@ -81,6 +87,19 @@ export function ReportStudio() {
     window.history.replaceState(null, "", u.toString());
   }, [selected, view, tab]);
 
+  // judge-model health (no provider call): warn before generating when only lite fallback models are left
+  useEffect(() => {
+    if (view !== "pick") return;
+    let alive = true;
+    fetch("/api/report/health", { cache: "no-store" })
+      .then((r) => r.json() as Promise<{ targets: HealthTarget[] }>)
+      .then((j) => alive && setHealth(j.targets))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [view]);
+
   useEffect(() => {
     if (view !== "progress") return;
     const id = setInterval(() => setNow(Date.now()), 250);
@@ -91,10 +110,33 @@ export function ReportStudio() {
     window.scrollTo({ top: 0 });
   }, [view, tab, qaIndex]);
 
+  const liteOnly = useMemo(() => {
+    if (!health?.length) return null;
+    const up = health.filter((t) => !t.down);
+    return up.length && up.every((t) => /lite/i.test(t.model)) ? up.map((t) => t.model).join(" · ") : null;
+  }, [health]);
+
   const current = useMemo(() => sessions?.find((s) => s.id === selected) ?? null, [sessions, selected]);
+
+  function stopListening() {
+    runId.current++;
+    abortRef.current?.abort();
+    abortRef.current = null;
+  }
+
+  function backToPick() {
+    stopListening();
+    setError(null);
+    setView("pick");
+  }
 
   async function generate(force: boolean) {
     if (!selected) return;
+    stopListening();
+    const my = runId.current;
+    const ac = new AbortController();
+    abortRef.current = ac;
+    const live = () => runId.current === my;
     setError(null);
     setLastForce(force);
     setRetryable(true);
@@ -104,7 +146,7 @@ export function ReportStudio() {
     setNow(Date.now());
     setView("progress");
     try {
-      const res = await fetch("/api/report/generate", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ref: selected, force }) });
+      const res = await fetch("/api/report/generate", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ref: selected, force }), signal: ac.signal });
       if (!res.ok || !res.body) throw new Error(((await res.json().catch(() => ({}))) as { error?: string }).error ?? `HTTP ${res.status}`);
       const reader = res.body.getReader();
       const dec = new TextDecoder();
@@ -113,6 +155,7 @@ export function ReportStudio() {
       for (;;) {
         const { value, done: end } = await reader.read();
         if (end) break;
+        if (!live()) return;
         buf += dec.decode(value, { stream: true });
         let i: number;
         while ((i = buf.indexOf("\n")) >= 0) {
@@ -120,6 +163,7 @@ export function ReportStudio() {
           buf = buf.slice(i + 1);
           if (!line) continue;
           const e = JSON.parse(line) as ProgressEvent;
+          if (!live()) return;
           if (e.type === "steps") setSteps(e.steps);
           else if (e.type === "step") setSteps((cur) => cur.map((s) => (s.id === e.step.id ? e.step : s)));
           else if (e.type === "done") done = e.report;
@@ -129,12 +173,15 @@ export function ReportStudio() {
           }
         }
       }
+      if (!live()) return;
       if (!done) throw new Error("응답이 끊겼어요");
+      abortRef.current = null;
       setReport(done);
       setQaIndex(0);
       setView("result");
       void loadSessions();
     } catch (e) {
+      if (!live() || ac.signal.aborted) return; // user left this run: say nothing, stay where they are
       setError(e instanceof Error ? e.message : String(e));
     }
   }
@@ -149,9 +196,10 @@ export function ReportStudio() {
       return;
     }
     const r = await fetch("/api/report/sessions", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(data) });
-    const j = (await r.json()) as { ref?: string; error?: string; detail?: string; renamed?: boolean; duplicate?: boolean };
+    const j = (await r.json().catch(() => ({}))) as { ref?: string; error?: string; issues?: string[]; renamed?: boolean; duplicate?: boolean };
     if (!r.ok || !j.ref) {
-      setPasteMsg(`${j.error ?? "저장 실패"}${j.detail ? ` — ${j.detail.slice(0, 160)}` : ""}`);
+      // Korean only: the API's raw zod `detail` is for API clients and is never shown here
+      setPasteMsg(`${j.error ?? "세션을 저장하지 못했어요."}${j.issues?.length ? `\n${j.issues.map((x) => `· ${x}`).join("\n")}` : ""}`);
       return;
     }
     await loadSessions();
@@ -169,14 +217,14 @@ export function ReportStudio() {
   }
 
   const title = view === "pick" ? "리포트 생성" : view === "progress" ? "분석 중" : view === "result" ? "종합 결과" : "상세 피드백";
-  const back = view === "detail" ? () => setView("result") : view === "result" || view === "progress" ? () => setView("pick") : null;
+  const back = view === "detail" ? () => setView("result") : view === "result" || view === "progress" ? backToPick : null;
   const right =
     view === "detail" && tab === "qa" && report?.qa.length ? (
       <span className="inline-flex h-11 min-w-11 items-center justify-center rounded-full bg-surface px-4 text-[15px] font-semibold tabular">
         {Math.min(qaIndex + 1, report.qa.length)} / {report.qa.length}
       </span>
     ) : view === "result" ? (
-      <button type="button" onClick={() => setView("pick")} className="inline-flex h-11 items-center rounded-full bg-surface px-4 text-[15px] font-semibold">
+      <button type="button" onClick={backToPick} className="inline-flex h-11 items-center rounded-full bg-surface px-4 text-[15px] font-semibold">
         기록
       </button>
     ) : (
@@ -259,7 +307,11 @@ export function ReportStudio() {
                   className="min-h-[52px] w-full rounded-[16px] bg-surface p-3 font-mono text-[12px] leading-[18px] outline-none focus:ring-2 focus:ring-ink"
                   aria-label="SessionRecord JSON"
                 />
-                {pasteMsg && <p className="text-[13px] text-error">{pasteMsg}</p>}
+                {pasteMsg && (
+                  <p className="whitespace-pre-line text-[13px] leading-5 text-error" data-testid="paste-error">
+                    {pasteMsg}
+                  </p>
+                )}
                 <button type="button" onClick={savePaste} disabled={!paste.trim()} className="h-12 rounded-[20px] bg-surface text-[15px] font-semibold disabled:text-secondary">
                   세션 추가
                 </button>
@@ -273,6 +325,12 @@ export function ReportStudio() {
           </div>
 
           {error && <p className="text-[14px] text-error">{error}</p>}
+          {liteOnly && (
+            <p className="rounded-[16px] border border-ink px-4 py-3 text-[14px] leading-[21px]" data-testid="lite-warning">
+              <span className="font-semibold">지금 새로 생성하면 경량 모델이 채점해요.</span> Claude·GPT·Gemini 주력 모델이 모두 사용 한도에 걸려 있어 {liteOnly}로 판정해요. 점수가 실제보다 후하게
+              나올 수 있으니 참고용으로만 보세요.
+            </p>
+          )}
 
           <div className="sticky bottom-0 -mx-[var(--gutter)] flex flex-col gap-2 border-t border-line bg-canvas px-[var(--gutter)] pb-[max(16px,env(safe-area-inset-bottom))] pt-3">
             {current?.reportKey ? (
@@ -348,7 +406,7 @@ export function ReportStudio() {
               <p className="text-[15px] leading-[22px] text-error" data-testid="error">{error}</p>
               <p className="mt-2 text-[13px] leading-5 text-secondary">미완성 결과는 저장하지 않아요. 점수는 모든 섹션이 평가된 리포트에만 매겨요.</p>
               <div className="mt-3 grid grid-cols-2 gap-2">
-                <button type="button" onClick={() => setView("pick")} className="h-12 rounded-[20px] bg-canvas text-[15px] font-semibold">
+                <button type="button" onClick={backToPick} className="h-12 rounded-[20px] bg-canvas text-[15px] font-semibold" data-testid="to-list">
                   세션 목록
                 </button>
                 <button type="button" onClick={() => generate(lastForce)} className="h-12 rounded-[20px] bg-ink text-[15px] font-semibold text-inverse">
@@ -388,7 +446,7 @@ export function ReportStudio() {
             <button type="button" onClick={() => setView("result")} className="flex h-14 items-center justify-center gap-2 rounded-[20px] bg-ink text-[16px] font-semibold text-inverse">
               종합 결과로 <Arrow />
             </button>
-            <button type="button" onClick={() => setView("pick")} className="h-11 text-[15px] font-medium text-secondary underline">
+            <button type="button" onClick={backToPick} className="h-11 text-[15px] font-medium text-secondary underline">
               다른 세션 선택
             </button>
           </div>
@@ -398,7 +456,7 @@ export function ReportStudio() {
       {(view === "result" || view === "detail") && !report && (
         <Card tone="surface" className="mt-6">
           <Label>리포트가 없어요</Label>
-          <button type="button" onClick={() => setView("pick")} className="mt-3 h-12 w-full rounded-[20px] bg-ink text-inverse">
+          <button type="button" onClick={backToPick} className="mt-3 h-12 w-full rounded-[20px] bg-ink text-inverse">
             세션 선택으로
           </button>
         </Card>
