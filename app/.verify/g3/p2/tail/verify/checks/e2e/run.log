@@ -1,0 +1,16 @@
+[04:34:06] session s_mwehfgih671a6t6f
+[04:34:08] FAIL setup: 3 judge faces generated — {"faces":0,"note":"얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요."}
+[04:34:08] PASS setup: notpdf upload rejected with a message — "업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도 | 얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+[04:34:08] PASS setup: corrupt upload rejected with a message — "업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도 | 얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+[04:34:09] PASS setup: big31mb upload rejected with a message — "업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도 | 얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+[04:34:09] PASS setup: both PDFs attached
+[04:34:10] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[04:34:14] FAIL setup: wiki built for both documents — "자료 분석 실패 · AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n"
+[04:34:16] PASS present: camera preview playing — [{"w":640,"playing":true}]
+[04:34:18] PASS present: slide next button and arrow key — {"p1":1,"p2":2,"p3":1}
+[04:34:33] PASS present: timer follows the wall clock — {"a":"00:57","b":"00:42"}
+[04:35:14] PASS present: time-up dialog at ~60s — {"timeUp":60.487}
+[04:35:16] PASS present: STT transcript saved — {"n":11,"status":"qa"}
+[04:35:33] FAIL qa: questions generated — {}
+[04:35:48] FAIL run 2 finished without exceptions — "Waiting failed: 15000ms exceeded"
+[04:35:48] FAILED 4/14 → /Users/jyl/work/study/pr-sim/app/.verify/g3/p2/tail/verify/checks/e2e

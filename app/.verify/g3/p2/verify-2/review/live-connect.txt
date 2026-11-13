@@ -1,0 +1,8 @@
+token status 200 {"inputAudioTranscription":{"languageCodes":["ko-KR"],"customVocabulary":["완충재","웨이브셀","3PL","버섯균사체"]}}
+Warning: Ephemeral token support is experimental and may change in future versions.
+open
+WITH vocab: setupComplete
+token status 200 {"inputAudioTranscription":{"languageCodes":["ko-KR"]}}
+Warning: Ephemeral token support is experimental and may change in future versions.
+open
+WITHOUT vocab: setupComplete

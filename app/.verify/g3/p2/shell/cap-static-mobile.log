@@ -1,0 +1,5 @@
+01-landing captured []
+02-setup captured [{"tag":"BUTTON","text":"발표 시간 1분 줄이기","w":28,"h":28},{"tag":"BUTTON","text":"발표 시간 1분 늘리기","w":28,"h":28},{"tag":"BUTTON","text":"질의응답 시간 1분 줄이기","w":28,"h":28},{"tag":"BUTTON","text":"질의응답 시간 1분 늘리기
+05-results captured [{"tag":"BUTTON","text":"발표 자료 3쪽 보기","w":10,"h":24}]
+06-feedback captured [{"tag":"BUTTON","text":"질의응답 00:10 답변 원문 보기","w":83,"h":32},{"tag":"BUTTON","text":"제안 자료 57쪽 보기","w":56,"h":28},{"tag":"BUTTON","text":"발표 자료 3쪽 보기","w":11,"h":28},{"tag":"BUTTON","text":"제안 자료 57쪽 
+07-history captured []

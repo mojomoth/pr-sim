@@ -1,0 +1,84 @@
+{
+  "sid": "s_mwegtjga3s2v3b1a",
+  "base": "http://localhost:3000",
+  "results": [
+    {
+      "name": "setup: 3 judge faces generated",
+      "ok": false,
+      "detail": {
+        "faces": 0
+      }
+    },
+    {
+      "name": "setup: notpdf upload rejected with a message",
+      "ok": true,
+      "detail": "업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도"
+    },
+    {
+      "name": "setup: corrupt upload rejected with a message",
+      "ok": true,
+      "detail": "업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도"
+    },
+    {
+      "name": "setup: big31mb upload rejected with a message",
+      "ok": true,
+      "detail": "업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도"
+    },
+    {
+      "name": "setup: both PDFs attached",
+      "ok": true
+    },
+    {
+      "name": "setup: 1+1 min, 3 judges",
+      "ok": true,
+      "detail": "총 2분 · 심사위원 3명"
+    },
+    {
+      "name": "setup: wiki built for both documents",
+      "ok": false,
+      "detail": "자료 분석 실패 · AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n"
+    },
+    {
+      "name": "present: camera preview playing",
+      "ok": true,
+      "detail": [
+        {
+          "w": 640,
+          "playing": true
+        }
+      ]
+    },
+    {
+      "name": "present: slide next button and arrow key",
+      "ok": true,
+      "detail": {
+        "p1": 1,
+        "p2": 2,
+        "p3": 1
+      }
+    },
+    {
+      "name": "present: timer follows the wall clock",
+      "ok": true,
+      "detail": {
+        "a": "00:56",
+        "b": "00:41"
+      }
+    },
+    {
+      "name": "present: time-up dialog at ~60s",
+      "ok": true,
+      "detail": {
+        "timeUp": 60.519
+      }
+    },
+    {
+      "name": "present: STT transcript saved",
+      "ok": true,
+      "detail": {
+        "n": 11,
+        "status": "qa"
+      }
+    }
+  ]
+}

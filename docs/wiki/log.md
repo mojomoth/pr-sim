@@ -52,3 +52,8 @@ append-only입니다. 새 항목은 맨 아래에 추가합니다. 최근 항목
 - 바뀐 파일: `docs/dev-v1/report.md`(D15→D20, D21·D22, U11 해소, U17·U18)
 - 근거: `app/.verify/g3/resilience/**`, `app/.verify/g3/final/**`
 - 내용: OpenAI 크레딧 소진·Claude 한도·Gemini 한도가 겹친 상태에서도 연습이 끝까지 가도록 위키 Gemini lite 폴백, 얼굴 이니셜 대체, 기기 음성 TTS 폴백을 넣었습니다. 배포 URL 전체 흐름이 23/24로 통과했고, 남은 1건(위키 품질 저하 안내)은 고친 뒤 재배포했습니다.
+
+## [2026-11-13] decision | 남은 P2 정리와 재배포
+- 바뀐 파일: `api-contract.md`(STT 토큰 `vocabulary`), `docs/dev-v1/report.md`(5-5, D23, U13–U18), `docs/dev-harness/v1/run.md`(P2 목록)
+- 근거: `app/.verify/g3/p2/**`
+- 내용: 시안 시각 차이, sloplint, 위키 날짜 인용 쪽 경계, STT 도메인 어휘, 얼굴 통합 안내, 한국어 검증 문구, 기기 음성 선택을 고쳤습니다. 독립 검증 P0/P1 0건 뒤 재배포했습니다.

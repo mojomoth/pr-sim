@@ -26,8 +26,8 @@ export function Bubble({
     <div className={`relative rounded-[20px] px-5 py-4 ${me ? "ml-auto w-[88%] rounded-br-none bg-ink text-inverse" : "bg-surface text-ink"} ${className}`} aria-live={live ? "polite" : undefined}>
       {me && (
         // Speech tail at the bottom-right corner (draft 04), same fill as the bubble.
-        <svg className="pointer-events-none absolute -right-[11px] bottom-0 h-[22px] w-[13px] text-ink" viewBox="0 0 13 22" aria-hidden="true">
-          <path d="M0 0 C0 9 3 17 13 22 L0 22 Z" fill="currentColor" />
+        <svg className="pointer-events-none absolute -right-[6px] bottom-0 h-[16px] w-[8px] text-ink" viewBox="0 0 8 16" aria-hidden="true">
+          <path d="M0 0 C0 7 2 12 8 16 L0 16 Z" fill="currentColor" />
         </svg>
       )}
       {(label || state) && (
@@ -37,7 +37,7 @@ export function Bubble({
           {state}
         </p>
       )}
-      <div className="whitespace-pre-line text-[17px] font-medium leading-[26px] tracking-[-0.3px]">
+      <div className={`whitespace-pre-line text-[17px] leading-[26px] tracking-[-0.3px] ${me ? "font-bold" : "font-medium"}`}>
         {children}
         {listening && <span className={`ui-caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] ${me ? "bg-inverse" : "bg-ink"}`} aria-hidden="true" />}
       </div>

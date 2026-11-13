@@ -1,0 +1,21 @@
+import { test } from "node:test";
+import { sessionVocabulary } from "@/features/stt/vocab";
+import { pickVoice, voiceSeed } from "@/platform/web/speech";
+import { koIssue } from "@/server/http";
+import { z } from "zod";
+test("probe", () => {
+  const doc = { role: "presentation", pageTexts: ["2026E 매출 2공장 웨이브셀 Pre-A 라운드 R&D 1공장 '완충재'"], keyNumbers: [{ metric: "2026E 매출(억원)", value: "1", pages: [1] }, { metric: "2공장 가동률", value: "1", pages: [1] }, { metric: "Pre-A 투자", value: "1", pages: [1] }, { metric: "'완충재' 단가", value: "1", pages: [1] }], wiki: [] } as never;
+  console.log("vocab", JSON.stringify(sessionVocabulary([doc])));
+  console.log("empty", JSON.stringify(pickVoice([], "male", 7)), JSON.stringify(pickVoice([], "female")));
+  console.log("nonko", JSON.stringify(pickVoice([{ name: "Alex", lang: "en-US" }], "male", 3)));
+  console.log("seed", voiceSeed({ gender: "male", age: 45, temperament: "strict" }));
+  const msgs = (s: z.ZodType, v: unknown) => { const r = s.safeParse(v, { error: koIssue }); return r.success ? "ok" : r.error.issues.map((i) => i.message).join(" | "); };
+  console.log("record", msgs(z.record(z.string(), z.number()), 3));
+  console.log("email", msgs(z.string().email(), "x"));
+  console.log("literal", msgs(z.literal("a"), "b"));
+  console.log("int", msgs(z.number().int(), 1.5));
+  console.log("strict", msgs(z.object({ a: z.string() }).strict(), { a: "x", b: 1 }));
+  console.log("date", msgs(z.date(), "x"));
+  console.log("nullable-missing", msgs(z.object({ a: z.string().nullable() }), {}));
+  console.log("tuple", msgs(z.tuple([z.string()]), ["a", "b"]));
+});

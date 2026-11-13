@@ -1,0 +1,12 @@
+{
+ "token": "<redacted len 76>",
+ "model": "gemini-3.5-transcribe-live",
+ "expiresAt": "2026-11-13T03:53:00.006Z",
+ "config": {
+  "inputAudioTranscription": {
+   "languageCodes": [
+    "ko-KR"
+   ]
+  }
+ }
+}

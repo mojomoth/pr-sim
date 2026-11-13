@@ -16,6 +16,7 @@ import type { DocRole, RollAvoid, SessionRecord, StoredDoc, StoredJudge, Tempera
 import { PDF_LIMITS, readPdf } from "@/features/slide/pdf";
 import { MAX_DOC_CHARS, TEMPERAMENT_LABEL } from "@/server/types";
 import { buildWiki, cloneAsDraft, DEFAULT_SETUP, fallbackJudge, hasProgress, latestDraft, onWikiChange, wikiProgress } from "./draft";
+import { faceNotice } from "./faceNotice";
 
 const MAX_JUDGES = 3;
 const PRESENTATION_MIN = { min: 1, max: 20 };
@@ -136,16 +137,9 @@ interface Slot {
   faceTemperament?: Temperament;
   pending?: boolean;
   error?: string;
-  /** Server error code of the failure (several rows failing with the same code get one shared notice). */
+  /** Error code of the failure (names the cause in the shared notice when every failed row has the same one). */
   errorCode?: string;
 }
-
-/** The shared notice when every failed face has the same cause: only the image service is down. */
-const FACE_OUTAGE: Record<string, string> = {
-  rate_limited: "얼굴 사진 요청이 몰려서 지금은 사진을 만들 수 없어요.",
-  timeout: "얼굴 사진을 만드는 데 시간이 너무 오래 걸렸어요.",
-};
-const FACE_OUTAGE_DEFAULT = "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요.";
 
 const slotFrom = (j: StoredJudge): Slot => ({ key: j.id, temperament: j.temperament, judge: j, faceTemperament: j.temperament });
 
@@ -435,10 +429,11 @@ function SetupForm({ sid }: { sid: string }) {
 
   const { presentationMinutes, qaMinutes } = rec.setup;
   const generating = slots.some((s) => s.pending);
-  const faceless = slots.some((s) => !s.pending && !s.judge?.imageKey);
-  // Two or more faces failed for the same reason → one notice instead of the same message on every row.
-  const failed = slots.filter((s) => s.error);
-  const outage = failed.length >= 2 && failed.every((s) => s.errorCode === failed[0].errorCode) ? (FACE_OUTAGE[failed[0].errorCode ?? ""] ?? FACE_OUTAGE_DEFAULT) : null;
+  const isFaceless = (s: Slot) => !s.pending && !s.judge?.imageKey;
+  const failed = slots.filter(isFaceless);
+  const faceless = failed.length > 0;
+  // Two or more judges without a photo (any mix of causes, or saved that way before a reload) → one notice.
+  const notice = faceNotice(slots.map((s) => ({ pending: s.pending, hasFace: !!s.judge?.imageKey, errorCode: s.errorCode })));
   const retryFailed = () =>
     void generate(
       failed.map((s) => s.key),
@@ -471,7 +466,8 @@ function SetupForm({ sid }: { sid: string }) {
 
   return (
     <>
-      <Screen bottomPad={faceless ? 176 : 150}>
+      {/* Bar: 12 top + 20 summary + 8 + 52 CTA, +26 per extra line; 8 of air above the summary. */}
+      <Screen bottomPad={100 + 26 * (Number(faceless && !generating && !notice) + Number(missing.length > 0))}>
         <BrandHeader backHref="/" />
         <div className="mt-3 flex items-center justify-between">
           <p className="text-[20px] font-bold leading-7 tracking-[-0.4px]">상황 설정</p>
@@ -481,14 +477,14 @@ function SetupForm({ sid }: { sid: string }) {
         </div>
 
         <main className="mt-5 flex flex-col">
-          <h1 className="text-[28px] font-bold leading-9 tracking-[-0.8px]">
+          <h1 className="text-[32px] font-extrabold leading-[40px] tracking-[-1px]">
             어떤 발표를
             <br />
             준비하고 있나요?
           </h1>
           <p className="mt-1.5 text-[16px] leading-6 text-secondary">발표 환경을 내 상황에 맞춰 설정하세요.</p>
 
-          <div className="mt-7 flex flex-col gap-2">
+          <div className="mt-5 flex flex-col gap-1.5">
             <label htmlFor={situationId} className="text-[16px] font-semibold">
               상황
             </label>
@@ -498,28 +494,31 @@ function SetupForm({ sid }: { sid: string }) {
               value={situation}
               onChange={(e) => changeSituation(e.target.value)}
               placeholder={"예) 친환경 패키징 사업 제안\n투자 심사위원을 설득하는 발표"}
-              className="w-full resize-none rounded-[16px] bg-surface px-5 py-4 text-[16px] leading-6 placeholder:text-secondary/70 focus:outline-2 focus:outline-ink"
+              className="w-full resize-none rounded-[12px] bg-surface px-4 py-2.5 text-[16px] leading-[22px] placeholder:text-secondary/70 focus:outline-2 focus:outline-ink"
               maxLength={SITUATION_MAX}
             />
-            <p className="text-right text-[12px] text-secondary tabular">
-              {situation.length} / {SITUATION_MAX}
-            </p>
+            {/* Not in draft 02: the counter only appears near the limit. */}
+            {situation.length >= SITUATION_MAX - 50 && (
+              <p className="text-right text-[12px] text-secondary tabular">
+                {situation.length} / {SITUATION_MAX}
+              </p>
+            )}
           </div>
 
-          <div className="mt-2 flex flex-col gap-6">
+          <div className="mt-4 flex flex-col gap-3">
             <MinuteSlider label="발표 시간" {...PRESENTATION_MIN} value={presentationMinutes} onChange={(v) => setMinutes("presentationMinutes", v)} />
             <MinuteSlider label="질의응답 시간" {...QA_MIN} value={qaMinutes} onChange={(v) => setMinutes("qaMinutes", v)} />
           </div>
 
-          <div className="mt-8 flex flex-col gap-6">
+          <div className="mt-4 flex flex-col gap-3">
             {(["presentation", "proposal"] as const).map((role) => {
               const doc = rec.docs[role];
               return (
-                <div key={role} className="flex flex-col gap-2">
+                <div key={role} className="flex flex-col gap-1.5">
                   <UploadRow
                     label={role === "presentation" ? "발표 자료" : "제안 자료"}
                     required={role === "presentation"}
-                    value={doc && { name: doc.filename, pages: doc.pageCount, size: doc.bytes }}
+                    value={doc && { name: doc.filename, pages: doc.pageCount }}
                     onFile={(f) => attach(role, f)}
                     onRemove={() => detach(role)}
                     onSample={() => attachSample(role)}
@@ -532,44 +531,43 @@ function SetupForm({ sid }: { sid: string }) {
             })}
           </div>
 
-          <section className="mt-9 flex flex-col gap-3" aria-labelledby="judges-h">
+          <section className="mt-5 flex flex-col gap-2.5" aria-labelledby="judges-h">
             <div className="flex items-center justify-between">
               <h2 id="judges-h" className="text-[20px] font-bold leading-7 tracking-[-0.4px]">
-                심사위원 <span className="text-secondary tabular">{slots.length}</span>
+                심사위원
               </h2>
               <button
                 type="button"
                 onClick={addJudge}
                 disabled={slots.length >= MAX_JUDGES}
-                className="inline-flex h-11 items-center gap-1.5 rounded-full bg-surface px-4 text-[15px] font-semibold hover:bg-card disabled:text-secondary"
+                className="relative inline-flex h-9 items-center gap-1 rounded-full bg-surface px-3.5 text-[14px] font-semibold before:absolute before:inset-x-0 before:-inset-y-1 before:content-[''] hover:bg-card disabled:text-secondary"
               >
-                <Plus size={18} /> 추가
+                <Plus size={16} /> 추가<span className="sr-only"> (최대 {MAX_JUDGES}명)</span>
               </button>
             </div>
-            {outage && (
+            {notice && (
               <div className="flex items-center gap-2 rounded-[16px] border border-line py-1.5 pl-4 pr-1.5" role="alert" data-testid="face-outage">
                 <Alert size={18} className="shrink-0 text-secondary" />
                 <p className="min-w-0 flex-1 break-keep text-[13px] leading-[18px]">
-                  {outage} 심사위원 {failed.length}명은 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요.
+                  {notice.message}
                 </p>
                 <button type="button" onClick={retryFailed} disabled={generating} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-surface px-3.5 text-[14px] font-semibold disabled:text-secondary">
                   <Refresh size={16} /> 다시 시도
                 </button>
               </div>
             )}
-            <ul className="flex flex-col gap-2.5" aria-label="심사위원 목록">
+            <ul className="flex flex-col gap-2" aria-label="심사위원 목록">
               {slots.map((s) => (
                 <JudgeSlotRow
                   key={s.key}
                   slot={s}
-                  hideError={!!outage}
+                  hideError={!!notice && isFaceless(s)}
                   onRemove={slots.length > 1 ? () => removeJudge(s.key) : undefined}
                   onPersona={(t) => setPersona(s.key, t)}
                   onGenerate={() => void generate([s.key], [s.temperament])}
                 />
               ))}
             </ul>
-            <p className="break-keep text-pretty text-[12px] leading-[18px] text-secondary">성향에 따라 질문하는 말투와 강도가 달라져요. 심사위원은 최대 {MAX_JUDGES}명까지 추가할 수 있어요.</p>
           </section>
 
           {saveError && (
@@ -581,12 +579,12 @@ function SetupForm({ sid }: { sid: string }) {
         </main>
       </Screen>
 
-      <BottomBar>
-        <p className="text-center text-[14px] font-medium text-secondary tabular" aria-live="polite">
+      <BottomBar line={false} fade>
+        <p className="text-center text-[14px] font-medium leading-5 text-secondary tabular" aria-live="polite">
           총 {presentationMinutes + qaMinutes}분 · 심사위원 {slots.length}명
         </p>
-        {faceless && !generating && !outage && <p className="text-center text-[13px] leading-[18px] text-secondary">얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요.</p>}
-        <Button onClick={start} disabled={!ready} arrow aria-describedby={missing.length ? hintId : undefined}>
+        {faceless && !generating && !notice && <p className="text-center text-[13px] leading-[18px] text-secondary">얼굴 사진이 없는 심사위원은 이름 첫 글자로 표시돼요.</p>}
+        <Button onClick={start} disabled={!ready} arrow className="h-13! text-[19px]! font-bold!" aria-describedby={missing.length ? hintId : undefined}>
           {starting ? "준비하는 중…" : "발표 시작하기"}
         </Button>
         {missing.length > 0 && (
@@ -604,7 +602,7 @@ function SetupForm({ sid }: { sid: string }) {
  * stretches each chip's hit area to ≥44px without growing the row.
  */
 const ROW_CHIPS =
-  "flex-nowrap! gap-1! [&>button]:relative [&>button]:h-8 [&>button]:px-2.5 [&>button]:text-[13px] [&>button]:before:absolute [&>button]:before:-inset-x-0.5 [&>button]:before:-inset-y-1.5 [&>button]:before:content-['']";
+  "flex-nowrap! gap-1! [&>button]:relative [&>button]:h-8 [&>button]:px-2 [&>button]:text-[13px] [&>button]:before:absolute [&>button]:before:-inset-x-0.5 [&>button]:before:-inset-y-1.5 [&>button]:before:content-['']";
 
 /** One compact row like draft 02: face | name + age | persona chips | ✕. Retry / regenerate drop below only when needed. */
 function JudgeSlotRow({
@@ -615,7 +613,7 @@ function JudgeSlotRow({
   onGenerate,
 }: {
   slot: Slot;
-  /** The section shows one shared notice for this failure instead. */
+  /** The section's shared face notice covers this row (no own error, no own 얼굴 만들기 link). */
   hideError?: boolean;
   onRemove?: () => void;
   onPersona: (t: Temperament) => void;
@@ -624,11 +622,12 @@ function JudgeSlotRow({
   const imageUrl = useBlobUrl(slot.judge?.thumbKey || undefined);
   const j = slot.judge;
   const name = j?.name ?? "새 위원";
-  const caption = slot.pending ? "만드는 중…" : j ? `${Math.floor(j.age / 10) * 10}대` : "얼굴 사진 없음";
-  const stale = !slot.pending && !slot.error && j && (!j.imageKey || slot.faceTemperament !== slot.temperament);
+  // Draft 02 shows "나이 · 역할". Judges carry no role field (every judge is a 심사위원), so the role is fixed.
+  const caption = slot.pending ? "만드는 중…" : j ? `${Math.floor(j.age / 10) * 10}대 · 심사위원` : "얼굴 사진 없음";
+  const stale = !slot.pending && !slot.error && j && (j.imageKey ? slot.faceTemperament !== slot.temperament : !hideError);
   return (
-    <li className="ui-enter rounded-[20px] bg-surface py-2.5 pl-3 pr-1">
-      <div className="flex items-center gap-2">
+    <li className="ui-enter rounded-[20px] bg-surface py-1.5 pl-3 pr-1">
+      <div className="flex items-center gap-1.5">
         <JudgeAvatar judge={{ name, persona: TEMPERAMENT_LABEL[slot.temperament], imageUrl, pending: slot.pending }} size={44} />
         <div className="min-w-0 flex-1 border-l border-line pl-2">
           <p className="truncate text-[16px] font-bold leading-[22px]">{name}</p>
@@ -638,7 +637,7 @@ function JudgeSlotRow({
         </div>
         <ChipGroup label={`${name} 심사위원 성향`} options={PERSONAS} value={slot.temperament} onChange={onPersona} size="sm" onSurface className={ROW_CHIPS} />
         {onRemove ? (
-          <button type="button" onClick={onRemove} aria-label={`${name} 심사위원 삭제`} className="relative inline-flex h-11 w-9 shrink-0 items-center justify-center rounded-full before:absolute before:-inset-x-1 before:inset-y-0 before:content-[''] hover:bg-card">
+          <button type="button" onClick={onRemove} aria-label={`${name} 심사위원 삭제`} className="relative inline-flex h-11 w-8 shrink-0 items-center justify-center rounded-full before:absolute before:-inset-x-1.5 before:inset-y-0 before:content-[''] hover:bg-card">
             <Close size={18} />
           </button>
         ) : (
@@ -646,7 +645,7 @@ function JudgeSlotRow({
         )}
       </div>
       {slot.error && !hideError && (
-        <div className="mt-2 flex items-center gap-2 pl-[52px] pr-2" role="alert">
+        <div className="mt-2 flex items-center gap-2 pl-[50px] pr-2" role="alert">
           <p className="min-w-0 flex-1 text-[13px] leading-[18px] text-error">{slot.error}</p>
           <button type="button" onClick={onGenerate} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-canvas px-3.5 text-[14px] font-semibold">
             <Refresh size={16} /> 다시 시도
@@ -654,7 +653,7 @@ function JudgeSlotRow({
         </div>
       )}
       {stale && (
-        <div className="pl-[52px]">
+        <div className="pl-[50px]">
           <button type="button" onClick={onGenerate} className="inline-flex min-h-11 items-center gap-1.5 text-[14px] font-medium text-secondary underline underline-offset-4 hover:text-ink">
             {j.imageKey ? "이 성향으로 새 심사위원 만들기" : "얼굴 만들기"}
           </button>
@@ -684,19 +683,25 @@ function WikiStatus({ sid, doc }: { sid: string; doc: StoredDoc }) {
     );
   if (doc.wikiState === "ready")
     return (
-      <div className="flex flex-col gap-1.5 px-1">
-        <p className="text-[13px] leading-[18px] text-secondary">
-          자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.{emptyNote && ` ${emptyNote}`}
+      <>
+        {/* Not in draft 02: the success line is for screen readers only; notes that matter stay visible. */}
+        <p className="sr-only" role="status">
+          자료 분석을 마쳤어요. 심사위원이 이 자료를 근거로 질문해요.
         </p>
-        {doc.wikiDegraded && (
-          <p className="flex items-start gap-1.5 break-keep text-[13px] leading-[18px]" role="note" data-testid="wiki-degraded">
-            <Alert size={16} className="mt-px shrink-0 text-secondary" />
-            <span>
-              주력 AI 모델을 쓸 수 없어서 경량 대체 모델{doc.wikiModel ? `(Google ${doc.wikiModel})` : ""}로 자료를 분석했어요. 질문과 리포트가 평소보다 덜 정확할 수 있어요.
-            </span>
-          </p>
+        {(emptyNote || doc.wikiDegraded) && (
+          <div className="flex flex-col gap-1.5 px-1">
+            {emptyNote && <p className="text-[12px] leading-[18px] text-secondary">{emptyNote}</p>}
+            {doc.wikiDegraded && (
+              <p className="flex items-start gap-1.5 break-keep text-[13px] leading-[18px]" role="note" data-testid="wiki-degraded">
+                <Alert size={16} className="mt-px shrink-0 text-secondary" />
+                <span>
+                  주력 AI 모델을 쓸 수 없어서 경량 대체 모델{doc.wikiModel ? `(Google ${doc.wikiModel})` : ""}로 자료를 분석했어요. 질문과 리포트가 평소보다 덜 정확할 수 있어요.
+                </span>
+              </p>
+            )}
+          </div>
         )}
-      </div>
+      </>
     );
   const pct = progress && progress.total > 0 ? Math.round((progress.done / progress.total) * 100) : 0;
   return (
@@ -706,7 +711,7 @@ function WikiStatus({ sid, doc }: { sid: string; doc: StoredDoc }) {
         <span className="shrink-0 tabular">{pct}%</span>
       </div>
       <div className="h-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
-        <div className="h-full rounded-full bg-ink transition-[width] duration-300" style={{ width: `${Math.max(4, pct)}%` }} />
+        <div className="h-full w-full rounded-full bg-ink transition-transform duration-300" style={{ transform: `translateX(${Math.max(4, pct) - 100}%)` }} />
       </div>
       {emptyNote && <p className="text-[12px] leading-[18px] text-secondary">{emptyNote}</p>}
     </div>

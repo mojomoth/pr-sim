@@ -95,8 +95,8 @@ const ContextPackIn = z.object({
 export const GenerateIn = z.object({
   situation: z.string().max(4000).default(""), qaMinutes: z.number().min(1).max(20),
   presentationMinutes: z.number().min(1).max(30).optional(), transcript: z.array(TranscriptIn).max(2000),
-  docs: z.array(DocIn).min(1).max(2).refine((ds) => new Set(ds.map((d) => d.role)).size === ds.length, { message: "문서 역할이 중복됩니다" }),
-  judges: z.array(QJudgeIn).min(1).max(3).refine((js) => new Set(js.map((j) => j.id)).size === js.length, { message: "심사위원 id가 중복됩니다" }),
+  docs: z.array(DocIn).min(1).max(2).refine((ds) => new Set(ds.map((d) => d.role)).size === ds.length, { message: "자료 역할은 중복될 수 없어요." }),
+  judges: z.array(QJudgeIn).min(1).max(3).refine((js) => new Set(js.map((j) => j.id)).size === js.length, { message: "심사위원 id가 중복돼요." }),
   avoidQuestions: z.array(z.string().max(400)).max(30).optional(), pack: ContextPackIn.optional(),
   lint: z.array(LintIssueIn).max(200).optional(),
 });
@@ -112,5 +112,5 @@ export const FollowUpIn = z.object({
   followupsSoFar: z.number().int().nonnegative(), remainingSec: z.number().optional(),
   pending: z.array(GeneratedQuestionIn).max(30), transcript: z.array(TranscriptIn).max(2000),
   docs: z.array(z.object({ role: DocRoleIn, pageTexts: z.array(z.string().max(150_000)).max(1000) })).max(2)
-    .refine((ds) => new Set(ds.map((d) => d.role)).size === ds.length, { message: "문서 역할이 중복됩니다" }),
+    .refine((ds) => new Set(ds.map((d) => d.role)).size === ds.length, { message: "자료 역할은 중복될 수 없어요." }),
 });

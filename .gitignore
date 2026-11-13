@@ -27,3 +27,4 @@ app/.verify/**/*.png
 app/.verify/**/*.wav
 app/.verify/**/*.webp
 app/.verify/**/*.pdf
+app/.verify/g3/p2/**/seed.json

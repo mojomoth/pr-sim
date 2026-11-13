@@ -4,11 +4,11 @@
 // captions always shown), the presenter answers (STT), 답변 완료 → POST /api/questions/followup decides
 // between a follow-up and the next question. Every exchange is saved to session.qa.
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Bubble } from "@/components/Bubble";
 import { BottomBar, Button } from "@/components/Button";
 import { ConfirmDialog, PhaseEndDialog } from "@/components/Dialog";
-import { HeaderPill, StepHeader } from "@/components/Header";
+import { StepHeader } from "@/components/Header";
 import { Mic, MicOff, Refresh } from "@/components/Icons";
 import { Screen } from "@/components/Layout";
 import { Timer } from "@/components/Timer";
@@ -18,9 +18,11 @@ import { getSession, updateSession } from "@/features/session/db";
 import type { DocInput, GeneratedQuestion, QJudge, SessionRecord, StoredJudge, StoredQA, TranscriptSentence } from "@/features/session/types";
 import { useCountdown, useSecondsOverride } from "@/features/session/useCountdown";
 import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
+import { sessionVocabulary } from "@/features/stt/vocab";
 import { platform, type Playback } from "@/platform";
 import { TEMPERAMENT_LABEL } from "@/server/types";
-import { LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeAvatar, SessionJudgeHero, useSessionFromQuery } from "../present/shared";
+import { heroFit, sameFit, type HeroFit } from "./heroFit";
+import { EndPill, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeAvatar, SessionJudgeHero, useSessionFromQuery } from "../present/shared";
 
 export function QaScreen() {
   const s = useSessionFromQuery();
@@ -191,10 +193,13 @@ function QA({ rec }: { rec: SessionRecord }) {
     },
     [id],
   );
-  const stt = useSentenceTranscriber({ phase: "qa", onSentence });
+  const vocabulary = useMemo(() => sessionVocabulary([rec.docs.presentation, rec.docs.proposal]), [rec.docs]);
+  const stt = useSentenceTranscriber({ phase: "qa", onSentence, vocabulary });
   const { start: sttStart, stop: sttStop } = stt;
   const answerRef = useRef<HTMLDivElement>(null);
   const answerBoxRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   /** When the presenter last scrolled by hand: following the answer pauses for a few seconds after. */
   const userScrollAt = useRef(0);
   useEffect(() => {
@@ -686,21 +691,58 @@ function QA({ rec }: { rec: SessionRecord }) {
   // Keep the live answer in view while it is transcribed: newest line visible inside the bubble, and the
   // bubble itself above the fixed mic row (#app-scroll's scroll-padding-bottom clears the bottom bar).
   const following = stage === "answering" || stage === "judging";
+  // Short screens: following the answer would scroll the face card under the sticky header (only a chin
+  // left). When the answer, at its full 3-line height, can't sit above the mic row without that, room is made
+  // for this answer by heroFit (2-line answer → shorter face card → avatar row). Measured against the
+  // full-size hero and a 3-line answer, so it doesn't flip back.
+  const [fit, setFit] = useState<HeroFit | null>(null);
+  const heroFullH = useRef(0);
+  const fitSettled = useRef(false);
+  useLayoutEffect(() => {
+    const sc = document.getElementById("app-scroll");
+    const [head, hero, ans, box] = [headRef.current, heroRef.current, answerRef.current, answerBoxRef.current];
+    if (!following || !sc || !head || !hero || !ans || !box) return;
+    if (!fit) heroFullH.current = hero.offsetHeight;
+    // Content y in CSS px. The desktop phone frame is scaled, so rects are divided by that scale.
+    const sr = sc.getBoundingClientRect();
+    const k = sr.height / sc.offsetHeight || 1;
+    const y = (v: number) => (v - sr.top) / k + sc.scrollTop;
+    const px = (el: Element, prop: "top" | "lineHeight" | "scrollMarginBottom" | "scrollPaddingBottom") => parseFloat(getComputedStyle(el)[prop]) || 0;
+    const line = px(box, "lineHeight") || 26;
+    const ansBottom = y(ans.getBoundingClientRect().bottom) + px(ans, "scrollMarginBottom") + Math.max(0, 3 * line - box.clientHeight) + heroFullH.current - hero.offsetHeight;
+    const scrollNeeded = ansBottom - (sc.clientHeight - px(sc, "scrollPaddingBottom"));
+    const scrollBeforeHeroClips = y(hero.getBoundingClientRect().top) - (head.offsetHeight + px(head, "top"));
+    const next = heroFit(scrollNeeded - scrollBeforeHeroClips, line, heroFullH.current);
+    // Don't follow the answer until the new fit is on screen (scrolling for the old, taller layout would leave the face clipped).
+    fitSettled.current = sameFit(fit, next);
+    if (!fitSettled.current) setFit(next);
+  }, [following, answerText, fit]);
+  const compactHero = following && !!fit?.compact;
+  // While answering, the device-voice note folds into the question card's label row (room for the face card).
+  const voiceTag = following && deviceVoice && !ttsError;
+  const replayShown = Boolean(ttsError || deviceVoice || stage === "answering");
   useEffect(() => {
-    if (!following) return;
+    if (!following || !fitSettled.current) return;
     const box = answerBoxRef.current;
-    if (box) box.scrollTop = box.scrollHeight;
+    if (box) {
+      box.scrollTop = box.scrollHeight;
+      markClipped(box);
+    }
     if (Date.now() - userScrollAt.current < 4000) return;
     answerRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [following, answerText]);
+  }, [following, answerText, fit]);
 
   return (
-    <>
-      <Screen bottomPad={showMicRow ? 132 : 72}>
+    // Draft 04 runs content closer to the screen edge than the 24px app gutter.
+    <div className="contents [--gutter:16px]">
+      {/* Bottom bar height without the safe area: pt-3 + [64px mic row + gap-2] + 48px CTA. */}
+      <Screen bottomPad={showMicRow ? 132 : 60}>
         {/* DESIGN.md: the step name and the remaining time stay at the top (the logo row scrolls away). */}
-        <div className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-2">
-          <StepHeader title="질의응답" onBack={live && stage !== "ended" ? () => openConfirm("back") : () => router.push("/history")} right={<HeaderPill onClick={() => (live && stage !== "ended" ? openConfirm("exit") : router.push("/history"))}>종료</HeaderPill>} />
-          <Timer label={resumeSec ? "질의응답 남은 시간 · 이어서 진행" : "질의응답 남은 시간"} remaining={remaining} total={total} compact />
+        <div ref={headRef} className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-3">
+          <StepHeader title="질의응답" onBack={live && stage !== "ended" ? () => openConfirm("back") : () => router.push("/history")} right={<EndPill onClick={() => (live && stage !== "ended" ? openConfirm("exit") : router.push("/history"))} />} />
+          <div className="mt-1">
+            <Timer label={resumeSec ? "질의응답 남은 시간 · 이어서 진행" : "질의응답 남은 시간"} remaining={remaining} total={total} compact tone="muted" />
+          </div>
         </div>
 
         {!live ? (
@@ -710,35 +752,48 @@ function QA({ rec }: { rec: SessionRecord }) {
             {judge && current && (
               // No fade/opacity on the photo (it must stay full strength). Once Q&A is over the hero's
               // 질문 중 / 답변 듣는 중 pill is hidden: nobody is asking or listening any more.
-              <div className={`h-[clamp(180px,calc(var(--app-h)-590px),300px)] [&>div]:aspect-auto [&>div]:h-full ${stage === "ended" ? "[&_[aria-live]]:hidden" : ""}`}>
-                <SessionJudgeHero judge={judge} speaking={speaking || stage === "asking"} />
+              // Height = what is left at 390×844 after the big timer, a two-line question and a three-line answer.
+              <div ref={heroRef} style={following && fit?.height ? { height: fit.height } : undefined} className={`${compactHero ? "" : "h-[clamp(140px,calc(var(--app-h)-658px),300px)] [&>div]:aspect-auto [&>div]:h-full"} ${stage === "ended" ? "[&_[aria-live]]:hidden" : ""}`}>
+                <SessionJudgeHero judge={judge} speaking={speaking || stage === "asking"} compact={compactHero} />
               </div>
             )}
             {current && (
-              <Bubble label={current.q.kind === "followup" ? "꼬리질문" : "심사위원 질문"} status={<span className="tabular">{`${current.n} / ${current.of}`}</span>} live>
-                {current.remark && <span className="mb-1 block text-[15px] font-normal leading-[22px] text-secondary">{current.remark}</span>}
-                <span className="text-[18px] font-semibold leading-[27px]">{current.q.question}</span>
-              </Bubble>
-            )}
-            {(ttsError || deviceVoice || stage === "answering") && current && (
-              <div className="flex items-center justify-between gap-3 px-1">
-                <p className="min-w-0 text-[13px] leading-[18px] text-secondary">{ttsError ?? (deviceVoice ? DEVICE_VOICE : "질문을 다시 들을 수 있어요.")}</p>
-                <button type="button" onClick={() => void replay()} className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-surface px-4 text-[14px] font-semibold">
-                  <Refresh size={16} /> 질문 다시 듣기
-                </button>
+              <div className="relative">
+                {/* The label row keeps clear of the replay button below (it wraps instead of running under it). */}
+                <Bubble className={replayShown ? "[&>p]:pr-[112px]" : ""} label={current.q.kind === "followup" ? "꼬리질문" : "심사위원 질문"} status={
+                    <>
+                      <span className="tabular">{`${current.n} / ${current.of}`}</span>
+                      {voiceTag && " · 기기 음성"}
+                    </>
+                  } live>
+                  {current.remark && <span className="mb-1 block text-[15px] font-normal leading-[22px] text-secondary">{current.remark}</span>}
+                  <span className="text-[18px] font-semibold leading-[27px]">{current.q.question}</span>
+                </Bubble>
+                {/* Not in draft 04 but needed: a quiet text action on the question card's label row (no row of its own). */}
+                {replayShown && (
+                  <button type="button" onClick={() => void replay()} className="absolute right-2 top-1 inline-flex h-11 items-center gap-1 rounded-full px-3 text-[13px] font-medium text-secondary hover:bg-card">
+                    <Refresh size={14} /> 질문 다시 듣기
+                  </button>
+                )}
               </div>
             )}
+            {(ttsError || (deviceVoice && !voiceTag)) && current && <p className="px-1 text-[13px] leading-[18px] text-secondary">{ttsError ?? DEVICE_VOICE}</p>}
             {liteText(lite) && (
               <p className="px-1 text-[13px] leading-[18px] text-secondary" role="note">
                 {liteText(lite)}
               </p>
             )}
             {stage !== "asking" && current && (
-              <div ref={answerRef} className="scroll-mb-4">
+              <div ref={answerRef} className="scroll-mb-[calc(var(--safe-bottom-pad)-8px)]">
                 {/* Draft 04: the answer sits right above the mic row. The text keeps its latest lines in
                     view (capped height, pinned to the end) so the question above stays on screen too. */}
                 <Bubble variant="me" label="내 답변" status={answerState} className="ui-enter">
-                  <div ref={answerBoxRef} className="max-h-[156px] overflow-y-auto overscroll-contain [scrollbar-width:none]">
+                  {/* Showing only the end of a long answer: the top line fades out so it doesn't read as the start. */}
+                  <div
+                    ref={answerBoxRef}
+                    onScroll={(e) => markClipped(e.currentTarget)}
+                    className={`${following && fit?.lines === 2 ? "max-h-[52px]" : "max-h-[78px]"} overflow-y-auto overscroll-contain [scrollbar-width:none] data-[clipped=true]:[mask-image:linear-gradient(to_bottom,transparent,black_28px)]`}
+                  >
                     {answerText || <span className="text-inverse/60">{micOn ? "답변을 말씀해 주세요…" : "마이크를 켜고 답변해 주세요."}</span>}
                     {listening && <span className="ui-caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-inverse" aria-hidden="true" />}
                   </div>
@@ -786,30 +841,32 @@ function QA({ rec }: { rec: SessionRecord }) {
 
       <BottomBar line={false}>
         {showMicRow && (
-          <div className="flex h-14 items-center gap-3 rounded-full bg-surface p-1.5 pr-5">
+          // Draft 04: mic circle and waveform centered as one group. The status text is visible only when the
+          // mic is off (the answer bubble / judge pill already show the listening state).
+          <div className="flex h-16 items-center justify-center gap-4 rounded-full bg-surface px-3">
             <button
               type="button"
               onClick={toggleMic}
               aria-pressed={micOn}
               aria-label={micOn ? "마이크 끄기" : "마이크 켜기"}
-              className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${micOn ? "bg-card text-ink" : "bg-ink text-inverse"}`}
+              className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${micOn ? "bg-card text-ink" : "bg-ink text-inverse"}`}
             >
               {micOn ? <Mic size={22} /> : <MicOff size={22} />}
             </button>
-            <Waveform bars={26} level={listening ? stt.level : 0} active={listening} className="h-7 min-w-0 flex-1 justify-center text-secondary" />
-            <span className="shrink-0 text-[13px] font-medium text-secondary">{!micOn ? "마이크 꺼짐" : stage === "asking" ? "질문 듣는 중" : listening ? "듣는 중" : "대기 중"}</span>
+            <Waveform bars={36} level={listening ? stt.level : 0} active={listening} className="h-8 min-w-0 justify-center overflow-hidden text-secondary" />
+            <span className={micOn ? "sr-only" : "shrink-0 text-[13px] font-medium text-secondary"}>{!micOn ? "마이크 꺼짐" : stage === "asking" ? "질문 듣는 중" : listening ? "듣는 중" : "대기 중"}</span>
           </div>
         )}
         {live ? (
-          <Button onClick={() => void submit()} arrow disabled={stage !== "answering"}>
+          <Button onClick={() => void submit()} arrow disabled={stage !== "answering"} className={CTA}>
             {stage === "judging" ? "답변 확인 중…" : "답변 완료"}
           </Button>
         ) : stage === "prep-error" ? (
-          <Button onClick={() => void generate()} disabled={!!error && !rec.judges.length}>
+          <Button onClick={() => void generate()} disabled={!!error && !rec.judges.length} className={CTA}>
             다시 시도
           </Button>
         ) : (
-          <Button onClick={startQa} arrow disabled={stage !== "ready"}>
+          <Button onClick={startQa} arrow disabled={stage !== "ready"} className={CTA}>
             {stage === "ready" ? (log.length ? "질의응답 이어 가기" : "질의응답 시작") : "질문을 준비하고 있어요…"}
           </Button>
         )}
@@ -830,8 +887,16 @@ function QA({ rec }: { rec: SessionRecord }) {
         nextLabel="결과 보기"
         href={`/result?s=${id}`}
       />
-    </>
+    </div>
   );
+}
+
+/** Draft 04 CTA: a bit lower than the app's 56px button, radius ≈30% of the height. */
+const CTA = "h-12! rounded-[14px]!";
+
+/** Marks the answer box when its first lines are scrolled out of view (top fade, see the mask class). */
+function markClipped(box: HTMLElement) {
+  box.dataset.clipped = String(box.scrollTop > 0);
 }
 
 function answerEntry(c: Current, answer: TranscriptSentence[], askedAt: number): StoredQA {
@@ -871,7 +936,7 @@ function Prep({ rec, stage, prep, error, resumed, note }: { rec: SessionRecord; 
       </div>
       {stage !== "prep-error" && (
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-line" role="progressbar" aria-label="질문 준비 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}>
-          <div className="h-full rounded-full bg-ink transition-[width] duration-500" style={{ width: `${pct}%` }} />
+          <div className="h-full w-full rounded-full bg-ink transition-transform duration-500" style={{ transform: `translateX(${pct - 100}%)` }} />
         </div>
       )}
       <ul className="flex flex-col gap-2" aria-label="심사위원">

@@ -1,0 +1,118 @@
+{
+  "present-320": {
+    "row": {
+      "left": 24,
+      "right": 296,
+      "top": 415,
+      "bottom": 459,
+      "width": 272,
+      "height": 44
+    },
+    "rowPadR": "104px",
+    "children": [
+      {
+        "left": 6,
+        "right": 50,
+        "w": 44
+      },
+      {
+        "left": 52,
+        "right": 108,
+        "w": 56
+      },
+      {
+        "left": 110,
+        "right": 154,
+        "w": 44
+      },
+      {
+        "left": 160,
+        "right": 160,
+        "w": 0
+      },
+      {
+        "left": 166,
+        "right": 210,
+        "w": 44
+      }
+    ],
+    "cam": {
+      "left": 192,
+      "right": 296,
+      "top": 367,
+      "bottom": 445,
+      "w": 104
+    },
+    "childOverlapPx2": 0,
+    "camOverlapPx2": 540,
+    "rowOverflow": 0,
+    "lastRight": 210
+  },
+  "qa-320": {
+    "label": "꼬리질문 · 1 / 2 · 기기 음성",
+    "labelLines": 1,
+    "textRight": 172,
+    "btnLeft": 182,
+    "btnTop": 452,
+    "btnBottom": 496,
+    "textUnderButton": false
+  },
+  "present-390": {
+    "row": {
+      "left": 24,
+      "right": 366,
+      "top": 454.375,
+      "bottom": 498.375,
+      "width": 342,
+      "height": 44
+    },
+    "rowPadR": "104px",
+    "children": [
+      {
+        "left": 41,
+        "right": 85,
+        "w": 44
+      },
+      {
+        "left": 87,
+        "right": 143,
+        "w": 56
+      },
+      {
+        "left": 145,
+        "right": 189,
+        "w": 44
+      },
+      {
+        "left": 195,
+        "right": 196,
+        "w": 1
+      },
+      {
+        "left": 202,
+        "right": 246,
+        "w": 44
+      }
+    ],
+    "cam": {
+      "left": 262,
+      "right": 366,
+      "top": 406,
+      "bottom": 484,
+      "w": 104
+    },
+    "childOverlapPx2": 0,
+    "camOverlapPx2": 0,
+    "rowOverflow": 0,
+    "lastRight": 246
+  },
+  "qa-390": {
+    "label": "꼬리질문 · 1 / 2 · 기기 음성",
+    "labelLines": 1,
+    "textRight": 172,
+    "btnLeft": 252,
+    "btnTop": 456,
+    "btnBottom": 500,
+    "textUnderButton": false
+  }
+}

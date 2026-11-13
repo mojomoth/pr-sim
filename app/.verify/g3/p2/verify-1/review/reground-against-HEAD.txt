@@ -1,0 +1,8 @@
+✖ checkableFigures includes dates and day spans, still skips bare one-digit counts (1.075ms)
+✖ reground adds the page that states a date/day span cited across a page break (real G1 misses) (0.611959ms)
+✔ reground leaves correct citations and derived values alone (0.275917ms)
+ℹ pass 1
+ℹ fail 2
+✖ failing tests:
+✖ checkableFigures includes dates and day spans, still skips bare one-digit counts (1.075ms)
+✖ reground adds the page that states a date/day span cited across a page break (real G1 misses) (0.611959ms)

@@ -1,0 +1,8 @@
+{
+ "timer": {"current_mobile_px": "x222-558 of 780 (43%), h86", "draft_px": "x249-551 of 798 (38%), h85"},
+ "photo_visible_mobile_viewport": {"current": "y372-609 = 237 device px (~119 CSS) of full ~600 device px (mobile-full y398-997)", "recheck1": "~110 device px strip", "probe_scrolled_end": "~116 device px strip, chips cover it", "draft": "y495-1095 = 600 px, full face"},
+ "photo_visible_desktop_frame": {"current": "y260-348 = 88 px", "recheck1": "~46 px"},
+ "qa_probe": {"scrollTop": 131, "maxScroll": 192, "scrollH": 1036, "clientH": 844, "barTop": 696},
+ "stray_line_above_mic": "none: rows 1370-1415 all >=252 avg; 1416+ is mic bar fill (~247)",
+ "imgs_filter": "none (full color)"
+}

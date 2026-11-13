@@ -1,0 +1,8 @@
+none token status 200 keys token,model,expiresAt,config vocabN 0 tokenPrefix auth_tokens/
+none live: setupComplete
+vocab token status 200 keys token,model,expiresAt,config vocabN 3 tokenPrefix auth_tokens/
+vocab live: setupComplete
+max token status 200 keys token,model,expiresAt,config vocabN 60 tokenPrefix auth_tokens/
+max live: setupComplete
+bare curl 403
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"vocabulary.0","message":"문자열 형식이어야 해요."}]}}{"token":"auth_tokens/<redacted>","model":"gemini-3.5-transcribe-live","expiresAt":"2026-11-13T04:36:31.236Z","config":{"inputAudioTranscription":{"languageCodes":["ko-KR"],"customVocabulary":["a"]}}}

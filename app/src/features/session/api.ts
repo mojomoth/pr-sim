@@ -154,8 +154,9 @@ export interface SttToken {
   expiresAt: string;
   config?: Record<string, unknown>;
 }
-export async function getSttToken(signal?: AbortSignal): Promise<SttToken> {
-  const res = await post("/api/stt/token", undefined, withTimeout(signal, 15_000));
+/** `vocabulary`: domain terms locked into the token as Live `customVocabulary` (see features/stt/vocab). */
+export async function getSttToken(signal?: AbortSignal, vocabulary?: string[]): Promise<SttToken> {
+  const res = await post("/api/stt/token", vocabulary?.length ? { vocabulary } : undefined, withTimeout(signal, 15_000));
   return (await res.json()) as SttToken;
 }
 

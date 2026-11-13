@@ -1,0 +1,149 @@
+{
+  "mode": "present",
+  "W": 320,
+  "H": 700,
+  "net": [
+    "200 POST /api/stt/token"
+  ],
+  "controls": {
+    "prev": {
+      "left": 25.09375,
+      "right": 69.09375,
+      "top": 415,
+      "bottom": 459,
+      "width": 44,
+      "height": 44
+    },
+    "ind": {
+      "left": 69.09375,
+      "right": 117.90625,
+      "top": 425.75,
+      "bottom": 448.25,
+      "width": 48.8125,
+      "height": 22.5
+    },
+    "next": {
+      "left": 117.90625,
+      "right": 161.90625,
+      "top": 415,
+      "bottom": 459,
+      "width": 44,
+      "height": 44
+    },
+    "full": {
+      "left": 162.90625,
+      "right": 206.90625,
+      "top": 415,
+      "bottom": 459,
+      "width": 44,
+      "height": 44
+    },
+    "indText": "10 / 12",
+    "indScrollW": 49,
+    "indClientW": 49,
+    "cam": {
+      "left": 208,
+      "right": 296,
+      "top": 379,
+      "bottom": 445,
+      "width": 88,
+      "height": 66
+    },
+    "row": {
+      "left": 24,
+      "right": 296,
+      "top": 415,
+      "bottom": 459,
+      "width": 272
+    },
+    "rowScrollW": 272,
+    "rowClientW": 272,
+    "pairOverlap": [
+      0,
+      0,
+      -1
+    ],
+    "camOverlap": [
+      -138.9,
+      -90.1,
+      -46.1,
+      -1.1
+    ]
+  },
+  "common": {
+    "docOverflowX": 0,
+    "scrollOverflowX": 0,
+    "wideEls": [
+      "DIV.h-full w-full rounded-full transition-transform duration-300",
+      "DIV.absolute inset-0",
+      "DIV.absolute top-0 flex items-center justify-center",
+      "DIV.relative bg-white will-change-transform",
+      "DIV.absolute inset-0 flex items-center justify-center text-sm te",
+      "SPAN.animate-pulse",
+      "DIV.absolute top-0 flex items-center justify-center",
+      "DIV.relative bg-white will-change-transform"
+    ],
+    "imgs": [
+      {
+        "tag": "IMG",
+        "alt": "PR·SIM",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 103
+      },
+      {
+        "tag": "CANVAS",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 272
+      },
+      {
+        "tag": "CANVAS",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 272
+      },
+      {
+        "tag": "CANVAS",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 272
+      },
+      {
+        "tag": "VIDEO",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 84
+      },
+      {
+        "tag": "IMG",
+        "alt": "경희 심사위원 얼굴",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 88
+      },
+      {
+        "tag": "IMG",
+        "alt": "성수 심사위원 얼굴",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 88
+      },
+      {
+        "tag": "IMG",
+        "alt": "성민 심사위원 얼굴",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 88
+      }
+    ]
+  }
+}

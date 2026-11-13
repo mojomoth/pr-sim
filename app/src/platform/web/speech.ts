@@ -15,22 +15,38 @@ const FEMALE = /yuna|유나|sora|소라|suhyun|수현|heami|sunhi|seoyeon|jimin|
 const NOVELTY = /eddy|reed|rocko|grandpa|flo|grandma|sandy|shelley/i;
 const MALE = /minsu|민수|injoon|hyunsu|bongjin|gookmin|jinho|eddy|reed|rocko|grandpa|male|남성|남자/i;
 
-/** Best ko-KR voice for the gender: name match first, then any Korean voice (null = let the browser pick). */
-export function pickVoice<V extends { name: string; lang: string; localService?: boolean }>(voices: V[], gender: SpeechVoice["gender"]): { voice: V | null; matched: boolean } {
+// Quality by name: downloaded Premium/Enhanced (macOS/iOS "향상됨"), Siri/Natural/Neural, Google; on-device first
+// (works offline, which matters because this is the fallback when the network is down, and has no ~15s cutoff).
+const QUALITY: [RegExp, number][] = [[/premium|프리미엄|고품질/i, 3], [/enhanced|향상/i, 2], [/siri|natural|neural/i, 1], [/google/i, 1]];
+const quality = (v: { name: string; localService?: boolean }) =>
+  QUALITY.reduce((q, [re, w]) => q + (re.test(v.name) ? w : 0), v.localService ? 2 : 0) - (NOVELTY.test(v.name) ? 10 : 0);
+
+/**
+ * Best ko-KR voice for the gender (null = let the browser pick). The macOS novelty set (Eddy, Flo, …) sounds
+ * robotic, so a standard voice of the other gender (pitch-shifted by prosody, matched=false) beats it.
+ * `seed` spreads judges over equally good voices so two judges don't share one when there is a choice.
+ */
+export function pickVoice<V extends { name: string; lang: string; localService?: boolean }>(voices: V[], gender: SpeechVoice["gender"], seed = 0): { voice: V | null; matched: boolean } {
   const ko = voices.filter((v) => /^ko([-_]|$)/i.test(v.lang));
   const want = gender === "female" ? FEMALE : MALE;
   const other = gender === "female" ? MALE : FEMALE;
   // MALE also matches "female", so a male match must not look female.
   const match = ko.filter((v) => want.test(v.name) && !(gender === "male" && FEMALE.test(v.name)));
-  // Standard voices (macOS 유나, Google, Microsoft Natural) over the macOS novelty set (Eddy, Flo, …).
-  // On-device first (works offline, no ~15s cutoff).
   const pick = (list: V[]) => {
-    const std = list.filter((v) => !NOVELTY.test(v.name));
-    return std.find((v) => v.localService) ?? std[0] ?? list.find((v) => v.localService) ?? list[0] ?? null;
+    const ranked = [...list].sort((a, b) => quality(b) - quality(a));
+    const top = ranked.filter((v) => quality(v) === quality(ranked[0]));
+    return top.length ? top[Math.abs(seed) % top.length] : null;
   };
-  if (match.length) return { voice: pick(match), matched: true };
-  return { voice: pick(ko.filter((v) => !other.test(v.name))) ?? pick(ko), matched: false };
+  const standard = (list: V[]) => list.filter((v) => !NOVELTY.test(v.name));
+  if (standard(match).length) return { voice: pick(standard(match)), matched: true };
+  const rest = standard(ko.filter((v) => !other.test(v.name)));
+  const any = rest.length ? rest : standard(ko);
+  if (any.length) return { voice: pick(any), matched: false };
+  return match.length ? { voice: pick(match), matched: true } : { voice: pick(ko), matched: false };
 }
+
+/** Stable small number per judge persona (no id on SpeechVoice): judges usually differ in age or temperament. */
+export const voiceSeed = (p: SpeechVoice) => p.age * 3 + ["friendly", "strict", "aggressive"].indexOf(p.temperament);
 
 /** rate/pitch per persona: friendly slower + warmer, strict neutral, aggressive faster + lower; older a bit slower/lower. */
 export function prosody(p: SpeechVoice, genderMatched: boolean): { rate: number; pitch: number } {
@@ -38,8 +54,11 @@ export function prosody(p: SpeechVoice, genderMatched: boolean): { rate: number;
   const age = Math.max(20, Math.min(70, p.age));
   let rate = t.rate * (1 - (age - 40) * 0.003);
   let pitch = t.pitch * (1 - (age - 40) * 0.004);
-  // No voice of the right gender: shift pitch so the judge still sounds roughly right.
-  if (!genderMatched) pitch *= p.gender === "male" ? 0.75 : 1.2;
+  // No voice of the right gender: shift pitch so the judge still sounds roughly right (male: lower and a bit slower).
+  if (!genderMatched) {
+    pitch *= p.gender === "male" ? 0.75 : 1.2;
+    if (p.gender === "male") rate *= 0.95;
+  }
   rate = Math.round(Math.max(0.6, Math.min(1.5, rate)) * 100) / 100;
   pitch = Math.round(Math.max(0.3, Math.min(1.8, pitch)) * 100) / 100;
   return { rate, pitch };
@@ -138,7 +157,7 @@ export function speak(text: string, persona: SpeechVoice, opts: { onEnd?: () => 
   }
   void loadVoices().then((voices) => {
     if (settled) return;
-    const { voice, matched } = pickVoice(voices, persona.gender);
+    const { voice, matched } = pickVoice(voices, persona.gender, voiceSeed(persona));
     const { rate, pitch } = prosody(persona, matched);
     parts.forEach((part, i) => {
       const u = new SpeechSynthesisUtterance(part);

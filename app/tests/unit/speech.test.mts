@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { chunks, pickVoice, prosody } from "@/platform/web/speech";
+import { chunks, pickVoice, prosody, voiceSeed } from "@/platform/web/speech";
 import { ApiError, ttsFallsBackToBrowser } from "@/features/session/api";
 
 const v = (name: string, lang = "ko-KR", localService = true) => ({ name, lang, localService });
@@ -15,10 +15,25 @@ test("pickVoice prefers a Korean voice of the judge's gender", () => {
   assert.deepEqual(pickVoice([VOICES[0], VOICES[2]], "male"), { voice: VOICES[2], matched: false });
   assert.deepEqual(pickVoice([VOICES[0]], "female"), { voice: null, matched: false });
   assert.equal(pickVoice([v("유나", "ko_KR")], "female").voice?.name, "유나");
-  // macOS Chrome list: standard 유나 beats the novelty Flo; male gets Eddy
+  // macOS Chrome list: standard 유나 beats the novelty Flo; male gets 유나 pitched down (U18: Eddy sounds robotic)
   const mac = ["유나", "Eddy (한국어(대한민국))", "Flo (한국어(대한민국))", "Grandma (한국어(대한민국))"].map((n) => v(n));
   assert.equal(pickVoice([mac[2], ...mac], "female").voice?.name, "유나");
-  assert.deepEqual(pickVoice(mac, "male"), { voice: mac[1], matched: true });
+  assert.deepEqual(pickVoice(mac, "male"), { voice: mac[0], matched: false });
+  // only novelty voices: a male one still beats nothing
+  assert.deepEqual(pickVoice(mac.slice(1), "male"), { voice: mac[1], matched: true });
+});
+
+test("pickVoice prefers Premium/Enhanced on-device voices and spreads judges over equal voices", () => {
+  const mac = [v("유나"), v("유나(향상됨)"), v("Yuna (Premium)"), v("Google 한국의", "ko-KR", false)];
+  assert.equal(pickVoice(mac, "female").voice?.name, "Yuna (Premium)");
+  assert.equal(pickVoice(mac.slice(0, 2), "female").voice?.name, "유나(향상됨)");
+  // on-device beats a network voice (this is the fallback when the network may be down)
+  assert.equal(pickVoice([mac[3], mac[0]], "female").voice?.name, "유나");
+  // Android: several equal local male voices → different seeds (judges) get different voices
+  const android = [v("ko-kr-x-kob-local"), v("ko-kr-x-koc-local"), v("ko-kr-x-kod-local")].map((x, i) => ({ ...x, name: `${x.name} male ${i}` }));
+  const names = new Set([0, 1, 2].map((seed) => pickVoice(android, "male", seed).voice?.name));
+  assert.equal(names.size, 3);
+  assert.notEqual(voiceSeed({ gender: "male", age: 45, temperament: "strict" }), voiceSeed({ gender: "male", age: 52, temperament: "strict" }));
 });
 
 test("prosody: friendly slower/warmer, aggressive faster/lower, unmatched male lower", () => {
@@ -29,6 +44,7 @@ test("prosody: friendly slower/warmer, aggressive faster/lower, unmatched male l
   assert.ok(f.rate < s.rate && f.pitch > s.pitch);
   assert.ok(a.rate > s.rate && a.pitch < s.pitch);
   assert.ok(prosody({ gender: "male", age: 40, temperament: "strict" }, false).pitch < 1);
+  assert.ok(prosody({ gender: "male", age: 40, temperament: "strict" }, false).rate < 1);
   assert.ok(prosody({ gender: "male", age: 70, temperament: "strict" }, true).rate < 1);
 });
 

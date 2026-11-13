@@ -72,8 +72,25 @@ const HERO_STATUS: Record<Exclude<JudgeHeroStatus, "ended">, string> = {
  * 답변 살펴보는 중; none once ended). `status` wins over the legacy `speaking` flag
  * (speaking → asking, otherwise listening).
  */
-export function JudgeHero({ judge, speaking, status }: { judge: JudgeView; speaking?: boolean; status?: JudgeHeroStatus }) {
+export function JudgeHero({ judge, speaking, status, compact }: { judge: JudgeView; speaking?: boolean; status?: JudgeHeroStatus; compact?: boolean }) {
   const s: JudgeHeroStatus = status ?? (speaking ? "asking" : "listening");
+  if (compact)
+    // Short screens while answering: the whole face as a round avatar instead of a face card cut off
+    // by the sticky header.
+    return (
+      <div className="flex items-center gap-3 rounded-[28px] bg-card p-2 pr-3">
+        <JudgeAvatar judge={judge} size={56} />
+        <span className="min-w-0 flex-1 truncate text-[15px] font-bold">
+          {judge.name} · {judge.persona}
+        </span>
+        {s !== "ended" && (
+          <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-ink px-3.5 text-[14px] font-semibold text-inverse" aria-live="polite">
+            <Waveform bars={5} active={s === "asking"} className="h-4" />
+            {HERO_STATUS[s]}
+          </span>
+        )}
+      </div>
+    );
   return (
     <div className="relative aspect-[4/3.3] w-full">
       <JudgeFace judge={judge} className="h-full w-full rounded-[28px]" />
@@ -82,7 +99,7 @@ export function JudgeHero({ judge, speaking, status }: { judge: JudgeView; speak
           {judge.name} · {judge.persona}
         </span>
         {s !== "ended" && (
-          <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-ink/70 px-3.5 text-[14px] font-semibold text-inverse backdrop-blur-sm" aria-live="polite">
+          <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-[#2b2b2b]/60 px-3.5 text-[14px] font-semibold text-inverse" aria-live="polite">
             <Waveform bars={5} active={s === "asking"} className="h-4" />
             {HERO_STATUS[s]}
           </span>

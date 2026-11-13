@@ -1,0 +1,69 @@
+{
+  "qaText": "질의응답\n종료\n\n질의응답 남은 시간 · 이어서 진행\n\n01:48\n\n경희 · 친절함\n답변 듣는 중\n\n꼬리질문 · 1 / 2\n\n네, 원가 방향은 이해했습니다.\n그럼 2028년 96억 원 매출에서 웨이브셀과 웨이브팩이 각각 어느 정도를 맡는지 조금 더 설명해 주실까요?\n질문 다시 듣기\n\n내 답변 · 음성 인식 중\n\n네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 2028년에는 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 2028년에는 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수산 부",
+  "04-review": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [
+        "DIV.h-full w-full rounded-full transition-transform duration-300"
+      ],
+      "smallTargets": [],
+      "bar": {
+        "left": 0,
+        "top": 696,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 148
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 1006,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 358
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 864,
+      "barTop": 696,
+      "hidden": true,
+      "lastText": "네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리"
+    }
+  }
+}

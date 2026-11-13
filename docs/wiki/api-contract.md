@@ -39,7 +39,7 @@ interface WikiPage { slug: string; title: string; type: PageType; summary: strin
 
 | # | 메서드·경로 | 요청 | 응답 | maxDuration | 재사용 (pocs/) |
 |---|---|---|---|---|---|
-| 1 | `POST /api/stt/token` | 본문 없음 | `{ token, model, expiresAt }` — 1회용 Gemini Live 토큰(30분, 모델·설정 잠금) | 10 | `stt-tts/lib/server.ts` `mintLiveToken`, `stt-tts/lib/http.ts`, `app/api/stt-tts/token/route.ts` |
+| 1 | `POST /api/stt/token` | 본문 없음, 또는 `{ vocabulary?: string[] }`(세션 위키 용어 → Live `customVocabulary`) | `{ token, model, expiresAt }` — 1회용 Gemini Live 토큰(30분, 모델·설정 잠금) | 10 | `stt-tts/lib/server.ts` `mintLiveToken`, `stt-tts/lib/http.ts`, `app/api/stt-tts/token/route.ts` |
 | 2 | `POST /api/tts` | `{ text(1–1200자), gender, age(20–70), temperament }` | `audio/wav` + `x-provider`, `x-voice`, `x-model`, `x-duration` | 60 | `question/lib/tts.ts` `judgeSpeech`(Gemini TTS 4모델 → OpenAI `gpt-4o-mini-tts`), `stt-tts/lib/server.ts` `synthesizeSpeech`, `stt-tts/lib/persona.ts`, `stt-tts/lib/wav.ts` |
 | 3 | `POST /api/judges` | `{ temperaments: Temperament[] (1–3), avoid?: RollAvoid }` — 한 명 교체는 길이 1 + 기존 패널을 `avoid`로 | `application/x-ndjson`: `{type:"judge", slot, judge: JudgeOut}` · `{type:"error", slot, code, message}` · `{type:"done", ms}` | 120 | `judge/lib/index.ts` `startPanel`/`generateJudge`/`toPersona`, `judge/lib/traits.ts`, `judge/lib/errors.ts` |
 | 4 | `POST /api/wiki` | `{ doc: DocInput(wiki 없이) }` | NDJSON: `{type:"progress", phase, chunksDone, chunksTotal, roundsDone, roundsTotal}` … `{type:"done", wiki: WikiPage[], keyNumbers: KeyNumber[], usage}` | 300 | `wiki/lib/ingest.ts`(extract→plan→merge→finalize), `prompts.ts`, `llm.ts`, `numbers-verify.ts`, `reground.ts`, `markdown.ts`, `errors.ts` |

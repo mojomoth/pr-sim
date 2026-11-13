@@ -1,0 +1,142 @@
+{
+ "present-320": {
+  "row": {
+   "left": 24,
+   "right": 296,
+   "top": 415,
+   "bottom": 459,
+   "width": 272,
+   "height": 44
+  },
+  "rowPadR": "88px",
+  "children": [
+   {
+    "left": 26,
+    "right": 70,
+    "w": 44
+   },
+   {
+    "left": 70,
+    "right": 118,
+    "w": 48
+   },
+   {
+    "left": 118,
+    "right": 162,
+    "w": 44
+   },
+   {
+    "left": 162,
+    "right": 163,
+    "w": 1
+   },
+   {
+    "left": 163,
+    "right": 207,
+    "w": 44
+   }
+  ],
+  "cam": {
+   "left": 208,
+   "right": 296,
+   "top": 379,
+   "bottom": 445,
+   "w": 88
+  },
+  "childOverlapPx2": 0,
+  "camOverlapPx2": 0,
+  "rowOverflow": 0,
+  "lastRight": 207
+ },
+ "qa-320": {
+  "label": "심사위원 질문 · 10 / 12 · 기기 음성",
+  "current": {
+   "labelPadR": "112px",
+   "labelLines": 2,
+   "textRight": 162,
+   "btnLeft": 182,
+   "btnTop": 458,
+   "btnBottom": 502,
+   "textUnderButton": false
+  },
+  "withoutReserve": {
+   "labelPadR": "0px",
+   "labelLines": 1,
+   "textRight": 212,
+   "btnLeft": 182,
+   "btnTop": 458,
+   "btnBottom": 502,
+   "textUnderButton": true
+  }
+ },
+ "present-390": {
+  "row": {
+   "left": 24,
+   "right": 366,
+   "top": 454.375,
+   "bottom": 498.375,
+   "width": 342,
+   "height": 44
+  },
+  "rowPadR": "104px",
+  "children": [
+   {
+    "left": 41,
+    "right": 85,
+    "w": 44
+   },
+   {
+    "left": 87,
+    "right": 143,
+    "w": 56
+   },
+   {
+    "left": 145,
+    "right": 189,
+    "w": 44
+   },
+   {
+    "left": 195,
+    "right": 196,
+    "w": 1
+   },
+   {
+    "left": 202,
+    "right": 246,
+    "w": 44
+   }
+  ],
+  "cam": {
+   "left": 262,
+   "right": 366,
+   "top": 406,
+   "bottom": 484,
+   "w": 104
+  },
+  "childOverlapPx2": 0,
+  "camOverlapPx2": 0,
+  "rowOverflow": 0,
+  "lastRight": 246
+ },
+ "qa-390": {
+  "label": "심사위원 질문 · 10 / 12 · 기기 음성",
+  "current": {
+   "labelPadR": "112px",
+   "labelLines": 1,
+   "textRight": 212,
+   "btnLeft": 252,
+   "btnTop": 456,
+   "btnBottom": 500,
+   "textUnderButton": false
+  },
+  "withoutReserve": {
+   "labelPadR": "0px",
+   "labelLines": 1,
+   "textRight": 212,
+   "btnLeft": 252,
+   "btnTop": 456,
+   "btnBottom": 500,
+   "textUnderButton": false
+  }
+ }
+}

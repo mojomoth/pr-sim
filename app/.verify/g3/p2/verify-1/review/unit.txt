@@ -1,0 +1,15 @@
+✔ pickVoice prefers Premium/Enhanced on-device voices and spreads judges over equal voices (0.130708ms)
+✔ prosody: friendly slower/warmer, aggressive faster/lower, unmatched male lower (0.0935ms)
+✔ chunks splits long text at sentence ends (0.166917ms)
+✔ ttsFallsBackToBrowser: hint, quota, network, 5xx yes; bad request / abort no (0.072792ms)
+✔ sessionVocabulary: domain words from metrics and wiki titles, compound words first, used words only (0.501167ms)
+✔ sessionVocabulary caps the list and is empty without a wiki (0.336042ms)
+✔ SttTokenIn: vocabulary optional, capped in count and length (0.705125ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 228.842917

@@ -1,0 +1,1 @@
+HTTP 200 {"token": "<redacted>", "model": "gemini-3.5-transcribe-live", "expiresAt": "2026-11-13T02:58:49.759Z", "config": {"inputAudioTranscription": {"languageCodes": ["ko-KR"]}}}

@@ -1,0 +1,58 @@
+[
+  {
+    "t": 3,
+    "appH": "calc(100dvh - 0px)",
+    "scrollTop": 91,
+    "maxScroll": 152,
+    "head": {
+      "top": -48,
+      "bottom": 186,
+      "h": 234,
+      "w": 390
+    },
+    "face": {
+      "top": 167,
+      "bottom": 223,
+      "h": 56,
+      "w": 56
+    },
+    "faceVisibleTop": 19,
+    "ans": {
+      "top": 418,
+      "bottom": 552,
+      "h": 134,
+      "w": 358
+    },
+    "barTop": 592,
+    "ansHiddenPx": 0,
+    "chars": 208
+  },
+  {
+    "t": 6,
+    "appH": "calc(100dvh - 0px)",
+    "scrollTop": 91,
+    "maxScroll": 152,
+    "head": {
+      "top": -48,
+      "bottom": 186,
+      "h": 234,
+      "w": 390
+    },
+    "face": {
+      "top": 167,
+      "bottom": 223,
+      "h": 56,
+      "w": 56
+    },
+    "faceVisibleTop": 19,
+    "ans": {
+      "top": 418,
+      "bottom": 552,
+      "h": 134,
+      "w": 358
+    },
+    "barTop": 592,
+    "ansHiddenPx": 0,
+    "chars": 229
+  }
+]

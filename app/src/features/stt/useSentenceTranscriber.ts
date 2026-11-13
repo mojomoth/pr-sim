@@ -21,6 +21,8 @@ export interface TranscriberOptions {
   onSentence?: (s: TranscriptSentence) => void;
   /** Flush an unfinished sentence after this much silence (ms). */
   carryFlushMs?: number;
+  /** Domain terms that bias recognition (Live customVocabulary), e.g. sessionVocabulary(rec.docs). Read on each (re)connect. */
+  vocabulary?: string[];
 }
 
 export interface Transcriber {
@@ -72,9 +74,9 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
-  const cb = useRef({ onSentence: opts.onSentence, getSlide: opts.getSlide });
+  const cb = useRef({ onSentence: opts.onSentence, getSlide: opts.getSlide, vocabulary: opts.vocabulary });
   useEffect(() => {
-    cb.current = { onSentence: opts.onSentence, getSlide: opts.getSlide };
+    cb.current = { onSentence: opts.onSentence, getSlide: opts.getSlide, vocabulary: opts.vocabulary };
   });
   // Self-referencing callbacks (reconnect, re-arm timer) go through this ref.
   const selfRefs = useRef({ scheduleCarryFlush: () => {}, connectLive: async () => {} });
@@ -226,7 +228,7 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
     const s = r.current;
     const gen = s.gen;
     const stale = () => s.gen !== gen;
-    const tok = await getSttToken();
+    const tok = await getSttToken(undefined, cb.current.vocabulary?.slice(0, 60));
     const { GoogleGenAI } = await import("@google/genai");
     if (stale()) return; // stopped while fetching the token: don't open a socket
     const ai = new GoogleGenAI({ apiKey: tok.token, httpOptions: { apiVersion: "v1alpha" } });

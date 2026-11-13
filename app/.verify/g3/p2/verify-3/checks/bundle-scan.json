@@ -1,0 +1,31 @@
+{
+ "files": 23,
+ "envValuesChecked": 6,
+ "envVarNames": [
+  "JEV_KEY",
+  "GOOGLE_API_KEY",
+  "OPENAI_API_KEY",
+  "CLAUDE_API_KEY",
+  "VERCEL_API_KEY",
+  "RENDER_API_KEY"
+ ],
+ "patternCounts": {
+  "sk-": 0,
+  "AIza": 0,
+  "sk-ant": 0,
+  "apikey(ci)": 63
+ },
+ "patternFiles": {
+  "sk-": [],
+  "AIza": [],
+  "sk-ant": [],
+  "apikey(ci)": [
+   "chunks/0td6wwnbkl5e-.js",
+   "chunks/1gicbsg1iiy9o.js",
+   "chunks/3z71p8-x2i6u0.js"
+  ]
+ },
+ "envValueHits": 0,
+ "envValueHitNames": [],
+ "envNameMentionsByFileCount": {}
+}

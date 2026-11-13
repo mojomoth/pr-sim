@@ -9,7 +9,7 @@ export function Waveform({ bars = 12, active = true, level, className = "" }: { 
     const jitter = 0.4 + 0.6 * Math.abs(Math.sin((i + 1) * 1.7) * Math.cos((i + 1) * 0.6));
     return { h: Math.max(0.18, (0.3 + 0.7 * bell) * jitter), o: Math.min(1, 0.25 + 1.1 * bell) };
   });
-  const scale = level !== undefined ? Math.max(0.2, Math.min(1, 0.3 + level * 1.6)) : active ? 1 : 0.35;
+  const scale = level !== undefined ? Math.max(0.2, Math.min(1, 0.3 + level * 1.6)) : active ? 1 : 0.6; // idle keeps the line shape (draft 04 chip icon), not a row of dots
   return (
     <span className={`inline-flex items-center gap-[3px] ${className}`} aria-hidden="true">
       {lines.map(({ h, o }, i) => (

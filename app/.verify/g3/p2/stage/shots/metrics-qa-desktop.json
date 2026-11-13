@@ -1,0 +1,82 @@
+{
+  "qaText": "질의응답\n종료\n\n질의응답 남은 시간 · 이어서 진행\n\n01:56\n\n경희 · 친절함\n답변 듣는 중\n\n꼬리질문 · 1 / 2\n\n네, 원가 방향은 이해했습니다.\n그럼 2028년 96억 원 매출에서 웨이브셀과 웨이브팩이 각각 어느 정도를 맡는지 조금 더 설명해 주실까요?\n질문 다시 듣기\n\nAI 음성을 쓸 수 없어서 기기 음성으로 질문을 읽어 드려요.\n\n내 답변 · 음성 인식 중\n\n네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 2028년에는 네. 지금 원가가 스티로폼보다 높은 건 맞습니다. 다만 저희 원료는 처리비를 받고 수거하는 수산 부산물이라서 내년 3분기에 이 공장이 가동되면 2028년에는 네. 지금 원가가 스티로폼",
+  "04-review": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [
+        "DIV.h-full w-full rounded-full transition-transform duration-300"
+      ],
+      "smallTargets": [
+        {
+          "tag": "BUTTON",
+          "text": "뒤로 가기",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "종료",
+          "w": 57,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "질문 다시 듣기",
+          "w": 105,
+          "h": 41
+        }
+      ],
+      "bar": {
+        "left": 540,
+        "top": 709,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 153
+      },
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 89,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 774
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 1049,
+      "clientH": 839,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 95
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 332
+        }
+      ]
+    }
+  }
+}

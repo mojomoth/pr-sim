@@ -1,0 +1,19 @@
+{
+ "filesScanned": 23,
+ "envValuesChecked": 6,
+ "envVarNames": 6,
+ "patternCounts": {
+  "sk-": 0,
+  "sk-ant": 0,
+  "AIza": 0,
+  "apikey(ci)": 63
+ },
+ "apikeyMatchFiles": [
+  "chunks/1fffo5gt5lbak.js",
+  "chunks/1gicbsg1iiy9o.js",
+  "chunks/3z71p8-x2i6u0.js"
+ ],
+ "envValueHits": 0,
+ "envValueHitNames": [],
+ "envVarNameOccurrences": {}
+}

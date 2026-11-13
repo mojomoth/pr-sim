@@ -1,0 +1,18 @@
+{
+ "token": "<redacted len 76>",
+ "model": "gemini-3.5-transcribe-live",
+ "expiresAt": "2026-11-13T03:52:57.757Z",
+ "config": {
+  "inputAudioTranscription": {
+   "languageCodes": [
+    "ko-KR"
+   ],
+   "customVocabulary": [
+    "완충재",
+    "웨이브셀",
+    "3PL",
+    "버섯균사체"
+   ]
+  }
+ }
+}

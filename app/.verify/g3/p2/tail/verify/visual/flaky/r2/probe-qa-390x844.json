@@ -1,0 +1,441 @@
+{
+  "mode": "qa",
+  "W": 390,
+  "H": 844,
+  "net": [
+    "503 POST /api/tts",
+    "200 POST /api/stt/token"
+  ],
+  "samples": [
+    {
+      "t": 2,
+      "replay": true,
+      "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+      "voiceTag": true,
+      "deviceVoiceNote": false,
+      "labelLines": 1,
+      "labelRects": [
+        {
+          "l": 36,
+          "r": 80,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 80,
+          "r": 89,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 115,
+          "r": 172,
+          "t": 391,
+          "b": 406
+        }
+      ],
+      "btn": {
+        "l": 252,
+        "r": 366,
+        "t": 377,
+        "b": 421
+      },
+      "btnInk": {
+        "l": 263.828125,
+        "r": 354,
+        "t": 391.25,
+        "bb": 406.25
+      },
+      "hitBox": 0,
+      "hitInk": 0,
+      "ansBottom": 656,
+      "barTop": 696,
+      "scrollTop": 64,
+      "maxScroll": 125
+    },
+    {
+      "t": 4,
+      "replay": true,
+      "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+      "voiceTag": true,
+      "deviceVoiceNote": false,
+      "labelLines": 1,
+      "labelRects": [
+        {
+          "l": 36,
+          "r": 80,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 80,
+          "r": 89,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 115,
+          "r": 172,
+          "t": 391,
+          "b": 406
+        }
+      ],
+      "btn": {
+        "l": 252,
+        "r": 366,
+        "t": 377,
+        "b": 421
+      },
+      "btnInk": {
+        "l": 263.828125,
+        "r": 354,
+        "t": 391.25,
+        "bb": 406.25
+      },
+      "hitBox": 0,
+      "hitInk": 0,
+      "ansBottom": 656,
+      "barTop": 696,
+      "scrollTop": 64,
+      "maxScroll": 125
+    },
+    {
+      "t": 6,
+      "replay": true,
+      "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+      "voiceTag": true,
+      "deviceVoiceNote": false,
+      "labelLines": 1,
+      "labelRects": [
+        {
+          "l": 36,
+          "r": 80,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 80,
+          "r": 89,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 115,
+          "r": 172,
+          "t": 391,
+          "b": 406
+        }
+      ],
+      "btn": {
+        "l": 252,
+        "r": 366,
+        "t": 377,
+        "b": 421
+      },
+      "btnInk": {
+        "l": 263.828125,
+        "r": 354,
+        "t": 391.25,
+        "bb": 406.25
+      },
+      "hitBox": 0,
+      "hitInk": 0,
+      "ansBottom": 656,
+      "barTop": 696,
+      "scrollTop": 64,
+      "maxScroll": 125
+    },
+    {
+      "t": 8,
+      "replay": true,
+      "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+      "voiceTag": true,
+      "deviceVoiceNote": false,
+      "labelLines": 1,
+      "labelRects": [
+        {
+          "l": 36,
+          "r": 80,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 80,
+          "r": 89,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 115,
+          "r": 172,
+          "t": 391,
+          "b": 406
+        }
+      ],
+      "btn": {
+        "l": 252,
+        "r": 366,
+        "t": 377,
+        "b": 421
+      },
+      "btnInk": {
+        "l": 263.828125,
+        "r": 354,
+        "t": 391.25,
+        "bb": 406.25
+      },
+      "hitBox": 0,
+      "hitInk": 0,
+      "ansBottom": 656,
+      "barTop": 696,
+      "scrollTop": 64,
+      "maxScroll": 125
+    },
+    {
+      "t": 10,
+      "replay": true,
+      "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+      "voiceTag": true,
+      "deviceVoiceNote": false,
+      "labelLines": 1,
+      "labelRects": [
+        {
+          "l": 36,
+          "r": 80,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 80,
+          "r": 89,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 115,
+          "r": 172,
+          "t": 391,
+          "b": 406
+        }
+      ],
+      "btn": {
+        "l": 252,
+        "r": 366,
+        "t": 377,
+        "b": 421
+      },
+      "btnInk": {
+        "l": 263.828125,
+        "r": 354,
+        "t": 391.25,
+        "bb": 406.25
+      },
+      "hitBox": 0,
+      "hitInk": 0,
+      "ansBottom": 656,
+      "barTop": 696,
+      "scrollTop": 64,
+      "maxScroll": 125
+    },
+    {
+      "t": 12,
+      "replay": true,
+      "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+      "voiceTag": true,
+      "deviceVoiceNote": false,
+      "labelLines": 1,
+      "labelRects": [
+        {
+          "l": 36,
+          "r": 80,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 80,
+          "r": 89,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 89,
+          "r": 115,
+          "t": 391,
+          "b": 406
+        },
+        {
+          "l": 115,
+          "r": 172,
+          "t": 391,
+          "b": 406
+        }
+      ],
+      "btn": {
+        "l": 252,
+        "r": 366,
+        "t": 377,
+        "b": 421
+      },
+      "btnInk": {
+        "l": 263.828125,
+        "r": 354,
+        "t": 391.25,
+        "bb": 406.25
+      },
+      "hitBox": 0,
+      "hitInk": 0,
+      "ansBottom": 656,
+      "barTop": 696,
+      "scrollTop": 64,
+      "maxScroll": 125
+    }
+  ],
+  "common": {
+    "docOverflowX": 0,
+    "scrollOverflowX": 0,
+    "wideEls": [
+      "DIV.h-full w-full rounded-full transition-transform duration-300"
+    ],
+    "imgs": [
+      {
+        "tag": "IMG",
+        "alt": "PR·SIM",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 103
+      },
+      {
+        "tag": "IMG",
+        "alt": "경희 심사위원 얼굴",
+        "filter": "none",
+        "parentFilter": "none",
+        "gpFilter": "none",
+        "w": 358
+      }
+    ]
+  },
+  "top": {
+    "replay": true,
+    "labelText": "꼬리질문 · 1 / 2 · 기기 음성",
+    "voiceTag": true,
+    "deviceVoiceNote": false,
+    "labelLines": 1,
+    "labelRects": [
+      {
+        "l": 36,
+        "r": 80,
+        "t": 455,
+        "b": 470
+      },
+      {
+        "l": 80,
+        "r": 89,
+        "t": 455,
+        "b": 470
+      },
+      {
+        "l": 89,
+        "r": 115,
+        "t": 455,
+        "b": 470
+      },
+      {
+        "l": 89,
+        "r": 115,
+        "t": 455,
+        "b": 470
+      },
+      {
+        "l": 115,
+        "r": 172,
+        "t": 455,
+        "b": 470
+      }
+    ],
+    "btn": {
+      "l": 252,
+      "r": 366,
+      "t": 441,
+      "b": 485
+    },
+    "btnInk": {
+      "l": 263.828125,
+      "r": 354,
+      "t": 455.25,
+      "bb": 470.25
+    },
+    "hitBox": 0,
+    "hitInk": 0,
+    "ansBottom": 720,
+    "barTop": 696,
+    "scrollTop": 0,
+    "maxScroll": 125
+  }
+}

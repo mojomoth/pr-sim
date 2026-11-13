@@ -9,8 +9,7 @@ import { ChevronLeft } from "./Icons";
  * clear space ≥ 1/4 of the symbol width. `href={null}` renders it unlinked (live sessions).
  */
 const LOCKUP_RATIO = 517 / 160;
-export function Brand({ href = "/", tone = "black" }: { href?: string | null; tone?: "black" | "white" }) {
-  const h = 32;
+export function Brand({ href = "/", tone = "black", height: h = 32 }: { href?: string | null; tone?: "black" | "white"; height?: number }) {
   const inner = (
     <span className="flex items-center py-2">
       {/* eslint-disable-next-line @next/next/no-img-element -- tiny static raster logo at a fixed size */}
@@ -26,8 +25,8 @@ export function Brand({ href = "/", tone = "black" }: { href?: string | null; to
 }
 
 /** Gray pill used in headers (기록, 종료, 1 / 4 …). Renders a Link, a button, or a static label. */
-export function HeaderPill({ href, onClick, children, label, outline }: { href?: string; onClick?: () => void; children: React.ReactNode; label?: string; outline?: boolean }) {
-  const cls = `inline-flex h-11 min-w-11 items-center justify-center rounded-full px-4 text-[15px] font-semibold tabular ${outline ? "border border-ink/80 bg-canvas" : "bg-surface"}`;
+export function HeaderPill({ href, onClick, children, label }: { href?: string; onClick?: () => void; children: React.ReactNode; label?: string }) {
+  const cls = "inline-flex h-11 min-w-11 items-center justify-center rounded-full bg-surface px-4 text-[15px] font-semibold tabular";
   if (href)
     return (
       <Link href={href} className={cls} aria-label={label}>

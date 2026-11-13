@@ -1,0 +1,93 @@
+[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 300 s (quota)
+[wiki/llm] gemini:gemini-3.5-flash-lite skipped for 300 s (quota)
+[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 300 s (quota)
+[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 300 s (quota)
+ GET /present?s=s_mwehfgih671a6t6f 200 in 22ms (next.js: 1.4ms, application-code: 21ms)
+ POST /api/stt/token 200 in 359ms (next.js: 0.3ms, application-code: 359ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:241:10)
+ GET / 200 in 77ms (next.js: 0.6ms, application-code: 77ms)
+ GET / 200 in 62ms (next.js: 0.4ms, application-code: 61ms)
+ GET / 200 in 51ms (next.js: 0.5ms, application-code: 50ms)
+ GET /qa?s=s_g3qa 200 in 14ms (next.js: 0.3ms, application-code: 14ms)
+ GET /present?s=s_g3present 200 in 15ms (next.js: 0.3ms, application-code: 15ms)
+ GET /setup?s=s_g3setup 200 in 14ms (next.js: 0.3ms, application-code: 14ms)
+ POST /api/stt/token 200 in 361ms (next.js: 0.3ms, application-code: 361ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:241:10)
+[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 300 s (quota)
+ GET /result?s=s_fixture_c1 200 in 17ms (next.js: 1.0ms, application-code: 16ms)
+ POST /api/tts 200 in 5.1s (next.js: 0.5ms, application-code: 5.1s)
+ GET /result?s=s_fixture_c1&tab=feedback 200 in 20ms (next.js: 0.4ms, application-code: 19ms)
+ GET /history 200 in 14ms (next.js: 0.7ms, application-code: 13ms)
+ POST /api/stt/token 200 in 293ms (next.js: 0.3ms, application-code: 293ms)
+[browser] Warning: Ephemeral token support is experimental and may change in future versions. (src/features/stt/useSentenceTranscriber.ts:241:10)
+ POST /api/tts 200 in 3.3s (next.js: 4ms, application-code: 3.3s)
+ GET /qa?s=s_mwehfgih671a6t6f 200 in 11ms (next.js: 0.5ms, application-code: 11ms)
+ GET /qa?s=s_mwehfgih671a6t6f 200 in 13ms (next.js: 0.3ms, application-code: 13ms)
+[question] openai skipped for 10 min: 크레딧 소진(충전 필요)
+[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider
+[question] openai skipped for 10 min: 크레딧 소진(충전 필요)
+[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.8-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] openai skipped for 10 min: 크레딧 소진(충전 필요)
+[question] openai failed (billing: 크레딧 소진(충전 필요)) → next provider
+[question] gemini gemini-3.7-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.7-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3-flash-preview failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3-flash-preview failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.6-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.6-flash failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash-lite failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.5-flash-lite failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] gemini gemini-3.1-flash-lite failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] 수진 generate failed: AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (OpenAI 크레딧 소진(충전 필요) · Gemini 무료 한도 초과(429) · Claude 사용 한도 초과(2026-12-01 재개))
+[question] gemini gemini-3.1-flash-lite failed (429) → next model
+[question] gemini failed (transient: 무료 한도 초과(429)) → next provider
+[question] 현석 generate failed: AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (OpenAI 크레딧 소진(충전 필요) · Gemini 무료 한도 초과(429) · Claude 사용 한도 초과(2026-12-01 재개))
+ GET / 200 in 12ms (next.js: 0.3ms, application-code: 12ms)
+ GET /present?s=s_rvpres 200 in 11ms (next.js: 0.3ms, application-code: 11ms)
+ GET /qa?s=s_rvqa 200 in 15ms (next.js: 0.3ms, application-code: 15ms)
+[question] gemini gemini-3.7-flash failed (first-token 15s) → next model
+[question] gemini failed (other: 응답 지연(gemini-3.7-flash, first-token 15s)) → next provider
+[question] 지훈 generate failed: AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (OpenAI 크레딧 소진(충전 필요) · Gemini 응답 지연(gemini-3.7-flash, first-token 15s) · Claude 사용 한도 초과(2026-12-01 재개))
+[api/questions] Error 모든 심사위원의 질문 생성이 실패했습니다. AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요. (OpenAI 크레딧 소진(충전 필요) · Gemini 무료 한도 초과(429) · Claude 사용 한도 초과(2026-12-01 재개))
+ POST /api/questions 200 in 16.3s (next.js: 0.3ms, application-code: 16.3s)
+[tts] every voice model failed: gemini-3.8-flash-tts cooldown, gemini-3.8-flash-lite-tts 429, gpt-4o-mini-tts 429 credit_balance_exhausted
+ POST /api/tts 503 in 1796ms (next.js: 0.3ms, application-code: 1795ms)
+ GET / 200 in 13ms (next.js: 0.3ms, application-code: 12ms)
+ GET /present?s=s_rvpres 200 in 13ms (next.js: 0.5ms, application-code: 13ms)
+ GET /qa?s=s_rvqa 200 in 18ms (next.js: 0.4ms, application-code: 17ms)
+[tts] every voice model failed: gemini-3.8-flash-tts cooldown, gemini-3.8-flash-lite-tts cooldown, gpt-4o-mini-tts cooldown
+ POST /api/tts 503 in 4ms (next.js: 0.3ms, application-code: 4ms)
+ POST /api/tts 400 in 2ms (next.js: 0.4ms, application-code: 2ms)
+[tts] every voice model failed: gemini-3.8-flash-tts cooldown, gemini-3.8-flash-lite-tts cooldown, gpt-4o-mini-tts cooldown
+ POST /api/tts 503 in 2ms (next.js: 0.4ms, application-code: 2ms)
+ GET / 200 in 13ms (next.js: 0.3ms, application-code: 13ms)
+ GET /present?s=s_rvind 200 in 11ms (next.js: 0.3ms, application-code: 10ms)
+ GET / 200 in 13ms (next.js: 0.3ms, application-code: 12ms)
+ GET /present?s=s_rvind 200 in 12ms (next.js: 0.3ms, application-code: 12ms)
+ GET / 200 in 15ms (next.js: 0.6ms, application-code: 15ms)
+ GET /present?s=s_rvind 200 in 11ms (next.js: 0.3ms, application-code: 11ms)
+ GET / 200 in 14ms (next.js: 0.3ms, application-code: 13ms)
+[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 10 s (unavailable)
+ GET /present?s=s_rvind 200 in 10ms (next.js: 0.3ms, application-code: 9ms)
+[wiki/llm] gemini:gemini-3.1-flash-lite skipped for 300 s (quota)
+ GET / 200 in 14ms (next.js: 0.3ms, application-code: 14ms)
+ GET /qa?s=s_g3probe 200 in 12ms (next.js: 0.3ms, application-code: 12ms)
+[tts] every voice model failed: gemini-3.8-flash-tts cooldown, gemini-3.8-flash-lite-tts cooldown, gpt-4o-mini-tts cooldown
+ POST /api/tts 503 in 2ms (next.js: 0.3ms, application-code: 2.0ms)

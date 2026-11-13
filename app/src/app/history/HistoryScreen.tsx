@@ -92,31 +92,31 @@ export function HistoryScreen() {
         {/* Draft 07's round profile button is left out on purpose: v1 has no accounts, so it would lead nowhere. Add it with profiles. */}
         <BrandHeader />
 
-        <h1 className="mt-6 text-[28px] font-bold leading-9 tracking-[-0.8px]">
+        <h1 className="mt-6 text-[42px] font-extrabold leading-[52px] tracking-[-1.4px]">
           쌓이는 연습,
           <br />
           달라지는 발표.
         </h1>
-        <p className="mt-1.5 text-[16px] text-secondary">나의 시뮬레이션 기록</p>
+        <p className="mt-2 text-[18px] font-medium text-secondary">나의 시뮬레이션 기록</p>
 
         <dl className="mt-6 grid grid-cols-2 gap-2.5">
-          <div className="flex items-baseline justify-center gap-1.5 rounded-[20px] bg-surface py-4">
-            <dt className="text-[15px] text-secondary">총</dt>
+          <div className="flex items-baseline justify-center gap-1.5 rounded-[20px] bg-surface py-2">
+            <dt className="text-[17px] font-medium">총</dt>
             <dd className="text-[28px] font-bold leading-9 tracking-[-0.8px] tabular">
               {records?.length ?? "–"}
-              <span className="ml-1 text-[15px] font-medium">회</span>
+              <span className="ml-1 text-[17px] font-medium">회</span>
             </dd>
           </div>
-          <div className="flex items-baseline justify-center gap-1.5 rounded-[20px] bg-surface py-4">
-            <dt className="text-[15px] text-secondary">평균</dt>
+          <div className="flex items-baseline justify-center gap-1.5 rounded-[20px] bg-surface py-2">
+            <dt className="text-[17px] font-medium">평균</dt>
             <dd className="text-[28px] font-bold leading-9 tracking-[-0.8px] tabular">
               {avg ?? "–"}
-              <span className="ml-1 text-[15px] font-medium">점</span>
+              <span className="ml-1 text-[17px] font-medium">점</span>
             </dd>
           </div>
         </dl>
 
-        <ChipGroup className="mt-6" label="기록 필터" value={filter} onChange={setFilter} options={FILTERS} />
+        <ChipGroup className="mt-6" size="sm" label="기록 필터" value={filter} onChange={setFilter} options={FILTERS} />
 
         {actionError && (
           <p className="mt-4 flex items-start gap-2 rounded-[16px] border border-error/40 px-4 py-3 text-[14px] leading-5" role="alert">
@@ -151,7 +151,12 @@ export function HistoryScreen() {
                 <li key={r.id} className="ui-enter rounded-[28px] bg-surface p-5">
                   <div className="flex items-center gap-2.5">
                     <span className="text-[14px] text-secondary tabular">{dateOf(r.createdAt)}</span>
-                    {isDone(r) ? <Badge>완료</Badge> : <Badge tone="muted">진행 중</Badge>}
+                    {isDone(r) ? (
+                      <Badge>완료</Badge>
+                    ) : (
+                      // Draft 07 shows 진행 중 lighter than the 완료 badge; ink/60 on the card (≈#6c6c6c) still clears 4.5:1 with white text.
+                      <span className="inline-flex h-6 items-center rounded-full bg-ink/60 px-2.5 text-[12px] font-semibold leading-[18px] text-inverse">진행 중</span>
+                    )}
                     <button
                       type="button"
                       onClick={() => setToDelete(r)}
@@ -163,42 +168,41 @@ export function HistoryScreen() {
                   </div>
                   <div className="mt-1 flex items-center gap-4">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[20px] font-semibold leading-7 tracking-[-0.4px]">{title}</p>
+                      <p className="line-clamp-2 text-[20px] font-semibold leading-7 tracking-[-0.4px]">{title}</p>
                       <p className="mt-0.5 text-[14px] text-secondary tabular">
                         발표 {r.setup.presentationMinutes}분 · 질의응답 {r.setup.qaMinutes}분
                       </p>
                     </div>
                     {score !== undefined && (
                       <p className="shrink-0 border-l border-line pl-4 tabular" aria-label={`${score}점`}>
-                        <span className="text-[36px] font-bold leading-10 tracking-[-1.2px]">{score}</span>
+                        <span className="text-[38px] font-extrabold leading-10 tracking-[-1.2px]">{score}</span>
                         <span className="text-[16px] font-semibold">점</span>
                       </p>
                     )}
                   </div>
-                  {isDone(r) && r.report?.overall.headline && <p className="mt-2 line-clamp-2 text-[14px] leading-5">{r.report.overall.headline}</p>}
-                  <div className="mt-4 flex items-center gap-2">
-                    {isDone(r) ? (
-                      <>
-                        <Button href={`/result?s=${r.id}`} size="md" arrow className="flex-1 rounded-[14px]" aria-label={`${title} 결과 보기`}>
-                          결과 보기
-                        </Button>
-                        <Button onClick={() => void restart(r)} disabled={busy === r.id} size="md" variant="outline" className="rounded-[14px] px-4" aria-label={`${title} 다시 시작하기`}>
-                          {busy === r.id ? "준비 중…" : "다시 시작하기"}
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button href={resumeHref(r)} size="md" arrow className="flex-1 rounded-[14px]" aria-label={`${title} 이어하기`}>
-                          이어하기
-                        </Button>
-                        {r.resume && (
-                          <span className="shrink-0 px-1 text-[13px] text-secondary tabular">
-                            {r.resume.phase === "qa" ? "질의응답" : "발표"} {mmss(r.resume.remainingSec)} 남음
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </div>
+                  {/* Not in draft 07: kept as a quiet one-line summary of the result. */}
+                  {isDone(r) && r.report?.overall.headline && <p className="mt-1.5 line-clamp-1 text-[14px] leading-5 text-secondary">{r.report.overall.headline}</p>}
+                  {/* Not in draft 07: where the unfinished session stopped, kept above the full-width 이어하기. */}
+                  {!isDone(r) && r.resume && (
+                    <p className="mt-1.5 text-[14px] leading-5 text-secondary tabular">
+                      {r.resume.phase === "qa" ? "질의응답" : "발표"} {mmss(r.resume.remainingSec)} 남음
+                    </p>
+                  )}
+                  {/* Draft 07 buttons are ~36px; h-11 keeps the 44px tap target. 결과 보기 : 다시 시작하기 ≈ 63 : 37 as drafted. */}
+                  {isDone(r) ? (
+                    <div className="mt-4 grid grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] gap-2">
+                      <Button href={`/result?s=${r.id}`} size="md" arrow className="h-11! rounded-[14px]" aria-label={`${title} 결과 보기`}>
+                        결과 보기
+                      </Button>
+                      <Button onClick={() => void restart(r)} disabled={busy === r.id} size="md" variant="outline" className="h-11! rounded-[14px] px-2! text-[15px]! font-medium! text-secondary!" aria-label={`${title} 다시 시작하기`}>
+                        {busy === r.id ? "준비 중…" : "다시 시작하기"}
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button href={resumeHref(r)} size="md" arrow className="mt-4 h-11! w-full rounded-[14px]" aria-label={`${title} 이어하기`}>
+                      이어하기
+                    </Button>
+                  )}
                 </li>
               );
             })}
@@ -206,7 +210,7 @@ export function HistoryScreen() {
         )}
       </Screen>
 
-      <BottomBar line={false}>
+      <BottomBar line={false} fade>
         <Button href="/setup">
           <Plus size={20} /> 새 시뮬레이션
         </Button>

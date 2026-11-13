@@ -222,7 +222,7 @@ function TranscriptSheet({ transcript, ids, onClose }: { transcript: TranscriptS
 const DOC_WORD: Record<string, DocRole> = { 발표자료: "presentation", 덱: "presentation", 제안자료: "proposal", 제안서: "proposal" };
 const CITE_RE = /(?:(발표자료|제안자료|덱|제안서)\s*)?p\.\s?(\d+(?:\s*[–~-]\s*\d+)?(?:\s*[·,]\s*\d+(?:\s*[–~-]\s*\d+)?)*)|\[(\d+)\](?:\s*[–~-]\s*\[(\d+)\])?/g;
 const soft = (s: string) => s.replace(/([·,/])(?=\S)/g, "$1\u200b");
-const inline = "rounded-sm font-semibold underline decoration-1 underline-offset-2 tabular hover:text-ink focus-visible:outline-2 focus-visible:outline-ink";
+const inline = "rounded-sm font-semibold underline decoration-secondary/40 decoration-1 underline-offset-2 tabular hover:text-ink focus-visible:outline-2 focus-visible:outline-ink";
 
 export function CiteText({ text, doc: fallback = "presentation" }: { text: string; doc?: DocRole }) {
   const { open, numbered } = useCite();

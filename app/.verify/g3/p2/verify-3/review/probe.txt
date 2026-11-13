@@ -1,0 +1,12 @@
+vocab ["2공장","Pre-A","'완충재'","매출"]
+empty {"voice":null,"matched":false} {"voice":null,"matched":false}
+nonko {"voice":null,"matched":false}
+seed 136
+record record 형식이어야 해요.
+email 값의 형식이 올바르지 않아요.
+literal 허용된 값이 아니에요. "a" 중 하나여야 해요.
+int 정수 형식이어야 해요.
+strict 알 수 없는 항목이 있어요: b
+date date 형식이어야 해요.
+nullable-missing 필수 항목이 빠졌어요.
+tuple 1개 이하여야 해요.

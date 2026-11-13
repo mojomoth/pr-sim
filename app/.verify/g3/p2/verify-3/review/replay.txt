@@ -1,0 +1,26 @@
+{
+ "320": {
+  "wrapW": 288,
+  "labelRight": 212,
+  "labelTop": 18,
+  "btnLeft": 182,
+  "btnTextLeft": 194,
+  "overlapPx": 19
+ },
+ "360": {
+  "wrapW": 328,
+  "labelRight": 212,
+  "labelTop": 18,
+  "btnLeft": 222,
+  "btnTextLeft": 234,
+  "overlapPx": -21
+ },
+ "390": {
+  "wrapW": 358,
+  "labelRight": 212,
+  "labelTop": 18,
+  "btnLeft": 252,
+  "btnTextLeft": 264,
+  "overlapPx": -51
+ }
+}

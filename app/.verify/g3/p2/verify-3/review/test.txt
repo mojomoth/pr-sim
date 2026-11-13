@@ -1,0 +1,25 @@
+✔ GenerateIn rejects missing docs, duplicate roles, too many or duplicate judges (0.813917ms)
+✔ FollowUpIn truncates long answers to 4000 chars instead of rejecting (8.911667ms)
+✔ ReportIn needs a session with at least one doc and a known provider (0.460417ms)
+✔ splits punctuated sentences and carries the unfinished tail (0.818833ms)
+✔ several sentences in one chunk come out separately (0.385708ms)
+✔ an unpunctuated tail with a final ending is complete when the chunk closed at a pause (0.092292ms)
+✔ a noun ending in 요 is not taken as the end of a sentence (0.039917ms)
+✔ flush emits the carry once, reset drops it (0.059125ms)
+✔ preview shows the carry + interim text without consuming it (0.106959ms)
+✔ pickVoice prefers a Korean voice of the judge's gender (1.327ms)
+✔ pickVoice prefers Premium/Enhanced on-device voices and spreads judges over equal voices (0.13825ms)
+✔ prosody: friendly slower/warmer, aggressive faster/lower, unmatched male lower (0.104917ms)
+✔ chunks splits long text at sentence ends (0.196458ms)
+✔ ttsFallsBackToBrowser: hint, quota, network, 5xx yes; bad request / abort no (0.076875ms)
+✔ sessionVocabulary: domain words from metrics and wiki titles, compound words first, used words only (0.532792ms)
+✔ sessionVocabulary caps the list and is empty without a wiki (0.333792ms)
+✔ SttTokenIn: vocabulary optional, capped in count and length (0.709292ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 308.454541

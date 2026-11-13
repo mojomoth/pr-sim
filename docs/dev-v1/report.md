@@ -184,6 +184,25 @@
 
 판정: P0 0건, P1 0건, P2 3건(verdict.json에 세부 항목은 적혀 있지 않음). 외부 제공자의 한도 초과와 크레딧 소진 때문에 "얼굴 생성"과 "위키 빌드"를 배포 URL에서 확인하지 못했으므로 상태는 BLOCKED입니다.
 
+### 5-5. 남은 P2 정리 (2026-11-13, 로컬)
+
+원자료: `app/.verify/g3/p2/` (작업자별 폴더, `verify-1`–`verify-4`, `tail/`).
+
+| P2 | 결과 | 근거 |
+|---|---|---|
+| U13 시안 시각 차이 | 수정. 설정(밀도·슬라이더·업로드·CTA·제목), 발표(타이머 60px/900, 종료 알약, 진행 막대, 슬라이드 카드, 카메라, 조작 버튼, 하단 바), 심사(얼굴 카드 맞춤, 답변 칸 3줄, 마이크 바), 결과·피드백·기록 항목 처리. 시안에 없는 기능 요소(교체, 샘플 자료, 장애 안내, 다시 듣기)는 남기되 눈에 덜 띄게 함 | `verify-1`–`verify-4/visual-*`, `tail/verify/visual/` (320·390 폭) |
+| U14 hallmark sloplint | 수정. 색 리터럴을 토큰으로, `transition-[width]` 제거(transform), `overflow-x: clip`, 가운뎃점 메타 줄 정리. Hallmark 도장 주석 규칙은 해당 없음 | `shell/`, `verify-*/review` |
+| U15 `PdfError` | 이미 제거돼 있었음. 이번 변경으로 안 쓰게 된 아이콘·prop도 제거 | `tail/fix/` |
+| U17 zod 영어 문구 | 수정. 요청 검증 400의 `issues[].message`를 한국어로 바꾸는 매퍼(LLM 출력 스키마에는 적용 안 함) | `server/tts-400-ko.txt` |
+| U18 macOS 남성 기기 음성 | 개선. 남성 심사위원은 기본 한국어 음성을 낮춰(pitch ×0.75) 쓰고, Premium/Enhanced 음성을 우선함 | 단위 테스트(가짜 음성 목록) |
+| 얼굴 통합 안내 | 수정. 원인이 섞여도 안내 1개, 새로고침 뒤에도 저장된 심사위원 상태로 다시 만듦 | `setup/`, `faceNotice.test.mts` |
+| 위키 인용 쪽 경계 5/173 | 수정. 날짜·일수 수치도 재근거화 대상에 넣음. 실제 오인용 3건 해결, 나머지 2건은 계산값·검사식 오탐. 저장된 위키 5개에서 날짜 오인용 12→0 | `server/cite-audit-{old,new}.json` |
+| STT 도메인 어휘 | 수정. 위키 용어를 Live STT 토큰의 `customVocabulary`로 전달. 같은 음성에서 '완충제'→'완충재' | `server/live-vocab-run.txt` |
+| 질문 생성 전체 실패 분류 | 수정. 모든 심사위원이 제공자 장애로 실패하면 `providers_unavailable`(503)로 응답 | `tail/verify/checks/` |
+| 인메모리 레이트리밋 | 보류. 공유 저장소(KV)와 인증이 있어야 의미 있음 | — |
+
+검증: tsc·lint 0 오류, 단위 50/50, API 14/14, 빌드 통과, 번들 키 0건. 독립 검증 4라운드에서 P1 5건(STT 토큰 빈 본문, 슬라이드 높이 하한, 심사 화면 얼굴 가림 2건, E2E 대기 경합)을 고친 뒤 P0/P1 0건. 로컬 E2E 실패 4건은 모두 제공자 장애(U1·U9·U10)입니다.
+
 ## 6. 결정 (G2·G3)
 
 고정 결정의 정의는 run.md에 있고, 여기에는 근거와 실측만 적습니다.
@@ -203,6 +222,7 @@
 | D20 | 위키·질문·꼬리질문·리포트 체인 끝에 Gemini lite(`gemini-3.5-flash-lite` → `gemini-3.1-flash-lite`)를 둠. 이 모델로 만든 위키는 `degraded`로 표시하고, 상황 설정 화면의 자료 행에 '경량 대체 모델로 분석했어요' 안내를 띄움 | 장애 중 12쪽 위키: 수치 인용 80/80이 해당 쪽에서 확인됨(`.verify/g3/resilience/critic2/`). 기본 순서는 그대로 OpenAI가 먼저 |
 | D21 | 얼굴은 `gpt-image-2` → Gemini 이미지(`gemini-3.1-flash-image` → `gemini-3-pro-image`) 순서로 시도하고, 모두 실패하면 이름 첫 글자로 표시. 같은 원인으로 여러 명이 실패하면 안내를 한 번만 띄움 | 쿼터 오류에서는 재시도를 반복하지 않음(`.verify/g3/final/`) |
 | D22 | TTS가 모두 실패하면 503 응답에 `fallback:"browser"`를 담음. 클라이언트는 기기 음성(`speechSynthesis`, 성향별 속도·높낮이)으로 읽고 '기기 음성으로 읽어 드려요'라고 알림. `platform.audio.speak` 뒤에 두어 Capacitor 네이티브 TTS로 바꿀 수 있음 | 배포 URL에서 질문 음성 재생 확인(`.verify/g3/resilience/deployed/`) |
+| D23 | 발표 진행 막대는 지난 시간을 왼쪽부터 채움(시안 03·04 기준, 스크린리더 값과 일치). Live STT 토큰에 세션 위키 용어를 `customVocabulary`로 넣음 | 5-5 |
 
 ## 7. 미해결 문제 (G3 배포 기준)
 
@@ -215,11 +235,11 @@
 | U10 | Claude API 2026-12-01까지 사용 불가 | U9와 겹치면 위키(D15)는 대체 경로가 없음 | 12-01 이후 재확인. 필요하면 위키에 Gemini 폴백 검토 |
 | U11 | ~~배포 URL 전체 흐름 BLOCKED~~ → 해소: D20–D22 적용 후 배포 URL 전체 흐름 23/24 통과(장애 상황의 대체 경로) | 실제 얼굴 생성과 서버 음성은 아직 배포 URL에서 다시 확인하지 못함 | U9 해소 후 `BASE_URL=https://pr-sim-lake.vercel.app pnpm test:e2e` |
 | U12 | `ALLOWED_ORIGINS` 미설정 | 지금은 웹만 쓰므로 영향 없음 | 네이티브 빌드 때 Vercel 환경변수 등록 |
-| U13 | 시안과의 시각 차이 P2(타이머 크기·굵기, 진행 막대, 여백, 칩 모양, 데스크톱 프레임 안 사진 위치 등) | 기능 영향 없음 | `recheck1/visual/claude-*.md` 목록으로 후속 처리 |
-| U14 | hallmark sloplint 18 FAIL·2 REFLEX·1 WARN(색 리터럴, 자간 넓힌 머리글, 가운뎃점 메타 줄 등) | 디자인 토큰 일관성 | `visual/hallmark-sloplint.txt` 기준으로 정리 |
-| U15 | 미사용 export `PdfError` 1건 | 없음 | 다음 정리 때 제거 |
-| U17 | 400 응답의 `error.issues[].message`가 zod 기본 영어 문구 | 화면에는 한국어 상위 메시지만 표시 | 필요 시 zod 한국어 오류 맵 |
-| U18 | macOS Chrome에 표준 한국어 남성 음성이 없어 기기 음성 폴백은 남성 심사위원 음질이 떨어짐 | 장애 시에만 해당 | Capacitor 네이티브 TTS 또는 서버 TTS 복구 |
+| U13 | ~~시안과의 시각 차이 P2~~ → 해소(5-5) | — | 남은 미세 차이는 run.md P2 목록 |
+| U14 | ~~hallmark sloplint~~ → 해소(5-5) | — | — |
+| U15 | ~~미사용 export `PdfError`~~ → 해소 | — | — |
+| U17 | ~~400 `issues[].message` 영어~~ → 해소(5-5) | — | — |
+| U18 | macOS 남성 기기 음성(5-5에서 개선) | 장애 시에만 해당, 여전히 합성음 한계 | Capacitor 네이티브 TTS 또는 서버 TTS 복구 |
 | U16 | 배포 판정의 P2 3건이 항목별로 기록되지 않음 | 추적 불가 | 다음 배포 재검증에서 항목을 적음 |
 
-나머지 P2(위키 인용 쪽 경계 5/173, 인메모리 레이트리밋, STT 도메인 어휘 오인식)는 run.md의 P2 목록에서 관리합니다.
+위키 인용 쪽 경계와 STT 도메인 어휘는 5-5에서 해소했고, 인메모리 레이트리밋은 run.md의 P2 목록에서 관리합니다.

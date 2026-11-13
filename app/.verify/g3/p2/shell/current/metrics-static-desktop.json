@@ -1,0 +1,578 @@
+{
+  "01-landing": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "연습 기록",
+          "w": 100,
+          "h": 41
+        }
+      ],
+      "bar": null,
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 893,
+      "clientH": 893,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 361
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 116
+        }
+      ]
+    }
+  },
+  "02-setup": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "뒤로 가기",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 시간 1분 줄이기",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 시간 1분 늘리기",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "질의응답 시간 1분 줄이기",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "질의응답 시간 1분 늘리기",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 삭제",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "INPUT",
+          "text": "file",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "BUTTON",
+          "text": "샘플 자료로 해보기",
+          "w": 87,
+          "h": 17
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 PDF 업로드 (선택)",
+          "w": 317,
+          "h": 41
+        },
+        {
+          "tag": "INPUT",
+          "text": "file",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "BUTTON",
+          "text": "추가 (최대 3명)",
+          "w": 66,
+          "h": 33
+        },
+        {
+          "tag": "BUTTON",
+          "text": "친절함",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "빡셈",
+          "w": 35,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "공격적",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "경희 심사위원 삭제",
+          "w": 30,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "친절함",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "빡셈",
+          "w": 35,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "공격적",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "성수 심사위원 삭제",
+          "w": 30,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "친절함",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "빡셈",
+          "w": 35,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "공격적",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "성민 심사위원 삭제",
+          "w": 30,
+          "h": 41
+        }
+      ],
+      "bar": {
+        "left": 540,
+        "top": 746,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 116
+      },
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 89,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 774
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 1110,
+      "clientH": 839,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 95
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 41
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 41
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 41
+        }
+      ]
+    }
+  },
+  "05-results": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "뒤로 가기",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "A",
+          "text": "기록",
+          "w": 53,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 3쪽 보기",
+          "w": 9,
+          "h": 22
+        },
+        {
+          "tag": "A",
+          "text": "기록으로 돌아가기",
+          "w": 112,
+          "h": 41
+        }
+      ],
+      "bar": {
+        "left": 540,
+        "top": 720,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 142
+      },
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 89,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 774
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 1822,
+      "clientH": 839,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 95
+        }
+      ]
+    }
+  },
+  "06-feedback": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "뒤로 가기",
+          "w": 41,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "질의응답 00:10 답변 원문 보기",
+          "w": 76,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 57쪽 보기",
+          "w": 52,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 3쪽 보기",
+          "w": 10,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 57쪽 보기",
+          "w": 91,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 58쪽 보기",
+          "w": 91,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 3쪽 보기",
+          "w": 84,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "다음 질문 보기",
+          "w": 126,
+          "h": 41
+        },
+        {
+          "tag": "A",
+          "text": "기록으로 돌아가기",
+          "w": 112,
+          "h": 41
+        }
+      ],
+      "bar": {
+        "left": 540,
+        "top": 720,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 142
+      },
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 89,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 774
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 1891,
+      "clientH": 839,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 95
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 74
+        }
+      ]
+    }
+  },
+  "07-history": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "BUTTON",
+          "text": "전체",
+          "w": 60,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "완료",
+          "w": 60,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "진행 중",
+          "w": 75,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유",
+          "w": 44,
+          "h": 41
+        },
+        {
+          "tag": "A",
+          "text": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유",
+          "w": 172,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유",
+          "w": 101,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "신규 서비스 투자 제안 기록 삭제",
+          "w": 44,
+          "h": 41
+        },
+        {
+          "tag": "A",
+          "text": "신규 서비스 투자 제안 결과 보기",
+          "w": 172,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "신규 서비스 투자 제안 다시 시작하기",
+          "w": 101,
+          "h": 41
+        },
+        {
+          "tag": "BUTTON",
+          "text": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유",
+          "w": 44,
+          "h": 41
+        },
+        {
+          "tag": "A",
+          "text": "시드 투자 이후 Pre-A 라운드(20억 원) 투자 유",
+          "w": 280,
+          "h": 41
+        }
+      ],
+      "bar": {
+        "left": 540,
+        "top": 768,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 94
+      },
+      "screen": {
+        "left": 540,
+        "top": 39,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 823
+      },
+      "device": {
+        "left": 524,
+        "top": 24,
+        "right": 916,
+        "bottom": 876,
+        "w": 392,
+        "h": 852
+      },
+      "scroll": {
+        "left": 540,
+        "top": 89,
+        "right": 901,
+        "bottom": 862,
+        "w": 361,
+        "h": 774
+      },
+      "screenRadius": "59px 59px 57px 57px",
+      "screenOverflow": "hidden",
+      "scrollH": 1264,
+      "clientH": 839,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 95
+        }
+      ]
+    }
+  }
+}

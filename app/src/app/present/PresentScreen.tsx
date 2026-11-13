@@ -3,12 +3,12 @@
 // The transcript is saved sentence by sentence and the remaining time every few seconds, so a reload
 // or 연습 기록 → 이어서 진행 resumes where the presenter left off.
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Bubble } from "@/components/Bubble";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BottomBar, Button } from "@/components/Button";
 import { CameraView } from "@/components/CameraView";
 import { ConfirmDialog, PhaseEndDialog } from "@/components/Dialog";
-import { HeaderPill, StepHeader } from "@/components/Header";
+import { Brand } from "@/components/Header";
+import { ChevronLeft } from "@/components/Icons";
 import { Screen } from "@/components/Layout";
 import { Timer } from "@/components/Timer";
 import { Waveform } from "@/components/Waveform";
@@ -17,8 +17,9 @@ import type { SessionRecord, TranscriptSentence } from "@/features/session/types
 import { useCountdown, useSecondsOverride } from "@/features/session/useCountdown";
 import { SlideViewer } from "@/features/slide/SlideViewer";
 import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
+import { sessionVocabulary } from "@/features/stt/vocab";
 import { platform, useCamera, type MediaStatus } from "@/platform";
-import { cameraViewStatus, DeviceToggle, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeTile, useSessionFromQuery } from "./shared";
+import { cameraViewStatus, DeviceToggle, EndPill, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeTile, useSessionFromQuery } from "./shared";
 
 export function PresentScreen() {
   const s = useSessionFromQuery();
@@ -36,6 +37,10 @@ export function PresentScreen() {
 }
 
 type Stage = "ready" | "live" | "ended";
+/** Draft 03 CTA: a bit lower than the app's 56px button, radius ≈30% of the height. */
+const CTA = "h-12! rounded-[14px]!";
+/** Bottom bar height without the safe area: pt-3 + 44px toggles + gap-2 + 48px CTA. */
+const BAR_H = 112;
 
 function Presentation({ rec }: { rec: SessionRecord }) {
   const router = useRouter();
@@ -89,7 +94,8 @@ function Presentation({ rec }: { rec: SessionRecord }) {
     const have = new Set(cur.transcript.map((x) => x.id));
     return [...cur.transcript, ...said.current.filter((x) => !have.has(x.id))];
   };
-  const stt = useSentenceTranscriber({ phase: "presentation", getSlide: () => pageRef.current, onSentence: persistSentence });
+  const vocabulary = useMemo(() => sessionVocabulary([rec.docs.presentation, rec.docs.proposal]), [rec.docs]);
+  const stt = useSentenceTranscriber({ phase: "presentation", getSlide: () => pageRef.current, onSentence: persistSentence, vocabulary });
 
   // ── time ──
   const finishRef = useRef<() => void>(() => {});
@@ -228,23 +234,38 @@ function Presentation({ rec }: { rec: SessionRecord }) {
   const micProblem: MediaStatus | undefined = micStatusFromError(stt.error) ?? (micBlocked && !listening ? "denied" : undefined);
 
   return (
-    <>
-      <Screen bottomPad={128}>
-        {/* DESIGN.md: the step name and the remaining time stay at the top (the logo row scrolls away). */}
-        <div className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-2">
-          <StepHeader
-            title="발표 중"
-            onBack={stage === "live" ? () => openConfirm("back") : () => router.push(`/setup?s=${id}`)}
-            right={
-              <HeaderPill outline onClick={() => (stage === "live" ? openConfirm("exit") : router.push("/history"))}>
-                종료
-              </HeaderPill>
-            }
-          />
-          <Timer label={resumeSec ? "발표 남은 시간 · 이어서 진행" : "발표 남은 시간"} remaining={remaining} total={total} compact />
+    // Draft 03 runs content closer to the screen edge than the 24px app gutter.
+    <div className="contents [--gutter:16px]">
+      <Screen bottomPad={BAR_H}>
+        {/* DESIGN.md: the step name and the remaining time stay at the top (the logo row scrolls away).
+            Draft 03 puts the back chevron on the logo row and only 종료 on the title row. */}
+        <div className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-3">
+          <header>
+            <div className="flex h-12 items-center gap-0.5">
+              <button
+                type="button"
+                aria-label="뒤로 가기"
+                className="-ml-2 inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-surface"
+                onClick={stage === "live" ? () => openConfirm("back") : () => router.push(`/setup?s=${id}`)}
+              >
+                <ChevronLeft size={26} />
+              </button>
+              <Brand href={null} />
+            </div>
+            <div className="grid h-14 grid-cols-[1fr_auto_1fr] items-center">
+              <span />
+              <h1 className="text-[20px] font-bold leading-7 tracking-[-0.4px]">발표 중</h1>
+              <div className="justify-self-end">
+                <EndPill outline onClick={() => (stage === "live" ? openConfirm("exit") : router.push("/history"))} />
+              </div>
+            </div>
+          </header>
+          <div className="mt-2">
+            <Timer label={resumeSec ? "발표 남은 시간 · 이어서 진행" : "발표 남은 시간"} remaining={remaining} total={total} compact />
+          </div>
         </div>
 
-        <div className="mt-3 flex flex-col gap-3 [--slide-max-h:min(260px,calc(var(--app-h)*0.3))]">
+        <div className="mt-4 flex flex-col gap-3 [--slide-max-h:clamp(160px,calc(var(--app-h)-var(--safe-bottom-pad)-627px),260px)]">
           {deck === null ? (
             <div className="flex aspect-video items-center justify-center rounded-[28px] bg-card p-6 text-center text-[15px] text-secondary" role="status">
               발표 자료를 불러오지 못했어요. 자료 없이 발표를 이어 갈 수 있어요.
@@ -257,13 +278,15 @@ function Presentation({ rec }: { rec: SessionRecord }) {
               initialPage={lastSlide}
               keyboard="global"
               label="발표 자료"
+              variant="presenter"
               onPageChange={(page) => {
                 pageRef.current = page;
               }}
             >
-              <div className="pointer-events-none absolute bottom-2 right-2">
+              {/* Draft 03: hangs over the slide's bottom edge, beside the (left-shifted) slide controls. */}
+              <div className="pointer-events-none absolute bottom-[18px] right-2">
                 {/* Not live: the status text fills the small tile, so the "나" badge would cover it. */}
-                <CameraView stream={cam.stream} status={cameraViewStatus(cam.status)} variant="inset" className={cam.status === "live" ? "" : "[&>span]:hidden"} />
+                <CameraView stream={cam.stream} status={cameraViewStatus(cam.status)} variant="inset" className={`max-[359px]:w-[88px] ${cam.status === "live" ? "" : "[&>span]:hidden"}`} />
               </div>
             </SlideViewer>
           )}
@@ -273,20 +296,16 @@ function Presentation({ rec }: { rec: SessionRecord }) {
             <div className="flex items-center justify-between gap-3">
               <h2 id="stt-h" className="text-[17px] leading-6">
                 <span className="font-bold">내 발표</span>
-                <span className="text-secondary"> · {sttState}</span>
+                <span className="text-[15px]"> · {sttState}</span>
               </h2>
               <Waveform bars={14} level={listening ? stt.level : 0} active={listening} className="h-6 text-ink" />
             </div>
-            <Bubble live>
-              {bubbleText ? (
-                <span className="line-clamp-2">
-                  {bubbleText}
-                  {listening && partial && <span className="ui-caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-ink" aria-hidden="true" />}
-                </span>
-              ) : (
-                <span className="text-secondary">{stage === "ready" ? "발표를 시작하면 말한 내용을 문장 단위로 받아 적어요." : "말을 시작하면 여기에 받아 적어요."}</span>
-              )}
-            </Bubble>
+            {/* Fixed two-line height (draft 03), so a wrapping sentence never pushes the judges under the bottom bar. */}
+            <div className="flex h-14 items-center rounded-[18px] bg-surface px-4 text-[15px] leading-[22px]" aria-live="polite">
+              <span className={`line-clamp-2 ${bubbleText ? "" : "text-secondary"}`}>
+                {bubbleText ?? (stage === "ready" ? "발표를 시작하면 말한 내용을 문장 단위로 받아 적어요." : "말을 시작하면 여기에 받아 적어요.")}
+              </span>
+            </div>
             {micOn && stt.error && <MediaProblem device="mic" status={micStatusFromError(stt.error)} message={stt.error} onRetry={() => void stt.start(elapsed())} />}
             {stt.notice && <p className="px-1 text-[13px] text-secondary">{stt.notice}</p>}
             {saveError && (
@@ -305,9 +324,12 @@ function Presentation({ rec }: { rec: SessionRecord }) {
             // Draft 03: three tiles fill the width. Their height follows the space left above the bottom
             // bar (taller phones get near-square tiles; the desktop frame, with its home-indicator inset,
             // gets shorter ones) so the names never run into the bar. Photo crop stays full color.
+            // Budget: 756px = everything else at 390×844 with the 192px slide; on shorter screens the slide
+            // (--slide-max-h above, 627px = the rest + a 64px tile) gives way first, down to 160px; below
+            // that the page scrolls instead of shrinking the slide further.
             <section
               aria-label="심사위원"
-              className="flex w-full justify-center gap-3 [&>figure]:w-[calc((100%-24px)/3)] [&>figure]:flex-none [&_figure>div]:aspect-auto [&_figure>div]:h-[clamp(72px,calc(var(--app-h)-var(--safe-bottom-pad)-740px),104px)] [&_img]:object-[50%_30%]"
+              className="flex w-full justify-center gap-3 [&>figure]:w-[calc((100%-24px)/3)] [&>figure]:flex-none [&_figure>div]:aspect-auto [&_figure>div]:h-[clamp(64px,calc(var(--app-h)-var(--safe-bottom-pad)-756px),104px)] [&_figure>div]:rounded-[12px] [&_figure>div>div]:rounded-[12px] [&_img]:object-[50%_30%]"
             >
               {judges.map((j) => (
                 <SessionJudgeTile key={j.id} judge={j} />
@@ -317,18 +339,18 @@ function Presentation({ rec }: { rec: SessionRecord }) {
         </div>
       </Screen>
 
-      <BottomBar>
-        <div className="flex items-center gap-2">
+      <BottomBar line={false}>
+        <div className="flex items-center gap-2 px-4">
           <DeviceToggle kind="mic" on={micOn} problem={micProblem} onToggle={toggleMic} />
           <span className="h-6 w-px bg-line" aria-hidden="true" />
           <DeviceToggle kind="camera" on={camOn} problem={cam.status === "live" ? undefined : cam.status} onToggle={() => setCamOn((v) => !v)} />
         </div>
         {stage === "ready" ? (
-          <Button onClick={begin} arrow>
+          <Button onClick={begin} arrow className={CTA}>
             {resumeSec ? "이어서 발표하기" : "발표 시작"}
           </Button>
         ) : (
-          <Button onClick={() => openConfirm("finish")} arrow disabled={stage === "ended"}>
+          <Button onClick={() => openConfirm("finish")} arrow disabled={stage === "ended"} className={CTA}>
             발표 마치기
           </Button>
         )}
@@ -361,6 +383,6 @@ function Presentation({ rec }: { rec: SessionRecord }) {
         nextLabel="질의응답 시작하기"
         href={`/qa?s=${id}`}
       />
-    </>
+    </div>
   );
 }

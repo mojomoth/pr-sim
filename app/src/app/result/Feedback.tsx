@@ -71,7 +71,7 @@ export function Feedback({ session, report }: { session: SessionRecord; report: 
           right={tab === "qa" && n > 0 ? <HeaderPill label={`질문 ${i + 1} / ${n}`}>{`${i + 1} / ${n}`}</HeaderPill> : undefined}
         />
 
-        <h2 className="mt-5 whitespace-pre-line text-[28px] font-bold leading-9 tracking-[-0.8px]">{headline}</h2>
+        <h2 className="mt-5 whitespace-pre-line text-[36px] font-extrabold leading-[44px] tracking-[-1.1px]">{headline}</h2>
 
         <div role="tablist" aria-label="피드백 종류" className="mt-6 grid grid-cols-2 rounded-full bg-surface p-1">
           {tabs.map((t) => (
@@ -98,7 +98,7 @@ export function Feedback({ session, report }: { session: SessionRecord; report: 
           ))}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 empty:hidden">
           <LiteNotice report={report} />
         </div>
 
@@ -135,7 +135,7 @@ export function Feedback({ session, report }: { session: SessionRecord; report: 
         </div>
       </Screen>
 
-      <BottomBar>
+      <BottomBar line={false} fade>
         {againError && (
           <p role="alert" className="text-center text-[14px] text-error">
             {againError}
@@ -156,7 +156,7 @@ export function Feedback({ session, report }: { session: SessionRecord; report: 
 
 function JudgeFace({ judge, name, temperament }: { judge?: StoredJudge; name: string; temperament: Temperament }) {
   const url = useBlobUrl(judge?.thumbKey);
-  return <JudgeAvatar judge={{ name, persona: TEMPERAMENT_LABEL[temperament], imageUrl: url }} size={76} />;
+  return <JudgeAvatar judge={{ name, persona: TEMPERAMENT_LABEL[temperament], imageUrl: url }} size={80} />;
 }
 
 function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord; q: QAEvaluation; index: number; total: number; onIndex: (i: number) => void }) {
@@ -164,16 +164,16 @@ function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord
   const stored = session.qa[q.index]?.question === q.question ? session.qa[q.index] : session.qa.find((x) => x.question === q.question);
   return (
     <div className="ui-enter flex flex-col">
-      <article className="mt-4 flex gap-4 rounded-[28px] bg-surface p-5">
+      <article className="mt-5 flex items-center gap-4 rounded-[28px] bg-surface p-5">
         <JudgeFace judge={judge} name={q.judge.name} temperament={q.judge.temperament} />
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
             <span className="inline-flex h-7 min-w-0 items-center truncate rounded-full bg-canvas px-3 text-[13px] font-semibold">
               {q.judge.name} · {TEMPERAMENT_LABEL[q.judge.temperament]}
             </span>
-            <span className="shrink-0 text-[13px] text-secondary tabular">질문 {String(index + 1).padStart(2, "0")}</span>
+            <span className="shrink-0 text-[14px] font-medium text-secondary tabular">질문 {String(index + 1).padStart(2, "0")}</span>
           </div>
-          <p className="mt-2.5 text-[17px] font-semibold leading-[25px] tracking-[-0.3px]">{q.question}</p>
+          <p className="mt-2.5 text-[18px] font-bold leading-[26px] tracking-[-0.3px]">{q.question}</p>
         </div>
       </article>
 
@@ -182,7 +182,7 @@ function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord
           <p className="text-[14px] text-secondary">내 답변</p>
           {stored && <AnswerRef ids={stored.answerSentenceIds} />}
         </div>
-        <p className="mt-1.5 whitespace-pre-line text-[17px] font-medium leading-[26px]">{q.answer || "답변하지 않았어요."}</p>
+        <p className="mt-1.5 whitespace-pre-line text-[17px] font-semibold leading-[26px]">{q.answer || "답변하지 않았어요."}</p>
         {q.answerFillers > 0 && <p className="mt-1 text-[13px] text-secondary">답변 속 군말 {q.answerFillers}회</p>}
       </div>
       <hr className="mx-1 my-5 border-line" />
@@ -190,13 +190,13 @@ function QAPanel({ session, q, index, total, onIndex }: { session: SessionRecord
         <div className="flex items-center justify-between gap-2">
           <p className="text-[14px] text-secondary">심사위원 피드백</p>
           <span className="flex items-center gap-1.5">
-            <span className="inline-flex h-8 items-center rounded-full border border-line px-3 text-[13px] font-semibold">{VERDICT_KO[q.verdict]}</span>
+            <span className="px-1 text-[13px] font-medium text-secondary">{VERDICT_KO[q.verdict]}</span>
             <span className="inline-flex h-8 items-center rounded-full bg-surface px-3 text-[15px] font-bold tabular" aria-label={`답변 타당성 ${q.score}점`}>
               {q.score}점
             </span>
           </span>
         </div>
-        <p className="mt-1.5 whitespace-pre-line text-[17px] font-medium leading-[26px]"><CiteText text={q.feedback} /></p>
+        <p className="mt-1.5 whitespace-pre-line text-[17px] font-semibold leading-[26px]"><CiteText text={q.feedback} /></p>
         <details className="group mt-3 rounded-[20px] border border-line">
           <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-2 rounded-[20px] px-4 text-[14px] font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
             항목별 점수와 평가 근거

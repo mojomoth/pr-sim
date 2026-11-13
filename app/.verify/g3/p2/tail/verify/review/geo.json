@@ -1,0 +1,208 @@
+{
+  "present-320": {
+    "vw": 320,
+    "card": {
+      "l": 16,
+      "r": 304,
+      "t": 250,
+      "b": 463,
+      "w": 288
+    },
+    "row": {
+      "l": 24,
+      "r": 296,
+      "t": 415,
+      "b": 459,
+      "w": 272
+    },
+    "rowScrollW": 272,
+    "rowClientW": 272,
+    "kids": [
+      {
+        "tag": "BUTTON",
+        "l": 25.5,
+        "r": 69.5,
+        "t": 415,
+        "b": 459,
+        "w": 44
+      },
+      {
+        "tag": "SPAN",
+        "l": 69.5,
+        "r": 117.5,
+        "t": 426,
+        "b": 448,
+        "w": 48
+      },
+      {
+        "tag": "BUTTON",
+        "l": 117.5,
+        "r": 161.5,
+        "t": 415,
+        "b": 459,
+        "w": 44
+      },
+      {
+        "tag": "SPAN",
+        "l": 161.5,
+        "r": 162.5,
+        "t": 427,
+        "b": 447,
+        "w": 1
+      },
+      {
+        "tag": "BUTTON",
+        "l": 162.5,
+        "r": 206.5,
+        "t": 415,
+        "b": 459,
+        "w": 44
+      }
+    ],
+    "cam": {
+      "l": 208,
+      "r": 296,
+      "t": 379,
+      "b": 445,
+      "w": 88
+    },
+    "siblingOverlap": [],
+    "controlsRight": 206.5,
+    "clearOfCam": true,
+    "docScrollW": 320
+  },
+  "qa-320-asis": {
+    "vw": 320,
+    "label": "꼬리질문 · 1 / 2",
+    "labelLines": 1,
+    "textRight": 115,
+    "btnLeft": 182,
+    "btnTop": 406,
+    "btnBottom": 450,
+    "pTop": 418,
+    "pBottom": 438,
+    "textUnderButton": false,
+    "btnW": 114,
+    "docScrollW": 320
+  },
+  "qa-320-devicevoice": {
+    "vw": 320,
+    "label": "심사위원 질문 · 10 / 12 · 기기 음성",
+    "labelLines": 2,
+    "textRight": 157,
+    "btnLeft": 182,
+    "btnTop": 406,
+    "btnBottom": 450,
+    "pTop": 418,
+    "pBottom": 458,
+    "textUnderButton": false,
+    "btnW": 114,
+    "docScrollW": 320
+  },
+  "logs-320": [
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ],
+  "present-390": {
+    "vw": 390,
+    "card": {
+      "l": 16,
+      "r": 374,
+      "t": 250,
+      "b": 502,
+      "w": 358
+    },
+    "row": {
+      "l": 24,
+      "r": 366,
+      "t": 454,
+      "b": 498,
+      "w": 342
+    },
+    "rowScrollW": 342,
+    "rowClientW": 342,
+    "kids": [
+      {
+        "tag": "BUTTON",
+        "l": 40.5,
+        "r": 84.5,
+        "t": 454,
+        "b": 498,
+        "w": 44
+      },
+      {
+        "tag": "SPAN",
+        "l": 86.5,
+        "r": 142.5,
+        "t": 465,
+        "b": 488,
+        "w": 56
+      },
+      {
+        "tag": "BUTTON",
+        "l": 144.5,
+        "r": 188.5,
+        "t": 454,
+        "b": 498,
+        "w": 44
+      },
+      {
+        "tag": "SPAN",
+        "l": 194.5,
+        "r": 195.5,
+        "t": 466,
+        "b": 486,
+        "w": 1
+      },
+      {
+        "tag": "BUTTON",
+        "l": 201.5,
+        "r": 245.5,
+        "t": 454,
+        "b": 498,
+        "w": 44
+      }
+    ],
+    "cam": {
+      "l": 262,
+      "r": 366,
+      "t": 406,
+      "b": 484,
+      "w": 104
+    },
+    "siblingOverlap": [],
+    "controlsRight": 245.5,
+    "clearOfCam": true,
+    "docScrollW": 390
+  },
+  "qa-390-asis": {
+    "vw": 390,
+    "label": "꼬리질문 · 1 / 2",
+    "labelLines": 1,
+    "textRight": 115,
+    "btnLeft": 252,
+    "btnTop": 452,
+    "btnBottom": 496,
+    "pTop": 464,
+    "pBottom": 484,
+    "textUnderButton": false,
+    "btnW": 114,
+    "docScrollW": 390
+  },
+  "qa-390-devicevoice": {
+    "vw": 390,
+    "label": "심사위원 질문 · 10 / 12 · 기기 음성",
+    "labelLines": 1,
+    "textRight": 207,
+    "btnLeft": 252,
+    "btnTop": 452,
+    "btnBottom": 496,
+    "pTop": 464,
+    "pBottom": 484,
+    "textUnderButton": false,
+    "btnW": 114,
+    "docScrollW": 390
+  },
+  "logs-390": [
+    "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ]
+}

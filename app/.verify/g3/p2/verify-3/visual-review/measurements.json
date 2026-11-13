@@ -1,0 +1,14 @@
+{
+  "units": "device px at 2x (mobile 780w) / draft 798w",
+  "timer": {"cur_w_frac": 0.43, "draft_w_frac": 0.378, "cur_glyph_h": 87, "draft_glyph_h": 84},
+  "progress_bar": {"cur_fill": [85,85,85], "draft_fill": [94,94,93], "cur_h": 20, "draft_h": 22, "cur_x": [56,723]},
+  "card_width_frac": {"cur": 0.917, "draft": 0.932},
+  "end_pill": {"cur_wh": [124,72], "draft_wh": [110,58]},
+  "cta_corner_run_px": 30, "cta_h": 96,
+  "hint_to_micbar_gap": {"cur": 43, "draft": 31},
+  "stray_line_rows_1372_1414": "pure white, none",
+  "bubble_tail_overhang": {"cur": 7, "draft": 11},
+  "bubble_line1_max_brightness_gradient": "79 -> 185 (top fade); line2 = 255 white",
+  "photo_card": {"mobile_viewport_hw": [350,716], "mobile_full_hw": [600,716], "desktop_frame_css_hw": [140,332], "draft_hw": [600,744]},
+  "logo_on_04": "absent in mobile, mobile-full, desktop, probes; present on 02,03,05,06 (StepHeader logo row sticky -top-12 scrolls away)"
+}

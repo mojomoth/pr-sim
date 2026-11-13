@@ -1,0 +1,5 @@
+/ 200
+/setup 200
+/history 200
+/present 200
+/qa 200

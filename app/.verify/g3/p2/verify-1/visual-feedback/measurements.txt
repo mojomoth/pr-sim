@@ -1,0 +1,33 @@
+sizes (780, 3750) (780, 3750)
+changed row groups [(258, 322), (376, 487), (592, 806), (825, 857), (1042, 1076), (1095, 1124), (1147, 1176), (1199, 1228), (1251, 1280), (1303, 1332), (1445, 1468), (1512, 1542), (1565, 1594), (1617, 1646), (1669, 1699), (1701, 1702), (1721, 1750), (2594, 2595), (2650, 2651), (3542, 3572)]
+질문01 min lum cur 85 old 98 draft 0
+내답변 label min cur 85 draft 2
+answer body dens cur 0.1578 old 0.1357 draft 0.1853
+feedback body dens cur 0.1559 old 0.1324 draft 0.1591
+cta row 3502 84
+cta row 3504 75
+cta row 3508 67
+cta row 3514 59
+cta row 3524 52
+cta row 3540 48
+cta row 3558 48
+cta height css 56.0
+draft cta y 1646 1828 91.0
+ draft cta row + 0 297
+ draft cta row + 2 279
+ draft cta row + 6 279
+ draft cta row + 12 279
+ draft cta row + 24 297
+ draft cta row + 40 None
+vp rows 1380-1445 x=100 [255, 235, 254, 255, 255, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255, 17, 17]
+vp rows near bar top x=700 [255, 254, 254, 255, 255, 254, 254, 255, 255, 255, 255, 255, 255, 255]
+p2/verify-1 vp line y 1384 235 254
+p2/verify-1 vp line y 1385 237 255
+p2/verify-1 CTA label rows []
+recheck1 full-width line y 3476 226 226
+recheck1 full-width line y 3477 226 226
+recheck1 vp line y 1384 226 255
+recheck1 vp line y 1385 226 255
+recheck1 vp line y 1414 226 226
+recheck1 vp line y 1415 226 226
+recheck1 CTA label rows []

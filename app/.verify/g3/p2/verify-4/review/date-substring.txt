@@ -1,0 +1,10 @@
+{"body":"- 리드타임은 5일이다. (p.1, p.2)","stats":{"groups":1,"fixed":1,"added":1}}
+✔ probe: 5일 on cited page wording differs, another page has 15일 (1.131042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 52.287708

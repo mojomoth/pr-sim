@@ -1,0 +1,14 @@
+[04:17:03] session s_mwegtjga3s2v3b1a
+[04:17:03] FAIL setup: 3 judge faces generated — {"faces":0}
+[04:17:03] PASS setup: notpdf upload rejected with a message — "업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도"
+[04:17:04] PASS setup: corrupt upload rejected with a message — "업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도"
+[04:17:04] PASS setup: big31mb upload rejected with a message — "업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도"
+[04:17:04] PASS setup: both PDFs attached
+[04:17:05] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[04:17:07] FAIL setup: wiki built for both documents — "자료 분석 실패 · AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.\n"
+[04:17:10] PASS present: camera preview playing — [{"w":640,"playing":true}]
+[04:17:11] PASS present: slide next button and arrow key — {"p1":1,"p2":2,"p3":1}
+[04:17:26] PASS present: timer follows the wall clock — {"a":"00:56","b":"00:41"}
+[04:18:08] PASS present: time-up dialog at ~60s — {"timeUp":60.519}
+[04:18:09] PASS present: STT transcript saved — {"n":11,"status":"qa"}
+[04:18:10] FAILED 2/12 → /Users/jyl/work/study/pr-sim/app/.verify/g3/p2/verify-3/checks/e2e-probe2

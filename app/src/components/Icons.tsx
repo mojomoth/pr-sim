@@ -35,12 +35,6 @@ export const FileDoc = (p: P) => (
     <path d="M14 3v5h5" />
   </Svg>
 );
-export const Upload = (p: P) => (
-  <Svg {...p}>
-    <path d="M12 16V4M7 9l5-5 5 5" />
-    <path d="M5 16v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" />
-  </Svg>
-);
 export const Mic = (p: P) => (
   <Svg {...p}>
     <rect x="9" y="3" width="6" height="11" rx="3" />

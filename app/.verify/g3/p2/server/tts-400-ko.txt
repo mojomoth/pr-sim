@@ -1,0 +1,2 @@
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"text","message":"비어 있으면 안 돼요."},{"path":"gender","message":"허용된 값이 아니에요. \"male\", \"female\" 중 하나여야 해요."},{"path":"age","message":"필수 항목이 빠졌어요."},{"path":"temperament","message":"필수 항목이 빠졌어요."}]}}
+HTTP 400

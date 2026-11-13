@@ -46,9 +46,13 @@
   --color-card: #ececec;
   --color-line: #e2e2e2;
   --color-ink: #111111;
-  --color-secondary: #626262;
+  /* Drafts 05–07 read secondary text at ~#4a–#55; #626262 (DESIGN.md proposal) rendered lighter than every draft. */
+  --color-secondary: #555555;
   --color-inverse: #ffffff;
   --color-error: #b42318;
+  /* 01 landing: near-black stage behind the photo and the light gray copy on it. */
+  --color-stage: #080808;
+  --color-stage-muted: #d4d4d4;
 
   --gutter: 24px;
 
@@ -78,6 +82,8 @@
   --color-secondary: var(--color-secondary);
   --color-inverse: var(--color-inverse);
   --color-error: var(--color-error);
+  --color-stage: var(--color-stage);
+  --color-stage-muted: var(--color-stage-muted);
   --radius-button: 20px;
   --radius-input: 16px;
   --radius-card-lg: 28px;
@@ -92,12 +98,25 @@
 @utility min-h-dvh { min-height: var(--app-h); }
 @utility h-screen { height: var(--app-h); }
 @utility min-h-screen { min-height: var(--app-h); }
+/* 01 landing: stage color fading over the top (behind the title) and bottom (behind the CTA) of the photo. */
+@utility bg-stage-scrim {
+  background: linear-gradient(
+    180deg,
+    var(--color-stage) 0%,
+    color-mix(in srgb, var(--color-stage) 90%, transparent) 10%,
+    color-mix(in srgb, var(--color-stage) 15%, transparent) 30%,
+    transparent 48%,
+    transparent 77%,
+    color-mix(in srgb, var(--color-stage) 90%, transparent) 100%
+  );
+}
 
-html { color-scheme: light; height: 100%; }
+/* #app-scroll is the scroller; the page itself never scrolls. clip (not hidden) keeps html/body from becoming scroll containers. */
+html { color-scheme: light; height: 100%; overflow: clip; }
 body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
+  overflow: clip;
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -221,14 +240,15 @@ body {
 .ui-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px;
-  height: 24px;
-  margin-top: -9px;
+  width: 16px;
+  height: 16px;
+  margin-top: calc((6px - 16px) / 2); /* centers the 16px dot on the 6px track (draft 02) */
   border-radius: 999px;
   background: var(--color-ink);
-  border: 3px solid var(--color-canvas);
-  box-shadow: 0 0 0 1px var(--color-ink);
+  border: 0;
+  box-shadow: none;
 }
-.ui-range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 999px; background: var(--color-ink); border: 3px solid var(--color-canvas); }
+.ui-range::-moz-range-thumb { width: 16px; height: 16px; border-radius: 999px; background: var(--color-ink); border: 0; box-shadow: none; }
 .ui-range:focus-visible { outline: none; box-shadow: none; }
 .ui-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-ink); }
+.ui-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-ink); }

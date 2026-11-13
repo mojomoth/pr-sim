@@ -1,0 +1,16 @@
+files scanned: 23 under .next/static
+env files: .env.local; values (len>=12) checked: 6
+.env.local:JEV_KEY matches=0
+.env.local:GOOGLE_API_KEY matches=0
+.env.local:OPENAI_API_KEY matches=0
+.env.local:CLAUDE_API_KEY matches=0
+.env.local:VERCEL_API_KEY matches=0
+.env.local:RENDER_API_KEY matches=0
+pattern 'sk-ant': raw=0, key-like(sk-ant+8 chars)=0 files=
+pattern 'sk-': raw=5, key-like(sk-+8 chars)=0 files=
+pattern 'AIza': raw=0, key-like(AIza+8 chars)=0 files=
+   1 \:\[mask-image\:lin
+   1 e","mask-type"],["o
+   1 e]:[mask-image:line
+   1 kit-mask-image:line
+   1 px);mask-image:line

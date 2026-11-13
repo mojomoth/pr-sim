@@ -18,19 +18,31 @@ export const normRaw = (s: string) =>
     .replace(/[\s,]/g, "")
     .replace(/(\d)\.0+(?!\d)/g, "$1");
 
-/** Figures worth checking: at least two digits (a bare "3개" is too ambiguous to re-ground). */
+// Dates and day spans ("2025년 3월", "2028년", "5일"): not key-number values, but the extractor often cites the
+// next page for them when the sentence runs over a page break, so they are checked here (not in numbers-verify).
+const DATE_RE = /\d{4}\s?년(?:\s?\d{1,2}\s?월)?|\d+일/g;
+
+/** Figures worth checking: at least two digits (a bare "3개" is too ambiguous to re-ground), plus dates and day spans. */
 export function checkableFigures(segment: string): string[] {
-  return figuresOf(segment).filter((f) => f.replace(/\D/g, "").length >= 2);
+  const dates = [...segment.normalize("NFC").matchAll(DATE_RE)].map((m) => normRaw(m[0]));
+  return [...new Set([...figuresOf(segment).filter((f) => f.replace(/\D/g, "").length >= 2), ...dates])];
 }
+
+/** Whether normalised page text `t` states figure `f`. A day span must not be the tail of a longer number ("5일" is not in "15일"). */
+const states = (t: string, f: string) => {
+  if (!/^\d+일$/.test(f)) return t.includes(f);
+  for (let i = t.indexOf(f); i >= 0; i = t.indexOf(f, i + 1)) if (!/\d/.test(t[i - 1] ?? "")) return true;
+  return false;
+};
 
 const formatCitation = (pages: number[]) => `(p.${compactPages(pages).replace(/, /g, ", p.")})`;
 
 /** Pages that should be cited for `figs` given the already-cited `cited` pages, or [] if nothing to add. */
 function groundingPages(figs: string[], cited: number[], rawNorm: string[], maxAdd = 3): number[] {
-  const missing = figs.filter((f) => !cited.some((p) => rawNorm[p - 1]?.includes(f)));
+  const missing = figs.filter((f) => !cited.some((p) => states(rawNorm[p - 1] ?? "", f)));
   if (!missing.length) return [];
   const add: number[] = [];
-  let todo = missing.filter((f) => rawNorm.some((t) => t.includes(f)));
+  let todo = missing.filter((f) => rawNorm.some((t) => states(t, f)));
   const dist = (p: number) => (cited.length ? Math.min(...cited.map((c) => Math.abs(c - p))) : p);
   while (todo.length && add.length < maxAdd) {
     let best = -1;
@@ -38,7 +50,7 @@ function groundingPages(figs: string[], cited: number[], rawNorm: string[], maxA
     for (let i = 0; i < rawNorm.length; i++) {
       const p = i + 1;
       if (add.includes(p) || cited.includes(p)) continue;
-      const cover = todo.filter((f) => rawNorm[i].includes(f)).length;
+      const cover = todo.filter((f) => states(rawNorm[i], f)).length;
       if (cover > bestCover || (cover === bestCover && cover > 0 && dist(p) < dist(best))) {
         best = p;
         bestCover = cover;
@@ -46,7 +58,7 @@ function groundingPages(figs: string[], cited: number[], rawNorm: string[], maxA
     }
     if (best < 0 || !bestCover) break;
     add.push(best);
-    todo = todo.filter((f) => !rawNorm[best - 1].includes(f));
+    todo = todo.filter((f) => !states(rawNorm[best - 1], f));
   }
   return add;
 }

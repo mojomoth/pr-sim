@@ -1,0 +1,115 @@
+{
+  "bubble": "내 발표 · 음성 인식 중\n먼저 여러분 집에 택배 상자",
+  "03-presentation": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [
+        "DIV.h-full w-full rounded-full transition-transform duration-300",
+        "DIV.absolute inset-0",
+        "DIV.absolute top-0 flex items-center justify-center",
+        "DIV.relative bg-white will-change-transform",
+        "CANVAS."
+      ],
+      "smallTargets": [],
+      "bar": {
+        "left": 0,
+        "top": 716,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 128
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 844,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 341
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 341
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 341
+        },
+        {
+          "tag": "CANVAS",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 341
+        },
+        {
+          "tag": "VIDEO",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 100
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 111
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 111
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 111
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 710,
+      "barTop": 716,
+      "hidden": false,
+      "lastText": "경희"
+    }
+  }
+}

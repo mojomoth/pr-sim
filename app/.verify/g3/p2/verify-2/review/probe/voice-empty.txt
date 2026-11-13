@@ -1,0 +1,6 @@
+empty male {"voice":null,"matched":false}
+empty female {"voice":null,"matched":false}
+non-ko only {"voice":null,"matched":false}
+novelty only female {"voice":{"name":"Flo (한국어)","lang":"ko-KR"},"matched":false}
+seed 136 90
+✔ probe (0.712958ms)

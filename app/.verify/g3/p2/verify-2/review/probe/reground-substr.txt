@@ -1,0 +1,3 @@
+figs: ["5일"]
+A {"body":"- 국내 생산 리드타임 5일을 제공한다. (p.1, p.2)","stats":{"groups":1,"fixed":1,"added":1}}
+B {"body":"- 계약 후 1일 안에 납품한다. (p.1, p.2)","stats":{"groups":1,"fixed":1,"added":1}}

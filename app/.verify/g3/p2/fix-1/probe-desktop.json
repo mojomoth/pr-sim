@@ -1,0 +1,56 @@
+{
+  "qa": [
+    {
+      "t": 3,
+      "scrollTop": 40,
+      "maxScroll": 101,
+      "headBottom": 256,
+      "heroTop": 277,
+      "heroH": 49,
+      "heroClippedPx": 0,
+      "compact": true,
+      "ansBottom": 642,
+      "barTop": 677,
+      "ansHiddenPx": 0
+    },
+    {
+      "t": 6,
+      "scrollTop": 40,
+      "maxScroll": 101,
+      "headBottom": 256,
+      "heroTop": 277,
+      "heroH": 49,
+      "heroClippedPx": 0,
+      "compact": true,
+      "ansBottom": 642,
+      "barTop": 677,
+      "ansHiddenPx": 0
+    },
+    {
+      "t": 9,
+      "scrollTop": 40,
+      "maxScroll": 101,
+      "headBottom": 256,
+      "heroTop": 277,
+      "heroH": 49,
+      "heroClippedPx": 0,
+      "compact": true,
+      "ansBottom": 642,
+      "barTop": 677,
+      "ansHiddenPx": 0
+    },
+    {
+      "t": 12,
+      "scrollTop": 40,
+      "maxScroll": 101,
+      "headBottom": 256,
+      "heroTop": 277,
+      "heroH": 49,
+      "heroClippedPx": 0,
+      "compact": true,
+      "ansBottom": 642,
+      "barTop": 677,
+      "ansHiddenPx": 0
+    }
+  ]
+}

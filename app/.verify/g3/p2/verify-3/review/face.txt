@@ -1,0 +1,18 @@
+[
+ {
+  "round": "first-load",
+  "url": "/setup?s=s_mwegkx8y5e0k5q0u",
+  "judges": 3,
+  "notice": "심사위원 3명의 얼굴 사진을 만들지 못했어요. 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요.\n\n다시 시도",
+  "rowErrors": 0,
+  "faceLinks": 0
+ },
+ {
+  "round": "reload",
+  "url": "/setup?s=s_mwegkx8y5e0k5q0u",
+  "judges": 3,
+  "notice": "심사위원 3명의 얼굴 사진을 만들지 못했어요. 이름 첫 글자로 표시되고, 발표는 그대로 시작할 수 있어요.\n\n다시 시도",
+  "rowErrors": 0,
+  "faceLinks": 0
+ }
+]

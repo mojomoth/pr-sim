@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Not app source: verification scratch (probes, captures) and the vendored pdf.js build copied into public/.
+    ".verify/**",
+    ".vercel/**",
+    "public/pdfjs/**",
   ]),
 ]);
 

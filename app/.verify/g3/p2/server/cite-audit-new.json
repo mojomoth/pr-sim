@@ -1,0 +1,60 @@
+{
+ "variant": "new",
+ "out": {
+  "4fca1ca885eef124": {
+   "stored": {
+    "total": 810,
+    "ok": 807
+   },
+   "regrounded": {
+    "total": 810,
+    "ok": 810
+   },
+   "misses": []
+  },
+  "998b7dc073e98d4c": {
+   "stored": {
+    "total": 230,
+    "ok": 229
+   },
+   "regrounded": {
+    "total": 230,
+    "ok": 230
+   },
+   "misses": []
+  },
+  "b074e9bd3e49c31f": {
+   "stored": {
+    "total": 80,
+    "ok": 75
+   },
+   "regrounded": {
+    "total": 80,
+    "ok": 80
+   },
+   "misses": []
+  },
+  "cb3e5a08f4107921": {
+   "stored": {
+    "total": 580,
+    "ok": 580
+   },
+   "regrounded": {
+    "total": 580,
+    "ok": 580
+   },
+   "misses": []
+  },
+  "e07f1564d0a6e978": {
+   "stored": {
+    "total": 156,
+    "ok": 153
+   },
+   "regrounded": {
+    "total": 156,
+    "ok": 156
+   },
+   "misses": []
+  }
+ }
+}

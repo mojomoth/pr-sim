@@ -90,8 +90,8 @@ export function SessionJudgeTile({ judge, speaking }: { judge: StoredJudge; spea
   return <JudgeTile judge={useJudgeView(judge)} speaking={speaking} />;
 }
 
-export function SessionJudgeHero({ judge, speaking }: { judge: StoredJudge; speaking: boolean }) {
-  return <JudgeHero judge={useJudgeView(judge, true)} speaking={speaking} />;
+export function SessionJudgeHero({ judge, speaking, compact }: { judge: StoredJudge; speaking: boolean; compact?: boolean }) {
+  return <JudgeHero judge={useJudgeView(judge, true)} speaking={speaking} compact={compact} />;
 }
 
 export function SessionJudgeAvatar({ judge, size }: { judge: StoredJudge; size?: number }) {
@@ -137,14 +137,26 @@ export function DeviceToggle({ kind, on, problem, onToggle }: { kind: "mic" | "c
   const working = on && !issue;
   const Icon = kind === "mic" ? (working ? Mic : MicOff) : working ? Video : VideoOff;
   return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-pressed={on}
-      className={`inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full text-[15px] font-semibold transition-colors ${!on ? "bg-ink text-inverse" : issue && problem !== "pending" ? "bg-surface text-error" : "bg-surface text-ink"}`}
-    >
-      <Icon size={20} />
-      {label} {issue ?? (on ? "켜짐" : "꺼짐")}
+    // 44px hit area; the drawn pill is 36px (draft 03's small 마이크/카메라 pills).
+    <button type="button" onClick={onToggle} aria-pressed={on} className="inline-flex h-11 min-w-0 flex-1 items-center">
+      <span
+        className={`inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full text-[14px] font-medium transition-colors ${!on ? "bg-ink text-inverse" : issue && problem !== "pending" ? "bg-surface text-error" : "bg-surface text-ink"}`}
+      >
+        <Icon size={18} />
+        {label} {issue ?? (on ? "켜짐" : "꺼짐")}
+      </span>
+    </button>
+  );
+}
+
+/**
+ * Header 종료 action for the live screens: 44px hit area, a smaller drawn pill (drafts 03/04).
+ * `outline` = draft 03 (light-gray border), otherwise draft 04 (gray fill).
+ */
+export function EndPill({ onClick, outline }: { onClick: () => void; outline?: boolean }) {
+  return (
+    <button type="button" onClick={onClick} className="inline-flex h-11 items-center">
+      <span className={`inline-flex h-9 items-center rounded-full px-[18px] text-[15px] font-semibold ${outline ? "border border-secondary/35 bg-canvas" : "bg-card"}`}>종료</span>
     </button>
   );
 }

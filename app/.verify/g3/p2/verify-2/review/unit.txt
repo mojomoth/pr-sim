@@ -1,0 +1,55 @@
+$ node --import ./tests/ts-hooks.mjs --test "tests/unit/*.test.mts"
+✔ mmss rounds up and never goes negative (0.290833ms)
+✔ waitText gives readable retry hints (0.074583ms)
+✔ no notice for zero or one missing face (0.780042ms)
+✔ pending rows are not counted (0.099292ms)
+✔ same known cause names it (0.158042ms)
+✔ same unknown cause falls back to the image-service sentence (0.080958ms)
+✔ mixed causes still give one notice (0.093542ms)
+✔ after reload (no codes, only saved judges without photos) the notice stays (0.07425ms)
+✔ 400 issues carry Korean messages, keeping {error:{code,message,issues}} (31.829959ms)
+✔ every issue message is Korean (no zod English default leaks) (0.719333ms)
+✔ readJson: an empty body returns ifEmpty; without ifEmpty it is still a 400 (0.398833ms)
+✔ empty transcript scores 0 without throwing (1.283959ms)
+✔ a bogus timestamp cannot allocate a huge timeline (capped at 360 minutes) (0.891ms)
+✔ timeline buckets by minute from the first sentence (0.250291ms)
+✔ Q&A sentences are never scored as the presentation (7.182834ms)
+✔ score stays within 0..100 and long pauses are counted (14.922334ms)
+✔ countFillers counts hesitations and habit words only (0.129667ms)
+✔ limits: 30MB and the same page cap as the server (0.290667ms)
+✔ accepts a PDF by header, also with leading junk or a generic MIME type (0.331833ms)
+✔ rejects wrong type, empty, oversize and files without the %PDF- magic (17.2525ms)
+✔ pdf.js failures map to Korean messages (0.622209ms)
+✔ formatBytes and docId (9.614959ms)
+✔ checkableFigures includes dates and day spans, still skips bare one-digit counts (7.41825ms)
+✔ reground adds the page that states a date/day span cited across a page break (real G1 misses) (1.604042ms)
+✔ reground leaves correct citations and derived values alone (0.247458ms)
+✔ DocIn accepts a well-formed doc and rejects bad ids, roles and empty pages (2.413958ms)
+✔ TranscriptIn caps t at 6 hours and needs text (0.679084ms)
+✔ checkDocLimits: 413 over the page/char caps, 422 for scanned PDFs (0.775166ms)
+✔ GenerateIn rejects missing docs, duplicate roles, too many or duplicate judges (1.934292ms)
+✔ FollowUpIn truncates long answers to 4000 chars instead of rejecting (12.493875ms)
+✔ ReportIn needs a session with at least one doc and a known provider (0.505084ms)
+✔ splits punctuated sentences and carries the unfinished tail (1.566458ms)
+✔ several sentences in one chunk come out separately (0.17575ms)
+✔ an unpunctuated tail with a final ending is complete when the chunk closed at a pause (0.260208ms)
+✔ a noun ending in 요 is not taken as the end of a sentence (0.1105ms)
+✔ flush emits the carry once, reset drops it (0.1655ms)
+✔ preview shows the carry + interim text without consuming it (0.238084ms)
+✔ pickVoice prefers a Korean voice of the judge's gender (2.961167ms)
+✔ pickVoice prefers Premium/Enhanced on-device voices and spreads judges over equal voices (0.300416ms)
+✔ prosody: friendly slower/warmer, aggressive faster/lower, unmatched male lower (0.196417ms)
+✔ chunks splits long text at sentence ends (0.417958ms)
+✔ ttsFallsBackToBrowser: hint, quota, network, 5xx yes; bad request / abort no (0.177208ms)
+✔ sessionVocabulary: domain words from metrics and wiki titles, compound words first, used words only (0.5705ms)
+✔ sessionVocabulary caps the list and is empty without a wiki (0.420917ms)
+✔ SttTokenIn: vocabulary optional, capped in count and length (0.803292ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 335.735209
+test exit 0

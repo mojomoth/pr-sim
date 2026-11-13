@@ -22,6 +22,7 @@ writeFileSync(join(FX, "corrupt.pdf"), Buffer.concat([Buffer.from("%PDF-1.7\n"),
 
 const parseTimer = (s) => +s.slice(0, 2) * 60 + +s.slice(3, 5);
 let sid = "";
+let presented = false; // run 1 got the session to the presentation screen (run 2 can continue it)
 
 // ── run 1: setup + presentation (mic = scripted pitch) ──
 {
@@ -73,6 +74,7 @@ let sid = "";
 
     await clickText(page, "button", "발표 시작하기");
     await page.waitForFunction(() => location.pathname === "/present", { timeout: 20_000 });
+    presented = true;
     await page.waitForSelector("[data-slide-viewer][data-state=ready]", { timeout: 30_000 });
     await clickText(page, "button", "발표 시작");
     const t0 = Date.now();
@@ -120,7 +122,8 @@ let sid = "";
 }
 
 // ── run 2: Q&A (mic = scripted answer) + result + history ──
-if (sid && !failures().length) {
+// Gated on a usable session only: a provider outage in run 1 (faces, wiki) is a failed check, not a reason to skip Q&A.
+if (sid && presented) {
   const { browser, page, logs, net } = await launch({ wav: join(AUDIO, "answer-ko-16k.wav") });
   try {
     await page.goto(`${APP}/qa?s=${sid}`, { waitUntil: "networkidle2" });
@@ -130,6 +133,8 @@ if (sid && !failures().length) {
     const q = (await idbSession(page, sid)).questions;
     check("qa: questions generated", ready && q?.main?.length > 0, { main: q?.main?.length, reserve: q?.reserve?.length });
     await shot(page, "06-qa-ready");
+    // No questions (e.g. every provider down): the failed check above records it; the rest of run 2 cannot proceed.
+    if (!ready) throw Object.assign(new Error("questions unavailable"), { skip: true });
 
     await clickText(page, "button", "질의응답 시작");
     const t0 = Date.now();
@@ -167,7 +172,8 @@ if (sid && !failures().length) {
     await clickText(page, "a, button", "결과 보기");
     await page.waitForFunction(() => location.pathname === "/result", { timeout: 20_000 });
     const reportDone = await page
-      .waitForFunction(() => !/결과를 정리하고 있어요/.test(document.body.innerText), { timeout: 600_000, polling: 2000 })
+      // Wait for a finished state, not for the loading text to vanish: the body is empty right after navigation.
+      .waitForFunction(() => /이번 발표의 종합 점수|결과를 만들지 못했어요/.test(document.body.innerText), { timeout: 600_000, polling: 2000 })
       .then(async () => !!(await idbSession(page, sid)).report, () => false);
     check("result: report generated and stored", reportDone);
     await sleep(1500);
@@ -212,14 +218,15 @@ if (sid && !failures().length) {
     check("history: reopen shows the stored report (no new /api/report call)", net.filter((n) => n.url.startsWith("/api/report")).length === before);
     await shot(page, "13-history-reopen");
   } catch (e) {
-    check("run 2 finished without exceptions", false, String(e?.message ?? e));
+    if (e?.skip) log(`run 2 stopped after Q&A prep: ${e.message} (answer/result/history not checked)`);
+    else check("run 2 finished without exceptions", false, String(e?.message ?? e));
     await shot(page, "run2-error").catch(() => {});
   } finally {
     save("run2-console.log", logs.join("\n"));
     save("run2-net.json", net);
     await browser.close();
   }
-}
+} else log("run 2 skipped: run 1 did not reach the presentation screen");
 
 save("results.json", { sid, base: APP, results: allResults() });
 rmSync(PROFILE, { recursive: true, force: true });

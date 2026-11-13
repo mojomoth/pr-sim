@@ -1,0 +1,22 @@
+env files: ['.env.local'] files scanned: 23 bytes: 1766751
+pattern 'sk-': 5 hits in 3 files
+pattern 'AIza': 0 hits in 0 files
+pattern 'sk-ant': 0 hits in 0 files
+pattern 'apikey': 47 hits in 3 files
+pattern 'api_key': 11 hits in 1 files
+pattern 'x-goog-api-key': 5 hits in 1 files
+AIza key shape: 0
+sk-ant key shape: 0
+sk- proj key shape: 0
+env value of JEV_KEY: 0 hits
+env value of GOOGLE_API_KEY: 0 hits
+env value of OPENAI_API_KEY: 0 hits
+env value of CLAUDE_API_KEY: 0 hits
+env value of VERCEL_API_KEY: 0 hits
+env value of RENDER_API_KEY: 0 hits
+env NAME JEV_KEY: 0 hits
+env NAME GOOGLE_API_KEY: 0 hits
+env NAME OPENAI_API_KEY: 0 hits
+env NAME CLAUDE_API_KEY: 0 hits
+env NAME VERCEL_API_KEY: 0 hits
+env NAME RENDER_API_KEY: 0 hits

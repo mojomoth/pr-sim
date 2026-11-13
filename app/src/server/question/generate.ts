@@ -4,7 +4,7 @@ import { TEMPERAMENT_LABEL } from "../types";
 import { buildContext } from "./context";
 import { groundEvidence } from "./ground";
 import { partialQuestions, providerLabel, streamJson, withRetry } from "./llm";
-import { friendlyError } from "./providers";
+import { friendlyError, ProvidersUnavailableError } from "./providers";
 import { PERSONAS, personaSystem, SHARED_RULES } from "./personas";
 import { QuestionsOut, type QuestionOutT } from "./schema";
 import { wikiDocFrom } from "../wiki/store";
@@ -113,7 +113,7 @@ function orderQuestions(judges: QJudge[], byJudge: Map<string, GeneratedQuestion
 async function generateForJudge(
   j: QJudge,
   c: { judges: QJudge[]; assignment: Map<string, FocusTarget[]>; perJudge: number; pack: ContextPack; input: GenerateInput; emit: (e: GenerateEvent) => void; signal?: AbortSignal; pages: Partial<Record<DocRole, string[]>> },
-): Promise<{ questions: GeneratedQuestion[]; usage?: LlmUsage; error?: string }> {
+): Promise<{ questions: GeneratedQuestion[]; usage?: LlmUsage; error?: string; cause?: unknown }> {
   const sent: string[] = [];
   try {
     const tj = Date.now();
@@ -145,7 +145,7 @@ async function generateForJudge(
     const why = friendlyError(e, "오류");
     console.warn(`[question] ${j.name} generate failed:`, e instanceof Error ? e.message.slice(0, 300) : e);
     c.emit({ type: "error", judgeId: j.id, message: `${j.name} 질문 생성 실패: ${why}` });
-    return { questions: [], error: why };
+    return { questions: [], error: why, cause: e };
   }
 }
 
@@ -178,16 +178,22 @@ export async function generateQuestions(input: GenerateInput, opts: { onEvent?: 
   const usage: LlmUsage[] = [];
   const byJudge = new Map<string, GeneratedQuestion[]>();
   const failures: string[] = [];
+  const causes: unknown[] = [];
   await Promise.all(
     judges.map(async (j) => {
       const r = await generateForJudge(j, { judges, assignment, perJudge, pack, input, emit, signal: opts.signal, pages });
       byJudge.set(j.id, r.questions);
       if (r.usage) usage.push(r.usage);
       if (r.error) failures.push(r.error);
+      if (r.cause) causes.push(r.cause);
     }),
   );
   timings.generate = Date.now() - tGen;
-  if (![...byJudge.values()].some((q) => q.length)) throw new Error(`모든 심사위원의 질문 생성이 실패했습니다. ${failures[0] ?? ""}`.trim());
+  if (![...byJudge.values()].some((q) => q.length)) {
+    // Every judge hit a provider outage → surface it as providers_unavailable, not a generic upstream error.
+    if (causes.length && causes.every((c) => c instanceof ProvidersUnavailableError)) throw causes[0];
+    throw new Error(`모든 심사위원의 질문 생성이 실패했습니다. ${failures[0] ?? ""}`.trim());
+  }
 
   const ord = orderQuestions(judges, byJudge, planned);
   const questions = judges.flatMap((j) => byJudge.get(j.id) ?? []).map((q) => ({ ...q, kind: ord.main.includes(q.id) ? ("main" as const) : ("reserve" as const) }));

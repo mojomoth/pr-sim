@@ -1,0 +1,8 @@
+{"units":"px at 2x for mobile/draft (draft 798w, mobile 780w); desktop 1x",
+"timerGlyph":{"mobile":"328x86","draft":"334x96"},
+"judgeTile1":{"mobile":"221x143 (1.55)","draft":"240x211 (1.14)","recheck1":"~212x200","desktop1x":"104x60 (1.73)"},
+"endButtonHeight":{"mobile":95,"draft":85},
+"hairlineBetweenLabelsAndPills":"none (rows 1416-1470 have 0 dark px)",
+"labelsVsBar":"labelsBottom 713 < barTop 716, hiddenPx 0 in all 1-line and 2-line samples; scrollH==clientH==844",
+"verticalGaps":{"cardToHeader":{"mobile":32,"draft":47},"bubbleToJudges":{"mobile":25,"draft":47},"cardTopPadAboveSlide":{"mobile":16,"draft":65}},
+"desktopScreen":"white screen y 41..858; button bottom ~830; content fully inside"}

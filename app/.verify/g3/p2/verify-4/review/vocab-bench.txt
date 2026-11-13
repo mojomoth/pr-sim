@@ -1,0 +1,10 @@
+{"chars":103471,"metrics":[54,60],"wiki":[13,20],"n":40,"ms":6,"maxLen":7,"sample":["완충재","웨이브셀","파일럿","2공장","EPS","세트당","생분해","리드타임","웨이브팩","에어캡","리스크","v2"]}
+✔ bench (12.691416ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70.125625

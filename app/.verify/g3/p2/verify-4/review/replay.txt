@@ -1,0 +1,1 @@
+{"3 / 6@320":{"labelRight":197,"btnTextLeft":194,"overlapPx":3},"3 / 6@360":{"labelRight":197,"btnTextLeft":234,"overlapPx":-37},"10 / 12@320":{"labelRight":212,"btnTextLeft":194,"overlapPx":19},"10 / 12@360":{"labelRight":212,"btnTextLeft":234,"overlapPx":-21}}

@@ -1,0 +1,134 @@
+{
+  "320-asis": {
+    "ind": "1 / 12",
+    "indW": 48,
+    "hitRight": 206.5,
+    "drawnRight": 200.5,
+    "camLeft": 208,
+    "camW": 88,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "320-12 / 12": {
+    "ind": "12 / 12",
+    "indW": 48.8,
+    "hitRight": 206.9,
+    "drawnRight": 200.9,
+    "camLeft": 208,
+    "camW": 88,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "320-28 / 30": {
+    "ind": "28 / 30",
+    "indW": 48.8,
+    "hitRight": 206.9,
+    "drawnRight": 200.9,
+    "camLeft": 208,
+    "camW": 88,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "359-asis": {
+    "ind": "1 / 12",
+    "indW": 56,
+    "hitRight": 230,
+    "drawnRight": 224,
+    "camLeft": 231,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "359-12 / 12": {
+    "ind": "12 / 12",
+    "indW": 56,
+    "hitRight": 230,
+    "drawnRight": 224,
+    "camLeft": 231,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "359-28 / 30": {
+    "ind": "28 / 30",
+    "indW": 56,
+    "hitRight": 230,
+    "drawnRight": 224,
+    "camLeft": 231,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "360-asis": {
+    "ind": "1 / 12",
+    "indW": 56,
+    "hitRight": 230.5,
+    "drawnRight": 224.5,
+    "camLeft": 232,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "360-12 / 12": {
+    "ind": "12 / 12",
+    "indW": 56,
+    "hitRight": 230.5,
+    "drawnRight": 224.5,
+    "camLeft": 232,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "360-28 / 30": {
+    "ind": "28 / 30",
+    "indW": 56,
+    "hitRight": 230.5,
+    "drawnRight": 224.5,
+    "camLeft": 232,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "390-asis": {
+    "ind": "1 / 12",
+    "indW": 56,
+    "hitRight": 245.5,
+    "drawnRight": 239.5,
+    "camLeft": 262,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "390-12 / 12": {
+    "ind": "12 / 12",
+    "indW": 56,
+    "hitRight": 245.5,
+    "drawnRight": 239.5,
+    "camLeft": 262,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  },
+  "390-28 / 30": {
+    "ind": "28 / 30",
+    "indW": 56,
+    "hitRight": 245.5,
+    "drawnRight": 239.5,
+    "camLeft": 262,
+    "camW": 104,
+    "hitClear": true,
+    "drawnClear": true,
+    "overflow": false
+  }
+}

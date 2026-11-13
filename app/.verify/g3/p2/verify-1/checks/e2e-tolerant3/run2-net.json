@@ -1,0 +1,29 @@
+[
+  {
+    "t": 1794538843093,
+    "url": "/api/questions",
+    "status": 200
+  },
+  {
+    "t": 1794538864840,
+    "url": "/api/tts",
+    "status": 200,
+    "provider": "gemini",
+    "model": "gemini-3.8-flash-lite-tts"
+  },
+  {
+    "t": 1794538884646,
+    "url": "/api/stt/token",
+    "status": 200
+  },
+  {
+    "t": 1794538896692,
+    "url": "/api/questions/followup",
+    "status": 200
+  },
+  {
+    "t": 1794538897518,
+    "url": "/api/report",
+    "status": 200
+  }
+]

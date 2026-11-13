@@ -14,7 +14,7 @@ const STATUS_TEXT: Record<MediaStatus, string> = {
   unsupported: "지원되지 않는 브라우저",
 };
 
-/** My camera in full color (mirrored). Shows status text when not live. `variant="inset"` is a landscape 4:3 thumbnail with a white ring that overlays the slide (draft 03). */
+/** My camera in full color (mirrored). Shows status text when not live. `variant="inset"` is a landscape 4:3 thumbnail with a thin white border that overlays the slide's bottom-right corner (draft 03). No `poster`: a live stream has no still frame, and the status tile covers the not-live states. */
 export function CameraView({ stream, status, variant = "panel", className = "" }: { stream: MediaStream | null; status: MediaStatus; variant?: "inset" | "panel"; className?: string }) {
   const video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -26,7 +26,7 @@ export function CameraView({ stream, status, variant = "panel", className = "" }
   const inset = variant === "inset";
   return (
     <div
-      className={`relative overflow-hidden bg-secondary/90 ${inset ? "aspect-[4/3] w-[104px] rounded-[14px] ring-[3px] ring-canvas" : "aspect-video w-full rounded-[28px]"} ${className}`}
+      className={`relative overflow-hidden bg-secondary/90 ${inset ? "aspect-[4/3] w-[104px] rounded-[12px] border-2 border-canvas" : "aspect-video w-full rounded-[28px]"} ${className}`}
       aria-label="내 카메라"
       role="img"
     >

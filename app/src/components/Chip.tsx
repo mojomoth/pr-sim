@@ -79,7 +79,7 @@ export function ChipGroup<T extends string>({
 }
 
 /** Small status badge (완료 / 진행 중 …). */
-export function Badge({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "muted" | "surface" }) {
-  const cls = tone === "ink" ? "bg-ink text-inverse" : tone === "muted" ? "bg-secondary text-inverse" : "bg-canvas text-ink";
+export function Badge({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "surface" }) {
+  const cls = tone === "ink" ? "bg-ink text-inverse" : "bg-canvas text-ink";
   return <span className={`inline-flex h-6 items-center rounded-full px-2.5 text-[12px] font-semibold leading-[18px] ${cls}`}>{children}</span>;
 }

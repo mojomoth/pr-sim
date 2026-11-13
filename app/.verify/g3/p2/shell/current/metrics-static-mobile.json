@@ -1,0 +1,475 @@
+{
+  "01-landing": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [],
+      "bar": null,
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 844,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 390
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 126
+        }
+      ]
+    },
+    "barOverlap": null
+  },
+  "02-setup": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "BUTTON",
+          "text": "발표 시간 1분 줄이기",
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 시간 1분 늘리기",
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "질의응답 시간 1분 줄이기",
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "질의응답 시간 1분 늘리기",
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "INPUT",
+          "text": "file",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "BUTTON",
+          "text": "샘플 자료로 해보기",
+          "w": 94,
+          "h": 18
+        },
+        {
+          "tag": "INPUT",
+          "text": "file",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "BUTTON",
+          "text": "추가 (최대 3명)",
+          "w": 72,
+          "h": 36
+        },
+        {
+          "tag": "BUTTON",
+          "text": "친절함",
+          "w": 49,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "빡셈",
+          "w": 38,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "공격적",
+          "w": 49,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "경희 심사위원 삭제",
+          "w": 32,
+          "h": 44
+        },
+        {
+          "tag": "BUTTON",
+          "text": "친절함",
+          "w": 49,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "빡셈",
+          "w": 38,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "공격적",
+          "w": 49,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "성수 심사위원 삭제",
+          "w": 32,
+          "h": 44
+        },
+        {
+          "tag": "BUTTON",
+          "text": "친절함",
+          "w": 49,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "빡셈",
+          "w": 38,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "공격적",
+          "w": 49,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "성민 심사위원 삭제",
+          "w": 32,
+          "h": 44
+        }
+      ],
+      "bar": {
+        "left": 0,
+        "top": 736,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 108
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 1092,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 44
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 44
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 44
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 722,
+      "barTop": 736,
+      "hidden": false,
+      "lastText": ""
+    }
+  },
+  "05-results": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 3쪽 보기",
+          "w": 10,
+          "h": 24
+        }
+      ],
+      "bar": {
+        "left": 0,
+        "top": 708,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 136
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 1804,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 692,
+      "barTop": 708,
+      "hidden": false,
+      "lastText": "평가 모델 OpenAI gpt-6-astra · 2026. 11. 13."
+    }
+  },
+  "06-feedback": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [
+        {
+          "tag": "BUTTON",
+          "text": "질의응답 00:10 답변 원문 보기",
+          "w": 83,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 57쪽 보기",
+          "w": 56,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 3쪽 보기",
+          "w": 11,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 57쪽 보기",
+          "w": 99,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "제안 자료 58쪽 보기",
+          "w": 99,
+          "h": 32
+        },
+        {
+          "tag": "BUTTON",
+          "text": "발표 자료 3쪽 보기",
+          "w": 91,
+          "h": 32
+        }
+      ],
+      "bar": {
+        "left": 0,
+        "top": 708,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 136
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 1873,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        },
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 80
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 692,
+      "barTop": 708,
+      "hidden": false,
+      "lastText": "평가 모델 OpenAI gpt-6-astra · 2026. 11. 13."
+    }
+  },
+  "07-history": {
+    "probe": {
+      "docOverflowX": 0,
+      "scrollOverflowX": 0,
+      "wideEls": [],
+      "smallTargets": [],
+      "bar": {
+        "left": 0,
+        "top": 760,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 84
+      },
+      "screen": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "device": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "scroll": {
+        "left": 0,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "w": 390,
+        "h": 844
+      },
+      "screenRadius": "0px",
+      "screenOverflow": "hidden",
+      "scrollH": 1246,
+      "clientH": 844,
+      "imgs": [
+        {
+          "tag": "IMG",
+          "filter": "none",
+          "parentFilter": "none",
+          "w": 103
+        }
+      ]
+    },
+    "barOverlap": {
+      "lastContentBottom": 707,
+      "barTop": 760,
+      "hidden": false,
+      "lastText": ""
+    }
+  }
+}

@@ -1,0 +1,45 @@
+$ node --test tests/api/smoke.test.mjs
+✔ server is up (24.083917ms)
+✔ /api/tts: empty body → 400 bad_request (7.772208ms)
+✔ /api/judges: empty body → 400 bad_request (8.372791ms)
+✔ /api/wiki: empty body → 400 bad_request (9.165625ms)
+✔ /api/questions: empty body → 400 bad_request (10.492333ms)
+✔ /api/questions/followup: empty body → 400 bad_request (8.919542ms)
+✔ /api/report: empty body → 400 bad_request (7.77925ms)
+✔ /api/tts: malformed JSON and invalid fields → 400 (6.148167ms)
+✔ /api/wiki: bad doc → 400, scanned-looking doc → 422 (7.055042ms)
+✔ body over 4MB → 413 too_large (7.648333ms)
+✔ chunked body over 4MB (no content-length) → 413 too_large (5.58575ms)
+✔ cross-site browser calls are refused on every route (17.083292ms)
+✔ /api/stt/token is strict: bare request and foreign Origin → 403 (3.493209ms)
+✖ /api/stt/token from our own page → short-lived token, no-store (2.265583ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 13
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 162.805458
+
+✖ failing tests:
+
+test at tests/api/smoke.test.mjs:101:1
+✖ /api/stt/token from our own page → short-lived token, no-store (2.265583ms)
+  AssertionError [ERR_ASSERTION]: {"code":"bad_request","message":"요청 본문이 올바른 JSON이 아니에요."}
+  
+  400 !== 200
+  
+      at TestContext.<anonymous> (file:///Users/jyl/work/study/pr-sim/app/tests/api/smoke.test.mjs:103:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+[ELIFECYCLE] Command failed with exit code 1.
+exit=1

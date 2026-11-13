@@ -26,11 +26,11 @@ export function Summary({ session, report }: { session: SessionRecord; report: R
         <StepHeader title="종합 결과" backHref="/history" right={<HeaderPill href="/history">기록</HeaderPill>} />
 
         <div className="mt-6 text-center">
-          <h2 className="text-[28px] font-bold leading-9 tracking-[-0.8px]">
+          <h2 className="text-[38px] font-extrabold leading-[48px] tracking-[-1.2px]">
             한 번 더,
             <br />더 좋은 발표로.
           </h2>
-          <p className="mx-auto mt-2 line-clamp-2 max-w-[30ch] text-[16px] leading-6 text-secondary">{situationTitle(session.setup.situation)}</p>
+          <p className="mx-auto mt-2 line-clamp-2 max-w-[30ch] text-[17px] font-medium leading-6 text-secondary">{situationTitle(session.setup.situation)}</p>
         </div>
 
         <div className="mt-7 flex flex-col gap-3">
@@ -78,7 +78,7 @@ export function Summary({ session, report }: { session: SessionRecord; report: R
                     </span>
                     <div className="min-w-0">
                       <p className="text-[16px] font-semibold leading-6">{p.title}</p>
-                      <p className="mt-0.5 text-[15px] leading-[22px] text-secondary">
+                      <p className="mt-0.5 text-[15px] leading-[22px]">
                         <CiteText text={p.how} />
                       </p>
                     </div>
@@ -88,14 +88,19 @@ export function Summary({ session, report }: { session: SessionRecord; report: R
             </Card>
           )}
 
-          <p className="rounded-full bg-surface px-4 py-3 text-center text-[14px] text-secondary tabular">
-            발표 {report.meta.presentationMinutes}분 · 질의응답 {report.meta.qaMinutes}분 · 질문 {report.meta.questions}개
+          {/* Draft 05: three facts in one pill, spaced apart by a separator glyph rather than a cramped " · " run. */}
+          <p className="flex flex-wrap justify-center gap-x-3 rounded-full bg-surface px-4 py-3 text-[14px] text-secondary tabular">
+            <span>발표 {report.meta.presentationMinutes}분</span>
+            <span aria-hidden="true">・</span>
+            <span>질의응답 {report.meta.qaMinutes}분</span>
+            <span aria-hidden="true">・</span>
+            <span>질문 {report.meta.questions}개</span>
           </p>
           <ProviderNote report={report} />
         </div>
       </Screen>
 
-      <BottomBar>
+      <BottomBar line={false} fade>
         <Button href={`/result?s=${encodeURIComponent(session.id)}&tab=feedback`} arrow>
           상세 피드백 보기
         </Button>

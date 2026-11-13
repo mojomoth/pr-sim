@@ -201,16 +201,52 @@ async function readBody(req: Request): Promise<Uint8Array> {
   return buf;
 }
 
-/** Read a JSON body (≤ 4MB, enforced while streaming) and validate it. Throws ApiError too_large / bad_request. */
-export async function readJson<S extends z.ZodType>(req: Request, schema: S): Promise<z.infer<S>> {
+const TYPE_KO: Record<string, string> = { string: "문자열", number: "숫자", int: "정수", boolean: "참/거짓 값", array: "목록", object: "객체" };
+const n = (v: number | bigint) => Number(v).toLocaleString("ko-KR");
+
+/** Korean message for a zod issue (per-parse error map: a schema's own message, e.g. a refine's, still wins). */
+export function koIssue(iss: z.core.$ZodRawIssue): string {
+  if (iss.input === undefined && (iss.code === "invalid_type" || iss.code === "invalid_value" || iss.code === "invalid_union")) return "필수 항목이 빠졌어요.";
+  switch (iss.code) {
+    case "invalid_type":
+      return `${TYPE_KO[iss.expected] ?? iss.expected} 형식이어야 해요.`;
+    case "too_small": {
+      const min = n(iss.minimum);
+      if (iss.origin === "string") return Number(iss.minimum) <= 1 ? "비어 있으면 안 돼요." : `${min}자 이상이어야 해요.`;
+      if (iss.origin === "array" || iss.origin === "set") return `${min}개 이상이어야 해요.`;
+      return iss.inclusive === false ? `${min}보다 커야 해요.` : `${min} 이상이어야 해요.`;
+    }
+    case "too_big": {
+      const max = n(iss.maximum);
+      if (iss.origin === "string") return `${max}자 이하여야 해요.`;
+      if (iss.origin === "array" || iss.origin === "set") return `${max}개 이하여야 해요.`;
+      return iss.inclusive === false ? `${max}보다 작아야 해요.` : `${max} 이하여야 해요.`;
+    }
+    case "invalid_value":
+      return `허용된 값이 아니에요. ${iss.values.map((v) => JSON.stringify(v)).join(", ")} 중 하나여야 해요.`;
+    case "unrecognized_keys":
+      return `알 수 없는 항목이 있어요: ${iss.keys.join(", ")}`;
+    case "not_multiple_of":
+      return `${n(iss.divisor)}의 배수여야 해요.`;
+    default:
+      return "값의 형식이 올바르지 않아요.";
+  }
+}
+
+/**
+ * Read a JSON body (≤ 4MB, enforced while streaming) and validate it. Throws ApiError too_large / bad_request.
+ * `ifEmpty`: returned as-is for an empty body (for routes whose body is optional).
+ */
+export async function readJson<S extends z.ZodType>(req: Request, schema: S, ifEmpty?: z.infer<S>): Promise<z.infer<S>> {
   const buf = await readBody(req);
+  if (ifEmpty !== undefined && buf.byteLength === 0) return ifEmpty;
   let raw: unknown;
   try {
     raw = JSON.parse(new TextDecoder().decode(buf));
   } catch {
     throw new ApiError("bad_request", "요청 본문이 올바른 JSON이 아니에요.");
   }
-  const parsed = schema.safeParse(raw);
+  const parsed = schema.safeParse(raw, { error: koIssue });
   if (!parsed.success) {
     throw new ApiError(
       "bad_request",

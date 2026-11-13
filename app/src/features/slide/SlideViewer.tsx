@@ -54,6 +54,12 @@ export interface SlideViewerProps {
   onError?: (message: string, error: unknown) => void;
   /** Overlay drawn on top of the slide (e.g. the camera picture-in-picture); position it absolutely. */
   children?: ReactNode;
+  /**
+   * "card" (default): padded gray card, rounded slide, centered 44px controls. "presenter" (draft 03): slim card,
+   * square-cornered full-width slide, small light controls shifted left, and the overlay is positioned against the
+   * whole card (so it can hang over the slide's bottom edge next to the controls) instead of clipped to the slide.
+   */
+  variant?: "card" | "presenter";
   ref?: Ref<SlideViewerHandle>;
 }
 
@@ -357,6 +363,7 @@ export function SlideViewer({
   label = "발표 슬라이드",
   onError,
   children,
+  variant = "card",
   ref,
 }: SlideViewerProps) {
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null);
@@ -907,6 +914,14 @@ export function SlideViewer({
   const atEnd = index >= total - 1;
   const roundBtn =
     "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors disabled:cursor-not-allowed";
+  /** Presenter variant: same 44px hit area, but only a 32px light circle is drawn. */
+  const slim = variant === "presenter" && !fullscreen;
+  const btnTone = slim
+    ? "text-ink disabled:text-secondary disabled:opacity-50 [&>span]:bg-canvas/70"
+    : fullscreen
+      ? "bg-white/15 text-white disabled:text-white/30"
+      : "bg-canvas text-ink disabled:text-secondary disabled:opacity-50";
+  const face = (icon: ReactNode) => (slim ? <span className="inline-flex h-8 w-8 items-center justify-center rounded-full [&>svg]:h-[18px] [&>svg]:w-[18px]">{icon}</span> : icon);
 
   return (
     <div
@@ -924,13 +939,15 @@ export function SlideViewer({
       className={
         fullscreen
           ? "fixed inset-0 z-[100] flex flex-col bg-ink p-[max(12px,env(safe-area-inset-top))_max(12px,env(safe-area-inset-right))_max(12px,env(safe-area-inset-bottom))_max(12px,env(safe-area-inset-left))] outline-none"
-          : `flex flex-col gap-3 rounded-[28px] bg-card p-3 outline-none sm:p-4 ${className}`
+          : slim
+            ? `relative flex flex-col gap-1 rounded-[24px] bg-card px-2 pb-1 pt-2 outline-none ${className}`
+            : `flex flex-col gap-3 rounded-[28px] bg-card p-3 outline-none sm:p-4 ${className}`
       }
     >
       <div
         ref={viewportRef}
         data-slide-viewport
-        className={`relative w-full select-none overflow-hidden ${fullscreen ? "min-h-0 flex-1" : "rounded-[16px]"}`}
+        className={`relative w-full select-none overflow-hidden ${fullscreen ? "min-h-0 flex-1" : slim ? "" : "rounded-[16px]"}`}
         style={{
           aspectRatio: fullscreen ? undefined : `${viewAspect}`,
           maxHeight: fullscreen ? undefined : "var(--slide-max-h, min(68vh, 720px))",
@@ -975,7 +992,7 @@ export function SlideViewer({
             {status === "loading" ? (
               <>
                 <span className="h-1 w-32 overflow-hidden rounded-full bg-line">
-                  <span className="block h-full bg-ink transition-[width] duration-200" style={{ width: `${Math.max(8, progress * 100)}%` }} />
+                  <span className="block h-full w-full bg-ink transition-transform duration-200" style={{ transform: `translateX(${Math.max(8, progress * 100) - 100}%)` }} />
                 </span>
                 <span className="text-sm font-medium text-secondary">PDF 불러오는 중…</span>
               </>
@@ -984,13 +1001,15 @@ export function SlideViewer({
             )}
           </div>
         )}
-        {children}
+        {!slim && children}
         <span className="sr-only" aria-live="polite">
           {status === "ready" ? `${total}쪽 중 ${page}쪽` : ""}
         </span>
       </div>
 
-      <div className={`flex items-center justify-center gap-3 ${fullscreen ? "pt-3" : ""}`}>
+      {slim && children}
+      {/* Presenter: the right padding keeps the row clear of the camera inset (PresentScreen: 104px, 88px under 360px wide). */}
+      <div className={`flex items-center justify-center ${fullscreen ? "gap-3 pt-3" : slim ? "gap-0.5 pr-[104px] max-[359px]:gap-0 max-[359px]:pr-[88px]" : "gap-3"}`}>
         <button
           type="button"
           onClick={(e) => {
@@ -1000,13 +1019,13 @@ export function SlideViewer({
           disabled={status !== "ready" || atStart}
           aria-label="이전 슬라이드"
           data-action="prev"
-          className={`${roundBtn} ${fullscreen ? "bg-white/15 text-white disabled:text-white/30" : "bg-canvas text-ink disabled:text-secondary disabled:opacity-50"}`}
+          className={`${roundBtn} ${btnTone}`}
         >
-          {Icon.left}
+          {face(Icon.left)}
         </button>
         <span
           data-page-indicator
-          className={`min-w-[72px] text-center text-[16px] font-semibold tabular ${fullscreen ? "text-white" : "text-ink"}`}
+          className={`text-center tabular ${slim ? "min-w-[56px] text-[15px] font-medium max-[359px]:min-w-[48px]" : "min-w-[72px] text-[16px] font-semibold"} ${fullscreen ? "text-white" : "text-ink"}`}
         >
           {status === "ready" ? `${page} / ${total}` : "– / –"}
         </span>
@@ -1019,11 +1038,11 @@ export function SlideViewer({
           disabled={status !== "ready" || atEnd}
           aria-label="다음 슬라이드"
           data-action="next"
-          className={`${roundBtn} ${fullscreen ? "bg-white/15 text-white disabled:text-white/30" : "bg-canvas text-ink disabled:text-secondary disabled:opacity-50"}`}
+          className={`${roundBtn} ${btnTone}`}
         >
-          {Icon.right}
+          {face(Icon.right)}
         </button>
-        <span aria-hidden="true" className={`mx-1 h-6 w-px ${fullscreen ? "bg-white/25" : "bg-line"}`} />
+        <span aria-hidden="true" className={`mx-1 w-px shrink-0 ${slim ? "h-5 bg-secondary/30 max-[359px]:mx-0" : "h-6"} ${fullscreen ? "bg-white/25" : slim ? "" : "bg-line"}`} />
         <button
           type="button"
           onClick={(e) => {
@@ -1034,9 +1053,9 @@ export function SlideViewer({
           aria-label={fullscreen ? "전체 화면 닫기" : "전체 화면으로 보기"}
           aria-pressed={fullscreen}
           data-action="fullscreen"
-          className={`${roundBtn} ${fullscreen ? "bg-white text-ink" : "bg-canvas text-ink disabled:text-secondary disabled:opacity-50"}`}
+          className={`${roundBtn} ${fullscreen ? "bg-white text-ink" : slim ? btnTone : "bg-canvas text-ink disabled:text-secondary disabled:opacity-50"}`}
         >
-          {fullscreen ? Icon.collapse : Icon.expand}
+          {fullscreen ? Icon.collapse : face(Icon.expand)}
         </button>
       </div>
 

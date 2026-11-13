@@ -1,0 +1,58 @@
+[
+  {
+    "t": 3,
+    "scrollTop": 64,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  },
+  {
+    "t": 6,
+    "scrollTop": 64,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  },
+  {
+    "t": 9,
+    "scrollTop": 64,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  },
+  {
+    "t": 12,
+    "scrollTop": 64,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  },
+  {
+    "t": 15,
+    "scrollTop": 64,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  },
+  {
+    "t": 18,
+    "scrollTop": 64,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  },
+  {
+    "t": "scrolled-to-end",
+    "scrollTop": 125,
+    "maxScroll": 125,
+    "ansBottom": 0,
+    "barTop": 696,
+    "hiddenPx": 0
+  }
+]

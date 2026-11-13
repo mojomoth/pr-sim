@@ -1,0 +1,5 @@
+token minted: true config: {"inputAudioTranscription":{"languageCodes":["ko-KR"],"customVocabulary":["완충재","웨이브셀","리웨이브","스티로폼","에어캡"]}}
+Warning: Ephemeral token support is experimental and may change in future versions.
+open
+close 1000 
+transcript: 안녕하세요, 저는 리웨이브 대표 김서연입니다.오늘은 바다에서 온 완충재, 웨이브셀에 대해 말씀드리겠습니다.먼저 여러분 집에 택배 상자 하나 열어 보시면 안에 뭐가 들어 있는지 떠올려 보시면 좋겠습니다.대부분 스티로폼이나 에어캡 같은 완충재가 들어있죠.

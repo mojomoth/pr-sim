@@ -1,7 +1,7 @@
 "use client";
 import { useId, useRef, useState } from "react";
 import { formatBytes } from "@/features/slide/pdf";
-import { Alert, Close, FileDoc, Refresh, Upload } from "./Icons";
+import { Alert, Close, FileDoc, Plus, Refresh } from "./Icons";
 
 type Status = "idle" | "uploading" | "error";
 
@@ -9,13 +9,12 @@ type Status = "idle" | "uploading" | "error";
 export interface UploadedFile {
   name: string;
   pages: number;
-  size: number;
   sample?: boolean;
 }
 
 /**
- * PDF upload row with four states: empty → uploading (progress) → uploaded (name · pages · replace/remove)
- * or error (message · retry). Checks type (.pdf + %PDF- header) and size before calling `onFile`, which
+ * PDF upload row with four states: empty → uploading (progress) → uploaded (name · pages; tap the row to
+ * replace, ✕ to remove) or error (message · retry). Checks type (.pdf + %PDF- header) and size before calling `onFile`, which
  * does the real work (pdf.js, IndexedDB) and throws an Error whose message is shown to the user.
  * A failed replace keeps the current file visible.
  */
@@ -118,12 +117,14 @@ export function UploadRow({
 
   const header = (
     <div className="flex items-center justify-between">
-      <span className="text-[16px] font-semibold">
-        {label}
-        <span className="ml-1.5 text-[13px] font-medium text-secondary">{required ? "필수" : "선택"}</span>
-      </span>
+      <span className="text-[16px] font-semibold leading-6">{label}</span>
+      {/* Not in draft 02: kept for trying the app without a PDF, but small; ::before keeps a 44px tap target. */}
       {onSample && !value && status !== "uploading" && (
-        <button type="button" onClick={useSample} className="min-h-11 px-1 text-[14px] font-medium text-secondary underline underline-offset-4 hover:text-ink">
+        <button
+          type="button"
+          onClick={useSample}
+          className="relative text-[13px] leading-[18px] text-secondary underline underline-offset-4 before:absolute before:-inset-x-1 before:-inset-y-[13px] before:content-[''] hover:text-ink"
+        >
           {sampleLabel}
         </button>
       )}
@@ -133,7 +134,7 @@ export function UploadRow({
   let body: React.ReactNode;
   if (status === "uploading") {
     body = (
-      <div className="flex min-h-[64px] flex-col justify-center gap-2 rounded-[16px] bg-surface px-4 py-3" role="status" aria-live="polite">
+      <div className="flex min-h-[52px] flex-col justify-center gap-1.5 rounded-[12px] bg-surface px-4 py-2" role="status" aria-live="polite">
         <div className="flex items-center justify-between gap-3 text-[14px]">
           <span className="truncate font-medium">{pendingName}</span>
           <span className="shrink-0 text-secondary tabular">업로드 중 {progress}%</span>
@@ -161,17 +162,17 @@ export function UploadRow({
     );
   } else if (value) {
     body = (
-      <div className="flex min-h-[64px] items-center gap-3 rounded-[16px] bg-surface py-2.5 pl-4 pr-2">
-        <FileDoc size={26} className="shrink-0" />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-[16px] font-semibold leading-6">{value.name}</p>
-          <p className="text-[13px] leading-[18px] text-secondary tabular">
-            {value.pages}페이지 · {formatBytes(value.size)}
-            {value.sample ? " · 샘플" : ""}
-          </p>
-        </div>
-        <button type="button" onClick={pick} className="inline-flex h-11 shrink-0 items-center rounded-full px-3 text-[14px] font-semibold hover:bg-card" aria-label={`${label} 교체`}>
-          교체
+      <div className="flex min-h-[52px] items-center rounded-[12px] bg-surface pr-1">
+        {/* No visible 교체 button (draft 02): the file part of the row is the replace button. */}
+        <button type="button" onClick={pick} className="flex min-h-[52px] min-w-0 flex-1 items-center gap-3 rounded-l-[12px] py-1.5 pl-3.5 text-left" aria-label={`${label} 교체: ${value.name}`}>
+          <FileDoc size={24} className="shrink-0" />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-[15px] font-semibold leading-5">{value.name}</span>
+            <span className="block text-[12px] leading-4 text-secondary tabular">
+              {value.pages}페이지
+              {value.sample ? " · 샘플" : ""}
+            </span>
+          </span>
         </button>
         <button type="button" onClick={remove} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-card" aria-label={`${label} 삭제`}>
           <Close size={20} />
@@ -211,19 +212,19 @@ export function UploadRow({
           const f = e.dataTransfer.files?.[0];
           if (f) void handle(f);
         }}
-        className={`flex min-h-[64px] w-full items-center justify-center gap-2 rounded-[16px] border px-4 text-[15px] font-medium transition-colors ${
-          dragOver ? "border-ink bg-surface" : "border-line text-secondary hover:border-ink/40 hover:text-ink"
+        className={`flex h-11 w-full items-center justify-center gap-1.5 rounded-[10px] border text-[15px] text-secondary transition-colors ${
+          dragOver ? "border-ink bg-surface text-ink" : "border-ink/20 hover:border-ink/40 hover:text-ink"
         }`}
         aria-label={`${label} PDF 업로드 (${required ? "필수" : "선택"})`}
       >
-        <Upload size={20} />
+        <Plus size={18} />
         PDF 업로드 ({required ? "필수" : "선택"})
       </button>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1.5">
       {header}
       {body}
       {fileInput}

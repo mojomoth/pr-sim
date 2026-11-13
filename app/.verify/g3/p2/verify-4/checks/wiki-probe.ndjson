@@ -1,0 +1,3 @@
+{"type":"progress","phase":"extracting","chunksDone":0,"chunksTotal":0,"roundsDone":0,"roundsTotal":0,"msg":"PDF 텍스트 추출 중"}
+{"type":"progress","phase":"extracting","chunksDone":0,"chunksTotal":1,"roundsDone":0,"roundsTotal":0,"msg":"2쪽 → 1개 청크로 나눠 병렬 추출 시작"}
+{"type":"error","code":"providers_unavailable","message":"AI 모델을 지금 쓸 수 없어요. 잠시 뒤 다시 시도해 주세요.","retryable":true}
