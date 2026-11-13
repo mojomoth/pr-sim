@@ -1,0 +1,28 @@
+1440 hard /                                /         pt 0px   hdrTop 0     hdrContent 62    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+1440 hard /setup                           /setup    pt 54px  hdrTop 54    hdrContent 60    bleed - bleedEls 0 scroll 0
+1440 hard /history                         /history  pt 54px  hdrTop 54    hdrContent 58    bleed - bleedEls 0 scroll 0
+1440 nav root-setup tap 시작하기               /setup    pt 54px  hdrTop 54    hdrContent 60    bleed - bleedEls 1 scroll 0
+1440 nav root-history tap 연습기록             /history  pt 54px  hdrTop 54    hdrContent 58    bleed - bleedEls 1 scroll 0
+1440 nav setup-root backbutton             /         pt 0px   hdrTop 0     hdrContent 62    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+1440 nav setup-root browserback            /         pt 0px   hdrTop 0     hdrContent 62    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+1440 nav hardsetup-root backbutton         /         pt 0px   hdrTop 0     hdrContent 62    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+1440 chain1 setup                          /setup    pt 54px  hdrTop 54    hdrContent 60    bleed - bleedEls 1 scroll 0
+1440 chain2 root                           /         pt 0px   hdrTop 0     hdrContent 62    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+1440 chain3 history                        /history  pt 54px  hdrTop 54    hdrContent 58    bleed - bleedEls 1 scroll 0
+1440 chain4 back root                      /         pt 0px   hdrTop 0     hdrContent 62    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+1440 chain5 forward history                /history  pt 54px  hdrTop 54    hdrContent 58    bleed - bleedEls 1 scroll 0
+1440 console errors                        []
+390 hard /                                 /         pt 0px   hdrTop 0     hdrContent 22    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+390 hard /setup                            /setup    pt 0px   hdrTop 0     hdrContent 6     bleed - bleedEls 0 scroll 0
+390 hard /history                          /history  pt 0px   hdrTop 0     hdrContent 4     bleed - bleedEls 0 scroll 0
+390 nav root-setup tap 시작하기                /setup    pt 0px   hdrTop 0     hdrContent 6     bleed - bleedEls 1 scroll 0
+390 nav root-history tap 연습기록              /history  pt 0px   hdrTop 0     hdrContent 4     bleed - bleedEls 1 scroll 0
+390 nav setup-root backbutton              /         pt 0px   hdrTop 0     hdrContent 22    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+390 nav setup-root browserback             /         pt 0px   hdrTop 0     hdrContent 22    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+390 nav hardsetup-root backbutton          /         pt 0px   hdrTop 0     hdrContent 22    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+390 chain1 setup                           /setup    pt 0px   hdrTop 0     hdrContent 6     bleed - bleedEls 1 scroll 0
+390 chain2 root                            /         pt 0px   hdrTop 0     hdrContent 22    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+390 chain3 history                         /history  pt 0px   hdrTop 0     hdrContent 4     bleed - bleedEls 1 scroll 0
+390 chain4 back root                       /         pt 0px   hdrTop 0     hdrContent 22    bleed vis img@0 botGap 0 bleedEls 1 scroll 0
+390 chain5 forward history                 /history  pt 0px   hdrTop 0     hdrContent 4     bleed - bleedEls 1 scroll 0
+390 console errors                         []

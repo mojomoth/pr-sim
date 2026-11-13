@@ -85,5 +85,5 @@ G2 신규 P2(G3에서 모두 처리함): Q&A 답변 문장 t 역순 · Q&A 재�
 
 ## 마지막 검증 결과 / 다음 작업
 
-- 마지막: G3 최종 재검증 PASS·재배포 READY (2026-11-13, `dpl_Hf85d6yTHqhSmeuKbLLaYBwk86z2`)
+- 마지막: P2 정리 후 재배포 READY (2026-11-13, `dpl_CDuzJe1yU5LxT9UAmL6ymBibMpsV`, 4d4ec2c). 배포 URL `test:api` 14/14, 클라이언트 이동 후 safe-top 54px 유지(`app/.verify/g3/p2/deployed2/nav.out.txt`)
 - 다음: (외부) OpenAI 크레딧 충전 또는 Gemini 유료 등급 → `cd app && BASE_URL=https://pr-sim-lake.vercel.app pnpm test:e2e`로 얼굴·서버 음성 포함 재검증. 이후 P2 시각 차이 정리, Capacitor 포팅(`ALLOWED_ORIGINS` 등록)
