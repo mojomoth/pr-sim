@@ -1,4 +1,4 @@
-# UI PoC — PR-SIM 7개 화면 (`pocs/ui`)
+# UI PoC — DANSANG 7개 화면 (`pocs/ui`)
 
 `docs/screens/draft`의 시안 7종(01–07 PNG + `DESIGN.md` + `prompts.json`)을 Next.js 16 App Router 화면으로 구현한 프런트엔드 PoC다.
 AI 호출 없이 **목업 데이터 + 실제 상호작용**(타이머, PDF 업로드/렌더, 카메라·마이크, 스와이프, 필터, 단계 전환)으로 전체 흐름을 클릭해 볼 수 있다.
@@ -92,7 +92,7 @@ buildQuestions(judges) → QAItem[], questionCount(n) = max(4, n) (공유 lib/ty
 
 ## HIL 체크리스트 (사람이 직접 해 볼 것)
 
-0. 모든 화면 왼쪽 위 로고가 확정 BI(검정 P 심볼 + PR·SIM, `assets/bi/lockup-black.png`)인지, 파랑/시안 STAGE 로고가 남아 있지 않은지. 심사위원 얼굴이 컬러인지.
+0. 모든 화면 왼쪽 위 로고가 확정 BI(검정 D 심볼 + DANSANG, `assets/bi/lockup-black.png`)인지, 파랑/시안 STAGE 로고가 남아 있지 않은지. 심사위원 얼굴이 컬러인지.
 1. `/ui/screens`에서 각 화면을 열어 왼쪽 시안 썸네일과 간격·글자 크기·모서리·검정 CTA 인상이 맞는지 비교 (휴대폰 실기기 또는 DevTools 390×844).
 2. `/ui` → 시작하기 → 설정: 슬라이더를 드래그/−/+/키보드로 바꾸면 하단 “총 N분”이 즉시 바뀌는지.
 3. 발표 자료에 **내 PDF**를 올려 업로드 중 → 파일명·페이지 수가 맞는지, PDF가 아닌 파일을 올리면 “업로드 실패 · 다시 시도”(× 로 닫기)가 나오는지, 교체/삭제. 올린 뒤 “교체”로 .txt를 고르면 기존 파일 행이 그대로 보이고 그 아래 “교체 실패” 안내가 뜨는지.
@@ -132,7 +132,7 @@ buildQuestions(judges) → QAItem[], questionCount(n) = max(4, n) (공유 lib/ty
 ### 리뷰 2차 수정 검증 (fix:ui, round 2)
 
 - 근거 문서 변경을 따라감: DESIGN.md 22:34(확정 BI 로고) → 22:40(컬러 미디어), 시안 PNG 22:38 재렌더(md5가 `archive/pre-approved-bi/`와 달라짐 확인).
-- `python3 ui/scripts/prepare-brand.py` → `assets/bi/lockup-black.png`의 24px 투명 여백만 잘라 `public/ui/brand/lockup-black.png`(310×96, 비율 3.229 유지) 생성. 헤더는 32px 높이(103×32) + 8px 상하 여백(≥ 심볼 너비 1/4). `bash ui/scripts/sync-drafts.sh` → `/ui/screens` 썸네일 7장을 새 시안으로 갱신.
+- `python3 ui/scripts/prepare-brand.py` → `assets/bi/lockup-black.png`에서 `public/ui/brand/lockup-black.png`(비율 1056:144 유지) 생성. 헤더는 32px 높이(약 235×32) + 8px 상하 여백(≥ 심볼 너비 1/4). `bash ui/scripts/sync-drafts.sh` → `/ui/screens` 썸네일 7장을 새 시안으로 갱신.
 - `node ui/tests/fix-r2.mjs` → **85/85 PASS** (결과 `.verify/ui/fix-r2/results.txt`, 캡처 `.verify/ui/fix-r2/*.png`):
   - 8개 라우트 × 모바일(390×844)·데스크톱(1280×860): 확정 로크업이 최상단(y ≤ 12) 왼쪽, 로드됨·비율 유지, 옛 `/brand/symbol.svg` 0건, `grayscale` 필터가 걸린 미디어 0건, 콘솔 에러 0. 단계 화면(발표·질의응답·결과·피드백)도 로고 행 + 단계 행 구조(시안 03–06과 동일).
   - 업로드: 빈 상태 실패 → × 닫기로 빈 상태 복귀, 유효 PDF 후 .txt 교체 → `presentation.pdf · 12페이지` 행 유지 + “교체 실패 · … 기존 파일을 계속 사용해요”, CTA 활성(보이는 상태와 일치), 닫기 후 파일 유지, 교체 실패 후 삭제 → 오류 없이 빈 상태 (`setup-bad-replace.png`).

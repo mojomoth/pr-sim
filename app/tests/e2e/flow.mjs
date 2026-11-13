@@ -58,8 +58,10 @@ let presented = false; // run 1 got the session to the presentation screen (run 
     check("setup: both PDFs attached", true);
 
     await page.type("textarea", "친환경 완충재 스타트업의 Pre-A 투자 유치 발표. 투자 심사위원 설득.");
-    for (let i = 0; i < 4; i++) await (await page.$("button[aria-label='발표 시간 1분 줄이기']")).click();
-    for (let i = 0; i < 2; i++) await (await page.$("button[aria-label='질의응답 시간 1분 줄이기']")).click();
+    for (const slider of await page.$$('input[type="range"]')) {
+      await slider.focus();
+      await page.keyboard.press("Home");
+    }
     await sleep(500);
     const footer = await page.evaluate(() => document.body.innerText.match(/총 \d+분 · 심사위원 \d명/)?.[0]);
     check("setup: 1+1 min, 3 judges", footer === "총 2분 · 심사위원 3명", footer);

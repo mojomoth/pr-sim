@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Brand } from "@/components/Header";
 import { ArrowRight } from "@/components/Icons";
+import { PrefetchJudges } from "./PrefetchJudges";
 
-/** 01 · 랜딩 — full-bleed stage photo, title, 시작하기 → /setup, 연습 기록 → /history. */
+/** 01 · 랜딩 — full-bleed stage photo, title, 시작하기 → /setup, 연습 기록 → /history. The first judges' faces start here. */
 export default function Landing() {
   return (
     <div className="app-bleed relative isolate flex min-h-full flex-1 flex-col bg-stage text-white">
+      <PrefetchJudges />
       {/* Art-directed full-bleed backdrop, one static webp (plain <img>, not next/image). <picture> stops React
           from hoisting a preload hint for it into the RSC payload, which every <Link href="/"> prefetch would
           replay on other pages (~47KB unused). The HTML preload scanner still finds the <img> early on /. */}
@@ -25,7 +27,7 @@ export default function Landing() {
       />
 
       <header className="flex items-center justify-between gap-4 px-[var(--gutter)] pt-[max(14px,var(--safe-top))]">
-        <Brand tone="white" href={null} height={39} />
+        <Brand tone="white" href={null} height={29} />
         <Link
           href="/history"
           className="inline-flex min-h-11 items-center gap-2.5 rounded-full bg-white px-4 text-[14px] font-semibold text-ink shadow-[0_0_0_3px_rgb(0_0_0/55%),0_4px_16px_rgb(0_0_0/25%)] transition-colors hover:bg-card focus-visible:outline-white"

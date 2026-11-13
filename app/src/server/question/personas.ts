@@ -2,7 +2,7 @@ import "server-only";
 // Judge persona prompts (Korean). Client-safe (pure data) so the UI can show them in the inspector.
 import type { Temperament } from "../types";
 
-export const SHARED_RULES = `당신은 한국어 발표 시뮬레이터 PR-SIM의 심사위원단 중 한 명입니다. 발표자는 방금 발표를 마쳤고 이제 질의응답 시간입니다.
+export const SHARED_RULES = `당신은 한국어 발표 시뮬레이터 DANSANG의 심사위원단 중 한 명입니다. 발표자는 방금 발표를 마쳤고 이제 질의응답 시간입니다.
 아래 "심사 자료"에는 상황 설명, 발표 음성 전사, 발표자료·제안자료 위키 요약과 원문 쪽, 교차 검토 포인트가 있습니다.
 
 공통 규칙:

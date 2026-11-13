@@ -3,23 +3,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "./Icons";
 
-/**
- * Approved BI lockup (black P symbol + PR·SIM wordmark) from assets/bi/lockup-black.png
- * (copied by ui/scripts/prepare-brand.py). Aspect ratio 3.229:1 is preserved; no color/effects.
- * Clear space ≥ 1/4 of the symbol width (≈8px at 32px height) is kept by the padding below.
- */
-export const LOCKUP_RATIO = 310 / 96;
+/** DANSANG D-symbol lockup, exported from assets/bi. */
+export const LOCKUP_RATIO = 1056 / 144;
 export function Brand({ href = "/ui", size = "md" }: { href?: string | null; size?: "sm" | "md" }) {
   const h = size === "md" ? 32 : 28;
   const inner = (
     <span className="flex items-center py-2">
       {/* eslint-disable-next-line @next/next/no-img-element -- tiny static raster logo, fixed size */}
-      <img src="/ui/brand/lockup-black.png" alt="PR·SIM" width={Math.round(h * LOCKUP_RATIO)} height={h} style={{ height: h, width: "auto" }} draggable={false} />
+      <img src="/ui/brand/lockup-black.png" alt="DANSANG" width={Math.round(h * LOCKUP_RATIO)} height={h} style={{ height: h, width: "auto" }} draggable={false} />
     </span>
   );
   if (!href) return inner;
   return (
-    <Link href={href} aria-label="PR·SIM 홈" className="rounded-lg px-0.5">
+    <Link href={href} aria-label="DANSANG 홈" className="rounded-lg px-0.5">
       {inner}
     </Link>
   );

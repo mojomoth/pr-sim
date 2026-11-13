@@ -15,7 +15,7 @@ const ReportInputIn = z.object({
   presentationMinutes: z.number().min(0).max(180),
   qaMinutes: z.number().min(0).max(180),
   judges: z.array(JudgeIn).max(3),
-  transcript: z.array(TranscriptIn).max(2000),
+  transcript: z.array(TranscriptIn).max(4000), // up to 60 + 60 min of speech
   qa: z.array(z.object({
     judge: JudgeIn,
     question: z.string().min(1).max(4000),

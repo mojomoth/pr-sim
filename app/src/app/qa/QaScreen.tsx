@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Bubble } from "@/components/Bubble";
 import { BottomBar, Button } from "@/components/Button";
+import { CameraView } from "@/components/CameraView";
 import { ConfirmDialog, PhaseEndDialog } from "@/components/Dialog";
 import { StepHeader } from "@/components/Header";
-import { Mic, MicOff, Refresh } from "@/components/Icons";
+import { Mic, MicOff, Refresh, Video, VideoOff } from "@/components/Icons";
 import { Screen } from "@/components/Layout";
 import { Timer } from "@/components/Timer";
 import { Waveform } from "@/components/Waveform";
@@ -19,10 +20,10 @@ import type { DocInput, GeneratedQuestion, QJudge, SessionRecord, StoredJudge, S
 import { useCountdown, useSecondsOverride } from "@/features/session/useCountdown";
 import { useSentenceTranscriber } from "@/features/stt/useSentenceTranscriber";
 import { sessionVocabulary } from "@/features/stt/vocab";
-import { platform, type Playback } from "@/platform";
+import { platform, useCamera, type Playback } from "@/platform";
 import { TEMPERAMENT_LABEL } from "@/server/types";
 import { heroFit, sameFit, type HeroFit } from "./heroFit";
-import { EndPill, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeAvatar, SessionJudgeHero, useSessionFromQuery } from "../present/shared";
+import { cameraViewStatus, EndPill, LoadFailed, LoadingScreen, MediaProblem, micStatusFromError, MissingSession, SessionJudgeAvatar, SessionJudgeHero, useSessionFromQuery } from "../present/shared";
 
 export function QaScreen() {
   const s = useSessionFromQuery();
@@ -243,8 +244,8 @@ function QA({ rec }: { rec: SessionRecord }) {
       const done = await streamQuestions(
         {
           situation: fresh.setup.situation,
-          qaMinutes: Math.max(1, Math.min(20, fresh.setup.qaMinutes)),
-          presentationMinutes: Math.max(1, Math.min(30, fresh.setup.presentationMinutes)),
+          qaMinutes: Math.max(1, Math.min(60, fresh.setup.qaMinutes)),
+          presentationMinutes: Math.max(1, Math.min(60, fresh.setup.presentationMinutes)),
           transcript: fresh.transcript.filter((x) => x.phase === "presentation").slice(-2000),
           docs,
           judges: fresh.judges.map(toQJudge),
@@ -688,6 +689,9 @@ function QA({ rec }: { rec: SessionRecord }) {
   const answerText = [...answer.map((x) => x.text), ...stt.partialSentences].join(" ");
   const answerState = !micOn ? "마이크 꺼짐" : stt.status === "connecting" ? "연결 중" : listening ? "음성 인식 중" : stage === "judging" ? "답변 완료" : undefined;
   const showMicRow = live && stage !== "ended";
+  // My face while answering, like 발표 (the inset on the judge's face card).
+  const [camOn, setCamOn] = useState(true);
+  const cam = useCamera(camOn && stage !== "ended");
   // Keep the live answer in view while it is transcribed: newest line visible inside the bubble, and the
   // bubble itself above the fixed mic row (#app-scroll's scroll-padding-bottom clears the bottom bar).
   const following = stage === "answering" || stage === "judging";
@@ -718,6 +722,16 @@ function QA({ rec }: { rec: SessionRecord }) {
     if (!fitSettled.current) setFit(next);
   }, [following, answerText, fit]);
   const compactHero = following && !!fit?.compact;
+  // In the compact avatar row the inset shrinks to the row's height (56px).
+  const camInset =
+    stage === "ended" ? undefined : (
+      <CameraView
+        stream={cam.stream}
+        status={cameraViewStatus(cam.status)}
+        variant="inset"
+        className={`pointer-events-none shrink-0 ${compactHero ? "w-[75px]! [&>span]:hidden" : "max-[359px]:w-[88px]"} ${cam.status === "live" ? "" : "[&>span]:hidden"}`}
+      />
+    );
   // While answering, the device-voice note folds into the question card's label row (room for the face card).
   const voiceTag = following && deviceVoice && !ttsError;
   const replayShown = Boolean(ttsError || deviceVoice || stage === "answering");
@@ -754,7 +768,7 @@ function QA({ rec }: { rec: SessionRecord }) {
               // 질문 중 / 답변 듣는 중 pill is hidden: nobody is asking or listening any more.
               // Height = what is left at 390×844 after the big timer, a two-line question and a three-line answer.
               <div ref={heroRef} style={following && fit?.height ? { height: fit.height } : undefined} className={`${compactHero ? "" : "h-[clamp(140px,calc(var(--app-h)-658px),300px)] [&>div]:aspect-auto [&>div]:h-full"} ${stage === "ended" ? "[&_[aria-live]]:hidden" : ""}`}>
-                <SessionJudgeHero judge={judge} speaking={speaking || stage === "asking"} compact={compactHero} />
+                <SessionJudgeHero judge={judge} speaking={speaking || stage === "asking"} compact={compactHero} inset={camInset} />
               </div>
             )}
             {current && (
@@ -831,6 +845,7 @@ function QA({ rec }: { rec: SessionRecord }) {
                 {notice}
               </p>
             )}
+            {camOn && stage !== "ended" && <MediaProblem device="camera" status={cam.status} onRetry={cam.retry} />}
             {micOn && stt.error && <MediaProblem device="mic" status={micStatusFromError(stt.error)} message={stt.error} onRetry={() => void stt.start(elapsed())} />}
             {stt.notice && <p className="px-1 text-[13px] text-secondary">{stt.notice}</p>}
             {stage === "answering" && <p className="text-center text-[14px] text-secondary">천천히, 핵심부터 답변해 보세요.</p>}
@@ -855,6 +870,15 @@ function QA({ rec }: { rec: SessionRecord }) {
             </button>
             <Waveform bars={36} level={listening ? stt.level : 0} active={listening} className="h-8 min-w-0 justify-center overflow-hidden text-secondary" />
             <span className={micOn ? "sr-only" : "shrink-0 text-[13px] font-medium text-secondary"}>{!micOn ? "마이크 꺼짐" : stage === "asking" ? "질문 듣는 중" : listening ? "듣는 중" : "대기 중"}</span>
+            <button
+              type="button"
+              onClick={() => setCamOn((v) => !v)}
+              aria-pressed={camOn}
+              aria-label={camOn ? "카메라 끄기" : "카메라 켜기"}
+              className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${camOn ? "bg-card text-ink" : "bg-ink text-inverse"}`}
+            >
+              {camOn ? <Video size={22} /> : <VideoOff size={22} />}
+            </button>
           </div>
         )}
         {live ? (

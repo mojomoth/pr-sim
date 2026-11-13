@@ -43,7 +43,7 @@
   flex-shrink: 0;
   border-radius: 8px;
 }
-.landing__brand img { width: 132px; height: auto; }
+.landing__brand img { width: 185px; height: auto; }
 
 .landing__history {
   display: inline-flex;
@@ -177,7 +177,7 @@
       linear-gradient(90deg, rgb(8 8 8 / 45%), transparent 56%);
   }
   .landing__header { padding-top: max(30px, env(safe-area-inset-top)); }
-  .landing__brand img { width: 158px; }
+  .landing__brand img { width: 205px; }
   .landing__history { padding-inline: 20px; font-size: 14px; }
 
   .landing__main {

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* PR-SIM design tokens — docs/screens/draft/DESIGN.md */
+/* DANSANG design tokens — docs/screens/draft/DESIGN.md */
 :root {
   --color-canvas: #ffffff;
   --color-surface: #f5f5f5;

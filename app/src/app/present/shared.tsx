@@ -2,7 +2,7 @@
 // Shared by /present and /qa: load the session named by ?s=, the not-found state, judge faces from
 // IndexedDB blobs, and the camera/mic problem notice.
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/Button";
 import { PermissionNotice } from "@/components/CameraView";
 import { Mic, MicOff, Refresh, Video, VideoOff } from "@/components/Icons";
@@ -90,8 +90,8 @@ export function SessionJudgeTile({ judge, speaking }: { judge: StoredJudge; spea
   return <JudgeTile judge={useJudgeView(judge)} speaking={speaking} />;
 }
 
-export function SessionJudgeHero({ judge, speaking, compact }: { judge: StoredJudge; speaking: boolean; compact?: boolean }) {
-  return <JudgeHero judge={useJudgeView(judge, true)} speaking={speaking} compact={compact} />;
+export function SessionJudgeHero({ judge, speaking, compact, inset }: { judge: StoredJudge; speaking: boolean; compact?: boolean; inset?: ReactNode }) {
+  return <JudgeHero judge={useJudgeView(judge, true)} speaking={speaking} compact={compact} inset={inset} />;
 }
 
 export function SessionJudgeAvatar({ judge, size }: { judge: StoredJudge; size?: number }) {

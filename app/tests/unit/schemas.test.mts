@@ -39,6 +39,8 @@ test("GenerateIn rejects missing docs, duplicate roles, too many or duplicate ju
   assert.equal(GenerateIn.safeParse({ ...ok, judges: [judge, judge] }).success, false);
   assert.equal(GenerateIn.safeParse({ ...ok, judges: [1, 2, 3, 4].map((i) => ({ ...judge, id: `j${i}` })) }).success, false);
   assert.equal(GenerateIn.safeParse({ ...ok, qaMinutes: 0 }).success, false);
+  assert.equal(GenerateIn.safeParse({ ...ok, qaMinutes: 60, presentationMinutes: 60 }).success, true);
+  assert.equal(GenerateIn.safeParse({ ...ok, qaMinutes: 61 }).success, false);
 });
 
 test("FollowUpIn truncates long answers to 4000 chars instead of rejecting", () => {

@@ -90,7 +90,7 @@ export function HistoryScreen() {
     <>
       <Screen bottomPad={84}>
         {/* Draft 07's round profile button is left out on purpose: v1 has no accounts, so it would lead nowhere. Add it with profiles. */}
-        <BrandHeader />
+        <BrandHeader backHref="/" />
 
         <h1 className="mt-6 text-[42px] font-extrabold leading-[52px] tracking-[-1.4px]">
           쌓이는 연습,

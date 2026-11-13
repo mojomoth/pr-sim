@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { DevlogBoard } from "@/components/DevlogBoard";
 
-export const metadata = { title: "PR·SIM PoC · 개발 관측" };
+export const metadata = { title: "DANSANG PoC · 개발 관측" };
 
 export default function DevlogPage() {
   return (
     <main className="mx-auto w-full max-w-[1120px] px-6 py-8 flex flex-col gap-6">
       <header className="flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <img src="/brand/symbol.svg" alt="" className="w-7 h-7" /> PR·SIM <span className="text-secondary font-medium">PoC</span>
+          <img src="/brand/symbol.svg" alt="" className="w-7 h-7" /> DANSANG <span className="text-secondary font-medium">PoC</span>
         </Link>
         <span className="text-sm text-secondary">멀티에이전트 개발 관측</span>
       </header>

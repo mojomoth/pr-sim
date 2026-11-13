@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 
+/** Google Analytics 4 (property "dansang", web stream https://dansang.io). Public ID, safe to ship. */
+const GA_MEASUREMENT_ID = "G-GRX680TYZS";
+
 export const metadata: Metadata = {
-  title: "PR·SIM",
+  title: "DANSANG",
   description: "AI 심사위원 앞에서 실전처럼 연습하는 발표 리허설",
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "48x48" }, { url: "/icon.png", type: "image/png", sizes: "192x192" }],
@@ -38,6 +42,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </div>
           </div>
         </div>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`}
+        </Script>
       </body>
     </html>
   );

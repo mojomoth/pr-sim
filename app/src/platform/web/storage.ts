@@ -58,7 +58,7 @@ function openDb(): Promise<IDBDatabase> {
       resolve(db);
     };
     req.onerror = () => reject(new StorageError("unavailable", TEXT.unavailable));
-    req.onblocked = () => reject(new StorageError("failed", "다른 탭이 기록을 쓰고 있어요. 다른 PR-SIM 탭을 닫고 다시 시도해 주세요."));
+    req.onblocked = () => reject(new StorageError("failed", "다른 탭이 기록을 쓰고 있어요. 다른 DANSANG 탭을 닫고 다시 시도해 주세요."));
   }).catch((e) => {
     dbPromise = null;
     throw e;

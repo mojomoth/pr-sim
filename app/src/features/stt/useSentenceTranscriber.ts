@@ -106,7 +106,7 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
     liveOpen: false,
     liveBuf: [] as Uint8Array[], // pcm16 frames waiting to be sent
     pendingSend: [] as Uint8Array[], // buffered while (re)connecting
-    reconnects: 0,
+    reconnects: 0, // consecutive short-lived connections; reset once one stays up (see onclose)
     stopRequested: false,
     finalWaiter: null as null | (() => void),
     carryTimer: 0 as ReturnType<typeof setTimeout> | 0,
@@ -234,6 +234,7 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
     const ai = new GoogleGenAI({ apiKey: tok.token, httpOptions: { apiVersion: "v1alpha" } });
     await new Promise<void>((resolve, reject) => {
       let opened = false;
+      let openedAt = 0;
       let sess: LiveSession | null = null;
       // a socket from an older run, or one already replaced, must not touch the shared state
       const foreign = () => stale() || (sess !== null && sess !== s.session);
@@ -244,6 +245,7 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
           callbacks: {
             onopen: () => {
               opened = true;
+              openedAt = Date.now();
               if (!stale()) s.liveOpen = true;
               resolve();
             },
@@ -267,6 +269,9 @@ export function useSentenceTranscriber(opts: TranscriberOptions): Transcriber {
               s.session = null;
               s.finalWaiter?.();
               if (s.running && !s.stopRequested) {
+                // Live sessions end on their own (goAway / 15-min audio cap / 30-min token), so a 60-min
+                // phase reconnects several times: only connections that drop quickly count toward the cap.
+                if (Date.now() - openedAt > 60_000) s.reconnects = 0;
                 if (s.reconnects++ < 5) {
                   setNotice("음성 인식 연결이 끊겨 다시 연결하고 있어요.");
                   selfRefs.current

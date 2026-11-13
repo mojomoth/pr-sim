@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Waveform } from "./Waveform";
 
 /** What every judge component needs. `persona` is the visible label (친절함 / 빡셈 / 공격적). */
@@ -72,7 +73,8 @@ const HERO_STATUS: Record<Exclude<JudgeHeroStatus, "ended">, string> = {
  * 답변 살펴보는 중; none once ended). `status` wins over the legacy `speaking` flag
  * (speaking → asking, otherwise listening).
  */
-export function JudgeHero({ judge, speaking, status, compact }: { judge: JudgeView; speaking?: boolean; status?: JudgeHeroStatus; compact?: boolean }) {
+/** `inset`: e.g. my camera — top-right of the face card, or before the status pill in the compact row. */
+export function JudgeHero({ judge, speaking, status, compact, inset }: { judge: JudgeView; speaking?: boolean; status?: JudgeHeroStatus; compact?: boolean; inset?: ReactNode }) {
   const s: JudgeHeroStatus = status ?? (speaking ? "asking" : "listening");
   if (compact)
     // Short screens while answering: the whole face as a round avatar instead of a face card cut off
@@ -80,9 +82,18 @@ export function JudgeHero({ judge, speaking, status, compact }: { judge: JudgeVi
     return (
       <div className="flex items-center gap-3 rounded-[28px] bg-card p-2 pr-3">
         <JudgeAvatar judge={judge} size={56} />
-        <span className="min-w-0 flex-1 truncate text-[15px] font-bold">
-          {judge.name} · {judge.persona}
-        </span>
+        {inset ? (
+          // The camera takes the row's middle: name over persona so neither is cut off.
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span className="truncate text-[15px] font-bold leading-5">{judge.name}</span>
+            <span className="truncate text-[13px] leading-[18px] text-secondary">{judge.persona}</span>
+          </span>
+        ) : (
+          <span className="min-w-0 flex-1 truncate text-[15px] font-bold">
+            {judge.name} · {judge.persona}
+          </span>
+        )}
+        {inset}
         {s !== "ended" && (
           <span className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-ink px-3.5 text-[14px] font-semibold text-inverse" aria-live="polite">
             <Waveform bars={5} active={s === "asking"} className="h-4" />
@@ -94,6 +105,7 @@ export function JudgeHero({ judge, speaking, status, compact }: { judge: JudgeVi
   return (
     <div className="relative aspect-[4/3.3] w-full">
       <JudgeFace judge={judge} className="h-full w-full rounded-[28px]" />
+      {inset && <div className="absolute right-3 top-3">{inset}</div>}
       <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
         <span className="inline-flex h-10 min-w-0 items-center truncate rounded-full bg-canvas px-4 text-[15px] font-bold">
           {judge.name} · {judge.persona}

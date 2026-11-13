@@ -7,7 +7,7 @@ export default function Home() {
     <main className="mx-auto w-full max-w-[1120px] px-6 py-8 flex flex-col gap-8">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2 font-bold text-lg">
-          <img src="/brand/symbol.svg" alt="" className="w-7 h-7" /> PR·SIM <span className="text-secondary font-medium">PoC</span>
+          <img src="/brand/symbol.svg" alt="" className="w-7 h-7" /> DANSANG <span className="text-secondary font-medium">PoC</span>
         </div>
         <Link href="/devlog" className="rounded-full bg-surface px-4 py-2 text-sm font-semibold">개발 관측 →</Link>
       </header>

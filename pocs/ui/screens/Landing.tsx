@@ -16,8 +16,8 @@ export function Landing() {
       <div className="landing__veil" aria-hidden="true" />
 
       <header className="landing__header">
-        <Link href="/ui" aria-label="PR·SIM 홈" className="landing__brand">
-          <Image src="/landing/brand-lockup-white.webp" alt="PR·SIM" width={158} height={53} preload />
+        <Link href="/ui" aria-label="DANSANG 홈" className="landing__brand">
+          <Image src="/landing/brand-lockup-white.webp" alt="DANSANG" width={192} height={30} preload />
         </Link>
         <Link href="/ui/history" className="landing__history">
           연습 기록 <ArrowRight size={16} />

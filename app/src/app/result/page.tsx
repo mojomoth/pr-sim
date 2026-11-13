@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ResultScreen } from "./ResultScreen";
 
-export const metadata: Metadata = { title: "결과 · PR·SIM" };
+export const metadata: Metadata = { title: "결과 · DANSANG" };
 
 export default function ResultPage() {
   return (

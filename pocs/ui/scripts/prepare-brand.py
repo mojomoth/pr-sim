@@ -1,8 +1,7 @@
-"""Copy the approved BI lockup (assets/bi/lockup-black.png) into public/ui/brand/.
+"""Copy DANSANG BI into public/ui/brand, preserving the vector master ratio.
 
-Trims only the transparent 24px export padding (geometry untouched, aspect ratio kept)
-and writes a 3x-retina copy for the 32px-high header logo. Run from pocs/:
-    python3 ui/scripts/prepare-brand.py
+Run from pocs/: python3 ui/scripts/prepare-brand.py
+For a full SVG export and icon sync: python3 ../assets/bi/extract.py
 """
 from pathlib import Path
 from PIL import Image

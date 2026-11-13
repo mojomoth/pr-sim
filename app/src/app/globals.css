@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * PR·SIM shell — tokens (docs/screens/draft/DESIGN.md) + device frame.
+ * DANSANG shell — tokens (docs/screens/draft/DESIGN.md) + device frame.
  *
  * HOW SCREENS LAY OUT (read this first)
  * The app always renders inside a phone-sized "screen" (#app-screen), in both modes:
@@ -56,6 +56,8 @@
   --color-stage-muted: #d4d4d4;
 
   --gutter: 24px;
+  /* The app gutter before any screen narrows --gutter (present/QA use 16px); the brand row stays on it. */
+  --page-gutter: 24px;
 
   /* Device contract (full-screen defaults; frame mode overrides below). */
   --safe-top: env(safe-area-inset-top, 0px);
@@ -67,7 +69,7 @@
   --safe-bottom-pad: max(16px, var(--safe-bottom));
 }
 @media (max-width: 360px) {
-  :root { --gutter: 20px; }
+  :root { --gutter: 20px; --page-gutter: 20px; }
 }
 
 @theme {

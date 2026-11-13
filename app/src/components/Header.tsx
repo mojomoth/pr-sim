@@ -3,22 +3,20 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "./Icons";
 
-/**
- * Approved BI lockup (black P symbol + PR·SIM wordmark, assets/bi/lockup-black.png trimmed to its
- * alpha box → public/brand). Aspect ratio 517:160 kept, no color/effects; the vertical padding keeps
- * clear space ≥ 1/4 of the symbol width. `href={null}` renders it unlinked (live sessions).
+/** DANSANG D-symbol lockup. SVG masters keep the mark sharp at every header size.
+ * `href={null}` renders it unlinked during live sessions.
  */
-const LOCKUP_RATIO = 517 / 160;
-export function Brand({ href = "/", tone = "black", height: h = 32 }: { href?: string | null; tone?: "black" | "white"; height?: number }) {
+const LOCKUP_RATIO = 1056 / 144;
+export function Brand({ href = "/", tone = "black", height: h = 24 }: { href?: string | null; tone?: "black" | "white"; height?: number }) {
   const inner = (
     <span className="flex items-center py-2">
-      {/* eslint-disable-next-line @next/next/no-img-element -- tiny static raster logo at a fixed size */}
-      <img src={`/brand/lockup-${tone}.png`} alt="PR·SIM" width={Math.round(h * LOCKUP_RATIO)} height={h} style={{ height: h, width: "auto" }} draggable={false} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- static vector brand asset at a fixed size */}
+      <img src={`/brand/lockup-${tone}.svg`} alt="DANSANG" width={Math.round(h * LOCKUP_RATIO)} height={h} style={{ height: h, width: "auto" }} draggable={false} />
     </span>
   );
   if (!href) return inner;
   return (
-    <Link href={href} aria-label="PR·SIM 홈" className="rounded-lg px-0.5">
+    <Link href={href} aria-label="DANSANG 홈" className="rounded-lg">
       {inner}
     </Link>
   );
@@ -63,33 +61,41 @@ function BackButton({ href, onClick, label = "뒤로 가기" }: { href?: string;
   );
 }
 
-/** Top bar for list-style screens (02 설정, 07 목록): optional back chevron, lockup, right slot. */
-export function BrandHeader({ right, backHref }: { right?: React.ReactNode; backHref?: string }) {
+/**
+ * Brand row shared by every screen below the landing page, so the back chevron and the lockup sit at
+ * the same spot everywhere: back · lockup on the left, optional right slot. Step screens put their
+ * sticky title row under it (present/QA scroll this 48px row away with `sticky -top-12`). The row is
+ * inset by --page-gutter even where a screen narrows --gutter, so it does not shift on present/QA.
+ */
+function BrandRow({ backHref, onBack, right }: { backHref?: string; onBack?: () => void; right?: React.ReactNode }) {
   return (
-    <header className="flex h-14 items-center justify-between">
-      <div className="flex items-center gap-1">
-        {backHref && <BackButton href={backHref} />}
-        <Brand />
+    <div className="mx-[calc(var(--page-gutter)-var(--gutter))] flex h-12 items-center justify-between">
+      <div className="flex items-center gap-0.5">
+        <BackButton href={backHref} onClick={onBack} />
+        {/* With onBack (confirm-before-leaving) the lockup is not a link, so it cannot bypass the confirmation. */}
+        <Brand href={onBack ? null : "/"} />
       </div>
       {right}
+    </div>
+  );
+}
+
+/** Top bar for list-style screens (02 설정, 07 목록): back · lockup, right slot. */
+export function BrandHeader({ right, backHref }: { right?: React.ReactNode; backHref: string }) {
+  return (
+    <header>
+      <BrandRow backHref={backHref} right={right} />
     </header>
   );
 }
 
-/**
- * Step top bar (03–06): lockup row above back · centered step title · right action.
- * With `onBack` (confirm-before-leaving) the lockup is not a link, so it cannot bypass the confirmation.
- */
+/** Step top bar (03–06): the shared brand row, then a centered step title with the right action. */
 export function StepHeader({ title, backHref, onBack, right }: { title: string; backHref?: string; onBack?: () => void; right?: React.ReactNode }) {
   return (
     <header>
-      <div className="flex h-12 items-center">
-        <Brand href={onBack ? null : "/"} />
-      </div>
+      <BrandRow backHref={backHref} onBack={onBack} />
       <div className="grid h-14 grid-cols-[1fr_auto_1fr] items-center">
-        <div className="justify-self-start">
-          <BackButton href={backHref} onClick={onBack} />
-        </div>
+        <span />
         <h1 className="text-[20px] font-bold leading-7 tracking-[-0.4px]">{title}</h1>
         <div className="justify-self-end">{right}</div>
       </div>

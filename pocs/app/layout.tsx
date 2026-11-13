@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PR·SIM PoC",
-  description: "PR-SIM 발표 시뮬레이터 — 기능 검증(PoC) 허브",
+  title: "DANSANG PoC",
+  description: "DANSANG 발표 시뮬레이터 — 기능 검증(PoC) 허브",
   icons: { icon: "/brand/app-icon.png" },
 };
 

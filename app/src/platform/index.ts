@@ -14,6 +14,8 @@ export interface Platform {
   startMic: (onFrame: (frame: Float32Array) => void) => Promise<MicHandle>;
   /** Current permission without prompting. */
   queryPermission: (device: media.MediaDevice) => Promise<PermissionState | "unknown">;
+  /** Shows the permission prompt now and releases the device. "live" = allowed. */
+  requestPermission: (device: media.MediaDevice) => Promise<media.MediaStatus>;
   audio: {
     play: typeof playWav;
     /** On-device voice (Web Speech today; a Capacitor TTS plugin later) for when /api/tts fails. Lower quality: say so in the UI. */
@@ -31,6 +33,7 @@ export const platform: Platform = {
   useCamera: media.useCamera,
   startMic,
   queryPermission: media.queryPermission,
+  requestPermission: media.requestPermission,
   audio: {
     // One voice at a time across both paths.
     play: (src, opts) => (stopSpeech(), playWav(src, opts)),

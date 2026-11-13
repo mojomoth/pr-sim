@@ -6,7 +6,7 @@ import { ApiError, streamWiki } from "@/features/session/api";
 import { blobKey, createSession, getBlob, listSessions, updateSession } from "@/features/session/db";
 import type { DocRole, SessionRecord, StoredDoc, StoredJudge } from "@/features/session/types";
 
-export const DEFAULT_SETUP: SessionRecord["setup"] = { situation: "", presentationMinutes: 5, qaMinutes: 3 };
+export const DEFAULT_SETUP: SessionRecord["setup"] = { situation: "", presentationMinutes: 15, qaMinutes: 20 };
 
 /** A session the presenter has not really started yet can go back to being a draft. */
 export function hasProgress(rec: SessionRecord): boolean {

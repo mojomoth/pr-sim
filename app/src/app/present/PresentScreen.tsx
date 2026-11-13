@@ -7,8 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BottomBar, Button } from "@/components/Button";
 import { CameraView } from "@/components/CameraView";
 import { ConfirmDialog, PhaseEndDialog } from "@/components/Dialog";
-import { Brand } from "@/components/Header";
-import { ChevronLeft } from "@/components/Icons";
+import { StepHeader } from "@/components/Header";
 import { Screen } from "@/components/Layout";
 import { Timer } from "@/components/Timer";
 import { Waveform } from "@/components/Waveform";
@@ -75,11 +74,16 @@ function Presentation({ rec }: { rec: SessionRecord }) {
   const [camOn, setCamOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
   const cam = useCamera(camOn && stage !== "ended");
-  // The mic opens only at 발표 시작; until then a blocked permission is read without prompting.
-  const [micBlocked, setMicBlocked] = useState(false);
+  // The mic records only from 발표 시작, but its permission is asked here in the ready stage, right
+  // after the camera prompt settles (one prompt at a time), so the presenter isn't stopped at the start.
+  const [micPrep, setMicPrep] = useState<MediaStatus>("pending");
+  const askMic = useCallback(() => void platform.requestPermission("mic").then(setMicPrep), []);
+  const askedMic = useRef(false);
   useEffect(() => {
-    void platform.queryPermission("mic").then((p) => setMicBlocked(p === "denied"));
-  }, []);
+    if (askedMic.current || stage !== "ready" || !micOn || cam.status === "pending") return;
+    askedMic.current = true;
+    askMic();
+  }, [stage, micOn, cam.status, askMic]);
 
   // Every sentence of this visit; the phase-ending save re-adds any whose own save failed.
   const said = useRef<TranscriptSentence[]>([]);
@@ -231,35 +235,21 @@ function Presentation({ rec }: { rec: SessionRecord }) {
                 : "대기 중";
 
   const judges = rec.judges.slice(0, 3);
-  const micProblem: MediaStatus | undefined = micStatusFromError(stt.error) ?? (micBlocked && !listening ? "denied" : undefined);
+  const micPrepProblem = stage === "ready" && micPrep !== "pending" && micPrep !== "live" ? micPrep : undefined;
+  const micProblem: MediaStatus | undefined = micStatusFromError(stt.error) ?? micPrepProblem;
 
   return (
     // Draft 03 runs content closer to the screen edge than the 24px app gutter.
     <div className="contents [--gutter:16px]">
       <Screen bottomPad={BAR_H}>
         {/* DESIGN.md: the step name and the remaining time stay at the top (the logo row scrolls away).
-            Draft 03 puts the back chevron on the logo row and only 종료 on the title row. */}
+            Like every screen, the back chevron sits on the logo row and only 종료 on the title row. */}
         <div className="sticky -top-12 z-20 -mx-[var(--gutter)] bg-canvas px-[var(--gutter)] pb-3">
-          <header>
-            <div className="flex h-12 items-center gap-0.5">
-              <button
-                type="button"
-                aria-label="뒤로 가기"
-                className="-ml-2 inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-surface"
-                onClick={stage === "live" ? () => openConfirm("back") : () => router.push(`/setup?s=${id}`)}
-              >
-                <ChevronLeft size={26} />
-              </button>
-              <Brand href={null} />
-            </div>
-            <div className="grid h-14 grid-cols-[1fr_auto_1fr] items-center">
-              <span />
-              <h1 className="text-[20px] font-bold leading-7 tracking-[-0.4px]">발표 중</h1>
-              <div className="justify-self-end">
-                <EndPill outline onClick={() => (stage === "live" ? openConfirm("exit") : router.push("/history"))} />
-              </div>
-            </div>
-          </header>
+          <StepHeader
+            title="발표 중"
+            onBack={stage === "live" ? () => openConfirm("back") : () => router.push(`/setup?s=${id}`)}
+            right={<EndPill outline onClick={() => (stage === "live" ? openConfirm("exit") : router.push("/history"))} />}
+          />
           <div className="mt-2">
             <Timer label={resumeSec ? "발표 남은 시간 · 이어서 진행" : "발표 남은 시간"} remaining={remaining} total={total} compact />
           </div>
@@ -307,6 +297,7 @@ function Presentation({ rec }: { rec: SessionRecord }) {
               </span>
             </div>
             {micOn && stt.error && <MediaProblem device="mic" status={micStatusFromError(stt.error)} message={stt.error} onRetry={() => void stt.start(elapsed())} />}
+            {micOn && !stt.error && micPrepProblem && <MediaProblem device="mic" status={micPrepProblem} onRetry={askMic} />}
             {stt.notice && <p className="px-1 text-[13px] text-secondary">{stt.notice}</p>}
             {saveError && (
               <div role="alert" className="flex items-center gap-3 px-1">

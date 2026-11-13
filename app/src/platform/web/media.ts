@@ -63,6 +63,18 @@ export async function queryPermission(device: MediaDevice): Promise<PermissionSt
   }
 }
 
+/** Show the browser's permission prompt now (opens the device and releases it at once). "live" = allowed. */
+export async function requestPermission(device: MediaDevice): Promise<MediaStatus> {
+  const why = mediaUnavailable();
+  if (why) return why;
+  try {
+    stopStream(await navigator.mediaDevices.getUserMedia(device === "camera" ? { video: true } : { audio: true }));
+    return "live";
+  } catch (e) {
+    return classifyMediaError(e);
+  }
+}
+
 function stopStream(stream: MediaStream | null | undefined) {
   stream?.getTracks().forEach((t) => t.stop());
 }

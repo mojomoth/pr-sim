@@ -11,7 +11,9 @@ import { MinuteSlider } from "@/components/Slider";
 import { UploadRow } from "@/components/UploadRow";
 import { platform } from "@/platform";
 import { ApiError, streamJudges } from "@/features/session/api";
+import { FIRST_PANEL, takePanel } from "@/features/session/judgePrefetch";
 import { blobKey, createSession, deleteBlob, getSession, listSessions, storeJudgeImage, storePdf, updateSession, useBlobUrl } from "@/features/session/db";
+import type { JudgeEvent } from "@/server/judge/types";
 import type { DocRole, RollAvoid, SessionRecord, StoredDoc, StoredJudge, Temperament } from "@/features/session/types";
 import { ocrEmptyPages, needsOcr } from "@/features/slide/ocr";
 import { PDF_LIMITS, readPdf } from "@/features/slide/pdf";
@@ -20,8 +22,8 @@ import { buildWiki, cloneAsDraft, DEFAULT_SETUP, fallbackJudge, hasProgress, lat
 import { faceNotice } from "./faceNotice";
 
 const MAX_JUDGES = 3;
-const PRESENTATION_MIN = { min: 1, max: 20 };
-const QA_MIN = { min: 1, max: 15 };
+const PRESENTATION_MIN = { min: 1, max: 60 };
+const QA_MIN = { min: 1, max: 60 };
 const SITUATION_MAX = 300;
 const PERSONAS = (["friendly", "strict", "aggressive"] as const).map((value) => ({ value, label: TEMPERAMENT_LABEL[value] }));
 
@@ -252,7 +254,8 @@ function SetupForm({ sid }: { sid: string }) {
     void save((cur) => ({ ...cur, judges })).catch(() => {});
   };
 
-  async function generate(keys: string[], temperaments: Temperament[]) {
+  /** `prefetched`: a new draft's first panel, taken from the landing page's request when there is one. */
+  async function generate(keys: string[], temperaments: Temperament[], prefetched = false) {
     const others = slotsRef.current.flatMap((s) => (s.judge && !keys.includes(s.key) ? [s.judge] : []));
     const avoid: RollAvoid | undefined = others.length
       ? { names: others.map((j) => j.name), surnames: others.map((j) => j.fullName.slice(0, 1)), genders: others.map((j) => j.gender), ages: others.map((j) => j.age) }
@@ -268,44 +271,39 @@ function SetupForm({ sid }: { sid: string }) {
         const taken = ss.flatMap((s) => (s.judge ? [s.judge] : []));
         return ss.map((s) => (s.key === key ? { ...s, pending: false, error: message, errorCode: code, judge: s.judge ?? fallbackJudge(s.temperament, taken) } : s));
       });
-    try {
-      await streamJudges(
-        { temperaments, avoid },
-        {
-          signal: ctl.signal,
-          onEvent: (e) => {
-            if (e.type === "done") return;
-            const key = keys[e.slot];
-            if (!key) return;
-            settled.add(key);
-            if (e.type === "error") return fail(key, e.message, e.code);
-            const j = e.judge;
-            stores.push(
-              storeJudgeImage(j.id, j.image).then(
-                (blobKeys) => {
-                  // The row was removed while its face was being made: nothing will point at these.
-                  if (!slotsRef.current.some((s) => s.key === key)) return void dropBlobs([blobKeys.imageKey, blobKeys.thumbKey]).catch(() => {});
-                  commit((ss) =>
-                    ss.map((s) =>
-                      s.key === key
-                        ? {
-                            ...s,
-                            pending: false,
-                            error: undefined,
-                            errorCode: undefined,
-                            faceTemperament: j.temperament,
-                            judge: { id: j.id, name: j.name, fullName: j.fullName, gender: j.gender, age: j.age, voiceHint: j.voiceHint, temperament: s.temperament, ...blobKeys },
-                          }
-                        : s,
-                    ),
-                  );
-                },
-                (err) => fail(key, errorText(err, "얼굴 사진을 저장하지 못했어요."), "store"),
+    const onEvent = (e: JudgeEvent) => {
+      if (e.type === "done") return;
+      const key = keys[e.slot];
+      if (!key) return;
+      settled.add(key);
+      if (e.type === "error") return fail(key, e.message, e.code);
+      const j = e.judge;
+      stores.push(
+        storeJudgeImage(j.id, j.image).then(
+          (blobKeys) => {
+            // The row was removed while its face was being made: nothing will point at these.
+            if (!slotsRef.current.some((s) => s.key === key)) return void dropBlobs([blobKeys.imageKey, blobKeys.thumbKey]).catch(() => {});
+            commit((ss) =>
+              ss.map((s) =>
+                s.key === key
+                  ? {
+                      ...s,
+                      pending: false,
+                      error: undefined,
+                      errorCode: undefined,
+                      faceTemperament: j.temperament,
+                      judge: { id: j.id, name: j.name, fullName: j.fullName, gender: j.gender, age: j.age, voiceHint: j.voiceHint, temperament: s.temperament, ...blobKeys },
+                    }
+                  : s,
               ),
             );
           },
-        },
+          (err) => fail(key, errorText(err, "얼굴 사진을 저장하지 못했어요."), "store"),
+        ),
       );
+    };
+    try {
+      await ((prefetched && takePanel(onEvent, ctl.signal)) || streamJudges({ temperaments, avoid }, { signal: ctl.signal, onEvent }));
       await Promise.all(stores);
     } catch (e) {
       if ((e as { name?: string })?.name === "AbortError") return;
@@ -322,11 +320,12 @@ function SetupForm({ sid }: { sid: string }) {
     if (!recId || autoGenerated.current) return;
     autoGenerated.current = true;
     if (slotsRef.current.length) return;
-    const first = PERSONAS.map((p) => ({ key: crypto.randomUUID(), temperament: p.value }));
+    const first = FIRST_PANEL.map((temperament) => ({ key: crypto.randomUUID(), temperament }));
     commit(() => first);
     void generate(
       first.map((s) => s.key),
       first.map((s) => s.temperament),
+      true,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per loaded draft
   }, [recId]);
