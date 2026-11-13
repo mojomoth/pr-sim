@@ -1,0 +1,10 @@
+[09:59:46] session s_mwet2a1z70383o3b
+[09:59:46] FAIL setup: 3 judge faces generated — {"faces":0}
+[09:59:46] PASS setup: notpdf upload rejected with a message — "업로드 실패 PDF 파일만 올릴 수 있어요. 다시 시도"
+[09:59:47] PASS setup: corrupt upload rejected with a message — "업로드 실패 PDF 파일을 읽을 수 없어요. 파일이 손상됐거나 PDF 형식이 아니에요. 다시 시도"
+[09:59:47] PASS setup: big31mb upload rejected with a message — "업로드 실패 파일이 너무 커요. 30.0MB 이하로 올려 주세요. 다시 시도"
+[09:59:47] PASS setup: both PDFs attached
+[09:59:48] PASS setup: 1+1 min, 3 judges — "총 2분 · 심사위원 3명"
+[10:01:33] FAIL run 1 finished without exceptions — "waitForFunction failed: frame got detached."
+[10:01:33] run 2 skipped: run 1 did not reach the presentation screen
+[10:01:33] FAILED 2/7 → /Users/jyl/work/study/pr-sim/app/.verify/e2e/2026-11-13T09-59-42
