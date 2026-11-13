@@ -7,7 +7,7 @@ import { ChevronLeft } from "./Icons";
  * `href={null}` renders it unlinked during live sessions.
  */
 const LOCKUP_RATIO = 1056 / 144;
-export function Brand({ href = "/", tone = "black", height: h = 24 }: { href?: string | null; tone?: "black" | "white"; height?: number }) {
+export function Brand({ href = "/", tone = "black", height: h = 18 }: { href?: string | null; tone?: "black" | "white"; height?: number }) {
   const inner = (
     <span className="flex items-center py-2">
       {/* eslint-disable-next-line @next/next/no-img-element -- static vector brand asset at a fixed size */}

@@ -6,7 +6,7 @@ import { ChevronLeft } from "./Icons";
 /** DANSANG D-symbol lockup, exported from assets/bi. */
 export const LOCKUP_RATIO = 1056 / 144;
 export function Brand({ href = "/ui", size = "md" }: { href?: string | null; size?: "sm" | "md" }) {
-  const h = size === "md" ? 32 : 28;
+  const h = size === "md" ? 24 : 21;
   const inner = (
     <span className="flex items-center py-2">
       {/* eslint-disable-next-line @next/next/no-img-element -- tiny static raster logo, fixed size */}

@@ -43,7 +43,7 @@
   flex-shrink: 0;
   border-radius: 8px;
 }
-.landing__brand img { width: 185px; height: auto; }
+.landing__brand img { width: 139px; height: auto; }
 
 .landing__history {
   display: inline-flex;

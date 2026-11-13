@@ -27,7 +27,7 @@ export default function Landing() {
       />
 
       <header className="flex items-center justify-between gap-4 px-[var(--gutter)] pt-[max(14px,var(--safe-top))]">
-        <Brand tone="white" href={null} height={29} />
+        <Brand tone="white" href={null} height={22} />
         <Link
           href="/history"
           className="inline-flex min-h-11 items-center gap-2.5 rounded-full bg-white px-4 text-[14px] font-semibold text-ink shadow-[0_0_0_3px_rgb(0_0_0/55%),0_4px_16px_rgb(0_0_0/25%)] transition-colors hover:bg-card focus-visible:outline-white"
