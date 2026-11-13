@@ -2,7 +2,8 @@
 // Only cheap paths: validation errors never reach a model; the token route mints one free Live token.
 // Never prints tokens or keys.
 import assert from "node:assert/strict";
-import { request } from "node:http";
+import { request as httpRequest } from "node:http";
+import { request as httpsRequest } from "node:https";
 import { test } from "node:test";
 
 const BASE = (process.env.BASE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
@@ -62,8 +63,9 @@ test("body over 4MB → 413 too_large", async () => {
 });
 
 test("chunked body over 4MB (no content-length) → 413 too_large", async () => {
-  // node:http on its own socket (agent: false): the server stops reading mid-body, so this socket is not reused.
+  // node:http(s) on its own socket (agent: false): the server stops reading mid-body, so this socket is not reused.
   const url = new URL(BASE + "/api/tts");
+  const request = url.protocol === "https:" ? httpsRequest : httpRequest;
   const chunk = Buffer.from("가".repeat(21_845)); // ~64KB
   const res = await new Promise((resolve, reject) => {
     const req = request(url, { method: "POST", agent: false, headers: { "content-type": "application/json", ...CLIENT } }, (r) => {
@@ -74,8 +76,8 @@ test("chunked body over 4MB (no content-length) → 413 too_large", async () => 
     req.on("error", reject);
     let sent = 0;
     const pump = () => {
-      while (sent < 80) {
-        sent++; // 80 × 64KB ≈ 5.2MB
+      while (sent < 66) {
+        sent++; // 66 × 64KB ≈ 4.3MB: over MAX_BODY_BYTES (4MB), under Vercel's 4.5MB edge limit (which answers in plain text)
         if (!req.write(chunk)) return void req.once("drain", pump);
       }
       req.end();

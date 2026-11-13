@@ -163,8 +163,10 @@ if (sid && presented) {
       }
       await sleep(700);
     }
-    const audio = await page.evaluate(() => window.__audio);
-    check("qa: judge question spoken (TTS played)", audio.length > 0, { plays: audio.length });
+    // Pass on either path: server TTS (<audio>.play) or the D22 device-voice fallback (speechSynthesis.speak).
+    const { audio, speech } = await page.evaluate(() => ({ audio: window.__audio, speech: window.__speech ?? [] }));
+    const via = [audio.length && "server-audio", speech.length && "device-voice"].filter(Boolean).join("+") || "none";
+    check("qa: judge question spoken (TTS played)", audio.length > 0 || speech.length > 0, { via, plays: audio.length, utterances: speech.length });
     await shot(page, "08-qa-end");
     const recQ = await idbSession(page, sid);
     check("qa: answer saved with transcript", recQ.qa.length > 0 && recQ.qa.some((x) => x.answer.trim()), { qa: recQ.qa.length, status: recQ.status });

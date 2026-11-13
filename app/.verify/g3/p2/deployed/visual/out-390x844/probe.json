@@ -1,0 +1,427 @@
+{
+  "dev": "mobile",
+  "base": "https://pr-sim-lake.vercel.app",
+  "net": [
+    "200 POST /api/judges"
+  ],
+  "screens": {
+    "01-landing": {
+      "probe": {
+        "url": "/",
+        "docOverflowX": 0,
+        "bodyOverflowX": 0,
+        "scrollOverflowX": 0,
+        "wideEls": [],
+        "smallTargets": [],
+        "device": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "screen": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "scroll": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "bar": null,
+        "deviceVisible": true,
+        "screenRadius": "0px",
+        "screenOverflow": "hidden",
+        "scrollH": 844,
+        "clientH": 844,
+        "imgs": [
+          {
+            "tag": "IMG",
+            "alt": "",
+            "filter": "none",
+            "w": 390,
+            "complete": true,
+            "nw": 798
+          },
+          {
+            "tag": "IMG",
+            "alt": "PR·SIM",
+            "filter": "none",
+            "w": 126,
+            "complete": true,
+            "nw": 517
+          }
+        ],
+        "text": "연습 기록 발표 시뮬레이터 실전처럼 연습하고, 자신 있게 발표하세요. AI 심사위원과 함께하는 발표 리허설. 다음 무대의 자신감은 여기서 시작됩니다. 시작하기 상황 설정부터 피드백까지, 한 번에."
+      },
+      "barOverlap": null
+    },
+    "02-setup-fresh": {
+      "probe": {
+        "url": "/setup?s=s_mwei4mcq1m4o3d0s",
+        "docOverflowX": 0,
+        "bodyOverflowX": 0,
+        "scrollOverflowX": 0,
+        "wideEls": [],
+        "smallTargets": [
+          {
+            "tag": "BUTTON",
+            "text": "발표 시간 1분 줄이기",
+            "w": 28,
+            "h": 28
+          },
+          {
+            "tag": "BUTTON",
+            "text": "발표 시간 1분 늘리기",
+            "w": 28,
+            "h": 28
+          },
+          {
+            "tag": "BUTTON",
+            "text": "질의응답 시간 1분 줄이기",
+            "w": 28,
+            "h": 28
+          },
+          {
+            "tag": "BUTTON",
+            "text": "질의응답 시간 1분 늘리기",
+            "w": 28,
+            "h": 28
+          },
+          {
+            "tag": "BUTTON",
+            "text": "샘플 자료로 해보기",
+            "w": 94,
+            "h": 18
+          },
+          {
+            "tag": "INPUT",
+            "text": "file",
+            "w": 1,
+            "h": 1
+          },
+          {
+            "tag": "BUTTON",
+            "text": "샘플 자료로 해보기",
+            "w": 94,
+            "h": 18
+          },
+          {
+            "tag": "INPUT",
+            "text": "file",
+            "w": 1,
+            "h": 1
+          },
+          {
+            "tag": "BUTTON",
+            "text": "추가 (최대 3명)",
+            "w": 72,
+            "h": 36
+          },
+          {
+            "tag": "BUTTON",
+            "text": "친절함",
+            "w": 49,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "빡셈",
+            "w": 38,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "공격적",
+            "w": 49,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "지훈 심사위원 삭제",
+            "w": 32,
+            "h": 44
+          },
+          {
+            "tag": "BUTTON",
+            "text": "친절함",
+            "w": 49,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "빡셈",
+            "w": 38,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "공격적",
+            "w": 49,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "수진 심사위원 삭제",
+            "w": 32,
+            "h": 44
+          },
+          {
+            "tag": "BUTTON",
+            "text": "친절함",
+            "w": 49,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "빡셈",
+            "w": 38,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "공격적",
+            "w": 49,
+            "h": 32
+          },
+          {
+            "tag": "BUTTON",
+            "text": "현석 심사위원 삭제",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "device": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "screen": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "scroll": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "bar": {
+          "left": 0,
+          "top": 710,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 134
+        },
+        "deviceVisible": true,
+        "screenRadius": "0px",
+        "screenOverflow": "hidden",
+        "scrollH": 1206,
+        "clientH": 844,
+        "imgs": [
+          {
+            "tag": "IMG",
+            "alt": "PR·SIM",
+            "filter": "none",
+            "w": 103,
+            "complete": true,
+            "nw": 517
+          }
+        ],
+        "text": "상황 설정 01 / 03 어떤 발표를 준비하고 있나요? 발표 환경을 내 상황에 맞춰 설정하세요. 상황 발표 시간 5분 질의응답 시간 3분 발표 자료 샘플 자료로 해보기 PDF 업로드 (필수) 제안 자료 샘플 자료로 해보기 PDF 업로드 (선택) 심사위원 추가 (최대 3명) 얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도 지 지훈 40대 · 심사위원 친절함 빡셈 공격적 수 수진 40대 · 심사위원 친절함 빡셈 공격적 현 현석 40대 · 심사위원 친절함 빡셈 공격적 총 8분 · 심사위원 3명 발표 시작하기 발표 상황을 입력해 주세요."
+      },
+      "barOverlap": {
+        "lastContentBottom": 693,
+        "barTop": 710,
+        "hidden": false,
+        "lastText": "40대 · 심사위원"
+      }
+    },
+    "07-history-empty": {
+      "probe": {
+        "url": "/history",
+        "docOverflowX": 0,
+        "bodyOverflowX": 0,
+        "scrollOverflowX": 0,
+        "wideEls": [],
+        "smallTargets": [
+          {
+            "tag": "BUTTON",
+            "text": "전체",
+            "w": 48,
+            "h": 36
+          },
+          {
+            "tag": "BUTTON",
+            "text": "완료",
+            "w": 48,
+            "h": 36
+          },
+          {
+            "tag": "BUTTON",
+            "text": "진행 중",
+            "w": 63,
+            "h": 36
+          }
+        ],
+        "device": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "screen": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "scroll": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "bar": {
+          "left": 0,
+          "top": 760,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 84
+        },
+        "deviceVisible": true,
+        "screenRadius": "0px",
+        "screenOverflow": "hidden",
+        "scrollH": 844,
+        "clientH": 844,
+        "imgs": [
+          {
+            "tag": "IMG",
+            "alt": "PR·SIM",
+            "filter": "none",
+            "w": 103,
+            "complete": true,
+            "nw": 517
+          }
+        ],
+        "text": "쌓이는 연습, 달라지는 발표. 나의 시뮬레이션 기록 총 0회 평균 –점 전체 완료 진행 중 아직 연습 기록이 없어요 첫 시뮬레이션을 마치면 점수와 피드백이 여기에 쌓여요. 새 시뮬레이션"
+      },
+      "barOverlap": {
+        "lastContentBottom": 498,
+        "barTop": 760,
+        "hidden": false,
+        "lastText": "첫 시뮬레이션을 마치면 점수와 피드백이 여기에 쌓여요."
+      }
+    },
+    "07-history": {
+      "probe": {
+        "url": "/history",
+        "docOverflowX": 0,
+        "bodyOverflowX": 0,
+        "scrollOverflowX": 0,
+        "wideEls": [],
+        "smallTargets": [
+          {
+            "tag": "BUTTON",
+            "text": "전체",
+            "w": 48,
+            "h": 36
+          },
+          {
+            "tag": "BUTTON",
+            "text": "완료",
+            "w": 48,
+            "h": 36
+          },
+          {
+            "tag": "BUTTON",
+            "text": "진행 중",
+            "w": 63,
+            "h": 36
+          }
+        ],
+        "device": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "screen": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "scroll": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "bar": {
+          "left": 0,
+          "top": 760,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 84
+        },
+        "deviceVisible": true,
+        "screenRadius": "0px",
+        "screenOverflow": "hidden",
+        "scrollH": 1238,
+        "clientH": 844,
+        "imgs": [
+          {
+            "tag": "IMG",
+            "alt": "PR·SIM",
+            "filter": "none",
+            "w": 103,
+            "complete": true,
+            "nw": 517
+          }
+        ],
+        "text": "쌓이는 연습, 달라지는 발표. 나의 시뮬레이션 기록 총 3회 평균 68점 전체 완료 진행 중 2026.11.12 완료 삭제 시드 투자 이후 Pre-A 라운드(20억 원) 투자 유치를 위한 벤처캐피털 투자심사위원회 피칭. 심사위원 3명 앞에서 친환경 패키징 사업(해조류 부산물 기반 생분해 완충재)을 5분 발표하고 3분 질의응답을 진행한다. 발표 5분 · 질의응답 3분 68점 수치로 답변의 신뢰를 높여요. 결과 보기 다시 시작하기 2026.11.10 완료 삭제 신규 서비스 투자 제안 발표 5분 · 질의응답 3분 68점 수치로 답변의 신뢰를 높여요. 결과 보기 다시 시작하기 2026.11.08 진행 중 삭제 시드 투자 이후 Pre-A 라운드(20억 원) 투자 유치를 위한 벤처캐피털 투자심사위원회 피칭. 심사위원 3명 앞에서 친환경 패키징 사업(해조류 부산물 기반 생분해 완충재)을 5분 발표하고 3분 질의응답을 진행한다. 발표 1분 · 질의응답 2분 질의응답 01:00 남음 이어하기 새 시뮬레이션"
+      },
+      "barOverlap": {
+        "lastContentBottom": 707,
+        "barTop": 760,
+        "hidden": false,
+        "lastText": ""
+      }
+    }
+  },
+  "landingCta": "시작하기"
+}

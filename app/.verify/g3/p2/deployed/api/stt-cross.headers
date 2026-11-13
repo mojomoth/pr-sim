@@ -1,0 +1,10 @@
+HTTP/2 403 
+cache-control: no-store
+content-type: application/json
+date: Fri, 13 Nov 2026 04:54:01 GMT
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-matched-path: /api/stt/token
+x-vercel-cache: MISS
+x-vercel-id: icn1::icn1::x7zq9-1794545641953-665ad676f39b
+

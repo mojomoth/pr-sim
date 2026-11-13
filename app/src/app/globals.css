@@ -27,7 +27,8 @@
  *      not document.body, or they escape the phone.
  *   6. Content starts below var(--safe-top) (status bar / Dynamic Island). A full-bleed screen
  *      (landing photo) adds the `app-bleed` class to its root: the top inset is then removed
- *      and the screen must pad its own header with var(--safe-top).
+ *      and the screen must pad its own header with var(--safe-top). The rule skips a bleed root
+ *      that a hidden <Activity> (previous route kept by cacheComponents) marks display:none.
  *
  * Mockup geometry, measured from the PNG alpha channel (flood fill from the center, alpha<128;
  * script + output: app/.verify/g2/SHELL/measure-mockup.{py,txt}). Image 851×1848 = 425.5×924 @2x.
@@ -143,8 +144,10 @@ body {
   overflow: hidden;
   background: var(--color-canvas);
 }
-.app-screen:has(.app-bleed) { padding-top: 0; }
-.app-screen:has(.app-bleed) .app-scroll { --app-h: var(--screen-h); }
+/* Only while the landing is shown: after client nav, Next (cacheComponents) keeps the previous route
+   mounted in a hidden <Activity>, which marks its root with inline `display: none !important`. */
+.app-screen:has(.app-bleed:not([style*="display: none"])) { padding-top: 0; }
+.app-screen:has(.app-bleed:not([style*="display: none"])) .app-scroll { --app-h: var(--screen-h); }
 .app-scroll {
   position: relative;
   display: flex;

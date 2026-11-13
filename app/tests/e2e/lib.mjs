@@ -62,16 +62,31 @@ export async function launch({ wav } = {}) {
       net.push({ t: Date.now(), url: r.url().replace(APP, ""), status: r.status(), provider: h["x-provider"], model: h["x-model"] });
     }
   });
-  // Record <audio> playback (judge TTS) without changing behavior.
+  // Record judge TTS output without changing behavior: <audio> playback (server TTS) and device speech.
   await page.evaluateOnNewDocument(() => {
     window.__audio = [];
     const play = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.play = function () {
+      // Skip the silent data: URI clip that platform.audio.unlock() plays on the first tap.
+      if ((this.currentSrc || this.src || "").startsWith("data:")) return play.apply(this, arguments);
       const rec = { at: Date.now() };
       window.__audio.push(rec);
       this.addEventListener("ended", () => (rec.ended = Date.now()), { once: true });
       return play.apply(this, arguments);
     };
+    // D22 device-voice fallback: record speechSynthesis.speak (the silent iOS unlock utterance is skipped).
+    window.__speech = [];
+    if (typeof SpeechSynthesis !== "undefined") {
+      const speak = SpeechSynthesis.prototype.speak;
+      SpeechSynthesis.prototype.speak = function (u) {
+        if (u?.text?.trim() && u.volume !== 0) {
+          const rec = { at: Date.now(), chars: u.text.length };
+          window.__speech.push(rec);
+          u.addEventListener("end", () => (rec.ended = Date.now()), { once: true });
+        }
+        return speak.apply(this, arguments);
+      };
+    }
   });
   return { browser, page, logs, net };
 }

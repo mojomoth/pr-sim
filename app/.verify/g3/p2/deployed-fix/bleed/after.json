@@ -1,0 +1,206 @@
+{
+  "1440 hard /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 57,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "1440 hard /setup": {
+    "path": "/setup",
+    "paddingTop": "54px",
+    "headerY": 50,
+    "headerInnerY": 55,
+    "bleed": []
+  },
+  "1440 hard /history": {
+    "path": "/history",
+    "paddingTop": "54px",
+    "headerY": 50,
+    "headerInnerY": 53,
+    "bleed": []
+  },
+  "1440 / -> /setup (시작하기)": {
+    "path": "/setup",
+    "paddingTop": "54px",
+    "headerY": 50,
+    "headerInnerY": 55,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "1440 /setup -> back /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 57,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "1440 / -> /history (연습 기록)": {
+    "path": "/history",
+    "paddingTop": "54px",
+    "headerY": 50,
+    "headerInnerY": 53,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "1440 /history -> back /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 57,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "1440 forward /history": {
+    "path": "/history",
+    "paddingTop": "54px",
+    "headerY": 50,
+    "headerInnerY": 53,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "390 hard /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 22,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "390 hard /setup": {
+    "path": "/setup",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 6,
+    "bleed": []
+  },
+  "390 hard /history": {
+    "path": "/history",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 4,
+    "bleed": []
+  },
+  "390 / -> /setup (시작하기)": {
+    "path": "/setup",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 6,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "390 /setup -> back /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 22,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "390 / -> /history (연습 기록)": {
+    "path": "/history",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 4,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "390 /history -> back /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 22,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "390 forward /history": {
+    "path": "/history",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 4,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "390-notch47 hard /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 55,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "390-notch47 hard /setup": {
+    "path": "/setup",
+    "paddingTop": "47px",
+    "headerY": 47,
+    "headerInnerY": 53,
+    "bleed": []
+  },
+  "390-notch47 hard /history": {
+    "path": "/history",
+    "paddingTop": "47px",
+    "headerY": 47,
+    "headerInnerY": 51,
+    "bleed": []
+  },
+  "390-notch47 / -> /setup (시작하기)": {
+    "path": "/setup",
+    "paddingTop": "47px",
+    "headerY": 47,
+    "headerInnerY": 53,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "390-notch47 /setup -> back /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 55,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "390-notch47 / -> /history (연습 기록)": {
+    "path": "/history",
+    "paddingTop": "47px",
+    "headerY": 47,
+    "headerInnerY": 51,
+    "bleed": [
+      "hidden"
+    ]
+  },
+  "390-notch47 /history -> back /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "headerY": 0,
+    "headerInnerY": 55,
+    "bleed": [
+      "visible"
+    ]
+  },
+  "390-notch47 forward /history": {
+    "path": "/history",
+    "paddingTop": "47px",
+    "headerY": 47,
+    "headerInnerY": 51,
+    "bleed": [
+      "hidden"
+    ]
+  }
+}

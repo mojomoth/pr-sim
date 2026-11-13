@@ -1,0 +1,37 @@
+{
+  "before": {
+    "noticeEls": 1,
+    "noticeText": [
+      "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+    ],
+    "phraseCount": 1,
+    "rowErrorLinks": 0,
+    "alerts": [
+      "얼굴 사진을 만드는 이미지 서비스를 지금 쓸 수 없어요. 심사위원 3명은 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+    ],
+    "blobImgs": 0,
+    "footerHint": false,
+    "url": "/setup?s=s_mwei5er42w2p6808"
+  },
+  "after": {
+    "noticeEls": 1,
+    "noticeText": [
+      "심사위원 3명의 얼굴 사진을 만들지 못했어요. 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+    ],
+    "phraseCount": 1,
+    "rowErrorLinks": 0,
+    "alerts": [
+      "심사위원 3명의 얼굴 사진을 만들지 못했어요. 사진 대신 이름 첫 글자로 표시해요. 발표는 그대로 시작할 수 있어요. 다시 시도"
+    ],
+    "blobImgs": 0,
+    "footerHint": false,
+    "url": "/setup?s=s_mwei5er42w2p6808"
+  },
+  "netAfterReloadJudges": 1,
+  "net": [
+    {
+      "url": "/api/judges",
+      "status": 200
+    }
+  ]
+}

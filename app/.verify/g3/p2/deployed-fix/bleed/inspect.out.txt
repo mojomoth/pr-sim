@@ -1,0 +1,30 @@
+[
+ {
+  "tag": "DIV",
+  "cls": "app-bleed relative isolate flex min-h-fu",
+  "hidden": false,
+  "style": "display: none !important;"
+ },
+ {
+  "scrollChildren": [
+   {
+    "tag": "DIV",
+    "cls": "ui-enter mx-auto flex w-full max-w-[560p",
+    "style": "padding-bottom: calc(126px + var(--safe-bottom-pad));",
+    "hidden": false
+   },
+   {
+    "tag": "DIV",
+    "cls": "app-bottom-bar bg-canvas  before:pointer",
+    "style": null,
+    "hidden": false
+   },
+   {
+    "tag": "DIV",
+    "cls": "app-bleed relative isolate flex min-h-fu",
+    "style": "display: none !important;",
+    "hidden": false
+   }
+  ]
+ }
+]

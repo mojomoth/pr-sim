@@ -1,0 +1,6 @@
+tsc: ok
+$ eslint
+lint: ok
+ℹ tests 50
+ℹ pass 50
+ℹ fail 0

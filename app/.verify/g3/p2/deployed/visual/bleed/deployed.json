@@ -1,0 +1,94 @@
+{
+  "1440-history-hard": {
+    "path": "/history",
+    "padTop": "54px",
+    "bleedCount": 0,
+    "bleedHidden": [],
+    "headerTop": 89,
+    "screenTop": 39
+  },
+  "1440-setup-hard": {
+    "path": "/setup",
+    "padTop": "54px",
+    "bleedCount": 0,
+    "bleedHidden": [],
+    "headerTop": 89,
+    "screenTop": 39
+  },
+  "1440-landing": {
+    "path": "/",
+    "padTop": "0px",
+    "bleedCount": 1,
+    "bleedHidden": [
+      false
+    ],
+    "headerTop": 39,
+    "screenTop": 39
+  },
+  "1440-setup-via-cta": {
+    "path": "/setup",
+    "padTop": "0px",
+    "bleedCount": 1,
+    "bleedHidden": [
+      true
+    ],
+    "headerTop": 39,
+    "screenTop": 39
+  },
+  "1440-history-via-link": {
+    "path": "/history",
+    "padTop": "0px",
+    "bleedCount": 1,
+    "bleedHidden": [
+      true
+    ],
+    "headerTop": 39,
+    "screenTop": 39
+  },
+  "390-history-hard": {
+    "path": "/history",
+    "padTop": "0px",
+    "bleedCount": 0,
+    "bleedHidden": [],
+    "headerTop": 0,
+    "screenTop": 0
+  },
+  "390-setup-hard": {
+    "path": "/setup",
+    "padTop": "0px",
+    "bleedCount": 0,
+    "bleedHidden": [],
+    "headerTop": 0,
+    "screenTop": 0
+  },
+  "390-landing": {
+    "path": "/",
+    "padTop": "0px",
+    "bleedCount": 1,
+    "bleedHidden": [
+      false
+    ],
+    "headerTop": 0,
+    "screenTop": 0
+  },
+  "390-setup-via-cta": {
+    "path": "/setup",
+    "padTop": "0px",
+    "bleedCount": 1,
+    "bleedHidden": [
+      true
+    ],
+    "headerTop": 0,
+    "screenTop": 0
+  },
+  "390-history-via-link": {
+    "path": "/history",
+    "padTop": "0px",
+    "bleedCount": 1,
+    "bleedHidden": [
+      true
+    ],
+    "headerTop": 0,
+    "screenTop": 0
+  }
+}

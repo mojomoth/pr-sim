@@ -6,15 +6,19 @@ import { ArrowRight } from "@/components/Icons";
 export default function Landing() {
   return (
     <div className="app-bleed relative isolate flex min-h-full flex-1 flex-col bg-stage text-white">
-      {/* eslint-disable-next-line @next/next/no-img-element -- art-directed full-bleed backdrop, one static webp */}
-      <img
-        src="/landing/hero-stage-mobile-v2.webp"
-        alt=""
-        aria-hidden="true"
-        fetchPriority="high"
-        decoding="async"
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-[center_60%]"
-      />
+      {/* Art-directed full-bleed backdrop, one static webp (plain <img>, not next/image). <picture> stops React
+          from hoisting a preload hint for it into the RSC payload, which every <Link href="/"> prefetch would
+          replay on other pages (~47KB unused). The HTML preload scanner still finds the <img> early on /. */}
+      <picture className="contents">
+        <img
+          src="/landing/hero-stage-mobile-v2.webp"
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
+          className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-[center_60%]"
+        />
+      </picture>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 bg-stage-scrim"

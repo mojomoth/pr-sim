@@ -1,0 +1,5 @@
+hard root                    {"path":"/","pt":"0px","hdrTop":0,"hdrContent":55,"bleedTop":0}
+root-setup                   {"path":"/setup","pt":"47px","hdrTop":47,"hdrContent":53,"bleedTop":null}
+setup-root backbtn           {"path":"/","pt":"0px","hdrTop":0,"hdrContent":55,"bleedTop":0}
+root-history                 {"path":"/history","pt":"47px","hdrTop":47,"hdrContent":51,"bleedTop":null}
+history-root browserback     {"path":"/","pt":"0px","hdrTop":0,"hdrContent":55,"bleedTop":0}

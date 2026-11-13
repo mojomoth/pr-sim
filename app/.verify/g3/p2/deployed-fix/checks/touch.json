@@ -1,0 +1,534 @@
+{
+  "setup": [
+    {
+      "name": "stepper#0",
+      "label": "발표 시간 1분 줄이기",
+      "drawn": "28x28",
+      "effective": "45x45",
+      "ext": {
+        "top": 9,
+        "bottom": 8,
+        "left": 9,
+        "right": 8
+      },
+      "out8": {
+        "top": true,
+        "bottom": false,
+        "left": true,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:발표 시간5분",
+        "bottom": "div:발표 시간5분질의응답 ",
+        "left": "div:",
+        "right": "div:"
+      }
+    },
+    {
+      "name": "stepper#1",
+      "label": "발표 시간 1분 늘리기",
+      "drawn": "28x28",
+      "effective": "45x45",
+      "ext": {
+        "top": 9,
+        "bottom": 8,
+        "left": 9,
+        "right": 8
+      },
+      "out8": {
+        "top": true,
+        "bottom": false,
+        "left": true,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:발표 시간5분",
+        "bottom": "div:발표 시간5분질의응답 ",
+        "left": "div:",
+        "right": "div:"
+      }
+    },
+    {
+      "name": "stepper#2",
+      "label": "질의응답 시간 1분 줄이기",
+      "drawn": "28x28",
+      "effective": "45x45",
+      "ext": {
+        "top": 9,
+        "bottom": 8,
+        "left": 9,
+        "right": 8
+      },
+      "out8": {
+        "top": true,
+        "bottom": false,
+        "left": true,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:질의응답 시간3분",
+        "bottom": "main:어떤 발표를준비하고 있",
+        "left": "div:",
+        "right": "div:"
+      }
+    },
+    {
+      "name": "stepper#3",
+      "label": "질의응답 시간 1분 늘리기",
+      "drawn": "28x28",
+      "effective": "45x45",
+      "ext": {
+        "top": 9,
+        "bottom": 8,
+        "left": 9,
+        "right": 8
+      },
+      "out8": {
+        "top": true,
+        "bottom": false,
+        "left": true,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:질의응답 시간3분",
+        "bottom": "main:어떤 발표를준비하고 있",
+        "left": "div:",
+        "right": "div:"
+      }
+    },
+    {
+      "name": "sample#0",
+      "label": "샘플 자료로 해보기",
+      "drawn": "94.4x18",
+      "effective": "103.4x45",
+      "ext": {
+        "top": 14,
+        "bottom": 13,
+        "left": 5,
+        "right": 4
+      },
+      "out8": {
+        "top": true,
+        "bottom": true,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "main:어떤 발표를준비하고 있",
+        "bottom": "button[발표 자료 PDF 업로드 (필수)]:PDF 업로드 (필수)",
+        "left": "div:발표 자료샘플 자료로 ",
+        "right": "div:상황 설정01 / 03"
+      }
+    },
+    {
+      "name": "sample#1",
+      "label": "샘플 자료로 해보기",
+      "drawn": "94.4x18",
+      "effective": "103.4x45",
+      "ext": {
+        "top": 14,
+        "bottom": 13,
+        "left": 5,
+        "right": 4
+      },
+      "out8": {
+        "top": true,
+        "bottom": true,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:발표 자료샘플 자료로 ",
+        "bottom": "button[제안 자료 PDF 업로드 (선택)]:PDF 업로드 (선택)",
+        "left": "div:제안 자료샘플 자료로 ",
+        "right": "div:상황 설정01 / 03"
+      }
+    },
+    {
+      "name": "toneChip#0",
+      "label": "친절함",
+      "drawn": "49.1x32",
+      "effective": "53.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 1
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:지지훈40대 · 심사위",
+        "bottom": "li:지지훈40대 · 심사위",
+        "left": "div:지지훈40대 · 심사위",
+        "right": "button:빡셈"
+      }
+    },
+    {
+      "name": "toneChip#1",
+      "label": "빡셈",
+      "drawn": "38.1x32",
+      "effective": "42.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 1
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:지지훈40대 · 심사위",
+        "bottom": "li:지지훈40대 · 심사위",
+        "left": "button:친절함",
+        "right": "button:공격적"
+      }
+    },
+    {
+      "name": "toneChip#2",
+      "label": "공격적",
+      "drawn": "49.1x32",
+      "effective": "52.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:지지훈40대 · 심사위",
+        "bottom": "li:지지훈40대 · 심사위",
+        "left": "button:빡셈",
+        "right": "button[지훈 심사위원 삭제]:"
+      }
+    },
+    {
+      "name": "toneChip#3",
+      "label": "친절함",
+      "drawn": "49.1x32",
+      "effective": "53.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 1
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:수수진40대 · 심사위",
+        "bottom": "li:수수진40대 · 심사위",
+        "left": "div:수수진40대 · 심사위",
+        "right": "button:빡셈"
+      }
+    },
+    {
+      "name": "toneChip#4",
+      "label": "빡셈",
+      "drawn": "38.1x32",
+      "effective": "42.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 1
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:수수진40대 · 심사위",
+        "bottom": "li:수수진40대 · 심사위",
+        "left": "button:친절함",
+        "right": "button:공격적"
+      }
+    },
+    {
+      "name": "toneChip#5",
+      "label": "공격적",
+      "drawn": "49.1x32",
+      "effective": "52.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:수수진40대 · 심사위",
+        "bottom": "li:수수진40대 · 심사위",
+        "left": "button:빡셈",
+        "right": "button[수진 심사위원 삭제]:"
+      }
+    },
+    {
+      "name": "toneChip#6",
+      "label": "친절함",
+      "drawn": "49.1x32",
+      "effective": "53.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 1
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:현현석40대 · 심사위",
+        "bottom": "li:현현석40대 · 심사위",
+        "left": "div:현현석40대 · 심사위",
+        "right": "button:빡셈"
+      }
+    },
+    {
+      "name": "toneChip#7",
+      "label": "빡셈",
+      "drawn": "38.1x32",
+      "effective": "42.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 1
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:현현석40대 · 심사위",
+        "bottom": "li:현현석40대 · 심사위",
+        "left": "button:친절함",
+        "right": "button:공격적"
+      }
+    },
+    {
+      "name": "toneChip#8",
+      "label": "공격적",
+      "drawn": "49.1x32",
+      "effective": "52.1x45",
+      "ext": {
+        "top": 7,
+        "bottom": 6,
+        "left": 3,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:현현석40대 · 심사위",
+        "bottom": "li:현현석40대 · 심사위",
+        "left": "button:빡셈",
+        "right": "button[현석 심사위원 삭제]:"
+      }
+    },
+    {
+      "name": "judgeDelete#0",
+      "label": "지훈 심사위원 삭제",
+      "drawn": "32x44",
+      "effective": "45x45",
+      "ext": {
+        "top": 1,
+        "bottom": 0,
+        "left": 7,
+        "right": 6
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:지지훈40대 · 심사위",
+        "bottom": "li:지지훈40대 · 심사위",
+        "left": "button:공격적",
+        "right": "div:상황 설정01 / 03"
+      }
+    },
+    {
+      "name": "judgeDelete#1",
+      "label": "수진 심사위원 삭제",
+      "drawn": "32x44",
+      "effective": "45x45",
+      "ext": {
+        "top": 1,
+        "bottom": 0,
+        "left": 7,
+        "right": 6
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:수수진40대 · 심사위",
+        "bottom": "li:수수진40대 · 심사위",
+        "left": "button:공격적",
+        "right": "div:상황 설정01 / 03"
+      }
+    },
+    {
+      "name": "judgeDelete#2",
+      "label": "현석 심사위원 삭제",
+      "drawn": "32x44",
+      "effective": "45x45",
+      "ext": {
+        "top": 1,
+        "bottom": 0,
+        "left": 7,
+        "right": 6
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "li:현현석40대 · 심사위",
+        "bottom": "li:현현석40대 · 심사위",
+        "left": "button:공격적",
+        "right": "div:상황 설정01 / 03"
+      }
+    },
+    {
+      "name": "add#0",
+      "label": "추가 (최대 3명)",
+      "drawn": "71.8x36",
+      "effective": "72.8x45",
+      "ext": {
+        "top": 5,
+        "bottom": 4,
+        "left": 1,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "main:어떤 발표를준비하고 있",
+        "bottom": "section:심사위원 추가 (최대 ",
+        "left": "div:심사위원 추가 (최대 ",
+        "right": "div:상황 설정01 / 03"
+      }
+    }
+  ],
+  "history": [
+    {
+      "name": "filterChip#0",
+      "label": "전체",
+      "drawn": "47.8x36",
+      "effective": "48.8x45",
+      "ext": {
+        "top": 5,
+        "bottom": 4,
+        "left": 1,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:쌓이는 연습,달라지는 ",
+        "bottom": "div:쌓이는 연습,달라지는 ",
+        "left": "div:쌓이는 연습,달라지는 ",
+        "right": "div[기록 필터]:전체완료진행 중"
+      }
+    },
+    {
+      "name": "filterChip#1",
+      "label": "완료",
+      "drawn": "47.8x36",
+      "effective": "48.8x45",
+      "ext": {
+        "top": 5,
+        "bottom": 4,
+        "left": 1,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:쌓이는 연습,달라지는 ",
+        "bottom": "div:쌓이는 연습,달라지는 ",
+        "left": "div[기록 필터]:전체완료진행 중",
+        "right": "div[기록 필터]:전체완료진행 중"
+      }
+    },
+    {
+      "name": "filterChip#2",
+      "label": "진행 중",
+      "drawn": "62.9x36",
+      "effective": "63.9x45",
+      "ext": {
+        "top": 5,
+        "bottom": 4,
+        "left": 1,
+        "right": 0
+      },
+      "out8": {
+        "top": false,
+        "bottom": false,
+        "left": false,
+        "right": false
+      },
+      "stolenBy": {
+        "top": "div:쌓이는 연습,달라지는 ",
+        "bottom": "div:쌓이는 연습,달라지는 ",
+        "left": "div[기록 필터]:전체완료진행 중",
+        "right": "div[기록 필터]:전체완료진행 중"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"error":{"code":"bad_request","message":"요청 형식이 올바르지 않아요.","issues":[{"path":"text","message":"필수 항목이 빠졌어요."},{"path":"gender","message":"필수 항목이 빠졌어요."},{"path":"age","message":"필수 항목이 빠졌어요."},{"path":"temperament","message":"필수 항목이 빠졌어요."}]}}

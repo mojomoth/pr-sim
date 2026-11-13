@@ -1,0 +1,491 @@
+{
+  "1440 hard /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "893px",
+    "headerY": 0,
+    "headerContentY": 50,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": null,
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=null"
+    ]
+  },
+  "1440 hard /setup": {
+    "path": "/setup",
+    "paddingTop": "54px",
+    "appH": "calc(893px - 54px)",
+    "headerY": 50,
+    "headerContentY": 55,
+    "bleeds": [],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(126px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null"
+    ]
+  },
+  "1440 hard /history": {
+    "path": "/history",
+    "paddingTop": "54px",
+    "appH": "calc(893px - 54px)",
+    "headerY": 50,
+    "headerContentY": 53,
+    "bleeds": [],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom:calc(84px + var(--safe-bottom-pad))",
+      "DIV.app-bottom-bar style=null"
+    ]
+  },
+  "1440 / -> /setup [시작하기]": {
+    "path": "/setup",
+    "paddingTop": "54px",
+    "appH": "calc(893px - 54px)",
+    "headerY": 50,
+    "headerContentY": 55,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(126px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;"
+    ]
+  },
+  "1440 back -> /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "893px",
+    "headerY": 0,
+    "headerContentY": 50,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": "",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "1440 / -> /history [연습 기록]": {
+    "path": "/history",
+    "paddingTop": "54px",
+    "appH": "calc(893px - 54px)",
+    "headerY": 50,
+    "headerContentY": 53,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "1440 back -> / (2)": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "893px",
+    "headerY": 0,
+    "headerContentY": 50,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": "",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=",
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad)); display: none !important;",
+      "DIV.app-bottom-bar style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "1440 /setup -> / link []": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "893px",
+    "headerY": 0,
+    "headerContentY": 50,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": null,
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=null",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "1440 then -> /history [연습 기록]": {
+    "path": "/history",
+    "paddingTop": "54px",
+    "appH": "calc(893px - 54px)",
+    "headerY": 50,
+    "headerContentY": 53,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390 hard /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 14,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": null,
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=null"
+    ]
+  },
+  "390 hard /setup": {
+    "path": "/setup",
+    "paddingTop": "0px",
+    "appH": "calc(100dvh - 0px)",
+    "headerY": 0,
+    "headerContentY": 6,
+    "bleeds": [],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(126px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null"
+    ]
+  },
+  "390 hard /history": {
+    "path": "/history",
+    "paddingTop": "0px",
+    "appH": "calc(100dvh - 0px)",
+    "headerY": 0,
+    "headerContentY": 4,
+    "bleeds": [],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom:calc(84px + var(--safe-bottom-pad))",
+      "DIV.app-bottom-bar style=null"
+    ]
+  },
+  "390 / -> /setup [시작하기]": {
+    "path": "/setup",
+    "paddingTop": "0px",
+    "appH": "calc(100dvh - 0px)",
+    "headerY": 0,
+    "headerContentY": 6,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(126px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;"
+    ]
+  },
+  "390 back -> /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 14,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": "",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390 / -> /history [연습 기록]": {
+    "path": "/history",
+    "paddingTop": "0px",
+    "appH": "calc(100dvh - 0px)",
+    "headerY": 0,
+    "headerContentY": 4,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390 back -> / (2)": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 14,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": "",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=",
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad)); display: none !important;",
+      "DIV.app-bottom-bar style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390 /setup -> / link []": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 14,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": null,
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=null",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390 then -> /history [연습 기록]": {
+    "path": "/history",
+    "paddingTop": "0px",
+    "appH": "calc(100dvh - 0px)",
+    "headerY": 0,
+    "headerContentY": 4,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390-notch47 hard /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 47,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": null,
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=null"
+    ]
+  },
+  "390-notch47 hard /setup": {
+    "path": "/setup",
+    "paddingTop": "47px",
+    "appH": "calc(100dvh - 47px)",
+    "headerY": 47,
+    "headerContentY": 53,
+    "bleeds": [],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(126px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null"
+    ]
+  },
+  "390-notch47 hard /history": {
+    "path": "/history",
+    "paddingTop": "47px",
+    "appH": "calc(100dvh - 47px)",
+    "headerY": 47,
+    "headerContentY": 51,
+    "bleeds": [],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom:calc(84px + var(--safe-bottom-pad))",
+      "DIV.app-bottom-bar style=null"
+    ]
+  },
+  "390-notch47 / -> /setup [시작하기]": {
+    "path": "/setup",
+    "paddingTop": "47px",
+    "appH": "calc(100dvh - 47px)",
+    "headerY": 47,
+    "headerContentY": 53,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(126px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;"
+    ]
+  },
+  "390-notch47 back -> /": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 47,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": "",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390-notch47 / -> /history [연습 기록]": {
+    "path": "/history",
+    "paddingTop": "47px",
+    "appH": "calc(100dvh - 47px)",
+    "headerY": 47,
+    "headerContentY": 51,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390-notch47 back -> / (2)": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 47,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": "",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=",
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad)); display: none !important;",
+      "DIV.app-bottom-bar style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390-notch47 /setup -> / link []": {
+    "path": "/",
+    "paddingTop": "0px",
+    "appH": "100dvh",
+    "headerY": 0,
+    "headerContentY": 47,
+    "bleeds": [
+      {
+        "visible": true,
+        "style": null,
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.app-bleed style=null",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  },
+  "390-notch47 then -> /history [연습 기록]": {
+    "path": "/history",
+    "paddingTop": "47px",
+    "appH": "calc(100dvh - 47px)",
+    "headerY": 47,
+    "headerContentY": 51,
+    "bleeds": [
+      {
+        "visible": false,
+        "style": "display: none !important;",
+        "hidden": false,
+        "ancestorHidden": null
+      }
+    ],
+    "scrollChildren": [
+      "DIV.ui-enter style=padding-bottom: calc(84px + var(--safe-bottom-pad));",
+      "DIV.app-bottom-bar style=null",
+      "DIV.app-bleed style=display: none !important;",
+      "DIV.ui-enter style=display: none !important;"
+    ]
+  }
+}

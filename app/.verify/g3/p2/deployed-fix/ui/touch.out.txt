@@ -1,0 +1,70 @@
+stepper        발표 시간 1분 줄이기               drawn 28x28   hit 45x45   ok  center true corners true {"L":"DIV:","R":"DIV:","U":"DIV:발표 시간5분","D":"DIV:발표 시간5분질의응답 시간3분"}
+stepper        발표 시간 1분 늘리기               drawn 28x28   hit 45x45   ok  center true corners true {"L":"DIV:","R":"DIV:","U":"DIV:발표 시간5분","D":"DIV:발표 시간5분질의응답 시간3분"}
+stepper        질의응답 시간 1분 줄이기             drawn 28x28   hit 45x45   ok  center true corners true {"L":"DIV:","R":"DIV:","U":"DIV:질의응답 시간3분","D":"MAIN:어떤 발표를준비하고 있나요?발표 환경을"}
+stepper        질의응답 시간 1분 늘리기             drawn 28x28   hit 45x45   ok  center true corners true {"L":"DIV:","R":"DIV:","U":"DIV:질의응답 시간3분","D":"MAIN:어떤 발표를준비하고 있나요?발표 환경을"}
+sample link    샘플 자료로 해보기                 drawn 94x18   hit 103x45  ok  center true corners true {"L":"DIV:발표 자료샘플 자료로 해보기","R":"DIV:상황 설정01 / 03어떤 발표를준비하고","U":"MAIN:어떤 발표를준비하고 있나요?발표 환경을","D":"BUTTON:발표 자료 PDF 업로드 (필수)"}
+sample link    샘플 자료로 해보기                 drawn 94x18   hit 103x45  ok  center true corners true {"L":"DIV:제안 자료샘플 자료로 해보기","R":"DIV:상황 설정01 / 03어떤 발표를준비하고","U":"DIV:발표 자료샘플 자료로 해보기PDF 업로드","D":"BUTTON:제안 자료 PDF 업로드 (선택)"}
+tone chip      친절함                        drawn 49x32   hit 54x45   ok  center true corners true {"L":"DIV:지지훈40대 · 심사위원친절함빡셈공격적","R":"BUTTON:빡셈","U":"LI:지지훈40대 · 심사위원친절함빡셈공격적","D":"LI:지지훈40대 · 심사위원친절함빡셈공격적"}
+tone chip      빡셈                         drawn 38x32   hit 42x45   <44 center true corners true {"L":"BUTTON:친절함","R":"BUTTON:공격적","U":"LI:지지훈40대 · 심사위원친절함빡셈공격적","D":"LI:지지훈40대 · 심사위원친절함빡셈공격적"}
+tone chip      공격적                        drawn 49x32   hit 52x45   ok  center true corners true {"L":"BUTTON:빡셈","R":"BUTTON:지훈 심사위원 삭제","U":"LI:지지훈40대 · 심사위원친절함빡셈공격적","D":"LI:지지훈40대 · 심사위원친절함빡셈공격적"}
+tone chip      친절함                        drawn 49x32   hit 54x45   ok  center true corners true {"L":"DIV:수수진40대 · 심사위원친절함빡셈공격적","R":"BUTTON:빡셈","U":"LI:수수진40대 · 심사위원친절함빡셈공격적","D":"LI:수수진40대 · 심사위원친절함빡셈공격적"}
+tone chip      빡셈                         drawn 38x32   hit 42x45   <44 center true corners true {"L":"BUTTON:친절함","R":"BUTTON:공격적","U":"LI:수수진40대 · 심사위원친절함빡셈공격적","D":"LI:수수진40대 · 심사위원친절함빡셈공격적"}
+tone chip      공격적                        drawn 49x32   hit 52x45   ok  center true corners true {"L":"BUTTON:빡셈","R":"BUTTON:수진 심사위원 삭제","U":"LI:수수진40대 · 심사위원친절함빡셈공격적","D":"LI:수수진40대 · 심사위원친절함빡셈공격적"}
+tone chip      친절함                        drawn 49x32   hit 54x45   ok  center true corners true {"L":"DIV:현현석40대 · 심사위원친절함빡셈공격적","R":"BUTTON:빡셈","U":"LI:현현석40대 · 심사위원친절함빡셈공격적","D":"LI:현현석40대 · 심사위원친절함빡셈공격적"}
+tone chip      빡셈                         drawn 38x32   hit 42x45   <44 center true corners true {"L":"BUTTON:친절함","R":"BUTTON:공격적","U":"LI:현현석40대 · 심사위원친절함빡셈공격적","D":"LI:현현석40대 · 심사위원친절함빡셈공격적"}
+tone chip      공격적                        drawn 49x32   hit 52x45   ok  center true corners true {"L":"BUTTON:빡셈","R":"BUTTON:현석 심사위원 삭제","U":"LI:현현석40대 · 심사위원친절함빡셈공격적","D":"LI:현현석40대 · 심사위원친절함빡셈공격적"}
+judge delete   지훈 심사위원 삭제                 drawn 32x44   hit 45x45   ok  center true corners true {"L":"BUTTON:공격적","R":"DIV:상황 설정01 / 03어떤 발표를준비하고","U":"LI:지지훈40대 · 심사위원친절함빡셈공격적","D":"LI:지지훈40대 · 심사위원친절함빡셈공격적"}
+judge delete   수진 심사위원 삭제                 drawn 32x44   hit 45x45   ok  center true corners true {"L":"BUTTON:공격적","R":"DIV:상황 설정01 / 03어떤 발표를준비하고","U":"LI:수수진40대 · 심사위원친절함빡셈공격적","D":"LI:수수진40대 · 심사위원친절함빡셈공격적"}
+judge delete   현석 심사위원 삭제                 drawn 32x44   hit 45x45   ok  center true corners true {"L":"BUTTON:공격적","R":"DIV:상황 설정01 / 03어떤 발표를준비하고","U":"LI:현현석40대 · 심사위원친절함빡셈공격적","D":"LI:현현석40대 · 심사위원친절함빡셈공격적"}
+추가             추가 (최대 3명)                 drawn 72x36   hit 73x45   ok  center true corners true {"L":"DIV:심사위원 추가 (최대 3명)","R":"DIV:상황 설정01 / 03어떤 발표를준비하고","U":"MAIN:어떤 발표를준비하고 있나요?발표 환경을","D":"SECTION:심사위원 추가 (최대 3명)얼굴 "}
+filter chip    전체                         drawn 48x36   hit 49x45   ok  center true corners true {"L":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이","R":"DIV:기록 필터","U":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이","D":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이"}
+filter chip    완료                         drawn 48x36   hit 49x45   ok  center true corners true {"L":"DIV:기록 필터","R":"DIV:기록 필터","U":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이","D":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이"}
+filter chip    진행 중                       drawn 63x36   hit 63x45   ok  center true corners true {"L":"DIV:기록 필터","R":"DIV:기록 필터","U":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이","D":"DIV:쌓이는 연습,달라지는 발표.나의 시뮬레이"}
+history delete 검증용 진행 중 기록 기록 삭제          drawn 48x44   hit 49x45   ok  center true corners false {"L":"DIV:2026.11.13진행 중삭제","R":"LI:2026.11.13진행 중삭제검증용 진행 ","U":"LI:2026.11.13진행 중삭제검증용 진행 ","D":"LI:2026.11.13진행 중삭제검증용 진행 "}
+history delete 검증용 두번째 기록 기록 삭제           drawn 48x44   hit 49x45   ok  center true corners false {"L":"DIV:2026.11.13진행 중삭제","R":"LI:2026.11.13진행 중삭제검증용 두번째","U":"LI:2026.11.13진행 중삭제검증용 두번째","D":"LI:2026.11.13진행 중삭제검증용 두번째"}
+judges on load 3
+setup stolen []
+history stolen [{"el":"새 시뮬레이션","at":[2,28],"got":"NEXTJS-PORTAL"}]
+setup console []
+preload {
+ "hard /history": {
+  "heroRequests": [],
+  "preloadLinksInHead": [],
+  "warnings": [],
+  "otherWarnErr": []
+ },
+ "hard /setup": {
+  "heroRequests": [],
+  "preloadLinksInHead": [],
+  "warnings": [],
+  "otherWarnErr": [
+   "[error] Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ]
+ },
+ "nav / -> /history": {
+  "heroRequests": [
+   {
+    "url": "/landing/hero-stage-mobile-v2.webp",
+    "type": "image",
+    "initiator": "parser",
+    "page": ""
+   }
+  ],
+  "preloadLinksInHead": [],
+  "warnings": [],
+  "otherWarnErr": []
+ },
+ "hard / (control)": {
+  "heroRequests": [
+   {
+    "url": "/landing/hero-stage-mobile-v2.webp",
+    "type": "image",
+    "initiator": "parser",
+    "page": ""
+   }
+  ],
+  "preloadLinksInHead": [],
+  "warnings": [],
+  "otherWarnErr": []
+ }
+}

@@ -1,0 +1,91 @@
+{
+  "sid": "s_mwei778s2p6y5r2c",
+  "seed": {
+    "judges": [
+      {
+        "id": "j_dffe92eb6c02",
+        "name": "지훈",
+        "hasImage": false
+      },
+      {
+        "id": "j_cd486bc37e94",
+        "name": "수진",
+        "hasImage": false
+      },
+      {
+        "id": "j_dec93a0430ed",
+        "name": "현석",
+        "hasImage": false
+      }
+    ],
+    "questions": [
+      "매출 목표 30억 원은 어떤 근거로 잡으셨나요?",
+      "경쟁사와 비교해 원가 경쟁력은 어느 정도인가요?"
+    ]
+  },
+  "asking": {
+    "questionShown": true,
+    "deviceVoiceNote": true,
+    "deviceVoiceTag": false,
+    "ttsErrorText": null,
+    "replay": true,
+    "speech": [
+      {
+        "text": " ",
+        "lang": "",
+        "rate": 1,
+        "pitch": 1,
+        "at": 1794545745484
+      },
+      {
+        "text": "매출 목표 30억 원은 어떤 근거로 잡으셨나요?",
+        "lang": "ko-KR",
+        "rate": 0.8600000143051147,
+        "pitch": 0.7900000214576721,
+        "at": 1794545749305
+      }
+    ]
+  },
+  "later": {
+    "questionShown": true,
+    "deviceVoiceNote": false,
+    "deviceVoiceTag": true,
+    "ttsErrorText": null,
+    "replay": true,
+    "speech": [
+      {
+        "text": " ",
+        "lang": "",
+        "rate": 1,
+        "pitch": 1,
+        "at": 1794545745484
+      },
+      {
+        "text": "매출 목표 30억 원은 어떤 근거로 잡으셨나요?",
+        "lang": "ko-KR",
+        "rate": 0.8600000143051147,
+        "pitch": 0.7900000214576721,
+        "at": 1794545749305
+      }
+    ]
+  },
+  "net": [
+    {
+      "url": "/api/judges",
+      "status": 200
+    },
+    {
+      "url": "/api/wiki",
+      "status": 200
+    },
+    {
+      "url": "/api/tts",
+      "status": 503,
+      "body": "{\"error\":{\"code\":\"providers_unavailable\",\"message\":\"오늘 쓸 수 있는 음성을 모두 썼어요. 화면의 질문을 읽고 답변해 주세요.\",\"fallback\":\"browser\"}}"
+    },
+    {
+      "url": "/api/stt/token",
+      "status": 200
+    }
+  ]
+}

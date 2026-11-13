@@ -1,0 +1,78 @@
+{
+  "/history": {
+    "heroRequests": [],
+    "warnings": []
+  },
+  "/setup": {
+    "heroRequests": [],
+    "warnings": []
+  },
+  "/ LCP 390x844 (4Mbps/60ms, cache off) x5": [
+    {
+      "lcp": {
+        "t": 400,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 72,
+          "end": 809
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 408,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 72,
+          "end": 804
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 408,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 72,
+          "end": 813
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 412,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 72,
+          "end": 813
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 396,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 69,
+          "end": 804
+        }
+      ]
+    }
+  ],
+  "lcpMedian": 408
+}

@@ -1,0 +1,24 @@
+1440 hard /                        0px   headerY 0 inner 57 visible
+1440 hard /setup                   54px  headerY 50 inner 55 
+1440 hard /history                 54px  headerY 50 inner 53 
+1440 / -> /setup (시작하기)            0px   headerY 0 inner 6 hidden
+1440 /setup -> back /              0px   headerY 0 inner 57 visible
+1440 / -> /history (연습 기록)         0px   headerY 0 inner 4 hidden
+1440 /history -> back /            0px   headerY 0 inner 57 visible
+1440 forward /history              0px   headerY 0 inner 4 hidden
+390 hard /                         0px   headerY 0 inner 22 visible
+390 hard /setup                    0px   headerY 0 inner 6 
+390 hard /history                  0px   headerY 0 inner 4 
+390 / -> /setup (시작하기)             0px   headerY 0 inner 6 hidden
+390 /setup -> back /               0px   headerY 0 inner 22 visible
+390 / -> /history (연습 기록)          0px   headerY 0 inner 4 hidden
+390 /history -> back /             0px   headerY 0 inner 22 visible
+390 forward /history               0px   headerY 0 inner 4 hidden
+390-notch47 hard /                 0px   headerY 0 inner 55 visible
+390-notch47 hard /setup            47px  headerY 47 inner 53 
+390-notch47 hard /history          47px  headerY 47 inner 51 
+390-notch47 / -> /setup (시작하기)     0px   headerY 0 inner 6 hidden
+390-notch47 /setup -> back /       0px   headerY 0 inner 55 visible
+390-notch47 / -> /history (연습 기록)  0px   headerY 0 inner 4 hidden
+390-notch47 /history -> back /     0px   headerY 0 inner 55 visible
+390-notch47 forward /history       0px   headerY 0 inner 4 hidden

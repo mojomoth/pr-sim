@@ -1,0 +1,18 @@
+{
+ "silentFound": true,
+ "afterUnlock": {
+  "audio": 1,
+  "speech": 0
+ },
+ "afterSpeak": {
+  "audio": 1,
+  "speech": [
+   {
+    "at": 1794547386819,
+    "chars": 18
+   }
+  ]
+ },
+ "flowVia": "server-audio+device-voice",
+ "speechProtoPatched": true
+}

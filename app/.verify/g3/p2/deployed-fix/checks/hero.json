@@ -1,0 +1,506 @@
+{
+  "head": {
+    "history": [
+      {
+        "heroRequests": [
+          "/landing/hero-stage-mobile-v2.webp"
+        ],
+        "warnings": [
+          "[warn] The resource http://localhost:3311/landing/hero-stage-mobile-v2.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+        ]
+      },
+      {
+        "heroRequests": [
+          "/landing/hero-stage-mobile-v2.webp"
+        ],
+        "warnings": [
+          "[warn] The resource http://localhost:3311/landing/hero-stage-mobile-v2.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+        ]
+      }
+    ],
+    "lcp": {
+      "none": [
+        {
+          "lcp": {
+            "t": 136,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 4,
+          "heroEnd": 6,
+          "ttfb": 2
+        },
+        {
+          "lcp": {
+            "t": 208,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 5,
+          "heroEnd": 6,
+          "ttfb": 3
+        },
+        {
+          "lcp": {
+            "t": 132,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 5,
+          "heroEnd": 7,
+          "ttfb": 3
+        },
+        {
+          "lcp": {
+            "t": 180,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 4,
+          "heroEnd": 7,
+          "ttfb": 3
+        },
+        {
+          "lcp": {
+            "t": 132,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 5,
+          "heroEnd": 8,
+          "ttfb": 3
+        }
+      ],
+      "slow4g": [
+        {
+          "lcp": {
+            "t": 856,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 166,
+          "heroEnd": 1942,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 884,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 167,
+          "heroEnd": 1878,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 848,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 165,
+          "heroEnd": 1915,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 896,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 166,
+          "heroEnd": 1827,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 852,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 166,
+          "heroEnd": 1914,
+          "ttfb": 151
+        }
+      ]
+    }
+  },
+  "fix": {
+    "history": [
+      {
+        "heroRequests": [],
+        "warnings": []
+      },
+      {
+        "heroRequests": [],
+        "warnings": []
+      }
+    ],
+    "lcp": {
+      "none": [
+        {
+          "lcp": {
+            "t": 148,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 6,
+          "heroEnd": 8,
+          "ttfb": 2
+        },
+        {
+          "lcp": {
+            "t": 148,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 6,
+          "heroEnd": 8,
+          "ttfb": 2
+        },
+        {
+          "lcp": {
+            "t": 176,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 5,
+          "heroEnd": 7,
+          "ttfb": 2
+        },
+        {
+          "lcp": {
+            "t": 208,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 5,
+          "heroEnd": 7,
+          "ttfb": 2
+        },
+        {
+          "lcp": {
+            "t": 136,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 6,
+          "heroEnd": 9,
+          "ttfb": 3
+        }
+      ],
+      "slow4g": [
+        {
+          "lcp": {
+            "t": 856,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 171,
+          "heroEnd": 1941,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 848,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 171,
+          "heroEnd": 1970,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 848,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 170,
+          "heroEnd": 1928,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 844,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 171,
+          "heroEnd": 1971,
+          "ttfb": 151
+        },
+        {
+          "lcp": {
+            "t": 844,
+            "el": "SPAN",
+            "url": "",
+            "size": 9594
+          },
+          "imgRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "bleedRect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "heroFetchStart": 171,
+          "heroEnd": 1956,
+          "ttfb": 151
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,240 @@
+[
+  {
+    "name": "stepper",
+    "label": "발표 시간 1분 줄이기",
+    "drawn": "28×28",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:발표 시간 1분 줄이기",
+      "right": "DIV",
+      "top": "BUTTON:발표 시간 1분 줄이기",
+      "bottom": "DIV"
+    }
+  },
+  {
+    "name": "stepper",
+    "label": "발표 시간 1분 늘리기",
+    "drawn": "28×28",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:발표 시간 1분 늘리기",
+      "right": "DIV",
+      "top": "BUTTON:발표 시간 1분 늘리기",
+      "bottom": "DIV"
+    }
+  },
+  {
+    "name": "stepper",
+    "label": "질의응답 시간 1분 줄이기",
+    "drawn": "28×28",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:질의응답 시간 1분 줄이기",
+      "right": "DIV",
+      "top": "BUTTON:질의응답 시간 1분 줄이기",
+      "bottom": "MAIN"
+    }
+  },
+  {
+    "name": "stepper",
+    "label": "질의응답 시간 1분 늘리기",
+    "drawn": "28×28",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:질의응답 시간 1분 늘리기",
+      "right": "DIV",
+      "top": "BUTTON:질의응답 시간 1분 늘리기",
+      "bottom": "MAIN"
+    }
+  },
+  {
+    "name": "sample",
+    "label": "샘플 자료로 해보기",
+    "drawn": "94×18",
+    "hit": "104×44",
+    "hitW": 104,
+    "hitH": 44,
+    "out8": {
+      "left": "DIV",
+      "right": "DIV",
+      "top": "BUTTON:샘플 자료로 해보기",
+      "bottom": "BUTTON:샘플 자료로 해보기"
+    }
+  },
+  {
+    "name": "sample",
+    "label": "샘플 자료로 해보기",
+    "drawn": "94×18",
+    "hit": "104×44",
+    "hitW": 104,
+    "hitH": 44,
+    "out8": {
+      "left": "DIV",
+      "right": "DIV",
+      "top": "BUTTON:샘플 자료로 해보기",
+      "bottom": "BUTTON:샘플 자료로 해보기"
+    }
+  },
+  {
+    "name": "tone chip",
+    "label": "친절함",
+    "drawn": "49×32",
+    "hit": "53×44",
+    "hitW": 53,
+    "hitH": 44,
+    "out8": {
+      "left": "P",
+      "right": "BUTTON:빡셈",
+      "top": "LI",
+      "bottom": "LI"
+    }
+  },
+  {
+    "name": "tone chip",
+    "label": "빡셈",
+    "drawn": "38×32",
+    "hit": "43×44",
+    "hitW": 43,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:친절함",
+      "right": "BUTTON:공격적",
+      "top": "LI",
+      "bottom": "LI"
+    }
+  },
+  {
+    "name": "tone chip",
+    "label": "공격적",
+    "drawn": "49×32",
+    "hit": "51×44",
+    "hitW": 51,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:빡셈",
+      "right": "BUTTON:지훈 심사위원 삭제",
+      "top": "LI",
+      "bottom": "LI"
+    }
+  },
+  {
+    "name": "tone chip",
+    "label": "친절함",
+    "drawn": "49×32",
+    "hit": "53×44",
+    "hitW": 53,
+    "hitH": 44,
+    "out8": {
+      "left": "P",
+      "right": "BUTTON:빡셈",
+      "top": "LI",
+      "bottom": "LI"
+    }
+  },
+  {
+    "name": "judge delete",
+    "label": "지훈 심사위원 삭제",
+    "drawn": "32×44",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:공격적",
+      "right": "DIV",
+      "top": "SECTION",
+      "bottom": "UL"
+    }
+  },
+  {
+    "name": "judge delete",
+    "label": "수진 심사위원 삭제",
+    "drawn": "32×44",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:공격적",
+      "right": "DIV",
+      "top": "UL",
+      "bottom": "UL"
+    }
+  },
+  {
+    "name": "judge delete",
+    "label": "현석 심사위원 삭제",
+    "drawn": "32×44",
+    "hit": "44×44",
+    "hitW": 44,
+    "hitH": 44,
+    "out8": {
+      "left": "BUTTON:공격적",
+      "right": "DIV",
+      "top": "UL",
+      "bottom": "DIV"
+    }
+  },
+  {
+    "name": "추가",
+    "label": "추가 (최대 3명)",
+    "drawn": "72×36",
+    "hit": "72×44",
+    "hitW": 72,
+    "hitH": 44,
+    "out8": {
+      "left": "DIV",
+      "right": "DIV",
+      "top": "MAIN",
+      "bottom": "SECTION"
+    }
+  },
+  {
+    "name": "filter chip",
+    "label": "전체",
+    "drawn": "48×36",
+    "hit": "48×44",
+    "hitW": 48,
+    "hitH": 44,
+    "out8": {
+      "left": "DIV",
+      "right": "BUTTON:완료",
+      "top": "DIV",
+      "bottom": "DIV"
+    }
+  },
+  {
+    "name": "filter chip",
+    "label": "완료",
+    "drawn": "48×36",
+    "hit": "48×44",
+    "hitW": 48,
+    "hitH": 44,
+    "out8": {
+      "left": "DIV",
+      "right": "BUTTON:진행 중",
+      "top": "DIV",
+      "bottom": "DIV"
+    }
+  },
+  {
+    "name": "filter chip",
+    "label": "진행 중",
+    "drawn": "63×36",
+    "hit": "64×44",
+    "hitW": 64,
+    "hitH": 44,
+    "out8": {
+      "left": "DIV",
+      "right": "DIV",
+      "top": "DIV",
+      "bottom": "DIV"
+    }
+  }
+]

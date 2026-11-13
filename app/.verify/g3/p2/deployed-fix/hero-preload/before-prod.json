@@ -1,0 +1,92 @@
+{
+  "/history": {
+    "heroRequests": [
+      {
+        "url": "/landing/hero-stage-mobile-v2.webp",
+        "initiator": "script"
+      }
+    ],
+    "warnings": [
+      "[warn] The resource http://localhost:3218/landing/hero-stage-mobile-v2.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    ]
+  },
+  "/setup": {
+    "heroRequests": [
+      {
+        "url": "/landing/hero-stage-mobile-v2.webp",
+        "initiator": "script"
+      }
+    ],
+    "warnings": [
+      "[warn] The resource http://localhost:3218/landing/hero-stage-mobile-v2.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+    ]
+  },
+  "/ LCP 390x844 (4Mbps/60ms, cache off) x5": [
+    {
+      "lcp": {
+        "t": 416,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 67,
+          "end": 675
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 460,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 76,
+          "end": 615
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 440,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 72,
+          "end": 595
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 432,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 74,
+          "end": 661
+        }
+      ]
+    },
+    {
+      "lcp": {
+        "t": 408,
+        "el": "SPAN",
+        "url": ""
+      },
+      "hero": [
+        {
+          "start": 75,
+          "end": 672
+        }
+      ]
+    }
+  ],
+  "lcpMedian": 432
+}

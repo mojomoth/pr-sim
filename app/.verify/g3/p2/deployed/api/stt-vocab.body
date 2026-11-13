@@ -1,0 +1,1 @@
+{"token": "<redacted len=76>", "model": "gemini-3.5-transcribe-live", "expiresAt": "2026-11-13T05:23:59.801Z", "config": {"inputAudioTranscription": {"languageCodes": ["ko-KR"], "customVocabulary": ["완충재"]}}}
