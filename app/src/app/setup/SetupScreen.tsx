@@ -13,6 +13,7 @@ import { platform } from "@/platform";
 import { ApiError, streamJudges } from "@/features/session/api";
 import { blobKey, createSession, deleteBlob, getSession, listSessions, storeJudgeImage, storePdf, updateSession, useBlobUrl } from "@/features/session/db";
 import type { DocRole, RollAvoid, SessionRecord, StoredDoc, StoredJudge, Temperament } from "@/features/session/types";
+import { ocrEmptyPages, needsOcr } from "@/features/slide/ocr";
 import { PDF_LIMITS, readPdf } from "@/features/slide/pdf";
 import { MAX_DOC_CHARS, TEMPERAMENT_LABEL } from "@/server/types";
 import { buildWiki, cloneAsDraft, DEFAULT_SETUP, fallbackJudge, hasProgress, latestDraft, onWikiChange, wikiProgress } from "./draft";
@@ -350,10 +351,11 @@ function SetupForm({ sid }: { sid: string }) {
   async function attach(role: DocRole, file: File) {
     setUploads((n) => n + 1);
     try {
-      const info = await readPdf(file);
+      let info = await readPdf(file);
+      // Scanned / image-only PDF: read the empty pages from their images (/api/ocr).
+      if (needsOcr(info)) info = await ocrEmptyPages(file, info);
+      if (needsOcr(info)) throw new Error("이미지에서도 글자를 거의 찾지 못했어요. 글자가 또렷하게 보이는 PDF를 올려 주세요.");
       const chars = info.pageTexts.reduce((a, t) => a + t.length, 0);
-      const withText = info.pageCount - info.emptyPages.length;
-      if (withText < info.pageCount * 0.3 || chars < 50) throw new Error("글자가 거의 없는 PDF예요. 스캔본은 아직 쓸 수 없어요. 글자를 선택할 수 있는 PDF를 올려 주세요.");
       // Same caps as the wiki route (413 / 422), checked before anything is stored.
       if (chars > MAX_DOC_CHARS) throw new Error(`글자 수가 너무 많아요(${chars.toLocaleString()}자). 15만 자 이하 자료만 쓸 수 있어요.`);
       const pending = blobKey.pdf(info.docId);

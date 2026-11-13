@@ -58,6 +58,8 @@ export interface ApiErrorBody {
 export const MAX_BODY_BYTES = 4_000_000; // Vercel request body limit is 4.5MB
 export const MAX_DOC_PAGES = 120;
 export const MAX_DOC_CHARS = 150_000;
+/** Page images per /api/ocr request (≈250KB each, under the 4MB body cap). */
+export const OCR_BATCH = 4;
 
 /** 45 → "45초", 130 → "약 2분", 7200 → "약 2시간" (retry hints people can read, not raw seconds). */
 export function waitText(sec: number): string {

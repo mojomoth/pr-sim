@@ -214,6 +214,13 @@ export async function postFollowup(body: FollowUpRequest, signal?: AbortSignal):
   return (await res.json()) as FollowUpResult;
 }
 
+// ── 8. POST /api/ocr ──
+/** Text of page images (base64 JPEG) for PDFs without a text layer. */
+export async function postOcr(pages: { page: number; image: string }[], signal?: AbortSignal): Promise<{ pages: { page: number; text: string }[]; models: string[] }> {
+  const res = await post("/api/ocr", { pages }, withTimeout(signal, 130_000));
+  return (await res.json()) as { pages: { page: number; text: string }[]; models: string[] };
+}
+
 // ── 7. POST /api/report (NDJSON) ──
 export async function streamReport(body: { session: ReportInput; provider?: string }, opts: Stream<ProgressEvent> = {}) {
   return readNdjson<ProgressEvent>(await post("/api/report", body, opts.signal), opts.onEvent);

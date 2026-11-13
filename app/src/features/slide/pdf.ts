@@ -20,7 +20,7 @@ export const PDF_LIMITS = {
 } as const;
 
 /** A page with fewer non-space characters than this counts as empty (scanned image, picture-only slide). */
-const EMPTY_PAGE_CHARS = 20;
+export const EMPTY_PAGE_CHARS = 20;
 
 let libPromise: Promise<typeof PdfjsLib> | null = null;
 

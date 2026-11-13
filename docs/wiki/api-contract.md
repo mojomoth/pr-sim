@@ -35,7 +35,7 @@ interface DocInput {
 interface WikiPage { slug: string; title: string; type: PageType; summary: string; sources: number[]; markdown: string } // markdown 안 인용은 (p.N)
 ```
 
-## 라우트 (7개)
+## 라우트 (8개)
 
 | # | 메서드·경로 | 요청 | 응답 | maxDuration | 재사용 (pocs/) |
 |---|---|---|---|---|---|
@@ -46,6 +46,7 @@ interface WikiPage { slug: string; title: string; type: PageType; summary: strin
 | 5 | `POST /api/questions` | `{ situation, qaMinutes, presentationMinutes, transcript: TranscriptSentence[], docs: DocInput[], judges: QJudge[] (1–3), avoidQuestions?, pack?: ContextPack, lint?: LintIssue[] }` — `pack`이 있으면 컨텍스트 재사용(실패한 심사위원만 다시 생성) | NDJSON `GenerateEvent`(stage·context·plan·delta·question·judge-done) + `{type:"done", order, main, reserve, pack: ContextPack, lint: LintIssue[]}` | 120 | `question/lib/context.ts` `buildContext`, `generate.ts`, `ground.ts`, `personas.ts`, `schema.ts`, `text.ts`, `llm.ts`, `providers.ts`, `wiki/lib/query.ts`, `wiki/lib/lint.ts` |
 | 6 | `POST /api/questions/followup` | `{ packText, judge: QJudge, asked: GeneratedQuestion, original: GeneratedQuestion, answer, thread: {question,answer}[], followupsSoFar, remainingSec, pending: GeneratedQuestion[], transcript, docs: {role, pageTexts}[] }` — run·attempt 파일 대신 클라이언트가 세션에서 꺼내 보냄(`docs`·`transcript`는 꼬리질문 근거 대조용) | `FollowUpResult`(`attemptId` 제외): `{ decision, assessment, remark, followup, guard? }` | 60 | `question/lib/followup.ts` `followUp`, `guards.ts`(`clampRemark`, `duplicateOfPending`), `ground.ts` |
 | 7 | `POST /api/report` | `{ session: ReportInput, provider? }` — `ReportInput = { id, situation, presentationMinutes, qaMinutes, judges: {id,name,temperament}[], transcript, qa: QAItem[], docs: DocInput[], lint?: LintIssue[] }` | NDJSON `ProgressEvent`: `steps` → `step`… → `{type:"done", report: Report}` 또는 `error{failedSteps, retryable}`(미완성 리포트는 보내지 않음) | 300 | `report/lib/generate.ts`, `context.ts`, `metrics.ts`, `prompts.ts`, `llm.ts`, `types.ts` |
+| 8 | `POST /api/ocr` | `{ pages: { page, image: base64 JPEG }[] }`(1–4쪽) — 글자 층이 없는 PDF(스캔본·이미지로 내보낸 PDF)에서 빈 쪽만 클라이언트가 렌더링(긴 변 1600px)해 보냄 | `{ pages: { page, text }[], models }` | 120 | 신규: `server/ocr` `ocrPage`(OpenAI `gpt-6.1-terra` → `gemini-3.5-flash` → Gemini lite), 클라이언트 `features/slide/ocr.ts` |
 
 - `JudgeOut = JudgePersona & { gender, age, fullName, voiceHint, image: { mime: "image/webp", base64 } }` — 1024px webp(60–120KB) 1장만. 256px 썸네일은 클라이언트가 `createImageBitmap`+캔버스로 만듦(서버 `sharp` 제거). 화질은 `low` 고정, `simulateError`·`quality`는 넣지 않음.
 - 위키 입력 상한: 쪽 ≤ 120, 전체 ≤ 150,000자(실측 58쪽·10만 자 125초, 128쪽·20만 자 240초 → 300초 안 여유). 넘으면 413. 텍스트 있는 쪽이 30% 미만이면 422. 남은 시간이 20초 아래로 떨어지면 504로 끊음. 정책값은 report.md에서 확정.

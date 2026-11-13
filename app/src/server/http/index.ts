@@ -144,6 +144,7 @@ const LIMITS = {
   questions: 10,
   followup: 40,
   report: 6,
+  ocr: 40, // 120 pages / 4 per request = 30 calls
 } as const;
 export type Bucket = keyof typeof LIMITS;
 const WINDOW_MS = 60_000;
